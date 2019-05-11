@@ -1,0 +1,63 @@
+version: '3.5'
+services:
+  nginx-proxy:
+    image: nginx:stable
+    restart: always
+    volumes:
+       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+    ports:
+      - 80:80
+    networks:
+      - backend
+  mongodb:
+    image: mongo:4.1
+    restart: always
+    ports:
+      - 27027:27017
+    networks:
+      - backend
+  express-content:
+    tty: true # Enables debugging capabilities when attached to this container.
+    image: 'bitnami/express:4'
+    command: npm start
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - DATABASE_URL=mongodb://mongodb:27017/content
+      - SKIP_DB_WAIT=0
+      - SKIP_DB_MIGRATION=0
+      - SKIP_NPM_INSTALL=0
+      - SKIP_BOWER_INSTALL=0
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app 
+    restart: always
+    networks:
+      - backend
+  express-feedback:
+    tty: true # Enables debugging capabilities when attached to this container.
+    image: 'bitnami/express:4'
+    command: npm start
+    environment:
+      - PORT=3001
+      - NODE_ENV=development
+      - DATABASE_URL=mongodb://mongodb:27017/content
+      - SKIP_DB_WAIT=0
+      - SKIP_DB_MIGRATION=0
+      - SKIP_NPM_INSTALL=0
+      - SKIP_BOWER_INSTALL=0
+    depends_on:
+      - mongodb
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/app 
+    restart: always
+    networks:
+      - backend
+networks:
+  backend:
+  
