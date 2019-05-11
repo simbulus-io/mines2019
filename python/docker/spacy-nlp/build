@@ -1,0 +1,4 @@
+#!/bin/bash
+TAG=$(basename $PWD)
+echo Building
+docker build --tag=${TAG} .

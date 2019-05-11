@@ -1,0 +1,3 @@
+#!/bin/bash
+TAG=$(basename $PWD)
+docker run -p 8900:8900 -v `pwd`:"/app" -v `pwd`/../lib:"/lib" -v `pwd`/../data:"/data" -v `pwd`/../notebooks:/notebooks ${TAG}
