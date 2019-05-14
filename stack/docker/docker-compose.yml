@@ -2,17 +2,22 @@ version: '2'
 services:
   nginx-proxy:
     image: nginx:stable
+    user: "root"
     restart: always
     volumes:
-       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - ../../www-static/:/www-static
     ports:
       - 80:80
     networks:
       - backend
+    depends_on:
+      - express-content
+      - express-feedback
   mongodb:
     image: mongo:4.0
-    restart: always
     user: "root"
+    restart: always
     command: mongod --storageEngine mmapv1
     # command: tail -f /dev/null
     volumes:
@@ -25,6 +30,8 @@ services:
   express-content:
     tty: true # Enables debugging capabilities when attached to this container.
     image: 'bitnami/express:4'
+    user: "root"
+    restart: always
     command: npm start
     # command: tail -f /dev/null
     environment:
@@ -37,8 +44,6 @@ services:
       - SKIP_BOWER_INSTALL=0
     depends_on:
       - mongodb
-    restart: always
-    user: "root"
     ports:
       - 3000:3000
     volumes:
@@ -48,6 +53,8 @@ services:
   express-feedback:
     tty: true # Enables debugging capabilities when attached to this container.
     image: 'bitnami/express:4'
+    user: "root"
+    restart: always
     command: npm start
     environment:
       - PORT=3001
@@ -59,12 +66,10 @@ services:
       - SKIP_BOWER_INSTALL=0
     depends_on:
       - mongodb
-    user: "root"
     ports:
       - 3001:3001
     volumes:
       - ../../app/feedback:/app 
-    restart: always
     networks:
       - backend
 networks:
