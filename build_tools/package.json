@@ -1,0 +1,14 @@
+{
+  "name": "build_tools",
+  "version": "1.0.0",
+  "description": "Mines 2019 project build tools",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gql2hx": "0.0.22"
+  },
+  "dependencies": {}
+}
