@@ -21,7 +21,7 @@ end
 install_missing do
   require "thor"
   require "json"
-  require "crack" # crack-without-safe_yaml
+  require "crack"
   require "securerandom"
   require "terminal-table"
   require "woot"
