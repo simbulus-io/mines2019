@@ -1,6 +1,6 @@
 #!/bin/bash
 TAG=$(basename $PWD)
-docker run -p 8900:8900 \
+docker run -p 8900:80 \
        -v `pwd`:/root/app \
        -v `pwd`/../modules:/root/modules \
        -v `pwd`/../data:/root/data \
