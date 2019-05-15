@@ -1,8 +1,17 @@
 #!/usr/bin/env ruby
 
+def require_or_install gem
+  begin
+    require gem
+  rescue
+    `gem install #{gem}`
+    require gem
+  end
+end
+
 require "thor"
 require "json"
-require "crack" # crack-without-safe_yaml
+require_or_install "crack" # crack-without-safe_yaml
 require "securerandom"
 require "terminal-table"
 require "woot"
