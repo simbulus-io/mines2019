@@ -1,22 +1,33 @@
 #!/usr/bin/env ruby
+def installing_missing(&block)
+  yield
+rescue LoadError => e
+  gem_name = e.message.split('--').last.strip
+  install_command = 'gem install ' + gem_name
 
-def require_or_install gem
-  begin
-    require gem
-  rescue
-    `gem install #{gem}`
-    require gem
-  end
+  # install missing gem
+  puts 'Probably missing gem: ' + gem_name
+  print 'Auto-install it? [yN] '
+  gets.strip =~ /y/i or exit(1)
+  system(install_command) or exit(1)
+
+  # retry
+  Gem.clear_paths
+  puts 'Trying again ...'
+  require gem_name
+  retry
 end
 
-require "thor"
-require "json"
-require_or_install "crack" # crack-without-safe_yaml
-require "securerandom"
-require "terminal-table"
-require "woot"
-require "colorize"
-require "os"
+install_missing do
+  require "thor"
+  require "json"
+  require "crack" # crack-without-safe_yaml
+  require "securerandom"
+  require "terminal-table"
+  require "woot"
+  require "colorize"
+  require "os"
+end
 
 class CLI < Thor
 
