@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-def installing_missing(&block)
+def install_missing(&block)
   yield
 rescue LoadError => e
   gem_name = e.message.split('--').last.strip
