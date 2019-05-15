@@ -1,3 +1,9 @@
 #!/bin/bash
 TAG=$(basename $PWD)
-docker run -p 8900:8900 -v `pwd`:"/app" -v `pwd`/../lib:"/lib" -v `pwd`/../data:"/data" -v `pwd`/../notebooks:/notebooks ${TAG}
+docker run -p 8900:8900 \
+       -v `pwd`:/root/app \
+       -v `pwd`/../modules:/root/modules \
+       -v `pwd`/../data:/root/data \
+       -v `pwd`/../notebooks:/root/notebooks \
+       -v `pwd`/../config/ipython/profile_default:/root/.ipython/profile_default \
+       ${TAG}

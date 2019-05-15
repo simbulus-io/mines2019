@@ -1,19 +1,30 @@
 ARG base=base-python
-FROM $base
+FROM $base as stage0
+RUN apt-get -y update
+RUN apt-get install -y expect
+
+FROM stage0 as stage1
+# FROM $base as stage1
+# COPY --from=stage0 /usr/bin/expect /usr/bin/expect
+# COPY --from=stage0 /usr/lib/x86_64-linux-gnu/libexpect.* /usr/lib/x86_64-linux-gnu/
+# COPY --from=stage0 /usr/lib/x86_64-linux-gnu/libtcl* /usr/lib/x86_64-linux-gnu/
+# COPY --from=stage0 /usr/share/tcltk /usr/share/tcltk
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 RUN pipdeptree -fl
-WORKDIR /app
+
+FROM stage1
+VOLUME        ["../config/ipython/profile_default", "/root/.ipython/profile_default"]
+WORKDIR /root/app
 CMD \
+    expect -v && \
     echo " - - - - jupyter notebook --help - - - -" && \
     jupyter notebook --help && \
     echo " - - - - - - - - - - - - - - - - - - - -" && \
     export CONTAINER_ID=$HOSTNAME && \
     export INTERNAL_IP=`cat /etc/hosts | grep ${HOSTNAME} | cut -f 1` && \
     printf " HOSTNAME    = ${HOSTNAME}\n INTERNAL_IP = ${INTERNAL_IP=}\n" && \
-    apt-get update && \
-    apt-get install -y expect && \
     mkdir ~/.jupyter && \
     ./password.expect && \
-    jupyter trust /notebooks/*.ipynb && \
-    jupyter notebook -y --ip=$INTERNAL_IP --port=8900 --no-browser --allow-root --notebook-dir=/notebooks
+    jupyter trust /root/notebooks/*.ipynb && \
+    jupyter notebook -y --ip=$INTERNAL_IP --port=80 --no-browser --allow-root --notebook-dir=/root/notebooks
