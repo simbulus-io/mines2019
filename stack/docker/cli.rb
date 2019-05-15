@@ -66,8 +66,8 @@ class CLI < Thor
     command_runner(cmd:cmd)
   end
 
-  desc "mongo-shell", "Mongo shell"
-  def mongo_shell
+  desc "mongo", "Mongo shell"
+  def mongo
     `docker inspect -f '{{.State.Running}}' docker_mongodb_1`
     status = $?.exitstatus==0
     if(status)
@@ -97,8 +97,6 @@ class CLI < Thor
     end
     status
   end
-
-
 
   def error msg
     puts msg.to_s.colorize(:red)
