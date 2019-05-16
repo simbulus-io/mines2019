@@ -1,4 +1,3 @@
-
 // tslint:disable: no-unused-expression
 import * as _                from 'lodash';
 import * as path             from 'path';
@@ -9,14 +8,10 @@ import { IndexRoutes }       from './routes/index_routes';
 import { TestRoutes }        from './routes/test_routes';
 import express               from 'express';
 
-
 const cookieParser = require('cookie-parser');
 const cors         = require('cors');
 const bodyParser   = require('body-parser');
 const errorHandler = require('errorhandler');
-
-// What's this for ?
-import { nonExecutableDefinitionMessage } from '../node_modules/@types/graphql/validation/rules/ExecutableDefinitions';
 
 export class Server {
 
@@ -36,52 +31,38 @@ export class Server {
 
   public async config() {
 
+    // Logger setup
     const log = new LoggerHelper().logger;
     this.app.set('logger', log);
     log.info('Winston setup done');
 
     try {
-
       const config = new ConfigHelper().config;
       this.app.set('config', config);
       log.info('Config setup done', _.filter(config, (k) => k === 'to_full_url'));
-
       const mongo = await MongoHelper.connect();
       this.app.set('mongo', mongo);
       log.info('Mongo setup done');
-
       // Enable CORS if in development (suppress Cross Origin errors)
       const development = process.env.NODE_ENV !== 'production';
       if (development) {
         log.info('CORS middleware is enabled');
         this.app.use(cors());
       }
-
-      // Note: This has to happen before the GraphQLHelper is instantiated ???
-      // mount cookie parser middleware
       this.app.use(cookieParser());
-
-      // new GraphQLHelper(this.app, log, mongo, sql);
-      // log.info('GraphQL setup done');
-
       //add static paths
       this.app.use(express.static(path.join(__dirname, 'public')));
-
       //mount json form parser
       this.app.use(bodyParser.json());
-
       //mount query string parser
       this.app.use(bodyParser.urlencoded({ extended: true }));
-
       // catch 404 and forward to error handler
       this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
         err.status = 404;
           next(err);
       });
-
       //error handling
       this.app.use(errorHandler());
-
     } catch (e) {
       log.error(e);
     }
@@ -91,11 +72,9 @@ export class Server {
   private routes() {
     let router: express.Router;
     router = express.Router();
-
-    // routes here
+    // This is where you plug in routes (REST endpoints)
     new IndexRoutes(router);
     new TestRoutes(router);
-
     //use router middleware
     this.app.use(router);
   }
