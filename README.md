@@ -31,10 +31,16 @@ cd stack/docker
 
 Following the instructions in the api/app READMEs
 
+## Feedback Team
+
 [Feedback API README](./api/feedback_api)
+
+[Feedback App README](./app/feedback)
+
+## Content Team
 
 [Content API README](./api/content_api)
 
-[Feedback App README](./app/feedback)
+[Content App README](./app/content)
 
 ```
