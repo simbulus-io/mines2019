@@ -1,0 +1,45 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn install
+
+PATH: 
+  /anaconda3/bin:/Users/skelly/.rvm/gems/ruby-2.4.1/bin:/Users/skelly/.rvm/gems/ruby-2.4.1@global/bin:/Users/skelly/.rvm/rubies/ruby-2.4.1/bin:/Users/skelly/dev/google-cloud-sdk/bin:/Users/skelly/anaconda2/bin:/Users/skelly/anaconda3/bin:/Users/skelly/anaconda3/bin:/Users/skelly/bin:/Users/skelly/dev/haxe:/Users/skelly/dev/zapt/bin:/Users/skelly/dev/eb_cli/eb/macosx/python2.7:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS:/Users/skelly/dev/kudu/bin:/Users/skelly/dev/nimbee/build_tools:/Users/skelly/dev/zapt/bin:/Users/skelly/dev/vagrant/build_tools:/Users/skelly/.rvm/bin
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  8.11.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/skelly/dev/mines2019/build_tools/package.json: Unexpected token } in JSON at position 263
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:304:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:315:13
+      at <anonymous>
+
+npm manifest: 
+  {
+    "name": "build_tools",
+    "version": "1.0.0",
+    "description": "Mines 2019 project build tools",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "gql2hx": "0.0.22",
+    },
+    "dependencies": {}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
