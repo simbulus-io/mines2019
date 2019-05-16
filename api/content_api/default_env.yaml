@@ -1,0 +1,5 @@
+:development:
+  :mongo_instance:               wmdev_erdos
+  :mongo_dbname:                 wootmathdev
+  :sql_instance:                 wootmath_erdos
+  :sql_dbname:                   wootmathdev_b
