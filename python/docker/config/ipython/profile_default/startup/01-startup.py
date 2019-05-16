@@ -7,8 +7,10 @@ def append_root_to_path():
 append_root_to_path()
 # - - - - - - - -
 
-import pandas as pd
+import cv2
+from matplotlib import pyplot as plt
 import numpy as np
+import pandas as pd
 
 from IPython import get_ipython
 ipython = get_ipython()
