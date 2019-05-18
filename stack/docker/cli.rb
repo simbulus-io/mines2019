@@ -24,7 +24,6 @@ install_missing do
   require "crack"
   require "securerandom"
   require "terminal-table"
-  require "woot"
   require "colorize"
   require "os"
 end
