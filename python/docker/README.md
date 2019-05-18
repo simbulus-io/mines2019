@@ -68,3 +68,27 @@ $
 The build script will build the image and tag it as 'base-python' in your local docker image repo.
 
 
+## 3. Build and Run our "simple" test-app
+
+This will run a python script (app.py) to print pi to double floating-pint precision and again to 300 digits
+```bash
+$  cd ../simple
+$  ./build
+$  ./run
+3.141592653589793
+3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127
+```
+
+Here is the simpleapp.py script that these commands just ran in a docker container. Try modifying it and repeating the ./run command:
+
+
+```python
+import numpy as np
+from mpmath import mp
+
+print(np.pi)
+
+mp.dps=300;
+print(mp.pi)
+```
+
