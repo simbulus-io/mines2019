@@ -2,11 +2,13 @@
 
 ### Structure
 
-```api``` - node/express app (REST endpoints)
+`api` - node/express app (REST endpoints)
 
-```app``` - vue SPWA (single page web app for client UI)
+`app` - vue Single Page Web-App (SPWA) for client UI)
 
-```stack/docker``` - Docker environemnt setup and `dk` command line interface
+`stack/docker` - Docker setup for containerized web-stack (still a work-in-progress)
+
+`python/docker` - A docker-containerized environment for python jobs. Eventually these will become python coprocessor jobs in the containerized web-stack 
 
 ### Getting started
 
@@ -23,10 +25,10 @@ You need ruby for the dk command line which is just a convenience CLI (command l
 
 We are in the process of setting up a docker container to run node but in the mean time you can run the express/API and the vue API from you host machine if you have node and yarn installed locally on your machine.
 
-```
+```console
 # start the docker containers
 cd stack/docker
-./dk up
+docker-compose up
 ```
 
 Following the instructions in the api/app READMEs
