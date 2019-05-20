@@ -41,6 +41,8 @@ Following the instructions in the api/app READMEs
 
 ## Content Team
 
+[Python App README](./python/docker)
+
 [Content API README](./api/content_api)
 
 [Content App README](./app/content)
