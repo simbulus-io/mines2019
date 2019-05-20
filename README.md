@@ -41,10 +41,10 @@ Following the instructions in the api/app READMEs
 
 ## Content Team
 
-[Python App README](./python/docker)
+[Python App - Readme](./python/docker)
 
-[Content API README](./api/content_api)
+[Web (Express) API - Readme](./api/content_api)
 
-[Content App README](./app/content)
+[Web App - Readme](./app/content)
 
 ```
