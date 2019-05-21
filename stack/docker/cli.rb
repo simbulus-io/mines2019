@@ -38,7 +38,7 @@ class CLI < Thor
   end
 
   desc "bash", "List all running docker containers (docker)"
-  method_option :name, :desc => "container name", :type=>:string, :required=>true
+  method_option :name, :aliases=>"n",  :desc => "container name", :type=>:string, :required=>true
   def bash
     cmd = "docker exec -it #{options[:name]} /bin/bash"
     command_runner(cmd:cmd)
