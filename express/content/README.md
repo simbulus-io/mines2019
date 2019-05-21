@@ -1,4 +1,4 @@
-To stand up mongo and content containers
+To stand up mongo and content containers.  From this directory with the dk CLI installed and on the path.
 
 ```dk up```
 
