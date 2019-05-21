@@ -1,0 +1,5 @@
+start on filesystem and started networking
+respawn
+chdir /www/node/ts_node-<%=@version%>  #deployment directory
+env NODE_ENV=<%=@node_env%>
+exec /usr/local/bin/node dist/bootstrap.js

@@ -7,8 +7,7 @@ rescue LoadError => e
 
   # install missing gem
   puts 'Probably missing gem: ' + gem_name
-  print 'Auto-install it? [yN] '
-  gets.strip =~ /y/i or exit(1)
+  print 'Auto installing'
   system(install_command) or exit(1)
 
   # retry
@@ -24,7 +23,6 @@ install_missing do
   require "crack"
   require "securerandom"
   require "terminal-table"
-  require "woot"
   require "colorize"
   require "os"
 end
@@ -37,6 +35,13 @@ class CLI < Thor
   def killall
     killall = "docker kill $(docker ps -q)"
     run_cmd(killall)
+  end
+
+  desc "bash", "List all running docker containers (docker)"
+  method_option :name, :desc => "container name", :type=>:string, :required=>true
+  def bash
+    cmd = "docker exec -it #{options[:name]} /bin/bash"
+    command_runner(cmd:cmd)
   end
 
   desc "ls", "List all running docker containers (docker)"
