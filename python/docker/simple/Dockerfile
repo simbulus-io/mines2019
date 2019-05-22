@@ -1,4 +1,4 @@
-ARG base=base-pyton
+ARG base=base-python
 FROM $base
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
