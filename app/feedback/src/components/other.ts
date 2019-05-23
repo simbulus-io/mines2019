@@ -21,4 +21,9 @@ export default class Other extends Vue {
     return this.$store.state.feedback.hello;
   }
 
+  public get alex(){
+    return this.$store.state.feedback.al;
+    //return "Alex cries";
+  }
+
 }

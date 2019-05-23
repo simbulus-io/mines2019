@@ -2,6 +2,7 @@ import * as logger                                from 'winston';
 import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
+import { request } from 'https';
 
 export class TestRoutes extends RoutesBase {
 
@@ -10,7 +11,16 @@ export class TestRoutes extends RoutesBase {
 
     router.get(`${RoutesBase.API_BASE_URL}/hello`, (req: Request, res: Response, next: NextFunction) => {
       res.setHeader('Content-Type', 'application/json');
-      res.json({status: true, message: 'Welcome Field Session 2019 - This message is from the feedback_api'});
+      //let myMessage = req.body;
+      let myMessage = 'Welcome Field Session 2019 - This message is from the feedback_api';
+      res.json({status: true, message: myMessage});
+    });
+
+    router.get(`${RoutesBase.API_BASE_URL}/al`, (req: Request, res: Response, next: NextFunction) => {
+      res.setHeader('Content-Type', 'application/json');
+      //let myMessage = req.body;
+      let myMessage = 'pls work';
+      res.json({status: true, message: myMessage});
     });
 
     router.get(`${RoutesBase.API_BASE_URL}/test/logger`, (req: Request, res: Response, next: NextFunction) => {

@@ -6,6 +6,7 @@
       <div class="other">
         <span class="banner"> Hello Me </span>
       </div>
+      <BlogPost v-for="blogPost in blogPosts" :post="blogPost" :key="blogPost.title" />
     </template>
   </MainContent>
 </template>

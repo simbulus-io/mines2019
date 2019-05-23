@@ -13,5 +13,6 @@ export default class App extends Vue {
   // Lifecycle
   public async created() {
     await this.$store.dispatch('feedback/hello')
+    await this.$store.dispatch('feedback/al')
   }
 }

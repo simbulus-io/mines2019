@@ -6,6 +6,9 @@
       <div class="other">
         <span class="banner"> {{ hello_mines }} </span>
       </div>
+      <div class="other">
+        <span class="banner"> {{ alex }} </span>
+      </div>
     </template>
   </MainContent>
 </template>
