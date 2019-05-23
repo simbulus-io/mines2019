@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 services:
   mongodb:
     image: mongo:4.0
@@ -30,29 +30,31 @@ services:
   #   depends_on:
   #     - express-content
   #     - express-feedback
-  # express-content:
-  #   tty: true # Enables debugging capabilities when attached to this container.
-  #   image: 'bitnami/express:4'
-  #   user: "root"
-  #   restart: always
-  #   command: npm start
-  #   # command: tail -f /dev/null
-  #   environment:
-  #     - PORT=3000
-  #     - NODE_ENV=development
-  #     - DATABASE_URL=mongodb://mongodb:27017/content
-  #     - SKIP_DB_WAIT=0
-  #     - SKIP_DB_MIGRATION=0
-  #     - SKIP_NPM_INSTALL=0
-  #     - SKIP_BOWER_INSTALL=0
-  #   depends_on:
-  #     - mongodb
-  #   ports:
-  #     - 3000:3000
-  #   volumes:
-  #     - ../../app/content:/app
-  #   networks:
-  #     - backend
+  express-content:
+    tty: true # Enables debugging capabilities when attached to this container.
+    image: base-express
+    user: "root"
+    restart: "always"
+    command:  /bin/sh -c "yarn --cwd api build && node api/dist/bootstrap.js"
+
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - DATABASE_URL=mongodb://mongodb:27017/content
+      - SKIP_DB_WAIT=0
+      - SKIP_DB_MIGRATION=0
+      - SKIP_NPM_INSTALL=0
+      - SKIP_BOWER_INSTALL=0
+    depends_on:
+      - mongodb
+    ports:
+      - 3000:3000
+      - 5102:5101
+    volumes:
+      - ../../app/content:/root/app
+      - ../../api/content_api:/root/api
+    networks:
+      - backend
   # express-feedback:
   #   tty: true # Enables debugging capabilities when attached to this container.
   #   image: 'bitnami/express:4'
