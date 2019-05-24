@@ -47,29 +47,47 @@ export class TestRoutes extends RoutesBase {
       res.json({status: true, message: myMessage});
     });
 
-    // router.post(`${RoutesBase.API_BASE_URL}/add_name`, async (req: Request, res: Response, next: NextFunction) => {
-    //   const mongo = req.app.get('mongodb');
-    //   router.use(bodyParser.json()); // added by me for parsing JSON files
-    //   var name = {
-    //     first_name: req.body.first_name,
-    //     last_name: req.body.last_name
-    //   };
-    //   await mongo.collection("name").save(name, (err: Error, result: any) => {
-    //     if(err) {
-    //       console.log(err);
-    //     }
+    router.post(`${RoutesBase.API_BASE_URL}/add_name`, async (req: Request, res: Response, next: NextFunction) => {
 
-    //     res.send('name added successfully');
-    //   });
-    // });
+      try {
+        
+        // using await
+        router.use(bodyParser.json()); // added by me for parsing JSON files
+        var name = {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name
+        };
+        const mongo = req.app.get('mongo');
+        await mongo.db('feedback').collection("name").save(name, (err: Error, result: any) => {
+          if(err) {
+            console.log(err);
+          }
+          res.setHeader('Content-Type', 'application/json');
+          res.send('name added successfully');
+        });
+      } catch (e) {
+        logger.error('Error in test/mongo', e);
+      }
+      
+    });
 
-    // router.get('/add_name', async (req, res) => {
-    //   const mongo = req.app.get('mongodb');
-    //   await mongo.collection('name').find().toArray( (err: Error, results: any) => {
-    //     //res.send(results)
-    //     res.json({status: true, message: results});
-    //   });
-    // });
+    router.get(`${RoutesBase.API_BASE_URL}/view_names`, async (req, res) => {
+
+      try {
+        const mongo = req.app.get('mongo');
+        // using await
+        const docs = await mongo.db('feedback').collection('name').find().toArray();
+        //logger.info('Getting name collection...')
+        //logger.info(JSON.stringify(docs, null, 2));
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status: true, message: docs});
+        res.json({status: true, message: 'Got name collection OK'});
+      } catch (e) {
+        logger.error('Error in /add_name', e);
+      }
+
+      
+    });
 
     // end routes added by me
 
