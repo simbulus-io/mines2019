@@ -11,12 +11,15 @@ export class TestRoutes extends RoutesBase {
 
   constructor(router: Router) {
     super();
+    // HW - make me a post worthy of MORDOR
+
+    // define the endpoint here here (express/node POST)
+    // the use one of the below to talk to it
+    // wget, curl or postman or web form connected to typescript... to actually post data
 
     router.get(`${RoutesBase.API_BASE_URL}/hello`, (req: Request, res: Response, next: NextFunction) => {
       res.setHeader('Content-Type', 'application/json');
-      //let myMessage = req.body;
-      let myMessage = 'Welcome Field Session 2019 - This message is from the feedback_api';
-      res.json({status: true, message: myMessage});
+      res.json({status: true, message: 'Welcome Field Session 2019 - This is a route'});
     });
 
     // routes added by me
@@ -83,26 +86,14 @@ export class TestRoutes extends RoutesBase {
     router.get(`${RoutesBase.API_BASE_URL}/test/mongo`, async (req: Request,
                                                                res: Response,
                                                                next: NextFunction) => {
-      const mongo = req.app.get('mongodb');
-      // attempted solutions:
-      //const mongo = MongoHelper.connect();
-      //const mongo = req.app.get('mongo');
-      /** maybe: 
-       * const mongoClient = new MongoClient(new Server('localhost', 27017));
-       * mongoClient.open(function(err, mongoClient) {
-       * const db1 = mongoClient.db("mydb");
-       * mongoClient.close();
-       * });
-       */
-      
-      // using await
-      const log = new LoggerHelper().logger;
-      if( typeof(mongo) == "undefined" ){
-        log.error(new Error('mongo instance undefined. failed to connect to db'));
-      }else{
-        const docs = await mongo.collection('inventory').find().toArray();
+      try {
+        const mongo = req.app.get('mongo');
+        // using await
+        const docs = await mongo.db('feedback').collection('inventory').find().toArray();
         logger.info(JSON.stringify(docs, null, 2));
         res.json({status: true, message: 'Mongo Test Okay'});
+      } catch (e) {
+        logger.error('Error in test/mongo', e);
       }
     });
   }

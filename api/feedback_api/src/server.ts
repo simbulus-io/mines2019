@@ -41,6 +41,7 @@ export class Server {
       this.app.set('config', config);
       log.info('Config setup done', _.filter(config, (k) => k === 'to_full_url'));
       const mongo = await MongoHelper.connect();
+
       this.app.set('mongo', mongo);
       log.info('Mongo setup done');
       // Enable CORS if in development (suppress Cross Origin errors)

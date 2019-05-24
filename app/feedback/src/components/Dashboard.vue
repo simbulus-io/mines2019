@@ -4,7 +4,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> Hello Me </span>
+        <span class="banner"> Hello You </span>
       </div>
       <BlogPost v-for="blogPost in blogPosts" :post="blogPost" :key="blogPost.title" />
     </template>
