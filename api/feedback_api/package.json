@@ -15,14 +15,7 @@
   },
   "jest": {
     "reporters": [
-      "default",
-      [
-        "./node_modules/jest-html-reporter",
-        {
-          "pageTitle": "wm_feedback smokes and smolders",
-          "outputPath": "test/reports/default-report.html"
-        }
-      ]
+      "default"
     ],
     "transform": {
       ".(ts|tsx)": "ts-jest"
