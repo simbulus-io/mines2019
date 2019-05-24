@@ -62,7 +62,6 @@ export class TestRoutes extends RoutesBase {
           if(err) {
             console.log(err);
           }
-          res.setHeader('Content-Type', 'application/json');
           res.send('name added successfully');
         });
       } catch (e) {
@@ -81,7 +80,6 @@ export class TestRoutes extends RoutesBase {
         //logger.info(JSON.stringify(docs, null, 2));
         res.setHeader('Content-Type', 'application/json');
         res.json({status: true, message: docs});
-        res.json({status: true, message: 'Got name collection OK'});
       } catch (e) {
         logger.error('Error in /add_name', e);
       }
