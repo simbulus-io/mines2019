@@ -1,4 +1,0 @@
-level: [32minfo[39m message: LoggerHelper setup complete
-level: [32minfo[39m message: This is an info string
-level: [31merror[39m message: This is an error string[33m[39m
-[33mWARNING: detected error level log without stack trace - use log.error(new Error(msg))[39m

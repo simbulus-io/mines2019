@@ -5,7 +5,7 @@ import * as _         from 'lodash';
 const silent = _.includes(process.argv, '--silent');
 
 const console_logger = new logger.transports.Console({
-  level: 'error',
+  level: 'debug',
   format: logger.format.combine(logger.format.colorize(), logger.format.simple()),
 });
 const logger_conf = {
