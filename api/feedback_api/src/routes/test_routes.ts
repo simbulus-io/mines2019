@@ -41,7 +41,7 @@ export class TestRoutes extends RoutesBase {
 
     router.get(`${RoutesBase.API_BASE_URL}/post_test`, (req: Request, res: Response, next: NextFunction) => {
       res.setHeader('Content-Type', 'application/json');
-      let myMessage = "This is the get display";
+      let myMessage = 'This is the get display';
       //myMessage = myMessage + " added on the thing";
       //let myMessage = 'pls work';
       res.json({status: true, message: myMessage});
@@ -58,14 +58,14 @@ export class TestRoutes extends RoutesBase {
           last_name: req.body.last_name
         };
         const mongo = req.app.get('mongo');
-        await mongo.db('feedback').collection("name").save(name, (err: Error, result: any) => {
+        await mongo.db('feedback').collection('name').save(name, (err: Error, result: any) => {
           if(err) {
             console.log(err);
           }
           res.send('name added successfully');
         });
       } catch (e) {
-        logger.error('Error in test/mongo', e);
+        logger.error('Error in add_name', e);
       }
       
     });
@@ -81,7 +81,7 @@ export class TestRoutes extends RoutesBase {
         res.setHeader('Content-Type', 'application/json');
         res.json({status: true, message: docs});
       } catch (e) {
-        logger.error('Error in /add_name', e);
+        logger.error('ERROR: cannot view names', e);
       }
 
       
