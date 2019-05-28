@@ -22,20 +22,9 @@ export default class Dashboard extends Vue {
 	}
 
 	public get view_names(){
-		this.my_names = this.$store.state.feedback.view_names;
-		return this.my_names;
-	}
-
-	private my_names: any[] = [
-		{
-			first_name: 'Test1',
-			last_name: 'Meow',
-		},
-		{
-			first_name:'Test2',
-			last_name: 'Woof',
-		},
-	]
+    return this.$store.state.feedback.view_names;
+  }
+  
   constructor() {
     super();
   }

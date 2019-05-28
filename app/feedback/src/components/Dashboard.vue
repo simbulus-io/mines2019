@@ -7,8 +7,7 @@
         <span class="banner"> Hello You </span>
       </div>
       <div class = "other">
-        <span class = "banner" > {{view_names}} fdfds</span>
-        <div v-for="curr_name in my_names" :key="curr_name.first_name">
+        <div v-for="curr_name in view_names" :key="curr_name.first_name">
           <p>
             {{curr_name.last_name}}, {{curr_name.first_name}}
             </p>
