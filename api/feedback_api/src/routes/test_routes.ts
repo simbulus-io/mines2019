@@ -3,7 +3,7 @@ import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 import { request } from 'https';
-import bodyParser from "body-parser";
+import bodyParser from 'body-parser';
 import { LoggerHelper } from '../helpers/logger_helper';
 import { MongoHelper } from '../helpers/mongo_helper';
 
@@ -22,8 +22,8 @@ export class TestRoutes extends RoutesBase {
       res.json({status: true, message: 'Welcome Field Session 2019 - This is a route'});
     });
 
-    // routes added by me
-
+    // routes added by alex
+    // referenced by feedback.ts to populate the other.ts page on 8080
     router.get(`${RoutesBase.API_BASE_URL}/al`, (req: Request, res: Response, next: NextFunction) => {
       res.setHeader('Content-Type', 'application/json');
       //let myMessage = req.body;

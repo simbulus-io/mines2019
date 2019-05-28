@@ -6,6 +6,8 @@
       <div class="other">
         <span class="banner"> {{ hello_mines }} </span>
       </div>
+      <!-- Added by alex (next 3 lines) to check if we 
+      could get another banner to display -->
       <div class="other">
         <span class="banner"> {{ alex }} </span>
       </div>
@@ -13,6 +15,7 @@
   </MainContent>
 </template>
 
+<!-- Look for the ./other.ts file -->
 <script lang="ts" src="./other.ts"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -1,8 +1,8 @@
 <template>
 	<div class="blogpost">
-		<h2>{{ post.title }}</h2>
-		<p>{{ post.body }}</p>
-		<p class="meta">Written by {{ post.author }} on {{ date }}</p>
+		<h2>{{ post.last_name }}</h2>
+		<p>{{ post.last_name }}</p>
+		<p class="meta">Written by {{ post.first_name }}</p>
 	</div>
 </template>
 

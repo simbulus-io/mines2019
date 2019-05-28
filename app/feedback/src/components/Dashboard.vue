@@ -6,7 +6,15 @@
       <div class="other">
         <span class="banner"> Hello You </span>
       </div>
-      <BlogPost v-for="blogPost in blogPosts" :post="blogPost" :key="blogPost.title" />
+      <div class = "other">
+        <span class = "banner" > {{view_names}} fdfds</span>
+        <div v-for="curr_name in my_names" :key="curr_name.first_name">
+          <p>
+            {{curr_name.last_name}}, {{curr_name.first_name}}
+            </p>
+        </div>
+      </div>
+      <!-- <BlogPost v-for="blogPost in blogPosts" :post="blogPost" :key="blogPost.first_name" /> -->
     </template>
   </MainContent>
 </template>

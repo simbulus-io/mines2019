@@ -21,6 +21,8 @@ export default class Other extends Vue {
     return this.$store.state.feedback.hello;
   }
 
+  // Written by alex to be referenced by the Other.vue file,
+  //    references feedback.ts
   public get alex(){
     return this.$store.state.feedback.al;
     //return "Alex cries";
