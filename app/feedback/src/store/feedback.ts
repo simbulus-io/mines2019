@@ -29,6 +29,11 @@ export const feedback: Module<FeedbackState, RootState> = {
     view_names: (state: any,message:any) => {
       state.view_names = message;
       
+    },
+    // snotes 5/29
+    snotes: (state: any,message:any) => {
+      state.snotes = message;
+      
     }
   },
   actions: {
@@ -55,6 +60,15 @@ export const feedback: Module<FeedbackState, RootState> = {
       const state = await rval.json();
       // log.info(`Got ${state.message} from the server`);
       context.commit('view_names', state.message);
-    }
+    },
+
+       // snotes attempt 5/29
+    snotes: async (context: any, args: any) => {
+      // references route defined in test_routes.ts::
+      const rval = await fetch('http://localhost:5101/feedback/v1.0/snotes')
+      const state = await rval.json();
+      // log.info(`Got ${state.message} from the server`);
+      context.commit('snotes', state.message);
+      }
   }
 };

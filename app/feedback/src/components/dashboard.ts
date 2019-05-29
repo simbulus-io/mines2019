@@ -5,7 +5,6 @@ import { log }                  from '@/logger';
 
 import BlogPost from './BlogPost.vue';
 import { Post } from './post';
-import { Request, Response } from 'express';
 
 @Component({
   components: {

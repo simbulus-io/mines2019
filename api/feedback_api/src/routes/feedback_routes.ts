@@ -55,7 +55,26 @@ export class FeedbackRoutes extends RoutesBase {
       
     });
     ////////////////////////////////////////////////////////////////////////////
-    // end routes added by me
+    
+
+    ////////////////////// VIEW_NOTES, DESIGNED FOR TEACHERS TO SEE NOTES POSTED
+    router.get(`${RoutesBase.API_BASE_URL}/snotes`, async (req, res) => {
+
+      try {
+        const mongo = req.app.get('mongo');
+        // using await
+        const docs = await mongo.db('feedback').collection('snotes').find().toArray();
+        //logger.info('Getting name collection...')
+        //logger.info(JSON.stringify(docs, null, 2));
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status: true, message: docs});
+      } catch (e) {
+        logger.error('ERROR: cannot view snotes', e);
+      }
+
+      
+    });
+    ////////////////////////////////////////////////////////////////////////////
 
     }   
 }
