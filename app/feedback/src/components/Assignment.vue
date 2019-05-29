@@ -8,9 +8,10 @@
       </div>
       <!-- <Snote v-for="curr_note in snotes" :note="curr_note" :key="curr_note.idx" /> -->
       <!-- img v-bind:src=image_path width="200"/> -->
-      <div class="bgimg">
-          <!-- <p> this is in my div with a bg image </p> -->
+      <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
+        <Snote v-for="curr_note in snotes" :note="curr_note" :key="curr_note.idx" />
       </div>
+
     </template>
   </MainContent>
 </template>
@@ -27,10 +28,10 @@
     display:inline-block;
     background-size:contain; // also cover is an option 
     background-repeat:no-repeat;
-    background-image: url("../../public/sample_wkst.jpg");
-    //background-image: url("../../public/kitten.jpg");
+    // background-image: url("../../public/sample_wkst.jpg");
+    // //background-image: url("../../public/kitten.jpg");
     background-repeat: no-repeat;
-    min-height: 100%; 
+    min-height: 500px; 
     width: 100%;
 }
 .other {

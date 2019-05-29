@@ -6,6 +6,15 @@ import { log }                  from '@/logger';
 import Snote from './Snote.vue';
 import { Note } from './note';
 
+// var div = document.getElementsByClassName('bgimg')[0];
+// var img = document.createElement('img');
+// img.onload = function() {
+//   div.style.backgroundImage = "url('"+img.src+"')";
+//   div.style.width = img.width+"px";
+//   div.style.height = img.height+"px";
+// }
+// img.src = "https://www.wootmath.com/dds/52/52/d41ad5a1ea4688cc7b0f1a710821.png";
+
 @Component({
   components: {
     MainContent,
@@ -14,17 +23,11 @@ import { Note } from './note';
 })
 
 export default class Assignment extends Vue {
-    image_path = require('../../public/kitten.jpg');
+    //private image_path = require('../../public/kitten.jpg'); 
+    private image_path = require('../../public/sample_wkst.jpg'); 
 
     constructor() {
         super();
-    }
-
-    // Written by alex to be referenced by the Other.vue file,
-    //    references feedback.ts
-    public get alex(){
-        return this.$store.state.feedback.al;
-        //return "Alex cries";
     }
 
     // snotes 5/29
@@ -32,8 +35,8 @@ export default class Assignment extends Vue {
         return this.$store.state.feedback.snotes;
     }
 
-    // public get image(){
-    //     return '../../public/kitten.jpg';
-    // }
+    public get get_image_path(){ 
+        return this.image_path;
+    }
 
 }
