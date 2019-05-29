@@ -14,6 +14,7 @@
 	display: inline-block;
 	margin: 10px;
 	padding: 10px;
+	max-width: 300px;
 	//opacity: 0.2;
 }
 div.blogpost {
