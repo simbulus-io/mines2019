@@ -20,7 +20,7 @@
     "transform": {
       ".(ts|tsx)": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec|smoke|smolder))\\.(ts|tsx|js)$",
+    "testRegex": "(/__tests__/.*|\\.(test|spec|smoke|smolder|snotes))\\.(ts|tsx|js)$",
     "testURL": "http://localhost/",
     "moduleFileExtensions": [
       "ts",
@@ -62,7 +62,7 @@
     "graphql": "^14.0.2",
     "graphql-middleware": "^2.0.2",
     "graphql-tools": "^4.0.3",
-    "guid-typescript": "1.0.7",
+    "guid-typescript": "^1.0.9",
     "http-server": "^0.11.1",
     "idx": "^2.5.2",
     "lodash": "^4.17.11",
