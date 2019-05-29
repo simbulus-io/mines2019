@@ -4,7 +4,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> Hello Me </span>
+        <span class="banner"> <img src="/home/dante/mines2019/app/content/src/components/piture.pdf" alt="my image" /></span>
       </div>
     </template>
   </MainContent>

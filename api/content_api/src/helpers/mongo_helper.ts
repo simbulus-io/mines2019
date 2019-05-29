@@ -8,7 +8,7 @@ export class MongoHelper {
   public static async connect(): Promise<MongoClient> {
     const mongo_conf =  {
       host: 'localhost',
-      port: '27027',
+      port: '27017',
     };
 
     // The below is for running inside the base-express docker container

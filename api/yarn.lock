@@ -167,9 +167,9 @@
     "@types/graphql" "*"
 
 "@types/express-serve-static-core@*":
-  version "4.16.4"
-  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.16.4.tgz#56bb8be4559401d68af4a3624ae9dd3166103e60"
-  integrity sha512-x/8h6FHm14rPWnW2HP5likD/rsqJ3t/77OWx2PLxym0hXbeBWQmcPyHmwX+CtCQpjIfgrUdEoDFcLPwPZWiqzQ==
+  version "4.16.6"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.16.6.tgz#66d4b29ece3e2fb6e5aac2232723002426e651bd"
+  integrity sha512-8wr3CA/EMybyb6/V8qvTRKiNkPmgUA26uA9XWD6hlA0yFDuqi4r2L0C2B0U2HAYltJamoYJszlkaWM31vrKsHg==
   dependencies:
     "@types/node" "*"
     "@types/range-parser" "*"
@@ -201,9 +201,9 @@
   integrity sha512-Q5hTcfdudEL2yOmluA1zaSyPbzWPmJ3XfSWeP3RyoYvS9hnje1ZyagrZOuQ6+1nQC1Gw+7gap3pLNL3xL6UBug==
 
 "@types/lodash@^4.14.109":
-  version "4.14.130"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.130.tgz#04b3a690d5f4fc34579963c99adae067b8c8eb5a"
-  integrity sha512-H++wk0tbneBsRVfLkgAAd0IIpmpVr2Bj4T0HncoOsQf3/xrJexRYQK2Tqo0Ej3pFslM8GkMgdis9bu6xIb1ycw==
+  version "4.14.132"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.132.tgz#8ce45ca8745ff2e004fac0de0ab46f61e390ffa0"
+  integrity sha512-RNUU1rrh85NgUJcjOOr96YXr+RHwInGbaQCZmlitqOaCKXffj8bh+Zxwuq5rjDy5OgzFldDVoqk4pyLEDiwxIw==
 
 "@types/logform@^1.2.0":
   version "1.2.0"
@@ -571,12 +571,12 @@ apollo-tracing@0.6.0:
     graphql-extensions "0.6.0"
 
 apollo-utilities@^1.0.1, apollo-utilities@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.2.1.tgz#1c3a1ebf5607d7c8efe7636daaf58e7463b41b3c"
-  integrity sha512-Zv8Udp9XTSFiN8oyXOjf6PMHepD4yxxReLsl6dPUy5Ths7jti3nmlBzZUOxuTWRwZn0MoclqL7RQ5UEJN8MAxg==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.3.0.tgz#9803724c07ac94ca11dc26397edb58735d2b0211"
+  integrity sha512-wQjV+FdWcTWmWUFlChG5rS0vHKy5OsXC6XlV9STRstQq6VbXANwHy6DHnTEQAfLXWAbNcPgBu+nBUpR3dFhwrA==
   dependencies:
     fast-json-stable-stringify "^2.0.0"
-    ts-invariant "^0.2.1"
+    ts-invariant "^0.4.0"
     tslib "^1.9.3"
 
 append-transform@^0.4.0:
@@ -931,9 +931,9 @@ bignumber.js@7.2.1:
   integrity sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
 
 bluebird@^3.5.0:
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714"
-  integrity sha512-FG+nFEZChJrbQ9tIccIfZJBz3J7mLrAhxakAbnrJWn8d7aKOC+LWifa0G+p4ZqKp4y13T7juYvdhq9NzKdsrjw==
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
 body-parser@1.19.0, body-parser@^1.18.3:
   version "1.19.0"
@@ -1352,14 +1352,14 @@ core-js@3.0.0-beta.13:
   integrity sha512-16Q43c/3LT9NyePUJKL8nRIQgYWjcBhjJSMWg96PVSxoS0PeE0NHitPI3opBrs9MGGHjte1KoEVr9W63YKlTXQ==
 
 core-js@^2.4.0, core-js@^2.5.0:
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.7.tgz#c2b19af9b50ec49c356ee087d6155632a889e968"
-  integrity sha512-ydmsQxDVH7lDpYoirXft8S83ddKKfdsrsmWhtyj7xafXVLbLhKOyfD7kAi2ueFfeP7m9rNavjW59O3hLLzzC5A==
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.8.tgz#dc3a1e633a04267944e0cb850d3880f340248139"
+  integrity sha512-RWlREFU74TEkdXzyl1bka66O3kYp8jeTXrvJZDzVVMH8AiHUSOFpL1yfhQJ+wHocAm1m+4971W1PPzfLuCv1vg==
 
 core-js@^3.0.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.1.tgz#502ba6e7c15300de20a372b390f9fc9039db76f2"
-  integrity sha512-OddJJmAMN6czmPEtp1ScHFWq4RXzH1iWJFGL8CZ6UcopeBzCMjo4Slv0UoLW2hhny1/wsDowm6xCmBCWQ1azkA==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.2.tgz#2549a2cfb3ca1a5d851c9f7838e8b282cef2f3ba"
+  integrity sha512-3poRGjbu56leCtZCZCzCgQ7GcKOflDFnjWIepaPFUsM0IXUBrne10sl3aa2Bkcz3+FjRdIxBe9dAMhIJmEnQNA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -2233,9 +2233,9 @@ graphql-upload@^8.0.2:
     object-path "^0.11.4"
 
 graphql@^14.0.2:
-  version "14.3.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.3.0.tgz#34dd36faa489ff642bcd25df6c3b4f988a1a2f3e"
-  integrity sha512-MdfI4v7kSNC3NhB7cF8KNijDsifuWO2XOtzpyququqaclO8wVuChYv+KogexDwgP5sp7nFI9Z6N4QHgoLkfjrg==
+  version "14.3.1"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.3.1.tgz#b3aa50e61a841ada3c1f9ccda101c483f8e8c807"
+  integrity sha512-FZm7kAa3FqKdXy8YSSpAoTtyDFMIYSpCDOr+3EqlI1bxmtHu+Vv/I2vrSeT1sBOEnEniX3uo4wFhFdS/8XN6gA==
   dependencies:
     iterall "^1.2.2"
 
@@ -5110,17 +5110,17 @@ truncate@~1.0.2:
   resolved "https://registry.yarnpkg.com/truncate/-/truncate-1.0.5.tgz#c636c6c1f50eed7c927af06c1dbffab53c7abe28"
   integrity sha1-xjbGwfUO7XySevBsHb/6tTx6vig=
 
-ts-invariant@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.2.1.tgz#3d587f9d6e3bded97bf9ec17951dd9814d5a9d3f"
-  integrity sha512-Z/JSxzVmhTo50I+LKagEISFJW3pvPCqsMWLamCTX8Kr3N5aMrnGOqcflbe5hLUzwjvgPfnLzQtHZv0yWQ+FIHg==
-  dependencies:
-    tslib "^1.9.3"
-
 ts-invariant@^0.3.2:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.3.3.tgz#b5742b1885ecf9e29c31a750307480f045ec0b16"
   integrity sha512-UReOKsrJFGC9tUblgSRWo+BsVNbEd77Cl6WiV/XpMlkifXwNIJbknViCucHvVZkXSC/mcWeRnIGdY7uprcwvdQ==
+  dependencies:
+    tslib "^1.9.3"
+
+ts-invariant@^0.4.0:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.4.2.tgz#8685131b8083e67c66d602540e78763408be9113"
+  integrity sha512-PTAAn8lJPEdRBJJEs4ig6MVZWfO12yrFzV7YaPslmyhG7+4MA279y4BXT3f72gXeVl0mC1aAWq2rMX4eKTWU/Q==
   dependencies:
     tslib "^1.9.3"
 
@@ -5494,9 +5494,9 @@ wrappy@1:
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
 write-file-atomic@^2.1.0:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-2.4.2.tgz#a7181706dfba17855d221140a9c06e15fcdd87b9"
-  integrity sha512-s0b6vB3xIVRLWywa6X9TOMA7k9zio0TMOsl9ZnDkliA/cfJlpHXAscj0gbHVJiTdIuAYpIyqS5GW91fqm6gG5g==
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-2.4.3.tgz#1fd2e9ae1df3e75b8d8c367443c692d4ca81f481"
+  integrity sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==
   dependencies:
     graceful-fs "^4.1.11"
     imurmurhash "^0.1.4"
