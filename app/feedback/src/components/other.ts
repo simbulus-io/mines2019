@@ -27,10 +27,4 @@ export default class Other extends Vue {
     return this.$store.state.feedback.al;
     //return "Alex cries";
   }
-  data(){
-    return{
-      bgImage: "/Pictures/lion-png-lion-png-clipart-png-image-1366.png"
-    };
-  }
-
 }
