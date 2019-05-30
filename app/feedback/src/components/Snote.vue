@@ -14,10 +14,11 @@
     </div>
   </div> -->
 
-  <div v-bind:class="snote_active" v-show="!note.deleted && note.selected">
+  <div v-bind:class="snote_active" v-show="!get_note.deleted">
     <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
-    <p>{{ note.content }}</p>
-    <h5 class="meta" style="font-style: italic;">Written by {{ note.author }}</h5>
+	<textarea class="sn-input" v-model="get_note.content" rows="5" max-rows="5" ></textarea>
+    <!-- <p>{{ note.content }}</p> -->
+    <h5 class="meta" style="font-style: italic;">Written by {{ get_note.author }}</h5>
     <h6>{{ get_date }}</h6>
   </div>
 

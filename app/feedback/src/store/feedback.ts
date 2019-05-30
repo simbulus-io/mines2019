@@ -71,7 +71,7 @@ export const feedback: Module<FeedbackState, RootState> = {
         // references route defined in test_routes.ts::
         const rval = await fetch('http://localhost:5101/feedback/v1.0/snotes')
         const rval_json = await rval.json();
-        log.info(`Got ${rval_json} from the server`);
+        log.info(`Got (all sticky notes) ${rval_json} from the server`);
         context.commit('snotes', rval_json.message);
       } catch(e) {
         log.error(e);
