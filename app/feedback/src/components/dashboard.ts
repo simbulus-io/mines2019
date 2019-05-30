@@ -14,7 +14,7 @@ import { Post } from './post';
 })
 
 export default class Dashboard extends Vue {
-
+   public bgimage = require("./lion-png-lion-png-clipart-png-image-1366.png");
   // Computed
   public get hello_mines() {
     return this.$store.state.feedback.test_data;
@@ -23,6 +23,7 @@ export default class Dashboard extends Vue {
 	public get view_names(){
     return this.$store.state.feedback.view_names;
   }
+ 
   
   constructor() {
     super();
