@@ -6,6 +6,8 @@ import { log }                  from '@/logger';
 import BlogPost from './BlogPost.vue';
 import { Post } from './post';
 
+
+
 @Component({
   components: {
     MainContent,

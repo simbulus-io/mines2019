@@ -1,20 +1,29 @@
-
 <template>
+
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
+      <!-- <head>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+      </head> -->
+      
+
       <div class="other">
         <span class="banner"> Hello You </span>
       </div>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
       <!-- displaying background image and toolbar-->
       <div class = "background" v-bind:style="{ 'backgroundImage': 'url('+ bgimage +')' }">
        <div class = "toolbar">
-        <button-toolbar key-nav aria-label="Toolbar with button groups" >
-          <button @click= "OnClick" class="button">
-            <button>Sticky Note</button>
-            <button>Annotate</button>
-            <button>Highlight</button>
-            <button>equations</button>
+        <button-toolbar  key-nav aria-label="Toolbar with button groups" >
+          <button @click= "OnClick" class="buttontoolbar">
+            <button class="button"><i class ="fa fa-plus" title="Edit"></i></button>
+            <button class="button"><i class ="fa fa-pencil" title="Edit"></i></button>
+            <button class="button">highlighter</button>
+            <button class="button"><i class ="fa fa-mouse-pointer" title="Edit"></i></button>
           </button> 
         </button-toolbar>
       </div>
@@ -30,7 +39,15 @@
     </template>
   </MainContent>
 </template>
-
+<script>
+              function toggleActiveState() {
+                  this.classList.toggle('active');
+              }
+              var btns = document.querySelectorAll('.btn');
+              [].forEach.call(btns, function(btn) {
+                btn.addEventListener('click', toggleActiveState, false);
+              });
+            </script>
 <script lang="ts" src="./dashboard.ts"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -67,11 +84,45 @@
   position: relative;
 
   .toolbar {
+  background: #435ebc;
+  border-radius: 3px;
   position: absolute;
   bottom: 0;
-  left: 25%;
+  left: 45%;
 }
+
+
 }
+  .button {
+      background: #ffffff;
+      border-radius: 3px;
+      border: none;
+      font-family: Arial;
+      color: #000000;
+      font-size: 12px;
+      padding: 2px 2px 2px 2px;
+      text-decoration: none;
+      height: 30px;
+      width: 30px;
+      margin-top: 5px;
+      margin-left: 2px;
+      margin-right: 2px;
+      margin-bottom: 5px;
+      // display: block;
+  }
+
+  .button.active {
+      background: #cecece;
+      text-decoration: none;
+  }
+  .buttontoolbar {
+  background: #435ebc;
+// box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+  box-shadow: 0 0 8px #000;
+  border: none;
+  border-radius: 3px;
+ }
+  
 
 
 </style>
