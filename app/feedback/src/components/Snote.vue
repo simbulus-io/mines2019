@@ -1,15 +1,26 @@
 <template>
-	<div class="snote-inactive" v-if="!note.deleted && !note.selected" v-on:click="note.selected=true">
-		<p>{{ note.content }}</p>
-		<h5 class="meta" style="font-style: italic;">Written by {{ note.author }}</h5>
-		<h6>{{ get_date }}</h6>
-	</div>
-	<div class="snote-active" v-else-if="!note.deleted && note.selected">
-		<button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
-		<p>{{ note.content }}</p>
-		<h5 class="meta" style="font-style: italic;">Written by {{ note.author }}</h5>
-		<h6>{{ get_date }}</h6>
-	</div>
+  <!-- SK -- vue wants template root to have exactly one element -->
+	<!-- <div>
+    <div class="snote-inactive" v-if="!note.deleted && !note.selected" v-on:click="note.selected=true">
+      <p>{{ note.content }}</p>
+      <h5 class="meta" style="font-style: italic;">Written by {{ note.author }}</h5>
+      <h6>{{ get_date }}</h6>
+    </div>
+    <div class="snote-active" v-show="!note.deleted && note.selected">
+      <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
+      <p>{{ note.content }}</p>
+      <h5 class="meta" style="font-style: italic;">Written by {{ note.author }}</h5>
+      <h6>{{ get_date }}</h6>
+    </div>
+  </div> -->
+
+  <div v-bind:class="snote_active" v-show="!note.deleted && note.selected">
+    <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
+    <p>{{ note.content }}</p>
+    <h5 class="meta" style="font-style: italic;">Written by {{ note.author }}</h5>
+    <h6>{{ get_date }}</h6>
+  </div>
+
 </template>
 
 <script lang="ts" src="./snote.ts"></script>

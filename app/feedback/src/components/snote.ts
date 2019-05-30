@@ -5,11 +5,20 @@ import { log }        from '@/logger';
 
 @Component
 export default class Snote extends Vue {
-  @Prop() private note!: Note;
+
+  @Prop() private readonly note_idx!: string;
+
+  public get note() {
+    return this.$store.state.feedback.snotes[this.note_idx];
+  }
 
   public get get_date() {
     const d = new Date(this.note.timestamp);
     return d.toLocaleString();
+  }
+
+  public get snote_class() {
+    return !this.note.selected ? "snote-active" : "snote-inactive"
   }
 
   // public set delete_note( del: boolean ) {
