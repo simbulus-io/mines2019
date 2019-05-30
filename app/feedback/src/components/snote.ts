@@ -9,10 +9,12 @@ export default class Snote extends Vue {
   @Prop() private readonly note_idx!: string;
   public selected: boolean = false;
 
-  public get get_note() {
-    const snotes_arr = this.$store.state.feedback.snotes[this.note_idx]; // 
-    log.info('***** Thing: '+ snotes_arr);
-    return snotes_arr;
+  public get note() {
+    // Passing the this context as the second arg to JS find
+    const rval = this.$store.state.feedback.snotes.find( (snote) => {
+      return snote.idx === this.note_idx;
+    }, this);
+    return rval;
   }
 
   public get get_date() {
@@ -21,7 +23,8 @@ export default class Snote extends Vue {
   }
 
   public get snote_class() {
-    return !this.get_note.selected ? "snote-active" : "snote-inactive";
+    debugger;
+    return !this.note.selected ? 'snote-active' : 'snote-inactive'
   }
 
   // public set delete_note( del: boolean ) {
