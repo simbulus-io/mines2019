@@ -11,7 +11,11 @@ import qs                   from 'query-string';
 })
 export default class App extends Vue {
   // Lifecycle
+  // Mimicking what was given with new endpoints
   public async created() {
     await this.$store.dispatch('feedback/hello')
+    await this.$store.dispatch('feedback/al')
+    await this.$store.dispatch('feedback/view_names')
+    await this.$store.dispatch('feedback/snotes')
   }
 }

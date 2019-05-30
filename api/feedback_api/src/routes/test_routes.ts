@@ -2,6 +2,10 @@ import * as logger                                from 'winston';
 import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
+import { request } from 'https';
+import bodyParser from 'body-parser';
+import { LoggerHelper } from '../helpers/logger_helper';
+import { MongoHelper } from '../helpers/mongo_helper';
 
 export class TestRoutes extends RoutesBase {
 
@@ -18,6 +22,73 @@ export class TestRoutes extends RoutesBase {
       res.json({status: true, message: 'Welcome Field Session 2019 - This is a route'});
     });
 
+    // routes added by alex
+    // referenced by feedback.ts to populate the other.ts page on 8080
+    router.get(`${RoutesBase.API_BASE_URL}/al`, (req: Request, res: Response, next: NextFunction) => {
+      res.setHeader('Content-Type', 'application/json');
+      //let myMessage = req.body;
+      let myMessage = 'pls work';
+      res.json({status: true, message: myMessage});
+    });
+
+    router.post(`${RoutesBase.API_BASE_URL}/post_test`, (req: Request, res: Response, next: NextFunction) => {
+      res.setHeader('Content-Type', 'application/json');
+      let myMessage = req.body;
+      //myMessage = myMessage + " added on the thing";
+      //let myMessage = 'pls work';
+      res.json({status: true, message: myMessage});
+    });
+
+    router.get(`${RoutesBase.API_BASE_URL}/post_test`, (req: Request, res: Response, next: NextFunction) => {
+      res.setHeader('Content-Type', 'application/json');
+      let myMessage = 'This is the get display';
+      //myMessage = myMessage + " added on the thing";
+      //let myMessage = 'pls work';
+      res.json({status: true, message: myMessage});
+    });
+
+    router.post(`${RoutesBase.API_BASE_URL}/add_name`, async (req: Request, res: Response, next: NextFunction) => {
+
+      try {
+        
+        // using await
+        router.use(bodyParser.json()); // added by me for parsing JSON files
+        var name = {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name
+        };
+        const mongo = req.app.get('mongo');
+        await mongo.db('feedback').collection('name').save(name, (err: Error, result: any) => {
+          if(err) {
+            console.log(err);
+          }
+          res.send('name added successfully');
+        });
+      } catch (e) {
+        logger.error('Error in add_name', e);
+      }
+      
+    });
+
+    router.get(`${RoutesBase.API_BASE_URL}/view_names`, async (req, res) => {
+
+      try {
+        const mongo = req.app.get('mongo');
+        // using await
+        const docs = await mongo.db('feedback').collection('name').find().toArray();
+        //logger.info('Getting name collection...')
+        //logger.info(JSON.stringify(docs, null, 2));
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status: true, message: docs});
+      } catch (e) {
+        logger.error('ERROR: cannot view names', e);
+      }
+
+      
+    });
+
+    // end routes added by me
+
     router.get(`${RoutesBase.API_BASE_URL}/test/logger`, (req: Request, res: Response, next: NextFunction) => {
       res.setHeader('Content-Type', 'application/json');
       const level: string = req.query.level ? req.query.level : 'warn';
@@ -31,7 +102,6 @@ export class TestRoutes extends RoutesBase {
     router.get(`${RoutesBase.API_BASE_URL}/test/mongo`, async (req: Request,
                                                                res: Response,
                                                                next: NextFunction) => {
-
       try {
         const mongo = req.app.get('mongo');
         // using await

@@ -4,19 +4,17 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> {{ hello_mines }} </span>
+        <span class="banner"> Sluggin </span>
       </div>
-      <!-- Added by alex (next 3 lines) to check if we 
-      could get another banner to display -->
-      <div class="other">
-        <span class="banner"> {{ alex }} </span>
-      </div>
+    
+      <Snote v-for="curr_note in snotes" :note="curr_note" :key="curr_note.idx" />
+      
     </template>
   </MainContent>
 </template>
 
 <!-- Look for the ./other.ts file -->
-<script lang="ts" src="./other.ts"></script>
+<script lang="ts" src="./slug.ts"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
