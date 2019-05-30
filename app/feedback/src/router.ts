@@ -13,7 +13,7 @@ export default new Router({
     // Routes
     { path: '/dashboard',   name: 'dashboard',   component: Dashboard, },
     { path: '/other',       name: 'other',       component: Other, },
-    { path: '/slug',        name: 'slug',       component: Slug, },
-    { path: '/assignment',  name: 'assignment', component: Assignment, },
+    { path: '/slug',        name: 'slug',        component: Slug, },
+    { path: '/assignment',  name: 'assignment',  component: Assignment, },
   ],
 });
