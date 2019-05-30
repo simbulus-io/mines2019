@@ -7,9 +7,11 @@
   -->
   <div class="snote-inactive" v-bind:class="{ 'snote-active': selected }" v-show="!get_note.deleted" v-on:click="selected=true"> <!-- always has class snote-inactive, snote-active is also applied when selected is true -->
     <div class="delete-wrapper" v-show="selected">
+      <!-- TODO: have immediately delete note once clicked, also add confirmation -->
       <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
 	  </div>
-    <textarea class="snote-input" v-model="get_note.content" rows="2" max-rows="5" v-bind:readonly="!selected"></textarea>
+    <!-- TODO: have content update when exit out of note. -->
+    <textarea class="snote-input" v-model="get_note.content" max-rows="5" v-bind:readonly="!selected"></textarea>
     <p class="snote-text attr">Written by {{ get_note.author }}</p>
     <p class="snote-text">{{ get_date }}</p>
   </div>
