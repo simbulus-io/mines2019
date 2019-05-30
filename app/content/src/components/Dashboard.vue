@@ -1,11 +1,12 @@
-
 <template>
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> <img src="/home/dante/mines2019/app/content/src/components/piture.pdf" alt="my image" /></span>
-      </div>
+	<iframe src="http://africau.edu/images/default/sample.pdf" style="width:850px; height:820px;"></iframe>	
+	<img src="./corn.jpg">
+	<img src="./snake.jpg">
+	</div>
     </template>
   </MainContent>
 </template>
