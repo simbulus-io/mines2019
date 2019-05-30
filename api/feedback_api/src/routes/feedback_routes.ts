@@ -46,6 +46,8 @@ export class FeedbackRoutes extends RoutesBase {
           timestamp: Date.now(),
           x: req.body.x,
           y: req.body.y,
+          deleted: false,
+          selected: false,
         };
         const mongo = req.app.get('mongo');
         await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
@@ -53,6 +55,75 @@ export class FeedbackRoutes extends RoutesBase {
             console.log(err);
           }
           res.send('note added successfully');
+        });
+      } catch (e) {
+        logger.error('ERROR: note not added', e);
+      }
+      
+    });
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////// 'delete' an existing sticky note
+    router.get(`${RoutesBase.API_BASE_URL}/delete_snote`, async (req, res) => {
+
+      try {
+        // using await
+        router.use( bodyParser.urlencoded( {extended: false} ) );
+        //router.use( bodyParser.json() );
+
+        const mongo = req.app.get('mongo');
+        await mongo.db('feedback').collection('snotes').update( { idx: req.query.idx }, {$set: { deleted:true } }, (err: Error, result: any) => {
+        //await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
+          if(err) {
+            console.log(err);
+          }
+          res.send('note deleted successfully');
+        });
+      } catch (e) {
+        logger.error('ERROR: note not added', e);
+      }
+      
+    });
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////// edit content of an existing sticky note
+    router.get(`${RoutesBase.API_BASE_URL}/edit_snote`, async (req, res) => {
+
+      try {
+        // using await
+        router.use( bodyParser.urlencoded( {extended: false} ) );
+        //router.use( bodyParser.json() );
+
+        const mongo = req.app.get('mongo');
+        await mongo.db('feedback').collection('snotes').update( { idx: req.query.idx }, {$set: { content:req.query.content, timestamp: Date.now() } }, (err: Error, result: any) => {
+        //await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
+          if(err) {
+            console.log(err);
+          }
+          res.send('note deleted successfully');
+        });
+      } catch (e) {
+        logger.error('ERROR: note not added', e);
+      }
+      
+    });
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////// edit content of an existing sticky note
+    router.get(`${RoutesBase.API_BASE_URL}/move_snote`, async (req, res) => {
+
+      try {
+        // using await
+        router.use( bodyParser.urlencoded( {extended: false} ) );
+        //router.use( bodyParser.json() );
+
+        const mongo = req.app.get('mongo');
+        await mongo.db('feedback').collection('snotes').update( { idx: req.query.idx }, {$set: { x:req.query.x, y:req.query.y, } }, (err: Error, result: any) => {
+        //await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
+          if(err) {
+            console.log(err);
+          }
+          res.send('note deleted successfully');
         });
       } catch (e) {
         logger.error('ERROR: note not added', e);
