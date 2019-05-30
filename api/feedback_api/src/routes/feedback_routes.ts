@@ -80,7 +80,7 @@ export class FeedbackRoutes extends RoutesBase {
           res.send('note deleted successfully');
         });
       } catch (e) {
-        logger.error('ERROR: note not added', e);
+        logger.error('ERROR: note not deleted', e);
       }
       
     });
@@ -100,10 +100,10 @@ export class FeedbackRoutes extends RoutesBase {
           if(err) {
             console.log(err);
           }
-          res.send('note deleted successfully');
+          res.send('note editted successfully');
         });
       } catch (e) {
-        logger.error('ERROR: note not added', e);
+        logger.error('ERROR: note not editted', e);
       }
       
     });
@@ -119,14 +119,13 @@ export class FeedbackRoutes extends RoutesBase {
 
         const mongo = req.app.get('mongo');
         await mongo.db('feedback').collection('snotes').update( { idx: req.query.idx }, {$set: { x:req.query.x, y:req.query.y, } }, (err: Error, result: any) => {
-        //await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
           if(err) {
             console.log(err);
           }
-          res.send('note deleted successfully');
+          res.send('note moved successfully');
         });
       } catch (e) {
-        logger.error('ERROR: note not added', e);
+        logger.error('ERROR: note not moved', e);
       }
       
     });
