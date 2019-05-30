@@ -14,7 +14,7 @@
     </div>
   </div> -->
 
-  <div v-bind:class="snote_active">
+  <div v-bind:class="snote_class">
     <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
     <p>{{ note.content }}</p>
     <h5 class="meta" style="font-style: italic;">Written by {{ note.author }}</h5>
