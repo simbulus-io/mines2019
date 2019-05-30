@@ -7,7 +7,7 @@
         <span class="banner"> Sluggin </span>
       </div>
     
-      <Snote v-for="curr_note in snotes" :note="curr_note" :key="curr_note.idx" />
+      <SnoteSlug v-for="curr_note in snotes" :note="curr_note" :key="curr_note.idx" />
       
     </template>
   </MainContent>

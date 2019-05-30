@@ -17,5 +17,7 @@ export default class App extends Vue {
     await this.$store.dispatch('feedback/al')
     await this.$store.dispatch('feedback/view_names')
     await this.$store.dispatch('feedback/snotes')
+    await this.$store.dispatch('feedback/delete_snote')
+    
   }
 }

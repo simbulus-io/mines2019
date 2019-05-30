@@ -33,7 +33,10 @@ export const feedback: Module<FeedbackState, RootState> = {
     // snotes 5/29
     snotes: (state: any,message:any) => {
       state.snotes = message;
-      
+    },
+    delete_snote: (state: any,message:any) => {
+      // TODO: figure out what to do here
+      state.delete_snote = message;
     }
   },
   actions: {
@@ -62,13 +65,27 @@ export const feedback: Module<FeedbackState, RootState> = {
       context.commit('view_names', state.message);
     },
 
-       // snotes attempt 5/29
+       // route to view all sticky notes (snotes)
     snotes: async (context: any, args: any) => {
       // references route defined in test_routes.ts::
       const rval = await fetch('http://localhost:5101/feedback/v1.0/snotes')
       const state = await rval.json();
       // log.info(`Got ${state.message} from the server`);
       context.commit('snotes', state.message);
+    },
+    delete_snote: async (context: any, idx: string) => { //idx: string
+      try{
+        log.info( 'Accessing route to delete a sticky' );
+        // references route defined in test_routes.ts::
+        const url = 'http://localhost:5101/feedback/v1.0/delete_snote?idx='+ idx; // + idx
+        log.info('********** Getting url: ' + url );
+        const rval = await fetch(url)
+        const state = await rval.json();
+        // log.info(`Got ${state.message} from the server`);
+        context.commit('delete_snote', state.message);
+      }catch ( e ){
+        log.error(e.message);
       }
+    }
   }
 };
