@@ -22,7 +22,6 @@ export default class Snote extends Vue {
   }
 
   public get snote_class() {
-    debugger;
     return !this.note.selected ? 'snote-active' : 'snote-inactive'
   }
 
