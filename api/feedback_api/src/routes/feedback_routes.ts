@@ -47,7 +47,6 @@ export class FeedbackRoutes extends RoutesBase {
           x: req.body.x,
           y: req.body.y,
           deleted: false,
-          selected: false,
         };
         const mongo = req.app.get('mongo');
         await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {

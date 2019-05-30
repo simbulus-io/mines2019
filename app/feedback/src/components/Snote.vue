@@ -9,10 +9,9 @@
     <div class="delete-wrapper" v-show="selected">
       <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
 	  </div>
-    <textarea class="sn-input" v-model="get_note.content" rows="2" max-rows="5" v-bind:readonly="!selected"></textarea>
-    <!-- <p>{{ note.content }}</p> -->
-    <h5 class="meta" style="font-style: italic;">Written by {{ get_note.author }}</h5>
-    <h6>{{ get_date }}</h6>
+    <textarea class="snote-input" v-model="get_note.content" rows="2" max-rows="5" v-bind:readonly="!selected"></textarea>
+    <p class="snote-text attr">Written by {{ get_note.author }}</p>
+    <p class="snote-text">{{ get_date }}</p>
   </div>
   
 
@@ -21,7 +20,7 @@
 <script lang="ts" src="./snote.ts"></script>
 
 <style lang="scss">
-.sn-input {
+.snote-input {
   resize: none;
   background-color: inherit;
   border: none;
@@ -30,13 +29,13 @@
 	float: right;
   margin-bottom: 10px;
 }
-// [class*="snote-"] {
-// 	display: inline-block;
-// 	margin: 10px;
-// 	padding: 10px;
-// 	max-width: 300px;
-// 	//opacity: 0.2;
-// }
+.snote-text {
+  font-size: 8pt;
+  font-family: sans-serif;
+}
+.attr {
+  font-style: italic;
+}
 .snote-inactive {
   display: inline-block;
 	margin: 10px;
@@ -46,18 +45,10 @@
   text-align: right;
 }
 .snote-active {
-	background-color: rgba(249, 202, 36,1.0); // last value controls transparency
-  .sn-input {
+	background-color: rgba(249, 202, 36,1.0);
+  .snote-input {
     background-color: rgba(255, 255, 255,1.0);
     border: 1px solid grey;
   }
-}
-div.snote {
-	h2 {
-		text-decoration: underline;
-	}
-	p.meta {
-		font-style: italic;
-	}
 }
 </style>

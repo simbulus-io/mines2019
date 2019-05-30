@@ -85,9 +85,10 @@ export const feedback: Module<FeedbackState, RootState> = {
         const url = 'http://localhost:5101/feedback/v1.0/delete_snote?idx='+ idx; // + idx
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url)
-        const state = await rval.json();
+        log.info ( 'rvals type: ' +typeof(rval) );
+        //const state = await rval.json();
         // log.info(`Got ${state.message} from the server`);
-        context.commit('delete_snote', state.message);
+        context.commit('delete_snote', rval.body); // context.commit('delete_snote', state.message);
       } catch ( e ) {
         log.error(e.message);
       }
