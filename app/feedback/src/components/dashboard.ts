@@ -20,9 +20,9 @@ export default class Dashboard extends Vue {
   // Computed
   public get hello_mines() {
     return this.$store.state.feedback.test_data;
-	}
+  }
 
-	public get view_names(){
+  public get view_names(){
     return this.$store.state.feedback.view_names;
   }
   public onClick() {
@@ -33,25 +33,5 @@ export default class Dashboard extends Vue {
   constructor() {
     super();
   }
-
-  // private blogPosts: Post[] = [
-  // 	{
-  // 		title: 'My first blogpost ever!',
-  // 		body: 'Lorem ipsum dolor sit amet.',
-  // 		author: 'Elke',
-  // 		datePosted: new Date(2019, 1, 18),
-  // 	},
-  // 	{
-  // 		title: 'Look I am blogging!',
-  // 		body: 'Hurray for me, this is my second post!',
-  // 		author: 'Elke',
-  // 		datePosted: new Date(2019, 1, 19),
-  // 	},
-  // 	{
-  // 		title: 'Another one?!',
-  // 		body: 'Another one!',
-  // 		author: 'Elke',
-  // 		datePosted: new Date(2019, 1, 20),
-  // 	},
-  // ];
+  
 }

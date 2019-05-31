@@ -25,7 +25,7 @@ describe('MongoHelper Sticky Note tests', () => {
       for (let i = 0; i < 10; ++i) {
         const rand_note = new random_snote();
         const rand_idx = rand_note.get_idx();
-        const data = {idx: rand_idx, author: rand_note.random_name(), content: rand_note.random_content(), type: 'snote', timestamp: rand_note.get_timestamp(), x: rand_note.random_x(), y: rand_note.random_y() };
+        const data = {idx: rand_idx, author: rand_note.random_name(), content: rand_note.random_content(), type: 'snote', timestamp: rand_note.get_timestamp(), x: rand_note.random_x(), y: rand_note.random_y(), deleted: false };
         const promise = collection.updateOne(
           { idx: rand_idx},        // insert index
           { $set: data },   // write concern (data we are updating)
