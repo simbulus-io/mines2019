@@ -44,6 +44,7 @@
   </MainContent>
 </template>
 
+<!--
   // function toggleActiveState() {
   //     this.classList.toggle('active');
   // }
@@ -56,6 +57,7 @@
   //   function myFunction() {
   //   document.getElementById('myDIV').style.display = "block";
   // }
+  -->
 
 <script lang="ts" src="./dashboard.ts"></script>
 
