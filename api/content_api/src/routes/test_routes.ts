@@ -35,6 +35,24 @@ export class TestRoutes extends RoutesBase {
         logger.error('Error in test/mongo', e);
       }
     });
+
+    router.get(`${RoutesBase.API_BASE_URL}/contents`, async (req: Request,
+      res: Response,
+      next: NextFunction) => {
+      try {
+        const mongo = req.app.get('mongo');
+        // using await
+        const docs = await mongo.db('content').collection('test_collection').find().toArray();
+        logger.info(JSON.stringify(docs, null, 2));
+        res.json({
+          status: true,
+          docs: docs,
+        });
+      } catch (e) {
+        logger.error('Error in test/mongo', e);
+      }
+    });
+
   }
 
 }
