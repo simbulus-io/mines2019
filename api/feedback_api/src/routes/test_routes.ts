@@ -31,11 +31,16 @@ export class TestRoutes extends RoutesBase {
     router.get(`${RoutesBase.API_BASE_URL}/test/mongo`, async (req: Request,
                                                                res: Response,
                                                                next: NextFunction) => {
-      const mongo = req.app.get('mongodb');
-      // using await
-      const docs = await mongo.collection('inventory').find().toArray();
-      logger.info(JSON.stringify(docs, null, 2));
-      res.json({status: true, message: 'Mongo Test Okay'});
+
+      try {
+        const mongo = req.app.get('mongo');
+        // using await
+        const docs = await mongo.db('feedback').collection('inventory').find().toArray();
+        logger.info(JSON.stringify(docs, null, 2));
+        res.json({status: true, message: 'Mongo Test Okay'});
+      } catch (e) {
+        logger.error('Error in test/mongo', e);
+      }
     });
   }
 
