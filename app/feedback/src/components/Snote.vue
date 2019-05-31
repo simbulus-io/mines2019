@@ -3,11 +3,10 @@
   <!-- TODO: have selected turn to false when click off 
     maybe:
       https://github.com/ndelvalle/v-click-outside
-      https://github.com/simplesmiler/vue-clickaway
+      https://github.com/simplesmiler/vue-clickaway // trying this one 5/31
   -->
-  <div class="snote-inactive" v-bind:class="{ 'snote-active': selected }" v-show="!get_note.deleted" v-on:click="selected=true" v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}"> <!-- always has class snote-inactive, snote-active is also applied when selected is true -->
+  <div class="snote-inactive" v-bind:class="{ 'snote-active': selected }" v-show="!get_note.deleted" v-on:click="selected=true" v-click-outside="onClickOutside" v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}"> <!-- always has class snote-inactive, snote-active is also applied when selected is true -->
     <div class="delete-wrapper" v-show="selected">
-      <!-- TODO: have immediately delete note once clicked, also add confirmation -->
       <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
 	  </div>
     <!-- TODO: have content update when exit out of note. -->
