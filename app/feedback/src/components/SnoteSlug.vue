@@ -1,7 +1,8 @@
 <template>
 	<div class="slug" v-if="!get_note.deleted">
 		<p>{{ get_note.content }}</p>
-		<h5 class="meta" style="font-style: italic;">Written by {{ get_note.author }} | </h5><h6>{{ get_date }}</h6>
+		<h5 class="meta" style="font-style: italic;">Written by {{ get_note.author }}</h5>
+		<h6>{{ get_date }}</h6>
 	</div>
 </template>
 

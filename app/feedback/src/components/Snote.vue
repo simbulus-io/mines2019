@@ -11,7 +11,8 @@
       <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
 	  </div>
     <!-- TODO: have content update when exit out of note. -->
-    <textarea class="snote-input" v-model="get_note.content" max-rows="5" v-bind:readonly="!selected"></textarea>
+    <!-- TODO: have textarea be size of content (currently set at 5) -->
+    <textarea class="snote-input" v-model="get_note.content" rows="5" v-bind:readonly="!selected" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
     <p class="snote-text attr">Written by {{ get_note.author }}</p>
     <p class="snote-text">{{ get_date }}</p>
   </div>

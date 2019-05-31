@@ -9,7 +9,7 @@
       <!-- <Snote v-for="curr_note in snotes" :note="curr_note" :key="curr_note.idx" /> -->
       <!-- img v-bind:src=image_path width="200"/> -->
       <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
-        <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.idx"/>
+        <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
       </div>
 
     </template>
