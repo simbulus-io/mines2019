@@ -6,8 +6,8 @@ import { log }        from '@/logger';
 @Component
 export default class Snote extends Vue {
 
-  @Prop() private readonly note_idx!: string;
   public selected: boolean = false;
+  @Prop() private readonly note_idx!: string;
 
   public get get_note() {
     // Passing the this context as the second arg to JS find
@@ -22,18 +22,14 @@ export default class Snote extends Vue {
     return d.toLocaleString();
   }
 
-  public get snote_class() {
-    debugger;
-    return !this.selected ? 'snote-active' : 'snote-inactive';
-  }
-
-  // public set delete_note( del: boolean ) {
-  //   this.note.deleted = del;
+  // public get snote_class() {
+  //   debugger;
+  //   return !this.selected ? 'snote-active' : 'snote-inactive';
   // }
 
   public async delete_snote( ){ 
     log.info('Calling delete_snote from Snote component');
-    const confirm_delete = confirm("Are you sure you want to delete the note:\n\""+this.get_note.content+"\"");
+    const confirm_delete = confirm('Are you sure you want to delete the note:\n"'+this.get_note.content+'"');
     if( confirm_delete ){
       this.$store.dispatch( 'feedback/delete_snote', this.note_idx )
       // force the component to rerender, also didn't work

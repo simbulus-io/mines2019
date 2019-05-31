@@ -5,14 +5,14 @@
       https://github.com/ndelvalle/v-click-outside
       https://github.com/simplesmiler/vue-clickaway
   -->
-  <div class="snote-inactive" v-bind:class="{ 'snote-active': selected }" v-show="!get_note.deleted" v-on:click="selected=true"> <!-- always has class snote-inactive, snote-active is also applied when selected is true -->
+  <div class="snote-inactive" v-bind:class="{ 'snote-active': selected }" v-show="!get_note.deleted" v-on:click="selected=true" v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}"> <!-- always has class snote-inactive, snote-active is also applied when selected is true -->
     <div class="delete-wrapper" v-show="selected">
       <!-- TODO: have immediately delete note once clicked, also add confirmation -->
       <button class="delete" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
 	  </div>
     <!-- TODO: have content update when exit out of note. -->
     <!-- TODO: have textarea be size of content (currently set at 5) -->
-    <textarea class="snote-input" v-model="get_note.content" rows="5" v-bind:readonly="!selected" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+    <textarea class="snote-input" v-model="get_note.content" rows="5" v-bind:readonly="!selected"></textarea>
     <p class="snote-text attr">Written by {{ get_note.author }}</p>
     <p class="snote-text">{{ get_date }}</p>
   </div>
@@ -40,6 +40,7 @@
   font-style: italic;
 }
 .snote-inactive {
+  position: absolute;
   display: inline-block;
 	margin: 10px;
 	padding: 10px;
