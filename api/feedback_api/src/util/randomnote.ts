@@ -35,13 +35,13 @@ export default class random_snote {
     }
     
     random_x() {
-        const SCREEN_WIDTH = 1920;
-        return Math.floor(Math.random() % SCREEN_WIDTH);
+        const SCREEN_WIDTH = 810;
+        return Math.floor(Math.random() * SCREEN_WIDTH);
     }
     
     random_y() {
-        const SCREEN_HEIGHT = 1080;
-        return Math.floor(Math.random() % SCREEN_HEIGHT);
+        const SCREEN_HEIGHT = 540;
+        return Math.floor(Math.random() * SCREEN_HEIGHT);
     }
     
     get_idx() {
