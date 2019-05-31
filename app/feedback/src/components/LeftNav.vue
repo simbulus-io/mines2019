@@ -3,6 +3,8 @@
     <div class="link-container">
       <router-link to="/dashboard"><font-awesome-icon icon="home" />DASHBOARD</router-link>
       <router-link to="/other"><font-awesome-icon icon="home" />OTHER</router-link>
+      <router-link to="/slug"><font-awesome-icon icon="home" />SLUG</router-link>
+      <router-link to="/assignment"><font-awesome-icon icon="home" />ASSIGNMENT</router-link>
     </div>
   </div>
 </template>
