@@ -23,11 +23,11 @@ import { Note } from './note';
 })
 
 export default class Assignment extends Vue {
-    //private image_path = require('../../public/kitten.jpg'); 
-    private image_path = require('../../public/sample_wkst.jpg'); 
+    //private image_path = require('../../public/kitten.jpg');
+    private image_path = require('../../public/sample_wkst.jpg');
 
     constructor() {
-        super();
+      super();
     }
 
     // snotes 5/29
@@ -35,7 +35,7 @@ export default class Assignment extends Vue {
         return this.$store.state.feedback.snotes;
     }
 
-    public get get_image_path(){ 
+    public get get_image_path(){
         return this.image_path;
     }
 

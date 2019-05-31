@@ -28,7 +28,7 @@ export class FeedbackRoutes extends RoutesBase {
         logger.error('ERROR: cannot view snotes', e);
       }
 
-      
+
     });
     ////////////////////////////////////////////////////////////////////////////
 
@@ -58,30 +58,32 @@ export class FeedbackRoutes extends RoutesBase {
       } catch (e) {
         logger.error('ERROR: note not added', e);
       }
-      
+
     });
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////// 'delete' an existing sticky note
     router.get(`${RoutesBase.API_BASE_URL}/delete_snote`, async (req, res) => {
-
       try {
         // using await
         router.use( bodyParser.urlencoded( {extended: false} ) );
         //router.use( bodyParser.json() );
-
         const mongo = req.app.get('mongo');
-        await mongo.db('feedback').collection('snotes').update( { idx: req.query.idx }, {$set: { deleted:true } }, (err: Error, result: any) => {
-        //await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
-          if(err) {
-            console.log(err);
-          }
-          res.send('note deleted successfully');
-        });
+        // SK - cleaned up a bit here -you are either using await with try/catch or
+        // promises with resolve reject handlers (e.g. then((success)={..}, (error)=>{...}) )
+        const rval = await mongo.db('feedback').collection('snotes')
+          .updateOne({ idx: req.query.idx}, { $set: { deleted: true } });
+        // status true if success
+        if(rval.modifiedCount === 1) {
+          res.send({status: true});
+        } else {
+          logger.error(`Unexpected Result: from mongo updateOne ${rval}`);
+          res.send({status: false});
+        }
       } catch (e) {
-        logger.error('ERROR: note not deleted', e);
+        res.send({status: false});
+        logger.error(`Unexpected Exception: ${e}`);
       }
-      
     });
     ////////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +106,7 @@ export class FeedbackRoutes extends RoutesBase {
       } catch (e) {
         logger.error('ERROR: note not editted', e);
       }
-      
+
     });
     ////////////////////////////////////////////////////////////////////////////
 
@@ -126,9 +128,9 @@ export class FeedbackRoutes extends RoutesBase {
       } catch (e) {
         logger.error('ERROR: note not moved', e);
       }
-      
+
     });
     ////////////////////////////////////////////////////////////////////////////
 
-    }   
+    }
 }
