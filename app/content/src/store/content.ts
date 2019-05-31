@@ -6,10 +6,12 @@ import Vuex           from 'vuex';
 
 export interface ContentState {
   hello: string;
+  test_array: any[];
 }
 
 export const content_state: ContentState = {
   hello: 'Hello Mines 2019 Field Session',
+  test_array: [],
 }
 
 const namespaced: boolean = true;
@@ -20,14 +22,29 @@ export const content: Module<ContentState, RootState> = {
   mutations: {
     hello: (state: any, message: any) => {
       state.hello  = message;
-    }
+    },
+    test_array: (state: any, data: any) => {
+      state.test_array = data;
+    },
   },
+  // These are asynchronus actions - model interactions with a server
   actions: {
     hello: async (context: any, args: any) => {
       const rval = await fetch('http://localhost:5101/content/v1.0/hello')
       const state = await rval.json();
       log.info(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
-    }
+    },
+    test_array: async (context:any , arg: any) => {
+      try {
+        const rval = await fetch('http://localhost:5101/content/v1.0/contents')
+        const state = await rval.json();
+        // upon successfully completing the action - synchronusly update the Vue application state
+        // via a mutator via the commit call
+        context.commit('test_array', state.docs);
+      } catch(e) {
+        log.error(e);
+      }
+    },
   }
 };

@@ -12,6 +12,10 @@ import qs                   from 'query-string';
 export default class App extends Vue {
   // Lifecycle
   public async created() {
-    await this.$store.dispatch('content/hello')
+    // Initial action dispatches are done here - its very
+    // possible that other actions will be dispatched from
+    // other components
+    await this.$store.dispatch('content/hello');
+    await this.$store.dispatch('content/test_array');
   }
 }

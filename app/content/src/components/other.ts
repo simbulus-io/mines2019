@@ -18,7 +18,14 @@ export default class Other extends Vue {
 
   // Computed
   public get hello_mines() {
+    // First content identifies the store module
+    // Second identifies the state member
     return this.$store.state.content.hello;
+  }
+
+  // Computed
+  public get test_array() {
+    return this.$store.state.content.test_array;
   }
 
 }
