@@ -25,8 +25,11 @@ export default class Dashboard extends Vue {
 	public get view_names(){
     return this.$store.state.feedback.view_names;
   }
- 
-  
+  public onClick() {
+    log.info("HI");
+    this.items.push("Hey");
+  }
+  public items=['foo', 'blah']
   constructor() {
     super();
   }

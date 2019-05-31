@@ -3,12 +3,6 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      <!-- <head>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-      </head> -->
-      
-
       <div class="other">
         <span class="banner"> Hello You </span>
       </div>
@@ -17,17 +11,25 @@
 
       <!-- displaying background image and toolbar-->
       <div class = "background" v-bind:style="{ 'backgroundImage': 'url('+ bgimage +')' }">
+      <h1>hello</h1>
+      <div v-for="item in items" v-bind:key= "item">
+        {{item}}
+        </div>
        <div class = "toolbar">
         <button-toolbar  key-nav aria-label="Toolbar with button groups" >
-          <button @click= "OnClick" class="buttontoolbar">
-            <button class="button"><i class ="fa fa-plus" title="Edit"></i></button>
-            <button class="button"><i class ="fa fa-pencil" title="Edit"></i></button>
-            <button class="button">highlighter</button>
-            <button class="button"><i class ="fa fa-mouse-pointer" title="Edit"></i></button>
-          </button> 
+          <button @click= "onClick" class="buttontoolbar">
+            <button class="button" title="Add Comment" onclick="myFunction()"><i class ="fa fa-plus" ></i></button>
+            <!-- <p id="demo" class="demo">Click me</p> -->
+            <!-- <div id="myDIV">
+              <p id ="demo" class = "paragraph">Work</p>
+            </div> -->
+            <button class="button" title="Annotate" onclick="richText()"><i class ="fa fa-pencil"></i></button>
+            <button class="button" title="Return to Pointer" onclick="pointer()"><i class ="fa fa-mouse-pointer"></i></button>
+          </button>
         </button-toolbar>
       </div>
-       </div>
+      </div>
+       
       <div class = "other">
         <div v-for="curr_name in view_names" :key="curr_name.first_name">
           <p>
@@ -35,19 +37,26 @@
             </p>
         </div>
       </div>
+      
       <!-- <BlogPost v-for="blogPost in blogPosts" :post="blogPost" :key="blogPost.first_name" /> -->
     </template>
+    
   </MainContent>
 </template>
-<script>
-              function toggleActiveState() {
-                  this.classList.toggle('active');
-              }
-              var btns = document.querySelectorAll('.btn');
-              [].forEach.call(btns, function(btn) {
-                btn.addEventListener('click', toggleActiveState, false);
-              });
-            </script>
+
+  // function toggleActiveState() {
+  //     this.classList.toggle('active');
+  // }
+ // function myFunction() {
+  // document.getElementById("demo").innerHTML="Hello World";
+  // document.getElementById("demo").style.visibility="visible";
+  // document.getElementById("demo").style.zindex="7";
+  // log.info('Hello');
+  // }
+  //   function myFunction() {
+  //   document.getElementById('myDIV').style.display = "block";
+  // }
+
 <script lang="ts" src="./dashboard.ts"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -77,13 +86,15 @@
 
 }
 .background {
-  width: 1024px;
-  height: 768px;
+  z-index: 1;
+  width: 520px;
+  height: 420px;
   background-size:contain; 
   background-repeat:no-repeat;
   position: relative;
 
   .toolbar {
+  z-index: 2;
   background: #435ebc;
   border-radius: 3px;
   position: absolute;
@@ -94,6 +105,7 @@
 
 }
   .button {
+      z-index: 4;
       background: #ffffff;
       border-radius: 3px;
       border: none;
@@ -116,13 +128,33 @@
       text-decoration: none;
   }
   .buttontoolbar {
+  z-index: 3;
   background: #435ebc;
 // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
   box-shadow: 0 0 8px #000;
   border: none;
   border-radius: 3px;
  }
-  
-
+ .paragraph {
+  background: #435ebc;
+  color: #000000;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+ }
+#myDIV {
+  visibility: hidden;
+  display: none;
+  border: 1px solid black;
+  background-color: lightblue;
+  width: 300px;
+  height: 300px;
+  position: relative;
+  top: 20px;
+}
+.demo {
+  visibility: hidden;
+  z-index: -1;
+}
 
 </style>
