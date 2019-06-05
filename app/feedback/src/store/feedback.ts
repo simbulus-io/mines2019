@@ -65,6 +65,20 @@ export const feedback: Module<FeedbackState, RootState> = {
       context.commit('hello', state.message);
     },
 
+    // SK - for AP - requires the existence of hello_post route on the API side
+    hello_post: async (context: any, args: any) => {
+      try {
+        const rval = await fetch('http://localhost:5101/feedback/v1.0/hello_post',
+        {
+          method: 'POST',
+          body: JSON.stringify({hello:'world'})
+        });
+        log.info(rval);
+      } catch(err) {
+        log.error(err);
+      }
+    },
+
     // route to view all sticky notes (snotes)
     snotes: async (context: any, args: any) => {
       try {
@@ -82,7 +96,7 @@ export const feedback: Module<FeedbackState, RootState> = {
       try{
         log.info( 'Accessing route to delete a sticky' );
         // references route defined in test_routes.ts::
-        
+
         const url = 'http://localhost:5101/feedback/v1.0/delete_snote?idx='+ idx; // + idx
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url)
@@ -98,7 +112,7 @@ export const feedback: Module<FeedbackState, RootState> = {
     edit_snote: async (context: any, snote:any ) => { //idx: string
       try{
         log.info( 'Accessing route to edit content of a sticky' );
-        
+
         const query_string = '?idx='+snote.note_idx+'&content='+snote.get_note.content;
         const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string; // + idx
 
