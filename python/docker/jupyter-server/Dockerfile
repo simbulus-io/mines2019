@@ -2,6 +2,8 @@ ARG base=base-python
 FROM $base as stage0
 RUN apt-get -y update
 RUN apt-get install -y expect
+RUN apt-get install -y pandoc
+RUN apt-get install -y texlive-xetex
 
 FROM stage0 as stage1
 # FROM $base as stage1
