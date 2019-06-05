@@ -25,12 +25,13 @@ import { Note } from './note';
 export default class Homework extends Vue {
     //private image_path = require('../../public/kitten.jpg'); 
     private image_path = require('../../public/homework.jpg'); 
-    private image_path_postit = require('')
+    // private image_path_postit = require('')
     constructor() {
         super();
     }
 
     public comments=['foo', 'blah']
+
     // snotes 5/29
     public get snotes(){
         return this.$store.state.feedback.snotes;
@@ -45,6 +46,7 @@ export default class Homework extends Vue {
         //     return snote.idx === this.note_idx;
         //   }, this);
         //   return rval;
+        this.comments.push('poop')
       }
 
       //@Prop() private readonly note_idx!: string;
