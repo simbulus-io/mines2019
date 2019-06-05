@@ -97,10 +97,10 @@ export class FeedbackRoutes extends RoutesBase {
         const rval = await mongo.db('feedback').collection('snotes')
           .updateOne({ idx: req.query.idx}, { $set: { content: req.query.content } }); // TODO: update timestamp
         // status true if success
-        if(rval.modifiedCount === 1) {
+        if (rval.modifiedCount === 1) {
           res.send({status: true});
         } else {
-          logger.error(`Unexpected Result: from mongo updateOne ${rval}`);
+          logger.error(`Unexpected Result: from mongo updateOne in edit_snote ${rval}`); // TODO: fix error happening here?
           res.send({status: false});
         }
       } catch (e) {

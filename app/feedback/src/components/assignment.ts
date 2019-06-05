@@ -5,6 +5,7 @@ import { log }                  from '@/logger';
 
 import Snote from './Snote.vue';
 import { Note } from './note';
+import {Guid} from 'guid-typescript'
 
 // var div = document.getElementsByClassName('bgimg')[0];
 // var img = document.createElement('img');
@@ -37,6 +38,22 @@ export default class Assignment extends Vue {
 
     public get get_image_path(){
         return this.image_path;
+    }
+
+    public create_snote(){
+      const new_idx = Guid.raw();
+      const new_note = {
+        idx: new_idx,
+        author: 'TODO',
+        content: 'Write Your Feedback Here',
+        type: 'snote',
+        timestamp: Date.now(),
+        x: 10,
+        y: 10,
+        deleted: false
+      };
+      const json_note = JSON.stringify(new_note);
+      this.$store.dispatch( 'feedback/create_snote', json_note );
     }
 
 }

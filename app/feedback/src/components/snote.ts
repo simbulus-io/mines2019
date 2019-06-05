@@ -3,7 +3,8 @@ import { Note } from './note';
 import { faNotEqual } from '@fortawesome/free-solid-svg-icons';
 import { log }        from '@/logger';
 //import vClickOutside from 'v-click-outside';
-import Modal from './Modal.vue';
+//import Modal from './Modal.vue';
+// from https://vuejsexamples.com/supler-simple-vue-js-draggable-component/
 
 
 // declarative JSON blob format

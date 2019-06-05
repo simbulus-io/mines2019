@@ -6,6 +6,10 @@
       <div class="other">
         <span class="banner"> An Assignment </span>
       </div>
+      <div class="other">
+        <button class="create-snote-button" v-on:click="create_snote">Create New Note</button>
+      </div>
+      
       <!-- <Snote v-for="curr_note in snotes" :note="curr_note" :key="curr_note.idx" /> -->
       <!-- img v-bind:src=image_path width="200"/> -->
       <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">

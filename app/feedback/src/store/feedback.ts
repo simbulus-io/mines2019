@@ -54,6 +54,11 @@ export const feedback: Module<FeedbackState, RootState> = {
       // log.info('***** old content: '+state.snotes[index].content);
       // Vue.set(state.snotes[index],'content',snote.get_note.content);
       // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
+    },
+
+    // TODO: do I need create_snote here to add new to snotes?
+    create_snote: (state: any, snote:any) => {
+      state.snotes.push(snote);
     }
 
   },
@@ -117,11 +122,24 @@ export const feedback: Module<FeedbackState, RootState> = {
         const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string; // + idx
 
         log.info('********** Getting url: ' + url );
-        const rval = await fetch(url)
+        const rval = await fetch(url);
         context.commit('edit_snote', snote);
       } catch ( e ) {
         log.error(e.message);
       }
-    }
+    },
+
+    create_snote: async ( context: any, snote:string ) => {
+      try {
+        const rval = await fetch('http://localhost:5101/feedback/v1.0/create_snote',
+        {
+          method: 'POST',
+          body: snote
+        });
+        log.info(rval);
+      } catch(err) {
+        log.error(err);
+      }
+    },
   }
 };
