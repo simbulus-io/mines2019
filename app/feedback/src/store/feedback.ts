@@ -46,7 +46,7 @@ export const feedback: Module<FeedbackState, RootState> = {
       // with collections.
       // SK - (e.g. delete state.conferences[idx] --  is valid javascript but
       // won't trigger a reactive update - Vue + Language limitation)
-      state.conferences.splice(idx,1);
+      state.conferences.splice(idx,1); // TODO: fix error "cannot read property splice of undefined"
     },
 
     edit_snote: (state: any, snote:any) => { // TODO: figure out if anything needs to be here (works fine with nothing??)
@@ -57,8 +57,8 @@ export const feedback: Module<FeedbackState, RootState> = {
       // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
     },
 
-    // TODO: do I need create_snote here to add new to snotes?
-    create_snote: (state: any, snote:any) => {
+    // TODO: is this right?
+    create_snote: (state: any, snote:Note) => {
       state.snotes.push(snote);
     }
 
@@ -132,6 +132,8 @@ export const feedback: Module<FeedbackState, RootState> = {
 
     create_snote: async ( context: any, snote:Note ) => {
       const json_note = JSON.stringify(snote);
+      // not a fix: const json_note = '{idx:"'+snote.idx+'", author:"'+snote.author+'", content:"'+snote.content+'}';
+      log.info(json_note);
       try {
         const rval = await fetch('http://localhost:5101/feedback/v1.0/create_snote',
         {
