@@ -4,6 +4,7 @@ import { RootState }  from '@/store/types';
 import Vue            from 'vue';
 import Vuex           from 'vuex';
 import Snote from '@/components/snote';
+import { Note } from '@/components/note';
 
 // FeedbackState Interface
 export interface FeedbackState {
@@ -129,14 +130,16 @@ export const feedback: Module<FeedbackState, RootState> = {
       }
     },
 
-    create_snote: async ( context: any, snote:string ) => {
+    create_snote: async ( context: any, snote:Note ) => {
+      const json_note = JSON.stringify(snote);
       try {
         const rval = await fetch('http://localhost:5101/feedback/v1.0/create_snote',
         {
           method: 'POST',
-          body: snote
+          body: json_note
         });
         log.info(rval);
+        context.commit('create_snote', snote);
       } catch(err) {
         log.error(err);
       }

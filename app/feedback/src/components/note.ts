@@ -7,6 +7,6 @@ export interface Note {
   y: number;
   idx: string;
   deleted: boolean;
-  content_idx: string;
+  //content_idx: string;
 }
 // TODO: have content id field for relation to match feedback to respective assignment

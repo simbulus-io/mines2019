@@ -42,7 +42,7 @@ export default class Assignment extends Vue {
 
     public create_snote(){
       const new_idx = Guid.raw();
-      const new_note = {
+      const new_note:Note = {
         idx: new_idx,
         author: 'TODO',
         content: 'Write Your Feedback Here',
@@ -52,8 +52,9 @@ export default class Assignment extends Vue {
         y: 10,
         deleted: false
       };
-      const json_note = JSON.stringify(new_note);
-      this.$store.dispatch( 'feedback/create_snote', json_note );
+      //const json_note = JSON.stringify(new_note);
+      //this.$store.dispatch( 'feedback/create_snote', json_note );
+      this.$store.dispatch( 'feedback/create_snote', new_note );
     }
 
 }
