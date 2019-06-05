@@ -72,6 +72,8 @@ export default class Snote extends Vue {
   public async save_exit_snote( ){
     // TODO: save content if changed
     //log.info( 'Note by: '+this.get_note.author+' currently: '+this.selected );
+    //log.info('note edit content: '+this.get_note.content+' '+typeof(this.get_note.content));
+    this.$store.dispatch( 'feedback/edit_snote', this );
     Vue.set(this, 'selected', false);
     //log.info( 'Note by: '+this.get_note.author+' now is: '+this.selected );
   }

@@ -47,24 +47,15 @@ export const feedback: Module<FeedbackState, RootState> = {
       // won't trigger a reactive update - Vue + Language limitation)
       state.conferences.splice(idx,1);
     },
-    // save_exit_snote: (state: any, snote:any) => {
-    //   log.info('in feedback.ts in save_exit_snote');
-    //   const idx = state.snotes.findIndex(note => note.id === snote.id );
-    //   let to_change:Snote = state.snotes[idx];
-    //   log.info('snote: '+state.snotes[idx].selected);
-    //   log.info('to_change: '+to_change);
-    //   to_change.selected = false;
-    //   Vue.set(state.snotes, idx, to_change);
-    // }
-    // SK - put this back in when it is plumbed to FeedbackState
-    // // referenced by the other.ts file
-    // al: (state: any,message:any) => {
-    //   state.al = message;
-    // },
-    // // Attempt to give the database to the feedback_api
-    // view_names: (state: any,message:any) => {
-    //   state.view_names = message;
-    // },
+
+    edit_snote: (state: any, snote:any) => { // TODO: figure out if anything needs to be here (works fine with nothing??)
+      // log.info('mutation edit_snote: '+snote.get_note.content);
+      // const index = state.snotes.findIndex(note => note.idx === snote.note_idx );
+      // log.info('***** old content: '+state.snotes[index].content);
+      // Vue.set(state.snotes[index],'content',snote.get_note.content);
+      // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
+    }
+
   },
   actions: {
     hello: async (context: any, args: any) => {
@@ -74,26 +65,7 @@ export const feedback: Module<FeedbackState, RootState> = {
       context.commit('hello', state.message);
     },
 
-    // SK - put this back in when it is plumbed to FeedbackState
-    // // Portion referenced by other.ts
-    // al: async (context: any, args: any) => {
-    //   // references route defined in test_routes.ts::
-    //   const rval = await fetch('http://localhost:5101/feedback/v1.0/al')
-    //   const state = await rval.json();
-    //   log.info(`Got ${state.message} from the server`);
-    //   context.commit('al', state.message);
-    // },
-
-    // // Database attempt
-    // view_names: async (context: any, args: any) => {
-    //   // references route defined in test_routes.ts::
-    //   const rval = await fetch('http://localhost:5101/feedback/v1.0/view_names')
-    //   const state = await rval.json();
-    //   // log.info(`Got ${state.message} from the server`);
-    //   context.commit('view_names', state.message);
-    // },
-
-       // route to view all sticky notes (snotes)
+    // route to view all sticky notes (snotes)
     snotes: async (context: any, args: any) => {
       try {
         // references route defined in test_routes.ts::
@@ -110,13 +82,29 @@ export const feedback: Module<FeedbackState, RootState> = {
       try{
         log.info( 'Accessing route to delete a sticky' );
         // references route defined in test_routes.ts::
+        
         const url = 'http://localhost:5101/feedback/v1.0/delete_snote?idx='+ idx; // + idx
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url)
-        log.info ( 'rvals type: ' +typeof(rval) );
+        log.info ( 'rvals type: ' + typeof(rval) );
         //const state = await rval.json();
         // log.info(`Got ${state.message} from the server`);
         context.commit('delete_snote', rval.body); // context.commit('delete_snote', state.message);
+      } catch ( e ) {
+        log.error(e.message);
+      }
+    },
+
+    edit_snote: async (context: any, snote:any ) => { //idx: string
+      try{
+        log.info( 'Accessing route to edit content of a sticky' );
+        
+        const query_string = '?idx='+snote.note_idx+'&content='+snote.get_note.content;
+        const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string; // + idx
+
+        log.info('********** Getting url: ' + url );
+        const rval = await fetch(url)
+        context.commit('edit_snote', snote);
       } catch ( e ) {
         log.error(e.message);
       }
