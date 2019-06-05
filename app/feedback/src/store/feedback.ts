@@ -3,6 +3,7 @@ import { Module }     from 'vuex';
 import { RootState }  from '@/store/types';
 import Vue            from 'vue';
 import Vuex           from 'vuex';
+import Snote from '@/components/snote';
 
 // FeedbackState Interface
 export interface FeedbackState {
@@ -45,7 +46,16 @@ export const feedback: Module<FeedbackState, RootState> = {
       // SK - (e.g. delete state.conferences[idx] --  is valid javascript but
       // won't trigger a reactive update - Vue + Language limitation)
       state.conferences.splice(idx,1);
-    }
+    },
+    // save_exit_snote: (state: any, snote:any) => {
+    //   log.info('in feedback.ts in save_exit_snote');
+    //   const idx = state.snotes.findIndex(note => note.id === snote.id );
+    //   let to_change:Snote = state.snotes[idx];
+    //   log.info('snote: '+state.snotes[idx].selected);
+    //   log.info('to_change: '+to_change);
+    //   to_change.selected = false;
+    //   Vue.set(state.snotes, idx, to_change);
+    // }
     // SK - put this back in when it is plumbed to FeedbackState
     // // referenced by the other.ts file
     // al: (state: any,message:any) => {
