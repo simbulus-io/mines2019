@@ -26,7 +26,7 @@
 </template>
 
 <!-- Look for the ./other.ts file -->
-<script lang="ts" src="./assignment.ts"></script>
+<script lang="ts" src="./teacherassignment.ts"></script>
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
