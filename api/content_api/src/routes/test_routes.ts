@@ -79,10 +79,9 @@ export class TestRoutes extends RoutesBase {
       next: NextFunction) => {
       
       try {
-        router.use(express.static('sample_worksheets'));
-
+        router.use(express.static('public'));
+        res.sendfile('./src/public/Algebra.png');
       } catch (e) {
-        
         logger.error('Error serving image', e);
       }
     });

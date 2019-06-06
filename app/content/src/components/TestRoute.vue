@@ -22,7 +22,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../styles/common.scss";
-.other {
+.test-route {
   position: relative;
   $left_margin: 60px;
   margin: 0 auto;

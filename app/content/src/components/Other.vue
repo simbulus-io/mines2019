@@ -9,9 +9,8 @@
           {{elem.name}}
         </div>
         <h1>New name collection should appear below:</h1>
-        <div v-for="idx in test_array" v-bind:key="idx">
-          {{idx.name}}
-        </div>
+        <LineSeparator></LineSeparator>
+        <line-separator></line-separator>
       </div>
     </template>
   </MainContent>
