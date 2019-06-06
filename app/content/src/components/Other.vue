@@ -8,6 +8,10 @@
         <div v-for="elem in test_array" v-bind:key="elem">
           {{elem.name}}
         </div>
+        <h1>New name collection should appear below:</h1>
+        <div v-for="idx in test_array" v-bind:key="idx">
+          {{idx.name}}
+        </div>
       </div>
     </template>
   </MainContent>

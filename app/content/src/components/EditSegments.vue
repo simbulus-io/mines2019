@@ -1,15 +1,23 @@
+
 <template>
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-	<iframe src="http://africau.edu/images/default/sample.pdf" style="width:850px; height:820px;"></iframe>
-	</div>
+        <span class="banner"> {{ hello_mines }} </span>
+        <div v-for="elem in test_array" v-bind:key="elem">
+          {{elem.name}}
+        </div>
+        <h1>New name collection should appear below:</h1>
+        <div v-for="idx in test_array" v-bind:key="idx">
+          {{idx.name}}
+        </div>
+      </div>
     </template>
   </MainContent>
 </template>
 
-<script lang="ts" src="./dashboard.ts"></script>
+<script lang="ts" src="./edit_segments.ts"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
@@ -20,7 +28,6 @@
   margin: 0 auto;
   text-align: left;
   min-width: 900px;
-
   .banner {
     display: inline-block;
     margin: 50px 0 0 $left_margin;
@@ -35,6 +42,5 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
 }
 </style>
