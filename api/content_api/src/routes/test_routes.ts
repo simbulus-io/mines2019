@@ -2,6 +2,7 @@ import * as logger                                from 'winston';
 import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
+import express = require('express');
 
 export class TestRoutes extends RoutesBase {
 
@@ -69,6 +70,20 @@ export class TestRoutes extends RoutesBase {
         });
       } catch (e) {
         logger.error('Error in test/mongo', e);
+      }
+    });
+    
+    //TEST ROUTE TO SERVE STATIC IMAGE
+    router.get(`${RoutesBase.API_BASE_URL}/static_image`, async (req: Request,
+      res: Response,
+      next: NextFunction) => {
+      
+      try {
+        router.use(express.static('sample_worksheets'));
+
+      } catch (e) {
+        
+        logger.error('Error serving image', e);
       }
     });
 
