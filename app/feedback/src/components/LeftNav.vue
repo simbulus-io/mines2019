@@ -4,7 +4,9 @@
       <router-link to="/dashboard"><font-awesome-icon icon="home" />DASHBOARD</router-link>
       <router-link to="/other"><font-awesome-icon icon="home" />OTHER</router-link>
       <router-link to="/slug"><font-awesome-icon icon="home" />SLUG</router-link>
-      <router-link to="/assignment"><font-awesome-icon icon="home" />ASSIGNMENT</router-link>
+      <router-link to="/assignment"><font-awesome-icon icon="home" />Teacher Assignment View</router-link>
+      <router-link to="/student/assignment"><font-awesome-icon icon="home" />Student Assignment View</router-link>
+
     </div>
   </div>
 </template>
