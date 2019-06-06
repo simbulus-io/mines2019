@@ -131,12 +131,15 @@ export const feedback: Module<FeedbackState, RootState> = {
     },
 
     create_snote: async ( context: any, snote:Note ) => {
-      const json_note = JSON.stringify(snote);
-      // not a fix: const json_note = '{idx:"'+snote.idx+'", author:"'+snote.author+'", content:"'+snote.content+'}';
-      log.info(json_note);
       try {
+        const json_note = JSON.stringify(snote);
+        log.info(json_note);
         const rval = await fetch('http://localhost:5101/feedback/v1.0/create_snote',
         {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
           method: 'POST',
           body: json_note
         });

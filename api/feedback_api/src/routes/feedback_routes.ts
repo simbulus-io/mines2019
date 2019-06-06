@@ -38,7 +38,6 @@ export class FeedbackRoutes extends RoutesBase {
       try {
         // using await
         router.use(bodyParser.json()); // added by me for parsing JSON files
-        logger.info('Incoming body: ' + req.body.author + ' ' + req.body.content);
         var new_note = { // TODO: decide abotu idx, timestamp, and deleted to come from app OR api side (currently is both)
           idx: req.body.idx, // Guid.raw()
           author: req.body.author,
@@ -52,12 +51,13 @@ export class FeedbackRoutes extends RoutesBase {
         const mongo = req.app.get('mongo');
         await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
           if(err) {
-            console.log(err);
+            console.log(err.message);
+            logger.error(err.message);
           }
           res.send('note added successfully');
         });
       } catch (e) {
-        logger.error('ERROR: note not added', e);
+        logger.error('ERROR: note not added', e.message);
       }
 
     });
