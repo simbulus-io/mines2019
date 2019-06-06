@@ -14,6 +14,7 @@ export default class App extends Vue {
   public async created() {
     await this.$store.dispatch('feedback/hello')
     await this.$store.dispatch('feedback/snotes')
+    await this.$store.dispatch('feedback/assignments')
     // SK - reintroduce these then they have been properly plumbed into the
     // store
     //

@@ -6,7 +6,7 @@
       <router-link to="/slug"><font-awesome-icon icon="home" />SLUG</router-link>
       <router-link to="/assignment"><font-awesome-icon icon="home" />Teacher Assignment View</router-link>
       <router-link to="/student/assignment"><font-awesome-icon icon="home" />Student Assignment View</router-link>
-
+      <router-link to="/teacher/slug"><font-awesome-icon icon="home" />Teacher Slug View</router-link>
     </div>
   </div>
 </template>

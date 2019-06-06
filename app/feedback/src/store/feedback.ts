@@ -13,6 +13,7 @@ export interface FeedbackState {
   // SK - when snote data assumes its final form suggest you define an interface
   // instead of using any[] here (e.g. Array<SNoteData>)
   snotes: any[];
+  assignments: any[];
 }
 
 // FeedbackState Default
@@ -20,6 +21,7 @@ const feedback_state: FeedbackState = {
   hello: 'Hello Mines 2019 Field Session',
   // SK - filling in the missing state
   snotes: [],
+  assignments: [],
 }
 
 // SK - there is more state down here that needs to be propagated to
@@ -35,6 +37,9 @@ export const feedback: Module<FeedbackState, RootState> = {
     // snotes 5/29
     snotes: (state: any, snotes:any) => {
       state.snotes = snotes;
+    },
+    assignments: (state: any, assigns:any) => {
+      state.assignments = assigns;
     },
     delete_snote: (state: any, snote:any) => {
       // SK - fat arrow funcs can skip parens and curly brackets & return
@@ -92,7 +97,21 @@ export const feedback: Module<FeedbackState, RootState> = {
         const rval = await fetch('http://localhost:5101/feedback/v1.0/snotes')
         const rval_json = await rval.json();
         log.info(`Got (all sticky notes) ${rval_json} from the server`);
+        log.info(rval_json.message);
         context.commit('snotes', rval_json.message);
+      } catch(e) {
+        log.error(e);
+      }
+    },
+
+    // route to view all assignments
+    assignments: async (context: any, args: any) => {
+      try {
+        // references route defined in test_routes.ts::
+        const rval = await fetch('http://localhost:5101/feedback/v1.0/assignments')
+        const rval_json = await rval.json();
+        log.info(`Got (all assignments) ${rval_json} from the server`);
+        context.commit('assignments', rval_json.message);
       } catch(e) {
         log.error(e);
       }
