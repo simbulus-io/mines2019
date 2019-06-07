@@ -3,13 +3,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import MainContent              from '@/components/MainContent.vue';
 import { log }                  from '@/logger';
 
-import BlogPost from './BlogPost.vue';
-import { Post } from './post';
-
 @Component({
   components: {
     MainContent,
-    BlogPost,
   }
 })
 
