@@ -1,10 +1,12 @@
 
 <template>
   <div class="line_separator"  style="position: relative;">
+    <!--Adds Image to page-->
     <img src='./hardMath.jpeg'>
-       <drag-it-dude :width="100" @activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
+    <!--Makes line(HR tag) draggable-->
+       <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
       <div class="line" align="center">
-        <hr width="100%" color="red" >
+        <hr size="5px" width="99%" color="red">
       </div>
       </drag-it-dude>
   </div>
@@ -21,10 +23,10 @@
   height: 1150px;
 } 
 .line {
+  padding-top: 25px;
   position: relative;
   width: 450px;
   height: 50px;
-  background: $electric-blue
 
 }
 </style>
