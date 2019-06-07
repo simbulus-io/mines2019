@@ -3,13 +3,15 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-	<iframe src="http://africau.edu/images/default/sample.pdf" style="width:850px; height:820px;"></iframe>
-	</div>
+       
+        
+	    </div>
     </template>
   </MainContent>
 </template>
 
 <script lang="ts" src="./dashboard.ts"></script>
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">

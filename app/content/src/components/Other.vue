@@ -1,4 +1,3 @@
-
 <template>
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
@@ -9,8 +8,8 @@
           {{elem.name}}
         </div>
         <h1>New name collection should appear below:</h1>
-        <LineSeparator></LineSeparator>
-        <line-separator></line-separator>
+        <lineSeparator></lineSeparator>
+    
       </div>
     </template>
   </MainContent>
@@ -43,3 +42,8 @@
   }
 }
 </style>
+
+
+
+
+                                                                          
