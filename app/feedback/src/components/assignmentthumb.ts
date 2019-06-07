@@ -12,6 +12,11 @@ export default class AssignmentThumb extends Vue {
         return rval;
     }
 
+    public get get_img_path() {
+        const assign = this.get_assignment;
+        return this.get_assignment.url;
+    }
+
     public go_to_assignment() {
         alert('This does not quite work yet...');
     }

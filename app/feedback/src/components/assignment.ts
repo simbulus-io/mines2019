@@ -19,13 +19,13 @@ import {Guid} from 'guid-typescript'
 @Component({
   components: {
     MainContent,
-    Snote,
+    Snote, 
   }
 })
 
 export default class Assignment extends Vue {
     //private image_path = require('../../public/kitten.jpg');
-    private image_path = require('../../public/sample_wkst.jpg');
+    private image_path = require('../../public/wkst.jpg');
 
     constructor() {
       super();

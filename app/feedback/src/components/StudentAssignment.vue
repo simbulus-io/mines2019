@@ -27,7 +27,7 @@
     display:inline-block;
     background-size:contain; // also cover is an option
     background-repeat:no-repeat;
-    // background-image: url("../../public/sample_wkst.jpg");
+    // background-image: url("../../public/wkst.jpg");
     // //background-image: url("../../public/kitten.jpg");
     background-repeat: no-repeat;
     min-height: 500px;
