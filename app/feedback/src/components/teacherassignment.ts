@@ -14,8 +14,6 @@ import {Guid} from 'guid-typescript'
   }
 })
 export default class TeacherAssignment extends Vue {
-    //private image_path = require('../../public/kitten.jpg');
-    //private image_path = require('../../public/wkst.jpg');
 
     constructor() {
       super();
