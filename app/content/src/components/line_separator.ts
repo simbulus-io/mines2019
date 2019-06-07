@@ -1,16 +1,20 @@
 import { clone }                from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { log }                  from '@/logger';
+import DragItDude               from '@/vue-drag-it-dude'
+
 
 //computed properties = getters
 //store is for shared data and managing interactions with the server
 //cannot overload opperators in javascript.  care about dot and bracket, 
 //USE METHODS TO CHANGE STUFF IN VUE
 
+
 @Component({
-  //what depends on me and what do i depend on 
-  components: {
-  }
+  components: {  
+    DragItDude
+  },
+  
 })
 
 export default class LineSeparator extends Vue {

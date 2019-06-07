@@ -1,10 +1,12 @@
 
 <template>
-<!-- attributes are class and id.  vue has special syntax for computed attributes -->
-
-  <div class='line-separator'>
-    <!--double mustache denotes vue data inside inner html-->
-      {{text_in_div}}   
+  <div class="line_separator"  style="position: relative;">
+    <img src='./hardMath.jpeg'>
+       <drag-it-dude :width="100" @activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
+      <div class="line" align="center">
+        <hr width="100%" color="red" >
+      </div>
+      </drag-it-dude>
   </div>
 </template>
 
@@ -14,8 +16,15 @@
 <style scoped lang="scss">
 @import "../styles/common.scss";
 .line_separator {
-  width: 100px;
-  height: 100px;
-  background: $dark_gray;
+  position: relative;
+  width: 450px;
+  height: 1150px;
+} 
+.line {
+  position: relative;
+  width: 450px;
+  height: 50px;
+  background: $electric-blue
+
 }
 </style>
