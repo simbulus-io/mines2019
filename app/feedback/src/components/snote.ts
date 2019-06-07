@@ -1,6 +1,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Note } from './note';
 import { log }        from '@/logger';
+import DragItDude from './DragItDude.vue';
 //import vClickOutside from 'v-click-outside';
 //import Modal from './Modal.vue';
 // from https://vuejsexamples.com/supler-simple-vue-js-draggable-component/
@@ -10,6 +11,9 @@ import { log }        from '@/logger';
 // common on interwebs
 // 
 @Component({ 
+    components: {
+      DragItDude,
+    }
   // directives:{
   //   clickOutside: vClickOutside.directive,
   // },
@@ -74,11 +78,14 @@ export default class Snote extends Vue {
     Vue.set(this, 'selected', false);
   }
 
-  public async move_snote( ){
+  public async move_snote_prompt( ){
     const new_x = Number(prompt('Please enter new x coordinate'));
     const new_y = Number(prompt('Please enter new y coordinate'));
-    // Vue.set(this, 'x', new_x); // does not help with reactivity
-    // Vue.set(this, 'y', new_y);
+    this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
+  }
+  
+  public async move_snote( ){
+    // TODO: find out how to get new location for persistence in the DB
     this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
   }
 

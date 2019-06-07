@@ -5,7 +5,10 @@
       https://github.com/ndelvalle/v-click-outside
       https://github.com/simplesmiler/vue-clickaway // trying this one 5/31
   -->
-  
+  <drag-it-dude
+    @dragging="selected=false"
+    @dropped="move_snote"
+  >
   <div class="snote-inactive" v-bind:class="{ 'snote-active': selected }" v-show="!get_note.deleted" v-on:click="selected=true" v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}"> <!-- always has class snote-inactive, snote-active is also applied when selected is true -->
     <div class="button-wrapper" v-show="selected">
       <button class="snote-button" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
@@ -20,10 +23,11 @@
       <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
     </div>
     <div class="button-wrapper" v-show="selected">
-      <button class="snote-button" v-on:click="move_snote" @click.stop>Move Note</button>
+      <button class="snote-button" v-on:click="move_snote_prompt" @click.stop>Move Note</button>
       <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
     </div>
   </div>
+  </drag-it-dude>
 
 </template>
 
