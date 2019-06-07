@@ -1,7 +1,7 @@
-import { clone }                from 'lodash-es';
+import { clone } from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { log }                  from '@/logger';
-import DragItDude               from '@/vue-drag-it-dude'
+import { log } from '@/logger';
+import DragItDude from '@/vue-drag-it-dude'
 
 
 //computed properties = getters
@@ -11,36 +11,42 @@ import DragItDude               from '@/vue-drag-it-dude'
 
 
 @Component({
-  components: {  
+  components: {
     DragItDude
   },
-  
+
 })
 
 export default class LineSeparator extends Vue {
 
- //this is how you declare reactive data
-  private foo:string = 'yoda';
- 
+  //this is how you declare reactive data
+  private foo: string = 'yoda';
+  public topString: string;
+
+
+
   constructor() {
     super();
-    
+
   }
+
   public created() {
 
-  }
+}
 
   public mounted() {
-    
-  }
-  // Computed
-  public get text_in_div() {
-    // First content identifies the store module
-    // Second identifies the state member
-    //this will change the value of foo after 5 seconds
-    setTimeout(() => {
-      this.foo='darth vader'}, 5000);
-    return this.foo;
-  }
 
 }
+  // Computed
+  public get text_in_div() {
+  // First content identifies the store module
+  // Second identifies the state member
+  //this will change the value of foo after 5 seconds
+  setTimeout(() => {
+    this.foo = 'darth vader'
+  }, 5000);
+  return this.foo;
+}
+	
+}
+
