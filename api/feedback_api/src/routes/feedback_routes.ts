@@ -57,7 +57,8 @@ export class FeedbackRoutes extends RoutesBase {
       try {
         // using await
         router.use(bodyParser.json()); // added by me for parsing JSON files
-        var new_note = { // TODO: decide abotu idx, timestamp, and deleted to come from app OR api side (currently is both)
+        var new_note = {
+          // TODO: decide abotu idx, timestamp, and deleted to come from app OR api side (currently is app bc of object)
           idx: req.body.idx, // Guid.raw()
           author: req.body.author,
           content: req.body.content,
@@ -65,7 +66,8 @@ export class FeedbackRoutes extends RoutesBase {
           timestamp: req.body.timestamp,//Date.now(),
           x: req.body.x,
           y: req.body.y,
-          deleted: req.body.deleted//false,
+          deleted: req.body.deleted, //false,
+          content_idx: req.body.content_idx,
         };
         const mongo = req.app.get('mongo');
         await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {

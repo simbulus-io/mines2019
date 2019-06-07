@@ -23,13 +23,15 @@ export default class TeacherAssignment extends Vue {
 
     // snotes 5/29
     public get snotes(){
-        return this.$store.state.feedback.snotes;
+        return this.$store.state.feedback.snotes.filter( (curr_snote) => {
+          return curr_snote.content_idx === this.$route.params.idx;
+        }, this);
     }
 
     public get get_image_path(){
-        const assign = this.get_assignment;
-        return assign.url;
-        //return this.image_path;
+      // TODO: have only get sticky notes of current content idx
+      const assign = this.get_assignment;
+      return assign.url;
     }
 
     private get get_assignment() {
@@ -50,7 +52,8 @@ export default class TeacherAssignment extends Vue {
         timestamp: 10,//Date.now(),
         x: 10,
         y: 10,
-        deleted: false
+        deleted: false,
+        content_idx: this.$route.params.idx
       };
       this.$store.dispatch( 'feedback/create_snote', new_note );
     }
