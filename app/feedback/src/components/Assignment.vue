@@ -10,7 +10,7 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
       <div class = "toolbar">
-       <button-toolbar  key-nav aria-label="Toolbar with button groups" >
+       <button-toolbar  key-nav aria-label="Toolbar with button groups" name="Feedback toolbar">
         <button class="button" title="Add Comment" v-on:click="create_snote"><i class ="fa fa-plus" ></i></button>
         <button class="button" title="Annotate" ><i class ="fa fa-pencil"></i></button>
         <button class="button" title="Return to Pointer" onclick="pointer()"><i class ="fa fa-mouse-pointer"></i></button>

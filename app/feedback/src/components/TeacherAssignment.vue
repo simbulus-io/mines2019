@@ -12,7 +12,7 @@
      <router-link to="/teacher/slug"><button class="button" title="Return to All Assignments">Return to All Assignments</button></router-link>
 
       <div class = "toolbar">
-       <button-toolbar  key-nav aria-label="Toolbar with button groups" >
+       <button-toolbar  key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
         <button class="button" title="Add Comment" v-on:click="create_snote"><i class ="fa fa-plus" ></i></button>
         <button class="button" title="Annotate" ><i class ="fa fa-pencil"></i></button>
         <button class="button" title="Return to Pointer" onclick="pointer()"><i class ="fa fa-mouse-pointer"></i></button>
