@@ -27,8 +27,6 @@
     display:inline-block;
     background-size:contain; // also cover is an option
     background-repeat:no-repeat;
-    // background-image: url("../../public/wkst.jpg");
-    // //background-image: url("../../public/kitten.jpg");
     background-repeat: no-repeat;
     min-height: 500px;
     width: 1024px;
@@ -54,39 +52,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
-   .button {
-     z-index: 4;
-     background: #ffffff;
-     border-radius: 3px;
-     border: none;
-     font-family: Arial;
-     color: #000000;
-     font-size: 12px;
-     padding: 2px 2px 2px 2px;
-     text-decoration: none;
-     height: 30px;
-     width: 30px;
-     margin-top: 5px;
-     margin-left: 2px;
-     margin-right: 2px;
-     margin-bottom: 5px;
-     // display: block;
- }
-
-.buttontoolbar {
- z-index: 3;
- background: #435ebc;
-// box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- box-shadow: 0 0 8px #000;
- border: none;
- border-radius: 3px;
-}
-
-.button.active {
-    background: #cecece;
-    text-decoration: none;
-}
 
 }
 

@@ -6,6 +6,7 @@ import { log }                  from '@/logger';
 import Snote from './Snote.vue';
 import { Note } from './note';
 import {Guid} from 'guid-typescript'
+import { AssignmentObj } from './assignmentobj';
 
 @Component({
   components: {
@@ -24,11 +25,11 @@ export default class TeacherAssignment extends Vue {
         return this.$store.state.feedback.snotes.filter( (curr_snote) => {
           return curr_snote.content_idx === this.$route.params.idx;
         }, this);
+        // filter only gets the sticky notes that are on the content
     }
 
     public get get_image_path(){
-      // TODO: have only get sticky notes of current content idx
-      const assign = this.get_assignment;
+      const assign:AssignmentObj = this.get_assignment;
       return assign.url;
     }
 
@@ -47,7 +48,7 @@ export default class TeacherAssignment extends Vue {
         author: 'TODO',
         content: 'Write Your Feedback Here',
         type: 'snote',
-        timestamp: 10,//Date.now(),
+        timestamp: Date.now(),
         x: 10,
         y: 10,
         deleted: false,

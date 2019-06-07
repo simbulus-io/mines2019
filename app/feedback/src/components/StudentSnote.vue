@@ -10,25 +10,4 @@
 <script lang="ts" src="./studentsnote.ts"></script>
 
 <style lang="scss">
-.snote-input {
-  resize: none;
-  background-color: inherit;
-  border: none;
-}
-.snote-text {
-  font-size: 8pt;
-  font-family: sans-serif;
-}
-.attr {
-  font-style: italic;
-}
-.snote-inactive {
-  position: absolute;
-  display: inline-block;
-	margin: 10px;
-	padding: 10px;
-	max-width: 300px;
-	background-color: rgba(246, 229, 141,1.0); // last value controls transparency
-  text-align: right;
-}
 </style>
