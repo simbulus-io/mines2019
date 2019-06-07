@@ -20,7 +20,7 @@
   display: inline-block;
   margin: 10px;
   padding: 10px;
-  max-width: 300px;
+  max-width: 200px;
   height: auto;
   background-color: rgba(199, 236, 238,1.0); // last value controls transparency
   text-align: left;

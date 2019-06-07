@@ -3,17 +3,27 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
+      
       <div class="other">
-        <span class="banner"> An Assignment </span>
+        <span class="banner"> {{get_assignment.student}}'s Assignment: {{get_assignment.title}} </span>
       </div>
-        <!-- Links to the symbols for the toolbar buttons -->
+      <!-- Links to the symbols for the toolbar buttons -->
+      <!-- TODO: why do these font aweomse incons needs to be like this? Why isn't <font-awesome-icon icon="icon-name"/> working here? -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-     <router-link to="/teacher/slug"><button class="button" title="Return to All Assignments">Return to All Assignments</button></router-link>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+      <router-link to="/teacher/slug">
+        <button class="button" title="Return to All Assignments">Return to All Assignments</button>
+      </router-link>
+
+      <hr/>
 
       <div class = "toolbar">
        <button-toolbar  key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
-        <button class="button" title="Add Comment" v-on:click="create_snote"><i class ="fa fa-plus" ></i></button>
+        <button class="button" title="Add Comment" v-on:click="create_snote"><i class ="fa fa-sticky-note" ></i></button>
+        <!-- <button class="button" title="Add Sticky Note" v-on:click="create_snote">
+          <font-awesome-icon icon="fa fa-sticky-note"/>
+        </button> -->
         <button class="button" title="Annotate" ><i class ="fa fa-pencil"></i></button>
         <button class="button" title="Return to Pointer" onclick="pointer()"><i class ="fa fa-mouse-pointer"></i></button>
        </button-toolbar>

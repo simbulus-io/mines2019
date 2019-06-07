@@ -19,6 +19,10 @@
       <button class="snote-button" v-on:click="save_exit_snote" @click.stop>Save &amp; Close Note</button>
       <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
     </div>
+    <div class="button-wrapper" v-show="selected">
+      <button class="snote-button" v-on:click="move_snote" @click.stop>Move Note</button>
+      <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
+    </div>
   </div>
 
 </template>

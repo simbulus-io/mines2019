@@ -1,4 +1,3 @@
-import { clone }                from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import MainContent              from '@/components/MainContent.vue';
 import { log }                  from '@/logger';
@@ -33,7 +32,7 @@ export default class TeacherAssignment extends Vue {
       return assign.url;
     }
 
-    private get get_assignment() {
+    public get get_assignment() {
         // Passing the this context as the second arg to JS find
         const rval = this.$store.state.feedback.assignments.find( (assig) => {
             return assig.idx === this.$route.params.idx;

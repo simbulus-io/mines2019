@@ -4,7 +4,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> Your Assignment </span>
+        <span class="banner"> Your Assignment: {{get_assignment.title}} </span>
       </div>
       <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
         <student-snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>

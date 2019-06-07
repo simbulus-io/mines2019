@@ -62,6 +62,14 @@ export const feedback: Module<FeedbackState, RootState> = {
       // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
     },
 
+    move_snote: (state: any, snote:any) => { // TODO: figure out if anything needs to be here (works fine with nothing??)
+      //log.info('Moving to: ('+snote.get_note.x+', '+snote.get_note.y+')');
+      const idx = state.snotes.findIndex(note => note.id === snote.id );
+      Vue.set(state.snotes,idx,snote);
+      // Vue.set(state.snotes[idx],'x',snote.get_note.x);
+      // Vue.set(state.snotes[idx],'y',snote.get_note.y);
+    },
+
     // TODO: is this right?
     create_snote: (state: any, snote:Note) => {
       state.snotes.push(snote);
@@ -139,11 +147,29 @@ export const feedback: Module<FeedbackState, RootState> = {
         log.info( 'Accessing route to edit content of a sticky' );
 
         const query_string = '?idx='+snote.note_idx+'&content='+snote.get_note.content;
-        const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string; // + idx
+        const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string; 
 
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url);
         context.commit('edit_snote', snote);
+      } catch ( e ) {
+        log.error(e.message);
+      }
+    },
+
+    move_snote: async (context: any, args:any[] ) => { // snote:any, new_x:number, new_y:number TODO: if don't need commit then just pass idx not whole object
+      try{
+        log.info( 'Accessing route to move sticky location' );
+
+        //const query_string = '?idx='+snote.note_idx+'&x='+new_x+'&y='+new_y;
+        const query_string = '?idx='+args[0].note_idx+'&x='+args[1]+'&y='+args[2];
+        const url = 'http://localhost:5101/feedback/v1.0/move_snote'+query_string;
+
+        log.info('********** Getting url: ' + url );
+        const rval = await fetch(url);
+        args[0].get_note.x = args[1];
+        args[0].get_note.y = args[2];
+        context.commit('move_snote', args[0]);
       } catch ( e ) {
         log.error(e.message);
       }
@@ -168,5 +194,6 @@ export const feedback: Module<FeedbackState, RootState> = {
         log.error(err);
       }
     },
+
   }
 };

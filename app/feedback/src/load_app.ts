@@ -12,6 +12,7 @@ import { faBars,
          faPlusCircle,
          faTrash,
          faCaretRight,
+         faStickyNote,
         }                  from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -35,6 +36,7 @@ export async function load_app() {
               faPlusCircle,
               faTrash,
               faCaretRight,
+              faStickyNote,
               );
 
   Vue.component('font-awesome-icon', FontAwesomeIcon);

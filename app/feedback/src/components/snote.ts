@@ -1,6 +1,5 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Note } from './note';
-import { faNotEqual } from '@fortawesome/free-solid-svg-icons';
 import { log }        from '@/logger';
 //import vClickOutside from 'v-click-outside';
 //import Modal from './Modal.vue';
@@ -37,7 +36,7 @@ export default class Snote extends Vue {
 
   public get get_note() {
     // Passing the this context as the second arg to JS find
-    const rval = this.$store.state.feedback.snotes.find( (snote) => {
+    const rval:Note = this.$store.state.feedback.snotes.find( (snote) => {
       return snote.idx === this.note_idx;
     }, this);
     return rval;
@@ -73,6 +72,14 @@ export default class Snote extends Vue {
   public async save_exit_snote( ){
     this.$store.dispatch( 'feedback/edit_snote', this );
     Vue.set(this, 'selected', false);
+  }
+
+  public async move_snote( ){
+    const new_x = Number(prompt('Please enter new x coordinate'));
+    const new_y = Number(prompt('Please enter new y coordinate'));
+    // Vue.set(this, 'x', new_x); // does not help with reactivity
+    // Vue.set(this, 'y', new_y);
+    this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
   }
 
 }
