@@ -2,7 +2,6 @@ import * as logger                                from 'winston';
 import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
-import express = require('express');
 
 export class TestRoutes extends RoutesBase {
 
@@ -52,8 +51,7 @@ export class TestRoutes extends RoutesBase {
       } catch (e) {
         logger.error('Error in test/mongo', e);
       }
-    });    
-    
+    });
 
     //TEST ROUTE TO PULL DATA ARRAY FROM THE DB
     router.get(`${RoutesBase.API_BASE_URL}/test_route`, async (req: Request,
@@ -72,15 +70,14 @@ export class TestRoutes extends RoutesBase {
         logger.error('Error in test/mongo', e);
       }
     });
-    
-    //TEST ROUTE TO SERVE STATIC IMAGE
-    router.get(`${RoutesBase.API_BASE_URL}/static_image`, async (req: Request,
+
+    //TEST ROUTE TO SERVE STATIC FILES LOCATED IN 'content_api/dist/routes/public' DIRECTORY
+    router.get(`${RoutesBase.API_BASE_URL}/:static_file`, async (req: Request,
       res: Response,
       next: NextFunction) => {
-      
       try {
-        router.use(express.static('public'));
-        res.sendfile('./src/public/Algebra.png');
+        //console.log(req.params.static_file);
+        res.sendFile('/public/' + req.params.static_file, { root: __dirname });
       } catch (e) {
         logger.error('Error serving image', e);
       }

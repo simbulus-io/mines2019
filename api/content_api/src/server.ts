@@ -52,6 +52,7 @@ export class Server {
       this.app.use(cookieParser());
       //add static paths
       this.app.use(express.static(path.join(__dirname, 'public')));
+      //this.app.use(express.static('public'));
       //mount json form parser
       this.app.use(bodyParser.json());
       //mount query string parser
