@@ -6,7 +6,7 @@
     <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped"></drag-it-dude>
     <!--Adds Image to page-->
     <img src='./EngageNY/Algebra1-m03-b-l08.png'>
-    <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="text_in_div">
+    <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="text_in_div()">
     <div class="vl"></div>
     </drag-it-dude>
 
