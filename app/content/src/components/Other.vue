@@ -3,6 +3,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
+        
         <line-separator></line-separator>
     
       </div>
