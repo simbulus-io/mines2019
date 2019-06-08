@@ -21,6 +21,7 @@ logger.info(`created server`);
 
 http_server.listen(http_port);
 logger.info(`listening`);
+logger.info(__dirname);
 http_server.on('listening', on_listening);
 function on_listening() {
   logger.info(`on listening`);
