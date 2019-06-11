@@ -15,7 +15,7 @@
         Eye of Newt
       </textarea>
 
-      <div id="app">
+      <!-- <div id="app">
         <div>
           <ckeditor tag-name="textarea" :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
         </div>
@@ -27,7 +27,7 @@
           <button v-on:click="Underline">Frightening</button>
           <button v-on:click="Strikethrough">Mortified</button>
         </div>
-      </div>
+      </div> -->
 
       <div id="app">
         <accordion v-for="assignment in sNoteEle" :key=assignment.assignment :title=assignment.assignment :content=assignment.details :image=assignment.image>

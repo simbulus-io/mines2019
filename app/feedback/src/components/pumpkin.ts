@@ -2,14 +2,15 @@ import { clone }                from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import MainContent              from '@/components/MainContent.vue';
 import { log }                  from '@/logger';
-import CKEditor from '@ckeditor/ckeditor5-vue';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import accordion from './accordion'
+import accordion                from '@/components/accordion.vue';
+//import CKEditor from '@ckeditor/ckeditor5-vue';
+//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+//import accordion from './accordion'
 //https://vuejsexamples.com/simple-and-smooth-vue-accordion/
 //import VueFaqAccordion from 'vue-faq-accordion'
 import { __values } from 'tslib';
 
-Vue.use(CKEditor);
+//Vue.use(CKEditor);
 
 @Component({
   components:  {
@@ -46,32 +47,32 @@ export default class Pumpkin extends Vue {
       category: '' 
     }
   ]
-  public editor=ClassicEditor;
-  public editorData='<p>Tongue of Toad</p>';
-  public editorConfig={};
+  //public editor=ClassicEditor;
+  // public editorData='<p>Tongue of Toad</p>';
+  // public editorConfig={};
   constructor() {
     super();
   }
   // The configuration of the editor.
 
   // Computed
-  public get hello_mines() {
-    return this.$store.state.feedback.hello;
-  }
+  // public get hello_mines() {
+  //   return this.$store.state.feedback.hello;
+  // }
 
 
-  public Bold() {
-    this.editorData = '<strong>' + this.editorData + '</strong>';
-  }
-  public Italics() {
-    this.editorData = '<i>' + this.editorData + '</i>';
-  }
-  public Smash() {
-    this.editorData = '';
-  }
-  public Plant() {
-    this.editorData = 'Tongue of Toad';
-  }
+  // public Bold() {
+  //   this.editorData = '<strong>' + this.editorData + '</strong>';
+  // }
+  // public Italics() {
+  //   this.editorData = '<i>' + this.editorData + '</i>';
+  // }
+  // public Smash() {
+  //   this.editorData = '';
+  // }
+  // public Plant() {
+  //   this.editorData = 'Tongue of Toad';
+  // }
   //Lacking underline & Strikethrough implementation
   // public Underline() {
   //   this.editorData = '<u>'+ this.editorData + '</u>';
