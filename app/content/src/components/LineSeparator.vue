@@ -3,18 +3,11 @@
 
   <div class="line_separator"  style="position: relative;">
     <!--Displays vertical offset of first horizontal segmentation line-->
-  
+    <button type="button" onclick="alert('Hello')">Add Another line</button>
+
     <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped"></drag-it-dude>
     <!--Adds Image to page-->
     <img src='./EngageNY/Algebra1-m03-b-l08.png'>
-    <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-    <div class="vl"></div>
-    </drag-it-dude>
-
-  <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-    <div class="vr"></div>
-    
-    </drag-it-dude>
 
     <!--Makes line(HR tag) draggable-->
       <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
@@ -27,13 +20,13 @@
 
 
       <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-      <div class="line" align="center">
+      <div class="line" align="center" onmouseup="console.log(getBoundingClientRect().top -63 + window.pageYOffset)">
         <hr size="5px" width="99%" color="red">
       </div>
       </drag-it-dude>
 
       <drag-it-dude @activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-      <div class="line" align="center">
+      <div class="line" align="center" onmouseup="console.log(getBoundingClientRect().top -63 + window.pageYOffset)">
         <hr size="5px" width="99%" color="red">
       </div>
       </drag-it-dude>
@@ -56,9 +49,7 @@
   position: relative;
   width: 825px;
   height: 10px;
-  bottom: 50px;
-  color:blue;
-  background: blue;
+
 
 }
 .vl {
