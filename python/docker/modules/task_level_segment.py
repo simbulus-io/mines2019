@@ -1,6 +1,5 @@
 # coding: utf-8
 
-from IPython.utils import io
 import cv2
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -100,7 +99,7 @@ def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
         break_coords = [[[4*0, 4*b], [4*width, 4*b]] for b in row_breaks]
     else:
         break_coords = [[[4*b, 4*0], [4*b, 4*width]] for b in row_breaks]
-        
+    
     if not break_coords:
         return None
     else:
@@ -172,55 +171,53 @@ def cut_image(CV_img, break_coords):
    
     return subimages
     
-def plot_segmented_image(gray, break_coords):
+def plot_segmented_image(image, break_coords):
     """
-    This function takes a grayscale image & list of
+    This function takes an image & list of
     values indicating where to segment the image.
     
     This function displays the image segmented with red lines
     """
     fig1 = plt.figure(figsize=(15, 60))
     ax = fig1.add_subplot(1, 1, 1)
-    with io.capture_output() as captured:
-        ax.imshow(gray, cmap='gray')
-        ax.set_xticks([])
-        ax.set_yticks([])
-        
-        if break_coords is not None:
-            #highlight the cut lines in red:
-            for [(coord1_x, coord1_y), (coord2_x, coord2_y)] in break_coords:
-                height = coord2_y - coord1_y
-                width = coord2_x - coord1_x
-                rect = patches.Rectangle((coord1_x, coord1_y), width, height,
-                                         linewidth=0.25, edgecolor='r', facecolor='none')
-                ax.add_patch(rect)
+    ax.imshow(image, cmap='gray')
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+    if break_coords is not None:
+        #highlight the cut lines in red:
+        for [(coord1_x, coord1_y), (coord2_x, coord2_y)] in break_coords:
+            height = coord2_y - coord1_y
+            width = coord2_x - coord1_x
+            rect = patches.Rectangle((coord1_x, coord1_y), width, height,
+                                linewidth=0.25, edgecolor='r', facecolor='none')
+            ax.add_patch(rect)
+
     plt.show()
 
-def get_segments(img_str):
-    
+def main(img_str):
     # load the image
-    img = load_image(img_str)
+    image = load_image(img_str)
 
-    gray_img, thresh_img = preprocess_image(img)
+    gray_img, thresh_img = preprocess_image(image)
     
     # find vertical segmentation
     break_coords = segment_image(thresh_img, direction='vertical')
 
-    # if vertical segmentation is identified, find horizontal sub-segmentation
-    if break_coords is not None:
-        print(break_coords)
-        subimages = cut_image(img, break_coords)
-        print(len(subimages))
-        break_coords += (segment_subimages(subimages, break_coords,
-                                           direction='horizontal'))
+    # if vertical segments were identified, find horizontal sub-segmentation
+    if break_coords is not None:  
+        subimages = cut_image(image, break_coords)
+        break_coords += [segment_subimages(subimages, break_coords,
+                                           direction='horizontal')]
         
     # otherwise, find horizontal segmentation
     else:
         break_coords = segment_image(thresh_img, direction='horizontal')
 
+    # plot the results
+    plot_segmented_image(image, break_coords)
     
     
-    
-    
-main()
+if __name__ == '__main__':
+    main()
 
