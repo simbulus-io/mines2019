@@ -1,9 +1,11 @@
 
 <template>
   <MainContent>
+                
+
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      
+
       <div class="other">
         <span class="banner"> {{get_assignment.student}}'s Assignment: {{get_assignment.title}} </span>
       </div>
@@ -17,6 +19,15 @@
       </router-link>
 
       <hr/>
+      
+<DrawingBoard></DrawingBoard>
+ 
+           
+      <span class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
+                    
+
+        <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
+      </span>
 
       <div class = "toolbar">
        <button-toolbar  key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
@@ -29,9 +40,10 @@
        </button-toolbar>
      </div>
 
-      <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
-        <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
-      </div>
+
+
+
+      
 
     </template>
   </MainContent>
@@ -56,6 +68,11 @@
     min-height: 500px;
     width: 1024px;
     height: 768px;
+    // user-select: none;
+    // -webkit-user-select: none;
+    // -o-user-select: none;
+    
+    
 }
 .other {
   position: relative;
@@ -77,7 +94,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
+.transparent{
+  z-index: 10;
+  opacity: 0;
+}
    .button {
      z-index: 4;
      background: #ffffff;
@@ -111,6 +131,18 @@
     text-decoration: none;
 }
 
+}
+
+body {
+  margin: 2rem;
+  background: #eee;
+}
+
+
+canvas {
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  opacity: 0.5;
 }
 
 </style>
