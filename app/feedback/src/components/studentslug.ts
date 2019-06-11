@@ -1,11 +1,11 @@
 import { Component, Prop, Vue  }    from 'vue-property-decorator';
 import MainContent                  from '@/components/MainContent.vue';
-import accordion                from '@/components/accordion.vue';
+import StudentAccordion                from '@/components/StudentAccordion.vue';
 
 @Component({
     components: {
       MainContent,
-      accordion
+      StudentAccordion
     }
   })
 export default class StudentSlug extends Vue{

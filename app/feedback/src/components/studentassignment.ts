@@ -13,7 +13,6 @@ import { AssignmentObj } from './assignmentobj';
 })
 export default class StudentAssignment extends Vue{
     // TODO: have this class and teacher class extend a class with common functionality
-    private image_path = require('../../public/wkst.jpg');
 
     constructor() {
       super();
