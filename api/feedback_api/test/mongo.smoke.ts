@@ -17,7 +17,7 @@ afterAll(async () => {
 });
 
 describe('MongoHelper smoke tests', () => {
-    test('TestWrite', async () => {
+  test('TestWrite', async () => {
     // Here we create or update 10 documents in the feedback database in the test_collection
 
     try {
@@ -40,5 +40,24 @@ describe('MongoHelper smoke tests', () => {
       logger.error('Unexpected Exception TestWrite', e);
     }
   });
-
+  test('TestReduce', async () => {
+    const data = [
+      {idx: 0, shared_idx: 0},
+      {idx: 1, shared_idx: 0},
+      {idx: 2, shared_idx: 0},
+      {idx: 3, shared_idx: 1},
+      {idx: 4, shared_idx: 1},
+      {idx: 5, shared_idx: 1},
+    ];
+    const groups = _.reduce(data, (memo: any[], value) => {
+      // initialize group if necessary
+      if(!memo[value.shared_idx]) { memo[value.shared_idx] = []; }
+      // accumulate using shared index
+      memo[value.shared_idx].push(value);
+      // don't forget to return accumulator
+      return memo;
+    }, []);
+    // pretty print
+    logger.info(JSON.stringify(groups, null, 2));
+  });
 });

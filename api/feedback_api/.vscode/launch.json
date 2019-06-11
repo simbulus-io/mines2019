@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug feedback",
+      "name": "Debug feedback api",
       "program": "${workspaceFolder}/dist/bootstrap",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
