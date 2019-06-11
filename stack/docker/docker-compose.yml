@@ -12,7 +12,7 @@ services:
       # [local file]:[container file]
       - "./mongodb/mongod.conf:/etc/mongod.conf"
     ports:
-      - 27027:27017
+      - 27017:27017
     networks:
       - backend
   # bring these back when sk has configured an express image
