@@ -15,6 +15,7 @@ export default class App extends Vue {
     await this.$store.dispatch('feedback/hello')
     await this.$store.dispatch('feedback/snotes')
     await this.$store.dispatch('feedback/assignments')
+    await this.$store.dispatch('feedback/students')
     // SK - reintroduce these then they have been properly plumbed into the
     // store
     //

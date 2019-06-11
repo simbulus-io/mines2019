@@ -11,10 +11,14 @@
             <!-- <div class="tab__content p-2" v-show="active" v-if="typeContent===Array"><div v-for="robby in getContent" :key=robby>
                 <span>{{ robby.howard }}</span>
                 </div><slot /></div> -->
-            <div class="tab__content p-2" v-show="active"><span class="pumpImg"><img src = "./pumpImg.png"/></span><span class="content">
-                <ul><li>{{content}}</li>
-                <li>boo</li>
-                </ul></span>
+            <div class="tab__content" v-show="active">
+                <span class="pumpImg"><img src = "./pumpImg.png"/></span>
+                    <span class="content">
+                    <ul>
+                        <li>{{content}}</li>
+                        <li>boo</li>
+                    </ul>
+                </span>
                 </div>            
         </div>
 </template>
@@ -31,9 +35,10 @@ $accordion_height: 60px;
     width: 96%;
     height: $accordion_height;
     padding: 10px;
-    border: rgb(255, 102, 0) 3px solid;
+    border: none;
     margin: 3px;
-    background-color: rgb(145, 255, 142);
+    background-color: rgba(19, 15, 64,1.0);
+    color: white;
 
 }
 .tab__header span {
@@ -42,7 +47,7 @@ $accordion_height: 60px;
 .tab__content {
     width: 96%;
     height: $accordion_height;
-    background-color: rgb(255,102,0);
+    background-color: rgba(104, 109, 224,1.0);
     padding: 10px;
     margin: 6px;
     color: white;

@@ -5,7 +5,7 @@
     <template v-slot:main-content>
       
       <div class="other">
-        <span class="banner"> {{get_assignment.student}}'s Assignment: {{get_assignment.title}} </span>
+        <span class="banner"> {{get_student.name}}'s Assignment: {{get_assignment.title}} </span>
       </div>
       <!-- Links to the symbols for the toolbar buttons -->
       <!-- TODO: why do these font aweomse incons needs to be like this? Why isn't <font-awesome-icon icon="icon-name"/> working here? -->

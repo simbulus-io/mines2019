@@ -1,6 +1,5 @@
 import { clone }                from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import MainContent              from '@/components/MainContent.vue';
 import { log }                  from '@/logger';
 
 @Component({})

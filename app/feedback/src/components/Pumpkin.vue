@@ -4,31 +4,6 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
 
-      <div class="other">
-        <span class="banner"> {{ pumpkin }} </span>
-      </div>
-
-      <textarea ref="ta">Wing of Bat</textarea>
-
-      <!-- text box test -->
-      <textarea name = "witch" rows="4" cols="">
-        Eye of Newt
-      </textarea>
-
-      <!-- <div id="app">
-        <div>
-          <ckeditor tag-name="textarea" :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
-        </div>
-        <div>
-          <button v-on:click="Plant">Plant</button>
-          <button v-on:click="Smash">Smash</button>
-          <button v-on:click="Bold">Scary</button>
-          <button v-on:click="Italics">Spooky</button>
-          <button v-on:click="Underline">Frightening</button>
-          <button v-on:click="Strikethrough">Mortified</button>
-        </div>
-      </div> -->
-
       <div id="app">
         <accordion v-for="assignment in sNoteEle" :key=assignment.assignment :title=assignment.assignment :content=assignment.details :image=assignment.image>
 

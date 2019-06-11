@@ -6,6 +6,7 @@ import Snote from './Snote.vue';
 import { Note } from './note';
 import {Guid} from 'guid-typescript';
 import { AssignmentObj } from './assignmentobj';
+import { Student } from './student';
 
 @Component({
   components: {
@@ -40,6 +41,16 @@ export default class TeacherAssignment extends Vue {
         return rval;
     }
 
+    public get get_student() {
+      const assign = this.get_assignment;
+      const rval:Student = this.$store.state.feedback.students.find( (stud) => {
+          return stud.idx === assign.student_idx;
+      }, this);
+      // TODO: figure out why can't do .name here but can do in vue file
+      // const stud_name = rval.name;
+      // return stud_name;
+      return rval;
+  }
     public create_snote(){
       const new_idx = Guid.raw();
       const new_note:Note = {

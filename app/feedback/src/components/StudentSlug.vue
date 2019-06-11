@@ -6,6 +6,9 @@
       <div class="other">
         <span class="banner"> Your Completed Assignments </span>
       </div>
+      <accordion v-for="assignment in assignments" :key=assignment.assignment :title=assignment.assignment :content=assignment.details :image=assignment.image>
+
+        </accordion>
       <!-- <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
         <student-snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
       </div> -->
