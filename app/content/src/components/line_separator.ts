@@ -1,7 +1,7 @@
 import { clone } from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { log } from '@/logger';
-import DragItDude from '@/components/vue-drag-it-dude'
+import DragItDude from '@/components/vue-drag-it-dude';
 
 
 //computed properties = getters
@@ -29,20 +29,13 @@ export default class LineSeparator extends Vue {
 
   }
 
-  public created() {
-
-}
 
 
   // Computed
-  public get text_in_div() {
-  // First content identifies the store module
-  // Second identifies the state member
-  //this will change the value of foo after 5 seconds
-  setInterval(() => {
-    this.foo = String(document.getElementById('line1').offsetTop)
-  }, 100);
-  return this.foo;
+  public text_in_div(element) {
+  const rectangle = element.getBoundingClientRect();
+
+  return rectangle.top;
 }
 
 

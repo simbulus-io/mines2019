@@ -1,12 +1,13 @@
 
 <template>
+
   <div class="line_separator"  style="position: relative;">
     <!--Displays vertical offset of first horizontal segmentation line-->
   
     <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped"></drag-it-dude>
     <!--Adds Image to page-->
     <img src='./EngageNY/Algebra1-m03-b-l08.png'>
-    <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="text_in_div()">
+    <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
     <div class="vl"></div>
     </drag-it-dude>
 
@@ -17,9 +18,9 @@
 
     <!--Makes line(HR tag) draggable-->
       <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-      <div class="line" id="line1" align="center" onmouseup="text_in_div()" onmousedown="text_in_div()">
+      <div class="line" id="line1" align="center" onmousedown="console.log(getBoundingClientRect().top)">
         <hr size="5px" width="99%" color="red">
-        {{text_in_div}}
+    
       </div>
       
       </drag-it-dude>
@@ -31,12 +32,11 @@
       </div>
       </drag-it-dude>
 
-      <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
+      <drag-it-dude @activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
       <div class="line" align="center">
         <hr size="5px" width="99%" color="red">
       </div>
       </drag-it-dude>
-      {{text_in_div}}
   </div>
 </template>
 
@@ -52,13 +52,14 @@
   height: 5250px;
 } 
 .line {
-  top: 20px;
-  padding-top: 25px;
+  top: 15px;
   position: relative;
   width: 825px;
-  height: 50px;
+  height: 10px;
   bottom: 50px;
   color:blue;
+  background: blue;
+
 }
 .vl {
   position: relative;
