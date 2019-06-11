@@ -4,10 +4,12 @@
 import task_level_segment as tls
 from sys import argv
 import cv2
-from os.path import join
+from os.path import join, exists
+from os import mkdir
 from skimage.segmentation import felzenszwalb
 from scipy.ndimage import label
 from skimage.measure import regionprops
+from datetime import datetime
 
 
 def save_subimages(subimages, path):
@@ -17,12 +19,24 @@ def save_subimages(subimages, path):
     
     Then saves each subimage in the file-path specified.
     """
-    i = 0
+    date = datetime.now().strftime('%d%b%y')
+    time = datetime.now().strftime('%X')
+    
+    iter_ascii = 65 #'A'
     for image in subimages:
-        image_name = "test_{num}.{ext}".format(num=str(i), ext="png")
+        image_name = "{time}_{date}_{itr}.{ext}".format(
+                                            time=str(time),
+                                            date=str(date),
+                                            itr=chr(iter_ascii),
+                                            ext="png"
+                                            )
+        
+        # Create target Directory if doesn't exist
+        if not exists(path):
+            mkdir(path)
         
         cv2.imwrite(join(path, image_name), image)
-        i += 1
+        iter_ascii += 1
 
 def label_subimages(subimages):
     """
