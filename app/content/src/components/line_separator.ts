@@ -1,7 +1,7 @@
 import { clone } from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { log } from '@/logger';
-import DragItDude from '@/components/vue-drag-it-dude';
+import DragItDude from '@/components/vue-drag-it-dude/src/DragItDude.vue';
 
 
 //computed properties = getters
