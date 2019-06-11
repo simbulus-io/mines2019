@@ -2,6 +2,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import MainContent              from '@/components/MainContent.vue';
 import { log }                  from '@/logger';
 
+import DrawingBoard from './DrawingBoard.vue'
 import Snote from './Snote.vue';
 import { Note } from './note';
 import {Guid} from 'guid-typescript';
@@ -12,14 +13,19 @@ import { Student } from './student';
   components: {
     MainContent,
     Snote,
+    DrawingBoard,
   }
 })
+
+
+
 export default class TeacherAssignment extends Vue {
 
     constructor() {
       super();
     }
 
+    
     // snotes 5/29
     public get snotes(){
         return this.$store.state.feedback.snotes.filter( (curr_snote) => {
@@ -67,4 +73,6 @@ export default class TeacherAssignment extends Vue {
       this.$store.dispatch( 'feedback/create_snote', new_note );
     }
 
+    
+    
 }

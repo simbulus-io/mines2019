@@ -7,7 +7,7 @@ import StudentAssignment  from '@/components/StudentAssignment.vue';
 import TeacherSlug    from './components/TeacherSlug.vue';
 import StudentSlug    from './components/StudentSlug.vue';
 import TeacherAssignment   from './components/TeacherAssignment.vue';
-
+import DrawingBoard   from './components/DrawingBoard.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -21,5 +21,7 @@ export default new Router({
     { path: '/teacher/slug',  name: 'teacherslug',  component: TeacherSlug, },
     { path: '/student/slug',  name: 'studentslug',  component: StudentSlug, },
     { path: '/teacher/assignment/:idx',  name: 'teacherassignment',  component: TeacherAssignment, },
+    { path: '/drawingboard',  name: 'drawingboard',  component: DrawingBoard, },
+
   ],
 });
