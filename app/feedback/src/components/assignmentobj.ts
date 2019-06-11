@@ -3,4 +3,5 @@ export interface AssignmentObj {
   student: string;
   url: string;
   idx: string;
+  assignment_idx: string;
 }

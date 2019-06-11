@@ -24,9 +24,10 @@ describe('MongoHelper Assignment tests', () => {
 
     const data_betty = {
       idx: '9789e990-d92b-2935-56f5-811ae96e84c1',
+      assignment_idx: '8a1244ee-87d2-0fb1-2eae-13f0cbe7c62c',
       title: 'Multiplying Doubles',
       student: 'Betty White',
-      url: './multiplying_doubles-Betty_White-1.png'
+      url: './multiplying_doubles-Betty_White-1.png',
     };
     const promise_betty = collection.updateOne(
       { idx: '9789e990-d92b-2935-56f5-811ae96e84c1' },
@@ -37,6 +38,7 @@ describe('MongoHelper Assignment tests', () => {
 
     const data_lauryn = {
       idx: '9789e990-d92b-2935-56f5-811ae96e84c0',
+      assignment_idx: '8a1244ee-87d2-0fb1-2eae-13f0cbe7c62c',
       title: 'Multiplying Doubles',
       student: 'Lauryn Hill',
       url: './multiplying_doubles-Lauryn_Hill-1.png',
@@ -50,6 +52,7 @@ describe('MongoHelper Assignment tests', () => {
 
     const data_billy = {
       idx: 'db0495dc-f067-6b4c-9b4d-32d107af04e2',
+      assignment_idx: '8a1244ee-87d2-0fb1-2eae-13f0cbe7c62c',
       title: 'Multiplying Doubles',
       student: 'Billy Madison',
       url: './multiplying_doubles-Billy_Madison-1.png',
@@ -63,6 +66,7 @@ describe('MongoHelper Assignment tests', () => {
 
     const data_jeff = {
       idx: '5a90d3f3-0683-0cbf-8394-3c056d5fdccb',
+      assignment_idx: '8a1244ee-87d2-0fb1-2eae-13f0cbe7c62c',
       title: 'Multiplying Doubles',
       student: 'Jeff Spicoli',
       url: './multiplying_doubles-Jeff_Spicoli-1.png',
@@ -76,6 +80,7 @@ describe('MongoHelper Assignment tests', () => {
 
     const data_mclovin = {
       idx: 'f90e0aa4-c972-07fd-caf4-4161c260c375',
+      assignment_idx: '8a1244ee-87d2-0fb1-2eae-13f0cbe7c62c',
       title: 'Multiplying Doubles',
       student: 'McLovin',
       url: './multiplying_doubles-McLovin-1.png',
