@@ -18,7 +18,7 @@
 
     <!--Makes line(HR tag) draggable-->
       <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-      <div class="line" id="line1" align="center" onmousedown="console.log(getBoundingClientRect().top)">
+      <div class="line" id="line1" align="center" onmouseup="console.log(getBoundingClientRect().top -63 + window.pageYOffset)">
         <hr size="5px" width="99%" color="red">
     
       </div>

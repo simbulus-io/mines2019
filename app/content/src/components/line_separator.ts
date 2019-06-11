@@ -33,6 +33,9 @@ export default class LineSeparator extends Vue {
 
   // Computed
   public text_in_div(element) {
+
+    
+
   const rectangle = element.getBoundingClientRect();
 
   return rectangle.top;
