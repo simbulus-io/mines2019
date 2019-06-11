@@ -129,7 +129,7 @@
         }
       },
       drop() {
-        this.$emit('dropped');
+        this.$emit('dropped', new Array( this.left, this.top ) );
         document.body.style.overflow = null;
         this.elem.removeEventListener('mousemove', this.elementMove, false);
         this.elem.removeEventListener('touchmove', this.elementMove, false);

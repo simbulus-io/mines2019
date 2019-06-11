@@ -84,7 +84,10 @@ export default class Snote extends Vue {
     this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
   }
   
-  public async move_snote( ){
+  public async move_snote( coordArr:any[] ){ // new_x:number, new_y:number
+    log.info('changing to ('+coordArr[0]+', '+coordArr[1]+')');
+    const new_x = coordArr[0];
+    const new_y = coordArr[1];
     // TODO: find out how to get new location for persistence in the DB
     this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
   }

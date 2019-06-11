@@ -4,7 +4,7 @@ import { log }                  from '@/logger';
 
 import Snote from './Snote.vue';
 import { Note } from './note';
-import {Guid} from 'guid-typescript'
+import {Guid} from 'guid-typescript';
 import { AssignmentObj } from './assignmentobj';
 
 @Component({
