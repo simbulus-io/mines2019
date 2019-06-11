@@ -13,6 +13,7 @@ export interface FeedbackState {
   // SK - when snote data assumes its final form suggest you define an interface
   // instead of using any[] here (e.g. Array<SNoteData>)
   snotes: any[];
+  students: any[];
   assignments: any[];
 }
 
@@ -21,6 +22,7 @@ const feedback_state: FeedbackState = {
   hello: 'Hello Mines 2019 Field Session',
   // SK - filling in the missing state
   snotes: [],
+  students: [],
   assignments: [],
 }
 
@@ -40,6 +42,9 @@ export const feedback: Module<FeedbackState, RootState> = {
     },
     assignments: (state: any, assigns:any) => {
       state.assignments = assigns;
+    },
+    students: (state: any, studs:any) => {
+      state.students = studs;
     },
     delete_snote: (state: any, snote:any) => {
       // SK - fat arrow funcs can skip parens and curly brackets & return
@@ -120,6 +125,17 @@ export const feedback: Module<FeedbackState, RootState> = {
         const rval_json = await rval.json();
         log.info(`Got (all assignments) ${rval_json} from the server`);
         context.commit('assignments', rval_json.message);
+      } catch(e) {
+        log.error(e);
+      }
+    },
+
+    students: async (context: any, args: any) => {
+      try {
+        const rval = await fetch('http://localhost:5101/feedback/v1.0/students')
+        const rval_json = await rval.json();
+        log.info(`Got (all students) ${rval_json} from the server`);
+        context.commit('students', rval_json.message);
       } catch(e) {
         log.error(e);
       }

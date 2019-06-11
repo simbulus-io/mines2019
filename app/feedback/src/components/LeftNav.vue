@@ -1,10 +1,8 @@
 <template>
   <div class="left-nav">
     <div class="link-container">
-      <!-- <router-link to="/dashboard"><font-awesome-icon icon="home" />DASHBOARD</router-link>
-      <router-link to="/other"><font-awesome-icon icon="home" />OTHER</router-link> -->
-      <router-link to="/slug"><font-awesome-icon icon="home" />Student Slug View</router-link>
-      <!-- <router-link to="/student/assignment"><font-awesome-icon icon="home" />Student Assignment View</router-link> -->
+      <router-link to="/student/slug"><font-awesome-icon icon="home" />Student Slug View</router-link> 
+      <!-- TODO: change student slug to be specific for each student -->
       <router-link to="/teacher/slug"><font-awesome-icon icon="home" />Teacher Slug View</router-link>
       <router-link to="/drawingboard"><font-awesome-icon icon="home" />Drawingboard</router-link>
 

@@ -3,9 +3,9 @@
   <router-link :to="{ name: 'teacherassignment', params: { idx: assign_idx } }">
     <div class="assign-thumb" > <!-- v-on:click="go_to_assignment" -->
         <p><strong>Assignment:</strong> {{get_assignment.title}}</p>
-        <img v-bind:src="get_img_path" :alt="get_assignment.student+'\'s worksheet. Can\'t find '+get_assignment.url" width="100%">
+        <img v-bind:src="get_img_path" :alt="get_student.name+'\'s worksheet. Can\'t find '+get_assignment.url" width="100%">
         <!-- TODO: fix images only being able to be in component folder-->
-        <p><strong>Student:</strong> {{get_assignment.student}}</p>
+        <p><strong>Student:</strong> {{get_student.name}}</p>
     </div>
   </router-link>
 

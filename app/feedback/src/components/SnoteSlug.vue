@@ -1,8 +1,9 @@
 <template>
 	<div class="slug" v-if="!get_note.deleted">
 		<p>{{ get_note.content }}</p>
-		<h5 class="meta" style="font-style: italic;">Written by {{ get_note.author }}</h5>
-		<h6>{{ get_date }}</h6>
+		<h6 class="meta" style="font-style: italic;">Written by {{ get_note.author }}</h6>
+		<h7>{{ get_date }}</h7>
+		<hr width="95%"/>
 	</div>
 </template>
 
@@ -10,10 +11,12 @@
 
 <style lang="scss">
 .slug {
-	margin: 10px;
-	padding: 10px;
-	border: 2px solid black;
-	background-color: rgba(223, 249, 251,1.0);
+	margin: 5px;
+	padding: 5px;
+	font-family: sans-serif;
+	text-align: left;
+	display:block;
+	width:100%;
 }
 div.snote {
 	
