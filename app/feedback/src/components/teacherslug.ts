@@ -6,7 +6,7 @@ import { log }                  from '@/logger';
 import TeacherAccordion         from '@/components/TeacherAccordion.vue';
 
 
-import Slug from './slug';
+//import Slug from './slug';
 import { AssignmentObj } from './assignmentobj';
 
 @Component({
@@ -16,7 +16,8 @@ import { AssignmentObj } from './assignmentobj';
     TeacherAccordion
   }
 })
-export default class TeacherSlug extends Slug {
+export default class TeacherSlug extends Vue {
+
   public get assignments(){
     //log.info(this.$store.state.feedback.assignments);
     return this.$store.state.feedback.assignments;

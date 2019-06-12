@@ -3,10 +3,10 @@ import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 import { request } from 'https';
-import bodyParser from "body-parser";
+import bodyParser from 'body-parser';
 import { LoggerHelper } from '../helpers/logger_helper';
 import { MongoHelper } from '../helpers/mongo_helper';
-import {Guid} from 'guid-typescript'
+import {Guid} from 'guid-typescript';
 
 export class FeedbackRoutes extends RoutesBase {
 
@@ -134,7 +134,7 @@ export class FeedbackRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-       
+
         const rval = await mongo.db('feedback').collection('snotes')
           .updateOne({ idx: req.query.idx}, { $set: { content: req.query.content } }); // TODO: update timestamp
         // status true if success
