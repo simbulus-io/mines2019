@@ -78,6 +78,10 @@ export const feedback: Module<FeedbackState, RootState> = {
     // TODO: is this right?
     create_snote: (state: any, snote:Note) => {
       state.snotes.push(snote);
+    },
+
+    clickerMode: (state: any, mouse: String) => {
+      state.clickerMode = mouse;
     }
 
   },

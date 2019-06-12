@@ -12,7 +12,7 @@ export default class DrawingBoard extends Vue{
         previousx: 0,
         previousy: 0,
         down: false
-
+        
 }
     
     currentMouse() {
@@ -30,23 +30,32 @@ export default class DrawingBoard extends Vue{
     }
     draw (event) {
         
-        
         // requestAnimationFrame(this.draw);
-       if (this.mouse.down ) {
-         var c = <HTMLCanvasElement>document.getElementById("canvas");
-  
-      var ctx = <CanvasRenderingContext2D>c.getContext("2d");
+       if (this.mouse.down && !(this.$store.state.feedback.clickerMode == "pointer") ) {
+        var c = <HTMLCanvasElement>document.getElementById("canvas");
+        var ctx = <CanvasRenderingContext2D>c.getContext("2d");
+        
+        ctx.clearRect(0,0,800,800);
          
-         ctx.clearRect(0,0,800,800);
-         
-    this.currentMouse();
-      ctx.lineTo(this.mouse.currentx, this.mouse.currenty);
-         ctx.strokeStyle ="#F63E02";
-         ctx.lineWidth = 2;
-      ctx.stroke()
+        this.currentMouse();
+        ctx.lineTo(this.mouse.currentx, this.mouse.currenty);
+        if(this.$store.state.feedback.clickerMode == "annotate"){
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.strokeStyle ="#F63E02";
+            ctx.lineWidth = 2;
+        }
+        else{
+            //erase
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = 4;
+        }
+        ctx.stroke();
        }
        
       };
+        
+  
+
       public handleMouseDown (event) {
 
         this.mouse.down = true;

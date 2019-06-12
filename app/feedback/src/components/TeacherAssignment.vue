@@ -1,4 +1,3 @@
-
 <template>
   <MainContent>
                 
@@ -7,7 +6,7 @@
     <template v-slot:main-content>
 
       <div class="other">
-        <span class="banner"> {{get_student.name}}'s Assignment: {{get_assignment.title}} </span>
+        <span class="banner"> {{get_student.name}}'s Assignment: {{get_assignment.title}} .{{get_message}}</span>
       </div>
       <!-- Links to the symbols for the toolbar buttons -->
       <!-- TODO: why do these font aweomse incons needs to be like this? Why isn't <font-awesome-icon icon="icon-name"/> working here? -->
@@ -19,9 +18,17 @@
       </router-link>
 
       <hr/>
-      
- 
-           
+      <div class = "buttontoolbar" >
+       <div key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
+        <button class="button" title="Add Comment" v-on:click="create_snote"><i class ="fa fa-sticky-note" ></i></button>
+        <!-- <button class="button" title="Add Sticky Note" v-on:click="create_snote">
+          <font-awesome-icon icon="fa fa-sticky-note"/>
+        </button> -->
+        <button class="button" title="Annotate" v-on:click="create_annotation()"><i class ="fa fa-pencil"></i></button>
+        <button class="button" title="Erase Annotation" v-on:click="erase()"><i class ="fa fa-eraser"></i></button>
+        <button class="button" title="Return to Pointer" v-on:click="pointer()"><i class ="fa fa-mouse-pointer"></i></button>
+       </div>
+     </div>
       <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
                     
           <DrawingBoard></DrawingBoard>
@@ -29,22 +36,7 @@
         <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
       </div>
 
-      <div class = "toolbar">
-       <button-toolbar  key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
-        <button class="button" title="Add Comment" v-on:click="create_snote"><i class ="fa fa-sticky-note" ></i></button>
-        <!-- <button class="button" title="Add Sticky Note" v-on:click="create_snote">
-          <font-awesome-icon icon="fa fa-sticky-note"/>
-        </button> -->
-        <button class="button" title="Annotate" v-on:click="create_annotation"><i class ="fa fa-pencil"></i></button>
-        <button class="button" title="Return to Pointer" v-on:click="pointer()"><i class ="fa fa-mouse-pointer"></i></button>
-       </button-toolbar>
-     </div>
-
-
-
-
-      
-
+ 
     </template>
   </MainContent>
 </template>
@@ -118,6 +110,8 @@
  }
 
 .buttontoolbar {
+ position: fixed;
+ bottom: 0;
  z-index: 3;
  background: #435ebc;
 // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

@@ -9,6 +9,7 @@ import {Guid} from 'guid-typescript';
 import { AssignmentObj } from './assignmentobj';
 import { Student } from './student';
 
+
 @Component({
   components: {
     MainContent,
@@ -21,11 +22,13 @@ import { Student } from './student';
 
 export default class TeacherAssignment extends Vue {
   // This is to record the State of the mouse wheter it's in stickynote or annotation
-    clickerMode = true;
+    
     constructor() {
       super();
     }
 
+    public clickerMode = '';
+  
     
     // snotes 5/29
     public get snotes(){
@@ -58,6 +61,11 @@ export default class TeacherAssignment extends Vue {
       // return stud_name;
       return rval;
   }
+
+    public get get_message() {
+      // return this.$store.state.feedback.clickerMode;
+      return this.clickerMode;
+    }
   
     public create_snote(){
       const new_idx = Guid.raw();
@@ -75,12 +83,16 @@ export default class TeacherAssignment extends Vue {
       this.$store.dispatch( 'feedback/create_snote', new_note );
     }
     public create_annotation(){
-      this.clickerMode = false;
+      this.$store.dispatch('feedback/clickerMode', 'annotate');
+      this.clickerMode = 'annotate';
     }
     public pointer(){
-      this.clickerMode= true;
+      this.$store.dispatch('feedback/clickerMode', 'pointer');
+      this.clickerMode = 'pointer';
     }
-
-    
+    public erase(){
+      this.$store.dispatch('feedback/clickerMode', 'erase');  
+      this.clickerMode = 'erase';
+    }
     
 }
