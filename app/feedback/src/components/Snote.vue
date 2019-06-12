@@ -1,16 +1,18 @@
 <template>
-
-  <!-- TODO: have selected turn to false when click off 6/4 - this might not be needed bc of save and close button (now stretch goal)
-    maybe:
-      https://github.com/ndelvalle/v-click-outside
-      https://github.com/simplesmiler/vue-clickaway // trying this one 5/31
-  -->
+  <!-- TODO: have dropping the note set the selected to false (can't get without delay even with Vue.set -->
   <drag-it-dude 
     @dragging="selected=false"
-    @dropped="move_snote($event)"
+    @dropped="move_snote($event)" 
     v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}"
   >
-  <div class="snote-inactive" v-bind:class="{ 'snote-active': selected }" v-show="!get_note.deleted" v-on:click="selected=true" > <!-- always has class snote-inactive, snote-active is also applied when selected is true -->
+  <div
+    class="snote-inactive"
+    v-bind:class="{ 'snote-active': selected }"
+    v-show="!get_note.deleted"
+    v-on:click="selected=true"
+    v-click-outside="onClickOutside"
+  >
+  <!-- ^always has class snote-inactive, snote-active is also applied when selected is true -->
     <div class="button-wrapper" v-show="selected">
       <button class="snote-button" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
     </div>
