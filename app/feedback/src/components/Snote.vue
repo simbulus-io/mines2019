@@ -14,7 +14,6 @@
     <div class="button-wrapper" v-show="selected">
       <button class="snote-button" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
     </div>
-    <!-- TODO: have content update when exit out of note. -->
     <!-- TODO: have textarea be size of content (currently set at 5) -->
     <textarea class="snote-input" v-model="get_note.content" rows="5" v-bind:readonly="!selected"></textarea>
     <p class="snote-text attr">Written by {{ get_note.author }}</p>
@@ -23,10 +22,9 @@
       <button class="snote-button" v-on:click="save_exit_snote" @click.stop>Save &amp; Close Note</button>
       <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
     </div>
-    <div class="button-wrapper" v-show="selected">
+    <!-- <div class="button-wrapper" v-show="selected">
       <button class="snote-button" v-on:click="move_snote_prompt" @click.stop>Move Note</button>
-      <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
-    </div>
+    </div> -->
   </div>
   </drag-it-dude>
 

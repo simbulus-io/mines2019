@@ -1,20 +1,17 @@
 import { Component, Prop, Vue  }    from 'vue-property-decorator';
 import MainContent                  from '@/components/MainContent.vue';
-import StudentSnote                 from './StudentSnote.vue';
-import { Note }                     from './note';
-import {Guid}                       from 'guid-typescript';
-import { AssignmentObj }            from './assignmentobj';
+import SnoteStudent                 from './SnoteStudent.vue';
+import { Assignment }            from './assignment';
 import  DrawingBoard                from './DrawingBoard.vue';
 
 @Component ({
     components:{
         MainContent,
-        StudentSnote,
+        SnoteStudent,
         DrawingBoard
     }
 })
 export default class StudentAssignment extends Vue{
-    // TODO: have this class and teacher class extend a class with common functionality
 
     constructor() {
       super();
@@ -28,13 +25,13 @@ export default class StudentAssignment extends Vue{
     }
 
     public get get_image_path(){
-      const assign:AssignmentObj = this.get_assignment;
+      const assign:Assignment = this.get_assignment;
       return assign.url;
     }
 
     public get get_assignment() {
         // Passing the this context as the second arg to JS find
-        const rval = this.$store.state.feedback.assignments.find( (assig) => {
+        const rval:Assignment = this.$store.state.feedback.assignments.find( (assig) => {
             return assig.idx === this.$route.params.idx;
         }, this);
         return rval;

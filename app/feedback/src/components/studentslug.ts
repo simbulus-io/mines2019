@@ -14,13 +14,13 @@ export default class StudentSlug extends Vue{
         return this.$store.state.feedback.assignments.filter( (assign) => {
           return assign.student_idx === this.$route.params.idx;
         }, this);
-        // filter only gets the sticky notes that are on the content
     }
 
-    public get student(){ // TODO: get this working
-      const student:Student = this.$store.state.feedback.students.filter( (stud) => {
+    public get student(){
+      const student_arr:Student[] = this.$store.state.feedback.students.filter( (stud) => {
         return stud.idx === this.$route.params.idx;
       }, this);
-      return student.name;
+      const student:Student = student_arr[0];
+      return student;
     }
 }

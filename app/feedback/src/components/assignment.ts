@@ -1,4 +1,4 @@
-export interface AssignmentObj {
+export interface Assignment {
   title: string;
   student_idx: string;
   url: string;

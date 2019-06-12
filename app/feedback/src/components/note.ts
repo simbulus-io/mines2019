@@ -9,4 +9,3 @@ export interface Note {
   deleted: boolean;
   content_idx: string;
 }
-// TODO: have content id field for relation to match feedback to respective assignment

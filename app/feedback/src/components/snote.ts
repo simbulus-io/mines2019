@@ -9,7 +9,6 @@ import DragItDude from './DragItDude.vue';
 
 // declarative JSON blob format
 // common on interwebs
-// 
 @Component({ 
     components: {
       DragItDude,
@@ -64,9 +63,7 @@ export default class Snote extends Vue {
 
       const index = this.$store.state.feedback.snotes.indexOf( this.get_note );
       if( index >= 0 ){
-        //const bef_arr = Array.from(this.$store.state.feedback.snotes);
         this.$store.state.feedback.snotes.splice( index, 1 );
-        //const after_arr = Array.from(this.$store.state.feedback.snotes);
       }
     
     }
@@ -78,17 +75,16 @@ export default class Snote extends Vue {
     Vue.set(this, 'selected', false);
   }
 
-  public async move_snote_prompt( ){
-    const new_x = Number(prompt('Please enter new x coordinate'));
-    const new_y = Number(prompt('Please enter new y coordinate'));
-    this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
-  }
+  // public async move_snote_prompt( ){
+  //   const new_x = Number(prompt('Please enter new x coordinate'));
+  //   const new_y = Number(prompt('Please enter new y coordinate'));
+  //   this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
+  // }
   
   public async move_snote( coordArr:any[] ){ // new_x:number, new_y:number
     log.info('changing to ('+coordArr[0]+', '+coordArr[1]+')');
     const new_x = coordArr[0];
     const new_y = coordArr[1];
-    // TODO: find out how to get new location for persistence in the DB
     this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
   }
 

@@ -2,9 +2,9 @@ import { log }        from '@/logger';
 import { Module }     from 'vuex';
 import { RootState }  from '@/store/types';
 import Vue            from 'vue';
-import Vuex           from 'vuex';
-import Snote from '@/components/snote';
 import { Note } from '@/components/note';
+import { Student } from '@/components/student';
+import { Assignment } from '@/components/assignment';
 
 // FeedbackState Interface
 export interface FeedbackState {
@@ -12,9 +12,9 @@ export interface FeedbackState {
   // SK - filling in the missing interface definition
   // SK - when snote data assumes its final form suggest you define an interface
   // instead of using any[] here (e.g. Array<SNoteData>)
-  snotes: any[];
-  students: any[];
-  assignments: any[];
+  snotes: Note[];
+  students: Student[];
+  assignments: Assignment[];
 }
 
 // FeedbackState Default
@@ -67,12 +67,9 @@ export const feedback: Module<FeedbackState, RootState> = {
       // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
     },
 
-    move_snote: (state: any, snote:any) => { // TODO: figure out if anything needs to be here (works fine with nothing??)
-      //log.info('Moving to: ('+snote.get_note.x+', '+snote.get_note.y+')');
+    move_snote: (state: any, snote:any) => {
       const idx = state.snotes.findIndex(note => note.id === snote.id );
       Vue.set(state.snotes,idx,snote);
-      // Vue.set(state.snotes[idx],'x',snote.get_note.x);
-      // Vue.set(state.snotes[idx],'y',snote.get_note.y);
     },
 
     // TODO: is this right?
@@ -91,20 +88,6 @@ export const feedback: Module<FeedbackState, RootState> = {
       const state = await rval.json();
       log.info(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
-    },
-
-    // SK - for AP - requires the existence of hello_post route on the API side
-    hello_post: async (context: any, args: any) => {
-      try {
-        const rval = await fetch('http://localhost:5101/feedback/v1.0/hello_post',
-        {
-          method: 'POST',
-          body: JSON.stringify({hello:'world'})
-        });
-        log.info(rval);
-      } catch(err) {
-        log.error(err);
-      }
     },
 
     // route to view all sticky notes (snotes)

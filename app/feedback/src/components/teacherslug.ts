@@ -5,20 +5,14 @@ import MainContent              from '@/components/MainContent.vue';
 import { log }                  from '@/logger';
 import TeacherAccordion         from '@/components/TeacherAccordion.vue';
 
-
-import Slug from './slug';
-import { AssignmentObj } from './assignmentobj';
-
 @Component({
   components: {
     MainContent,
-    //AssignmentThumb,
     TeacherAccordion
   }
 })
-export default class TeacherSlug extends Slug {
+export default class TeacherSlug extends Vue {
   public get assignments(){
-    //log.info(this.$store.state.feedback.assignments);
     return this.$store.state.feedback.assignments;
   }
 
@@ -32,7 +26,7 @@ export default class TeacherSlug extends Slug {
     return Array.from(groups.values());
     // couldn't get this working, possible TODO: change above to below and get working
 
-    // const groups = _.reduce(assigns, (memo: any[], value:AssignmentObj) => {
+    // const groups = _.reduce(assigns, (memo: any[], value:Assignment) => {
     //   // initialize group if necessary
     //   if( !memo[value.assignment_idx] ) {
     //     memo[value.assignment_idx] = [];
