@@ -8,7 +8,7 @@
   >
     <div class="close-wrapper" v-show="selected">
       <button class="snote-close-button" v-on:click="save_exit_snote" @click.stop>
-        <font-awesome-icon icon="times" color="rgba(220, 221, 225,1.0)"/>
+        <font-awesome-icon icon="times" color="rgba(189, 195, 199,1.0)"/>
       </button>
       <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
     </div>
@@ -44,6 +44,7 @@
 .close-wrapper {
   display: block;
   float: right;
+  margin-bottom: 2px;
 }
 .snote-input {
   resize: none;
@@ -58,7 +59,8 @@
 }
 .snote-close-button {
 	border-radius: 50%;
-  border-color: rgba(220, 221, 225,1.0);
+  border-color: rgba(189, 195, 199,1.0);
+  background-color: rgba(245, 246, 250,1.0);
 }
 .snote-text {
   font-size: 8pt;
