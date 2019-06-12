@@ -6,6 +6,9 @@
       <div class="other">
         <span class="banner"> Your Assignment: {{get_assignment.title}} </span>
       </div>
+      <router-link v-bind:to="'/student/slug/'+get_assignment.student_idx">
+        <button class="button" title="Return to All Assignments">Return to All Assignments</button>
+      </router-link>
       <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
         <DrawingBoard></DrawingBoard>
         <snote-student v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
