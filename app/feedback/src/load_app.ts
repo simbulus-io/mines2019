@@ -13,6 +13,7 @@ import { faBars,
          faTrash,
          faCaretRight,
          faStickyNote,
+         faTimes,
         }                  from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -37,6 +38,7 @@ export async function load_app() {
               faTrash,
               faCaretRight,
               faStickyNote,
+              faTimes,
               );
 
   Vue.component('font-awesome-icon', FontAwesomeIcon);

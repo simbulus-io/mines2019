@@ -2,7 +2,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Note } from './note';
 import { log }        from '@/logger';
 import DragItDude from './DragItDude.vue';
-//import vClickOutside from 'v-click-outside';
+import vClickOutside from 'v-click-outside';
 //import Modal from './Modal.vue';
 // from https://vuejsexamples.com/supler-simple-vue-js-draggable-component/
 
@@ -10,18 +10,12 @@ import DragItDude from './DragItDude.vue';
 // declarative JSON blob format
 // common on interwebs
 @Component({ 
-    components: {
-      DragItDude,
-    }
-  // directives:{
-  //   clickOutside: vClickOutside.directive,
-  // },
-  // methods: { // move click handler to TS class only put dependencies (other components) here
-  //   onClickOutside (event) {
-  //     //console.log('Clicked outside. Event: ', event);
-  //     log.info('Clicked outside');
-  //   }
-  // }
+  components: {
+    DragItDude,
+  },
+  directives:{
+    clickOutside: vClickOutside.directive,
+  },
 }) 
 // @(word) is a decorator (ES6 specced out JS doodada - meta programming concept, instruct runtime to create code for you ~ macro processor)
   // decorators we are using: @component @watch @prop
@@ -36,6 +30,13 @@ export default class Snote extends Vue {
 
   public selected: boolean = false;
   @Prop() private readonly note_idx!: string;
+
+  public onClickOutside( event ){
+    if(this.selected){
+      // log.info('Clicked outside. Event: ', event);
+      this.save_exit_snote();
+    }
+  }
 
   public get get_note() {
     // Passing the this context as the second arg to JS find
