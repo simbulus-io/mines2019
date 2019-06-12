@@ -7,13 +7,15 @@ import Vuex           from 'vuex';
 export interface ContentState {
   hello: string;
   test_array: any[];
-  test_array_2: [];
+  test_array_2: any[];
+  test_image: string;
 }
 
 export const content_state: ContentState = {
   hello: 'Hello Mines 2019 Field Session',
   test_array: [],
   test_array_2: [],
+  test_image: 'this is a url',
 }
 
 const namespaced: boolean = true;
@@ -30,6 +32,10 @@ export const content: Module<ContentState, RootState> = {
     },
     test_array_2: (state: any, data: any) => {
       state.test_array_2 = data;
+    },
+    
+    test_image: (state: any, message: any) => {
+      state.test_image = message;
     },
   },
   // These are asynchronus actions - model interactions with a server
@@ -60,6 +66,20 @@ export const content: Module<ContentState, RootState> = {
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
         context.commit('test_array_2', state.docs);
+      } catch(e) {
+        log.error(e);
+      }
+    },    
+    
+    test_image: async (context:any , arg: any) => {
+      try {
+        const rval = await fetch('http://localhost:5101/content/v1.0/Algebra.png')
+        const img = await rval.blob();
+        const state = URL.createObjectURL(img);
+        // upon successfully completing the action - synchronusly update the Vue application state
+        // via a mutator via the commit call
+        alert(state);
+        context.commit('test_image', state);
       } catch(e) {
         log.error(e);
       }

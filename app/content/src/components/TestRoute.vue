@@ -12,6 +12,7 @@
         <div v-for="idx in test_array_2" v-bind:key="idx">
           {{idx.name}}
         </div>
+        <img v-bind:src="test_image">
       </div>
     </template>
   </MainContent>

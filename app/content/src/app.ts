@@ -18,5 +18,6 @@ export default class App extends Vue {
     await this.$store.dispatch('content/hello');
     await this.$store.dispatch('content/test_array');
     await this.$store.dispatch('content/test_array_2');
+    await this.$store.dispatch('content/test_image');
   }
 }

@@ -31,5 +31,9 @@ export default class TestRoute extends Vue {
   public get test_array_2() {
     return this.$store.state.content.test_array_2;
   }
+  
+  public get test_image() {
+    return this.$store.state.content.test_image;
+  }
 
 }
