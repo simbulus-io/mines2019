@@ -20,14 +20,14 @@
 
       <hr/>
       
-<DrawingBoard></DrawingBoard>
  
            
-      <span class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
+      <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
                     
+          <DrawingBoard></DrawingBoard>
 
         <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
-      </span>
+      </div>
 
       <div class = "toolbar">
        <button-toolbar  key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
@@ -35,8 +35,8 @@
         <!-- <button class="button" title="Add Sticky Note" v-on:click="create_snote">
           <font-awesome-icon icon="fa fa-sticky-note"/>
         </button> -->
-        <button class="button" title="Annotate" ><i class ="fa fa-pencil"></i></button>
-        <button class="button" title="Return to Pointer" onclick="pointer()"><i class ="fa fa-mouse-pointer"></i></button>
+        <button class="button" title="Annotate" v-on:click="create_annotation"><i class ="fa fa-pencil"></i></button>
+        <button class="button" title="Return to Pointer" v-on:click="pointer()"><i class ="fa fa-mouse-pointer"></i></button>
        </button-toolbar>
      </div>
 
@@ -133,16 +133,5 @@
 
 }
 
-body {
-  margin: 2rem;
-  background: #eee;
-}
-
-
-canvas {
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  opacity: 0.5;
-}
 
 </style>

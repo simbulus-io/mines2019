@@ -20,7 +20,8 @@ import { Student } from './student';
 
 
 export default class TeacherAssignment extends Vue {
-
+  // This is to record the State of the mouse wheter it's in stickynote or annotation
+    clickerMode = true;
     constructor() {
       super();
     }
@@ -57,6 +58,7 @@ export default class TeacherAssignment extends Vue {
       // return stud_name;
       return rval;
   }
+  
     public create_snote(){
       const new_idx = Guid.raw();
       const new_note:Note = {
@@ -71,6 +73,12 @@ export default class TeacherAssignment extends Vue {
         content_idx: this.$route.params.idx
       };
       this.$store.dispatch( 'feedback/create_snote', new_note );
+    }
+    public create_annotation(){
+      this.clickerMode = false;
+    }
+    public pointer(){
+      this.clickerMode= true;
     }
 
     

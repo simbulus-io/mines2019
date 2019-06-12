@@ -19,7 +19,7 @@ body {
 
 
 canvas {
-    
+    z-index: 10;
     /* opacity: 0.5; */
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
 }

@@ -3,12 +3,14 @@ import MainContent                  from '@/components/MainContent.vue';
 import StudentSnote                 from './StudentSnote.vue';
 import { Note }                     from './note';
 import {Guid}                       from 'guid-typescript';
-import { AssignmentObj } from './assignmentobj';
+import { AssignmentObj }            from './assignmentobj';
+import  DrawingBoard                from './DrawingBoard.vue';
 
 @Component ({
     components:{
         MainContent,
-        StudentSnote
+        StudentSnote,
+        DrawingBoard
     }
 })
 export default class StudentAssignment extends Vue{
