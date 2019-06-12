@@ -3,17 +3,16 @@ import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 import { request } from 'https';
-import bodyParser from "body-parser";
+import bodyParser from 'body-parser';
 import { LoggerHelper } from '../helpers/logger_helper';
 import { MongoHelper } from '../helpers/mongo_helper';
-import {Guid} from 'guid-typescript'
 
 export class FeedbackRoutes extends RoutesBase {
 
   constructor(router: Router) {
     super();
 
-    ////////////////////// view sticky notes, DESIGNED FOR TEACHERS TO SEE NOTES POSTED
+    ////////////////////// get all sticky notes, DESIGNED FOR TEACHERS TO SEE NOTES POSTED
     router.get(`${RoutesBase.API_BASE_URL}/snotes`, async (req, res) => {
 
       try {
@@ -32,7 +31,7 @@ export class FeedbackRoutes extends RoutesBase {
     });
     ////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////// view all assignments
+    ////////////////////// get all assignments
     router.get(`${RoutesBase.API_BASE_URL}/assignments`, async (req, res) => {
 
       try {
@@ -51,7 +50,7 @@ export class FeedbackRoutes extends RoutesBase {
     });
     ////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////// view sticky notes, DESIGNED FOR TEACHERS TO SEE NOTES POSTED
+    ////////////////////// get all students
     router.get(`${RoutesBase.API_BASE_URL}/students`, async (req, res) => {
 
       try {

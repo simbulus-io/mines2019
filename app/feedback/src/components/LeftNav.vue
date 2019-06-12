@@ -1,13 +1,10 @@
 <template>
   <div class="left-nav">
     <div class="link-container">
-      <!-- <router-link to="/student/slug/"><font-awesome-icon icon="home" />Student Slug View</router-link>  -->
       <router-link :to="{ name: 'studentslug', params: { idx: '313c712e-4772-c17a-eecb-881fc52c82f8' } }">
-        <font-awesome-icon icon="home" />Sample Student Slug View
+        <font-awesome-icon icon="bars" />Sample Student Slug View
       </router-link>
-      <!-- TODO: change student slug to be specific for each student -->
-      <router-link to="/teacher/slug"><font-awesome-icon icon="home" />Teacher Slug View</router-link>
-      <router-link to="/drawingboard"><font-awesome-icon icon="home" />Drawingboard</router-link>
+      <router-link to="/teacher/slug"><font-awesome-icon icon="bars" />Teacher Slug View</router-link>
 
     </div>
   </div>

@@ -69,16 +69,10 @@ $accordion_height: 60px;
 .content {
     width:75%;
     height: 80%;
-    //padding-left: 20px;
     margin-left: 20%;
     border: 4px;
 }
-.notification {
-    width: 10%;
-    height: 20%;
-    font-size: 40pt;
-    background-image: url('');
-}
+
 .title {
     width: 78%;
     height: 100%;

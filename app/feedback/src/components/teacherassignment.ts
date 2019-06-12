@@ -6,7 +6,7 @@ import DrawingBoard from './DrawingBoard.vue'
 import Snote from './Snote.vue';
 import { Note } from './note';
 import {Guid} from 'guid-typescript';
-import { AssignmentObj } from './assignmentobj';
+import { Assignment } from './assignment';
 import { Student } from './student';
 
 @Component({
@@ -36,7 +36,7 @@ export default class TeacherAssignment extends Vue {
     }
 
     public get get_image_path(){
-      const assign:AssignmentObj = this.get_assignment;
+      const assign:Assignment = this.get_assignment;
       return assign.url;
     }
 

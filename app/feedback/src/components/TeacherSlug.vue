@@ -7,7 +7,6 @@
             </div>
             <div id="app">
                 <TeacherAccordion v-for="assign in assignment_titles" :key="assignment_idx(assign)" :assign_idx="assignment_idx(assign)" :assign_title="assign"></TeacherAccordion>
-                <!-- <assignment-thumb v-for="assign in assignments" :assign_idx="assign.idx" :key="assign.idx"/>  :assign_img_url="require(assign.url)" -->
             </div>
         </template>
     </MainContent>

@@ -8,7 +8,7 @@
       </div>
       <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
         <DrawingBoard></DrawingBoard>
-        <student-snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
+        <snote-student v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
       </div>
       
 

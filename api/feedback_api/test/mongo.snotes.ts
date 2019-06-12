@@ -88,7 +88,7 @@ describe('MongoHelper Student tests', () => {
 
 describe('MongoHelper Multipication Assignment tests', () => {
   test('TestAssigns1', async () => {
-  // Here we create or update 10 documents in the feedback database in the snotes
+    // Here we create or update 5 documents in the feedback database in the assignments
     try {
       const collection = mongo.db('feedback').collection('assignments');
       const promises: Array<Promise<any>> = [];
@@ -176,7 +176,7 @@ describe('MongoHelper Multipication Assignment tests', () => {
 
 describe('MongoHelper Addition Assignment tests', () => {
   test('TestAssigns2', async () => {
-  // Here we create or update 10 documents in the feedback database in the snotes
+    // Here we create or update 5 documents in the feedback database in the assignments
     try {
       const collection = mongo.db('feedback').collection('assignments');
       const promises: Array<Promise<any>> = [];
@@ -263,7 +263,7 @@ describe('MongoHelper Addition Assignment tests', () => {
 
 describe('MongoHelper Sticky Note tests', () => {
   test('TestSnotes', async () => {
-    // Here we create or update 10 documents in the feedback database in the snotes
+    // Here we create or update 20 documents in the feedback database in the snotes
     try {
       const collection = await mongo.db('feedback').collection('snotes');
       const promises: Array<Promise<any>> = [];

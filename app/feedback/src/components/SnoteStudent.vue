@@ -7,7 +7,7 @@
 
 </template>
 
-<script lang="ts" src="./studentsnote.ts"></script>
+<script lang="ts" src="./snotestudent.ts"></script>
 
 <style lang="scss">
 </style>
