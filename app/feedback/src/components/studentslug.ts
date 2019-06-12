@@ -18,9 +18,10 @@ export default class StudentSlug extends Vue{
     }
 
     public get student(){ // TODO: get this working
-      const student:Student = this.$store.state.feedback.students.filter( (stud) => {
+      const student_arr:Student[] = this.$store.state.feedback.students.filter( (stud) => {
         return stud.idx === this.$route.params.idx;
       }, this);
-      return student.name;
+      const student:Student = student_arr[0];
+      return student;
     }
 }
