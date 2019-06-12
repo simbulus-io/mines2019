@@ -16,7 +16,7 @@ import { AssignmentObj } from './assignmentobj';
     TeacherAccordion
   }
 })
-export default class TeacherSlug extends Slug {
+export default class TeacherSlug extends Vue {
   public get assignments(){
     //log.info(this.$store.state.feedback.assignments);
     return this.$store.state.feedback.assignments;

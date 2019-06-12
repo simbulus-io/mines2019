@@ -7,17 +7,17 @@
                 <span class="up-Arrow" v-show="active">&#9650;</span>
             </a>
         </div>
-            <div class="tab__content" v-show="active">
-                
-                <router-link :to="{ name: 'studentassignment', params: { idx: assign_idx } }">
+            <router-link :to="{ name: 'studentassignment', params: { idx: assign_idx } }">
+                <div class="tab__content" v-show="active">
                     <div class="assign-img">
-                        <img v-bind:src="get_img_path" :alt="get_assignment.title+' worksheet. Can\'t find '+get_assignment.url" width="100%">
+                        <img v-bind:src="get_img_path" :alt="get_assignment.title+' worksheet. Can\'t find '+get_assignment.url" width="80%">
                     </div>
-                </router-link>
-                <div class="assign-snotes">
-                    <snote-slug v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.idx" />
-                </div>
-            </div>            
+                    <div class="assign-snotes">
+                        <snote-slug v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.idx" />
+                        <p v-show="no_snotes">You currently have no feedback for this assignment.</p>
+                    </div>
+                </div>   
+            </router-link>         
         </div>
 </template>
 
@@ -50,17 +50,20 @@ $accordion_height: 60px;
     padding: 10px;
     margin: 6px;
     color: white;
+    overflow:auto;
     div{
-        
         display:inline-block;
     }
 }
 .assign-snotes{
     width:75%;
+    font-family: sans-serif;
+    text-align: left;
 }
 .assign-img{
     width:25%;
     max-height: 100px;
+    vertical-align: top;
 }
 
 .content {
