@@ -22,14 +22,12 @@ import { Student } from './student';
 
 export default class TeacherAssignment extends Vue {
   // This is to record the State of the mouse wheter it's in stickynote or annotation
-    
+    private clickerMode = '';  
+
     constructor() {
       super();
     }
 
-    public clickerMode = '';
-  
-    
     // snotes 5/29
     public get snotes(){
         return this.$store.state.feedback.snotes.filter( (curr_snote) => {

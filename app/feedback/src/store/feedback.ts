@@ -15,6 +15,7 @@ export interface FeedbackState {
   snotes: Note[];
   students: Student[];
   assignments: Assignment[];
+  clickerMode: string;
 }
 
 // FeedbackState Default
@@ -24,6 +25,7 @@ const feedback_state: FeedbackState = {
   snotes: [],
   students: [],
   assignments: [],
+  clickerMode: '',
 }
 
 // SK - there is more state down here that needs to be propagated to
@@ -77,7 +79,7 @@ export const feedback: Module<FeedbackState, RootState> = {
       state.snotes.push(snote);
     },
 
-    clickerMode: (state: any, mouse: String) => {
+    clickerMode: (state: any, mouse: string) => {
       state.clickerMode = mouse;
     }
 
@@ -196,6 +198,11 @@ export const feedback: Module<FeedbackState, RootState> = {
       } catch(err) {
         log.error(err);
       }
+    },
+    // The Action
+    clickerMode: async (context: any, new_mode: string) => {
+      log.info('CHANGED CLICKER MODE TO ' + new_mode);
+      context.commit('clickerMode', new_mode);
     },
 
   }
