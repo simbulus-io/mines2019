@@ -2,19 +2,17 @@
 import * as logger         from 'winston';
 import { MongoClient }     from 'mongodb';
 
+const mongo_conf =  {
+  host: 'localhost',
+  port: '27017',
+};
+
+export const mongo_url = 'mongodb://' + mongo_conf.host + ':' + mongo_conf.port;
+
 // Helper to configure MongoDB
 //
 export class MongoHelper {
   public static async connect(): Promise<MongoClient> {
-    const mongo_conf =  {
-      host: 'localhost',
-      port: '27017',
-    };
-
-    // The below is for running inside the base-express docker container
-    //const mongo_url = 'mongodb://mongodb:27017/content';
-
-    const mongo_url = 'mongodb://' + mongo_conf.host + ':' + mongo_conf.port;
     try {
       const client  = await MongoClient.connect(mongo_url);
       logger.info(`Successfully to mongodb at ${mongo_url}`);

@@ -7,6 +7,7 @@ import { MongoHelper }       from './helpers/mongo_helper';
 import { IndexRoutes }       from './routes/index_routes';
 import { TestRoutes }        from './routes/test_routes';
 import express               from 'express';
+import { agenda }            from './helpers/agenda_helper';
 
 const cookieParser = require('cookie-parser');
 const cors         = require('cors');
@@ -35,6 +36,7 @@ export class Server {
     const log = new LoggerHelper().logger;
     this.app.set('logger', log);
     log.info('Winston setup done');
+    log.info(agenda);
 
     try {
       const config = new ConfigHelper().config;
