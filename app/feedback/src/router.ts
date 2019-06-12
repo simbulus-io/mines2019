@@ -19,7 +19,7 @@ export default new Router({
     { path: '/other',       name: 'other',       component: Other, },
     { path: '/student/assignment/:idx',  name: 'studentassignment',  component: StudentAssignment, },
     { path: '/teacher/slug',  name: 'teacherslug',  component: TeacherSlug, },
-    { path: '/student/slug',  name: 'studentslug',  component: StudentSlug, },
+    { path: '/student/slug/:idx',  name: 'studentslug',  component: StudentSlug, },
     { path: '/teacher/assignment/:idx',  name: 'teacherassignment',  component: TeacherAssignment, },
     { path: '/drawingboard',  name: 'drawingboard',  component: DrawingBoard, },
 
