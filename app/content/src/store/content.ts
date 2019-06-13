@@ -4,6 +4,7 @@ import { RootState }  from '@/store/types';
 import Vue            from 'vue';
 import Vuex           from 'vuex';
 
+
 export interface ContentState {
   hello: string;
   test_array: any[];
@@ -15,7 +16,7 @@ export const content_state: ContentState = {
   hello: 'Hello Mines 2019 Field Session',
   test_array: [],
   test_array_2: [],
-  test_image: 'this is a url',
+  test_image: 'this is the url',
 }
 
 const namespaced: boolean = true;
@@ -71,14 +72,16 @@ export const content: Module<ContentState, RootState> = {
       }
     },    
     
+
+    //////this links to the route serving static files from test_routes.ts
+    //////TODO: parameterize the url passed to fetch() so that any file in public can be called by name
     test_image: async (context:any , arg: any) => {
       try {
-        const rval = await fetch('http://localhost:5101/content/v1.0/Algebra.png')
+        const rval = await fetch('http://localhost:5101/content/v1.0/static/Algebra.png')
         const img = await rval.blob();
         const state = URL.createObjectURL(img);
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
-        alert(state);
         context.commit('test_image', state);
       } catch(e) {
         log.error(e);

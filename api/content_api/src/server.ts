@@ -7,6 +7,7 @@ import { MongoHelper }       from './helpers/mongo_helper';
 import { IndexRoutes }       from './routes/index_routes';
 import { TestRoutes }        from './routes/test_routes';
 import express               from 'express';
+import { ContentRoutes } from './routes/content_routes';
 
 const cookieParser = require('cookie-parser');
 const cors         = require('cors');
@@ -76,6 +77,7 @@ export class Server {
     // This is where you plug in routes (REST endpoints)
     new IndexRoutes(router);
     new TestRoutes(router);
+    new ContentRoutes(router);
     //use router middleware
     this.app.use(router);
   }

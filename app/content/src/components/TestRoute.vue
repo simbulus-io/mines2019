@@ -3,16 +3,13 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      <div class="other">
-        <span class="banner"> {{ hello_mines }} </span>
-        <div v-for="elem in test_array" v-bind:key="elem">
-          {{elem.name}}
-        </div>
-        <h1>New name collection should appear below:</h1>
-        <div v-for="idx in test_array_2" v-bind:key="idx">
-          {{idx.name}}
-        </div>
-        <img v-bind:src="test_image">
+      <div class="upload">
+        <h1 class="banner">W00t Math Content Digitzer</h1>
+          <span>Select file to upload (.jpg, .png, .pdf), should you so desire: </span><br>
+            <input type="file" id="file_upload" accept=".jpg,.png,.pdf" @change="on_file_selected"><br><br>
+            <button @click="on_upload">Upload!</button><br><br>
+            <!--this img loads from /public via the test_image route-->   
+            <img v-bind:src="test_image">
       </div>
     </template>
   </MainContent>

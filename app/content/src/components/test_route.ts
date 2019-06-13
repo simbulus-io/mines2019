@@ -12,8 +12,21 @@ import { log }                  from '@/logger';
 })
 
 export default class TestRoute extends Vue {
+  private selected_file: any;
+  
   constructor() {
     super();
+  }
+
+  public on_file_selected(event){
+    this.selected_file = event.target.files[0]
+  }
+
+  public on_upload(){
+    fetch('http://localhost:5101/content/v1.0/store_file_upload', {
+      method: 'POST',
+      body: this.selected_file
+    })
   }
 
   // Computed
