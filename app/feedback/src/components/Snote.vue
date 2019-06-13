@@ -1,11 +1,16 @@
 <template>
   <!-- TODO: have dropping the note set the selected to false (can't get without delay even with Vue.set -->
-  <drag-it-dude 
+  <drag-it-dude
     class="snote-wrapper"
-    @dragging="selected=false"
-    @dropped="move_snote($event)" 
-    v-bind:style="{top:note_y+'px', left:note_x+'px'}"
-  >
+    @activated="handle_activate"
+    @dragging="handle_dragging"
+    @dropped="handle_dropped"
+    v-bind:style="{top:note_y+'px', left:note_x+'px'}">
+
+    <!-- @dragging="selected=false"
+    @dropped="move_snote($event)"
+    v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}" -->
+
     <div class="close-wrapper" v-show="selected">
       <button class="snote-close-button" v-on:click="save_exit_snote" @click.stop>
         <font-awesome-icon icon="times" color="rgba(189, 195, 199,1.0)"/>
@@ -17,9 +22,8 @@
       v-bind:class="{ 'snote-active': selected }"
       v-show="!note_deleted"
       v-on:click="selected=true"
-      v-click-outside="onClickOutside"
-    >
-    <!-- ^always has class snote-inactive, snote-active is also applied when selected is true -->
+      v-click-outside="onClickOutside">
+      <!-- ^always has class snote-inactive, snote-active is also applied when selected is true -->
       <div class="button-wrapper" v-show="selected">
         <button class="snote-trash-button" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
       </div>

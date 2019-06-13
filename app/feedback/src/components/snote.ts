@@ -7,14 +7,14 @@ import vClickOutside from 'v-click-outside';
 
 // declarative JSON blob format
 // common on interwebs
-@Component({ 
+@Component({
   components: {
     DragItDude,
   },
   directives:{
     clickOutside: vClickOutside.directive,
   },
-}) 
+})
 // @(word) is a decorator (ES6 specced out JS doodada - meta programming concept, instruct runtime to create code for you ~ macro processor)
   // decorators we are using: @component @watch @prop
   // one is from vue decorators
@@ -22,7 +22,7 @@ import vClickOutside from 'v-click-outside';
   // => @prop - data member on the class with fancy decorator
   // => computed properties - method with getters
   // => @watch
-// chose to do decorator approach bc future write the JS 
+// chose to do decorator approach bc future write the JS
 // makes vue code look more like classes -> easier (parallel to utility classes)
 export default class Snote extends Vue {
 
@@ -74,7 +74,8 @@ export default class Snote extends Vue {
     return n ? n.author : '';
   }
 
-  public async delete_snote( ){ 
+
+  public async delete_snote(e){
     log.info('Calling delete_snote from Snote component');
     const confirm_delete = confirm('Are you sure you want to delete the note:\n"'+this.note.content+'"');
     if( confirm_delete ){
@@ -84,7 +85,7 @@ export default class Snote extends Vue {
       if( index >= 0 ){
         this.$store.state.feedback.snotes.splice( index, 1 );
       }
-    
+
     }
 
   }
@@ -99,12 +100,29 @@ export default class Snote extends Vue {
   //   const new_y = Number(prompt('Please enter new y coordinate'));
   //   this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
   // }
-  
-  public async move_snote( coordArr:any[] ){ // new_x:number, new_y:number
+  public handle_activate(e,b) {
+    log.info('activate');
+    this.selected=false;
+  }
+
+  public handle_dragging(e,b) {
+    this.selected=false;
+    log.info('dragging');
+  }
+
+  public handle_dropped(e,b) {
+    this.selected=false;
+    this.move_snote(e);
+  }
+
+  public move_snote( coordArr:any[] ){ // new_x:number, new_y:number
     log.info('changing to ('+coordArr[0]+', '+coordArr[1]+')');
     const new_x = coordArr[0];
     const new_y = coordArr[1];
-    this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
+    this.$store.dispatch( 'feedback/move_snote', {
+      idx:this.note_idx,
+      pt: {x:new_x, y:new_y}
+     });
   }
 
 }
