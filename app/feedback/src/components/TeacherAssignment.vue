@@ -5,7 +5,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> {{student_name}}'s Assignment: {{assignment_title}} .{{get_message}}</span>
+        <span class="banner"> {{student_name}}'s Assignment: {{assignment_title}}</span>
       </div>
       <router-link to="/teacher/slug">
         <button class="button" title="Return to All Assignments">Return to All Assignments</button>
@@ -23,6 +23,12 @@
         </button>
         <button class="button" title="Erase Annotation" v-on:click="erase()">
           <font-awesome-icon icon="eraser" color="rgba(105, 105, 105,1.0)"/>
+        </button>
+        <button class="button" title="Save Annotations" v-on:click="save_annotations()">
+          <font-awesome-icon icon="save" color="rgba(105,105,105,1.0)"/>
+        </button>
+        <button class="button" title="Clear All Annotations" v-on:click="clear_all_annotations()">
+          <font-awesome-icon icon="bomb" color="rgba(105,105,105,1.0)"/>
         </button>
         <button class="button" title="Return to Pointer" v-on:click="pointer()">
           <font-awesome-icon icon="mouse-pointer" color="rgba(105, 105, 105,1.0)"/>
