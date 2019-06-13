@@ -4,7 +4,7 @@
     class="snote-wrapper"
     @dragging="selected=false"
     @dropped="move_snote($event)" 
-    v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}"
+    v-bind:style="{top:note_y+'px', left:note_x+'px'}"
   >
     <div class="close-wrapper" v-show="selected">
       <button class="snote-close-button" v-on:click="save_exit_snote" @click.stop>
@@ -15,7 +15,7 @@
     <div
       class="snote-inactive"
       v-bind:class="{ 'snote-active': selected }"
-      v-show="!get_note.deleted"
+      v-show="!note_deleted"
       v-on:click="selected=true"
       v-click-outside="onClickOutside"
     >
@@ -23,10 +23,11 @@
       <div class="button-wrapper" v-show="selected">
         <button class="snote-trash-button" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
       </div>
+      <!-- TODO: fix so does not drag when editing. Causing not to be able to highlight -->
       <!-- TODO: have textarea be size of content (currently set at 5) -->
-      <textarea class="snote-input" v-model="get_note.content" rows="5" v-bind:readonly="!selected"></textarea>
-      <p class="snote-text attr">Written by {{ get_note.author }}</p>
-      <p class="snote-text">{{ get_date }}</p>
+      <textarea class="snote-input" v-model="note.content" rows="5" v-bind:readonly="!selected"></textarea>
+      <p class="snote-text attr">Written by {{ note_author }}</p>
+      <p class="snote-text">{{ date }}</p>
       <!-- <div class="button-wrapper" v-show="selected">
         <button class="snote-button" v-on:click="move_snote_prompt" @click.stop>Move Note</button>
       </div> -->

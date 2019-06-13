@@ -3,8 +3,6 @@ import { Note } from './note';
 import { log }        from '@/logger';
 import DragItDude from './DragItDude.vue';
 import vClickOutside from 'v-click-outside';
-//import Modal from './Modal.vue';
-// from https://vuejsexamples.com/supler-simple-vue-js-draggable-component/
 
 
 // declarative JSON blob format
@@ -38,7 +36,7 @@ export default class Snote extends Vue {
     }
   }
 
-  public get get_note() {
+  public get note() {
     // Passing the this context as the second arg to JS find
     const rval:Note = this.$store.state.feedback.snotes.find( (snote) => {
       return snote.idx === this.note_idx;
@@ -46,23 +44,43 @@ export default class Snote extends Vue {
     return rval;
   }
 
-  public get get_date() {
-    const d = new Date( this.get_note.timestamp);
+  public get note_x() {
+    const n = this.note;
+    return n ? n.x : 0;
+  }
+
+  public get note_y() {
+    const n = this.note;
+    return n ? n.y : 0;
+  }
+
+  public get date() {
+    const d = new Date( (this.note ? this.note.timestamp : 0));
     return d.toLocaleString();
   }
 
-  // public get snote_class() {
-  //   debugger;
-  //   return !this.selected ? 'snote-active' : 'snote-inactive';
-  // }
+  public get note_deleted(){
+    const n = this.note;
+    return n ? n.deleted : true;
+  }
+
+  public get note_content(){
+    const n = this.note;
+    return n ? n.content : '';
+  }
+
+  public get note_author(){
+    const n = this.note;
+    return n ? n.author : '';
+  }
 
   public async delete_snote( ){ 
     log.info('Calling delete_snote from Snote component');
-    const confirm_delete = confirm('Are you sure you want to delete the note:\n"'+this.get_note.content+'"');
+    const confirm_delete = confirm('Are you sure you want to delete the note:\n"'+this.note.content+'"');
     if( confirm_delete ){
       this.$store.dispatch( 'feedback/delete_snote', this.note_idx )
 
-      const index = this.$store.state.feedback.snotes.indexOf( this.get_note );
+      const index = this.$store.state.feedback.snotes.indexOf( this.note );
       if( index >= 0 ){
         this.$store.state.feedback.snotes.splice( index, 1 );
       }

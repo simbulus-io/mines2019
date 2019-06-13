@@ -1,3 +1,4 @@
+<!-- DagItDude from https://vuejsexamples.com/supler-simple-vue-js-draggable-component/ -->
 <template>
   <div
     class="drag-it-dude"

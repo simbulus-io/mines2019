@@ -28,15 +28,7 @@ export default class AssignmentThumb extends Vue {
         const rval:Student = this.$store.state.feedback.students.find( (stud) => {
             return stud.idx === assign.student_idx;
         }, this);
-        // TODO: figure out why can't do .name here but can do in vue file
-        // getting "Cannot read property of 'name' undefined"
-        // const stud_name = rval.name;
-        // return stud_name;
         return rval;
-    }
-    // redundant
-    public get get_img_path() {
-        return this.assignment_url;
     }
 
 }
