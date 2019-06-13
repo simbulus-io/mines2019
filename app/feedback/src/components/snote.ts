@@ -74,6 +74,16 @@ export default class Snote extends Vue {
     return n ? n.author : '';
   }
 
+  public selecting(e) {
+    log.info('selecting snote');
+    this.selected=true;
+    // if( this.selected ){
+    //   e.stopPropagation();
+    // }else{
+    //   this.selected=true;
+    // }
+  }
+
 
   public async delete_snote(e){
     log.info('Calling delete_snote from Snote component');
@@ -100,9 +110,9 @@ export default class Snote extends Vue {
   //   const new_y = Number(prompt('Please enter new y coordinate'));
   //   this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
   // }
-  public handle_activate(e,b) {
+  public handle_activate(e:Event,b) {
     log.info('activate');
-    this.selected=false;
+    //this.selected=false;
   }
 
   public handle_dragging(e,b) {

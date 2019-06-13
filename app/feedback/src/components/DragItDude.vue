@@ -32,6 +32,10 @@
         type: Number,
         default: 0,
       },
+      selected: {
+        type: Boolean,
+        default: false,
+      }
     },
     watch: {
       width(newWidth, oldWidth) {
@@ -78,64 +82,70 @@
         if (this.isIos) this.elementMove(e);
       },
       elementMove(e) {
-        this.$emit('dragging');
-        e.preventDefault();
-        if (!e.pageX) {
-          document.body.style.overflow = 'hidden';
+        if(!this.selected){
+          this.$emit('dragging');
+          e.preventDefault();
+          if (!e.pageX) {
+            document.body.style.overflow = 'hidden';
+          }
+          const x = e.pageX || e.changedTouches[0].pageX;
+          const y = e.pageY || e.changedTouches[0].pageY;
+          let newLeft = x - this.shiftX;
+          let newTop = y - this.shiftY;
+          const newRight = x - this.shiftX + this.elem.offsetWidth;
+          const newBottom = y - this.shiftY + this.elem.offsetHeight;
+          if (newLeft < 0) {
+            newLeft = 0;
+          } else if (newRight > this.parent.width) {
+            newLeft =  this.parent.width - this.elem.offsetWidth;
+          } else {
+            newLeft = x - this.shiftX;
+          }
+          if (newTop < 0) {
+            newTop = 0;
+          } else if (newBottom > this.parent.height) {
+            newTop = this.parent.height - this.elem.offsetHeight;
+          } else {
+            newTop = y - this.shiftY;
+          }
+          this.elem.style.left = `${newLeft}px`;
+          this.left = newLeft;
+          this.elem.style.top = `${newTop}px`;
+          this.top = newTop;
         }
-        const x = e.pageX || e.changedTouches[0].pageX;
-        const y = e.pageY || e.changedTouches[0].pageY;
-        let newLeft = x - this.shiftX;
-        let newTop = y - this.shiftY;
-        const newRight = x - this.shiftX + this.elem.offsetWidth;
-        const newBottom = y - this.shiftY + this.elem.offsetHeight;
-        if (newLeft < 0) {
-          newLeft = 0;
-        } else if (newRight > this.parent.width) {
-          newLeft =  this.parent.width - this.elem.offsetWidth;
-        } else {
-          newLeft = x - this.shiftX;
-        }
-        if (newTop < 0) {
-          newTop = 0;
-        } else if (newBottom > this.parent.height) {
-          newTop = this.parent.height - this.elem.offsetHeight;
-        } else {
-          newTop = y - this.shiftY;
-        }
-        this.elem.style.left = `${newLeft}px`;
-        this.left = newLeft;
-        this.elem.style.top = `${newTop}px`;
-        this.top = newTop;
       },
       hang(e) {
-        this.$emit('activated');
-        this.parent.width = this.parentWidth || this.elem.parentNode.offsetWidth;
-        this.parent.height = this.parentHeight || this.elem.parentNode.offsetHeight;
-        this.shiftX = e.pageX
-          ? e.pageX - this.elem.offsetLeft
-          : e.changedTouches[0].pageX - this.elem.offsetLeft;
-        this.shiftY = e.pageY
-          ? e.pageY - this.elem.offsetTop
-          : e.changedTouches[0].pageY - this.elem.offsetTop;
-        if (e.pageX) {
-          if (this.isIos) {
-            this.elem.addEventListener('touchmove', this.elementMove);
+        if(!this.selected){
+          this.$emit('activated');
+          this.parent.width = this.parentWidth || this.elem.parentNode.offsetWidth;
+          this.parent.height = this.parentHeight || this.elem.parentNode.offsetHeight;
+          this.shiftX = e.pageX
+            ? e.pageX - this.elem.offsetLeft
+            : e.changedTouches[0].pageX - this.elem.offsetLeft;
+          this.shiftY = e.pageY
+            ? e.pageY - this.elem.offsetTop
+            : e.changedTouches[0].pageY - this.elem.offsetTop;
+          if (e.pageX) {
+            if (this.isIos) {
+              this.elem.addEventListener('touchmove', this.elementMove);
+            } else {
+              this.elem.addEventListener('mousemove', this.elementMove);
+              this.elem.addEventListener('mouseleave', this.drop);
+            }
           } else {
-            this.elem.addEventListener('mousemove', this.elementMove);
-            this.elem.addEventListener('mouseleave', this.drop);
+            this.elem.addEventListener('touchmove', this.elementMove);
           }
-        } else {
-          this.elem.addEventListener('touchmove', this.elementMove);
         }
       },
       drop() {
-        this.$emit('dropped', new Array( this.left, this.top ) );
-        document.body.style.overflow = null;
-        this.elem.removeEventListener('mousemove', this.elementMove, false);
-        this.elem.removeEventListener('touchmove', this.elementMove, false);
-        this.elem.onmouseup = null;
-        this.elem.ontouchend = null;
+        if(!this.selected){
+          this.$emit('dropped', new Array( this.left, this.top ) );
+          document.body.style.overflow = null;
+          this.elem.removeEventListener('mousemove', this.elementMove, false);
+          this.elem.removeEventListener('touchmove', this.elementMove, false);
+          this.elem.onmouseup = null;
+          this.elem.ontouchend = null;
+        }
       },
     },
     mounted() {

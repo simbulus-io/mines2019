@@ -5,7 +5,8 @@
     @activated="handle_activate"
     @dragging="handle_dragging"
     @dropped="handle_dropped"
-    v-bind:style="{top:note_y+'px', left:note_x+'px'}">
+    v-bind:style="{top:note_y+'px', left:note_x+'px'}"
+    :selected="selected">
 
     <!-- @dragging="selected=false"
     @dropped="move_snote($event)"
@@ -21,11 +22,14 @@
       class="snote-inactive"
       v-bind:class="{ 'snote-active': selected }"
       v-show="!note_deleted"
-      v-on:click="selected=true"
-      v-click-outside="onClickOutside">
-      <!-- ^always has class snote-inactive, snote-active is also applied when selected is true -->
+      v-click-outside="onClickOutside"
+      >
+      <!-- v-on:click="selected=true" ^always has class snote-inactive, snote-active is also applied when selected is true -->
       <div class="button-wrapper" v-show="selected">
-        <button class="snote-trash-button" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
+        <button class="snote-button" v-on:click="delete_snote"><font-awesome-icon icon="trash" color="rgba(235, 77, 75,1.0)"/></button>
+      </div>
+      <div class="button-wrapper" v-show="!selected">
+        <button class="snote-button" v-on:click="selected=true"><font-awesome-icon icon="edit" color="rgba(105, 105, 105,1.0)"/></button>
       </div>
       <!-- TODO: fix so does not drag when editing. Causing not to be able to highlight -->
       <!-- TODO: have textarea be size of content (currently set at 5) -->
@@ -56,7 +60,7 @@
   background-color: inherit;
   border: none;
 }
-.snote-trash-button {
+.snote-button {
 	float: right;
   margin-bottom: 10px;
   border-radius: 20%;

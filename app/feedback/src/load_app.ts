@@ -17,6 +17,7 @@ import { faBars,
          faPen,
          faEraser,
          faMousePointer,
+         faEdit,
         }                  from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -45,6 +46,7 @@ export async function load_app() {
               faPen,
               faEraser,
               faMousePointer,
+              faEdit,
               );
 
   Vue.component('font-awesome-icon', FontAwesomeIcon);

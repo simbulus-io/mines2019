@@ -61,20 +61,19 @@ export const feedback: Module<FeedbackState, RootState> = {
       state.conferences.splice(idx,1); // TODO: fix error "cannot read property splice of undefined"
     },
 
-    edit_snote: (state: any, snote:any) => { // TODO: figure out if anything needs to be here (works fine with nothing??)
-      // log.info('mutation edit_snote: '+snote.get_note.content);
-      // const index = state.snotes.findIndex(note => note.idx === snote.note_idx );
-      // log.info('***** old content: '+state.snotes[index].content);
-      // Vue.set(state.snotes[index],'content',snote.get_note.content);
-      // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
-    },
+    // edit_snote: (state: any, snote:any) => { // TODO: figure out if anything needs to be here (works fine with nothing??)
+    //   // log.info('mutation edit_snote: '+snote.get_note.content);
+    //   // const index = state.snotes.findIndex(note => note.idx === snote.note_idx );
+    //   // log.info('***** old content: '+state.snotes[index].content);
+    //   // Vue.set(state.snotes[index],'content',snote.get_note.content);
+    //   // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
+    // },
 
-    move_snote: (state: any, snote:any) => {
-      const idx = state.snotes.findIndex(note => note.id === snote.id );
-      Vue.set(state.snotes,idx,snote);
-    },
+    // move_snote: (state: any, snote:any) => {
+    //   const idx = state.snotes.findIndex(note => note.id === snote.id );
+    //   Vue.set(state.snotes,idx,snote);
+    // },
 
-    // TODO: is this right?
     create_snote: (state: any, snote:Note) => {
       state.snotes.push(snote);
     },
@@ -155,7 +154,7 @@ export const feedback: Module<FeedbackState, RootState> = {
         const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string;
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url);
-        context.commit('edit_snote', snote);
+        //context.commit('edit_snote', snote);
       } catch ( e ) {
         log.error(e.message);
       }
