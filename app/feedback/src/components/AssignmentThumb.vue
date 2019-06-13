@@ -3,8 +3,8 @@
   <router-link :to="{ name: 'teacherassignment', params: { idx: assign_idx } }">
     <div class="assign-thumb" >
         <!-- <p><strong>Assignment:</strong> {{get_assignment.title}}</p> -->
-        <p><strong>Student:</strong> {{get_student.name}}</p>
-        <img v-bind:src="get_img_path" :alt="get_student.name+'\'s worksheet. Can\'t find '+get_assignment.url" width="100%">
+        <p><strong>Student:</strong> {{student_name}}</p>
+        <img v-bind:src="get_img_path" :alt="student_name+'\'s worksheet. Can\'t find '+assignment_url" width="100%">
     </div>
   </router-link>
 

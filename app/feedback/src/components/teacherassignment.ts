@@ -22,7 +22,7 @@ import { Student } from './student';
 
 export default class TeacherAssignment extends Vue {
   // This is to record the State of the mouse wheter it's in stickynote or annotation
-    private clickerMode = '';  
+    private clickerMode = '';
 
     constructor() {
       super();
@@ -57,14 +57,16 @@ export default class TeacherAssignment extends Vue {
       // TODO: figure out why can't do .name here but can do in vue file
       // const stud_name = rval.name;
       // return stud_name;
+      log.info(`teacherassignment is returning`)
+      log.info(JSON.stringify(rval, null, 2));
       return rval;
-  }
+    }
 
     public get get_message() {
       // return this.$store.state.feedback.clickerMode;
       return this.clickerMode;
     }
-  
+
     public create_snote(){
       const new_idx = Guid.raw();
       const new_note:Note = {
@@ -89,8 +91,8 @@ export default class TeacherAssignment extends Vue {
       this.clickerMode = 'pointer';
     }
     public erase(){
-      this.$store.dispatch('feedback/clickerMode', 'erase');  
+      this.$store.dispatch('feedback/clickerMode', 'erase');
       this.clickerMode = 'erase';
     }
-    
+
 }
