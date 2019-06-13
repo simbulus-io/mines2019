@@ -5,12 +5,9 @@
     @activated="handle_activate"
     @dragging="handle_dragging"
     @dropped="handle_dropped"
-    v-bind:style="{top:note_y+'px', left:note_x+'px'}"
+    :x="note_x"
+    :y="note_y"
     :selected="selected">
-
-    <!-- @dragging="selected=false"
-    @dropped="move_snote($event)"
-    v-bind:style="{top:get_note.y+'px', left:get_note.x+'px'}" -->
 
     <div class="close-wrapper" v-show="selected">
       <button class="snote-close-button" v-on:click="save_exit_snote" @click.stop>
