@@ -161,8 +161,6 @@
       this.elem = this.$el;
       this.elem.style.left = `${this.x}px`;
       this.elem.style.top =  `${this.y}px`;
-      // console.log(`yoda ${this.top}`);
-      // console.log(`yoda ${this.left}`);
     },
   };
 </script>
