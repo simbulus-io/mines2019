@@ -84,6 +84,12 @@
 	background-color: rgba(246, 229, 141,1.0); // last value controls transparency
   text-align: right;
 }
+
+// box shadow on hover
+.snote-inactive:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
 .snote-active {
 	background-color: rgba(249, 202, 36,1.0);
   .snote-input {

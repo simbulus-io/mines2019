@@ -117,7 +117,7 @@ export default class Snote extends Vue {
 
   public handle_dragging(e,b) {
     this.selected=false;
-    log.info('dragging');
+    //log.info('dragging');
   }
 
   public handle_dropped(e,b) {
