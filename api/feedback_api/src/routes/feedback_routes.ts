@@ -31,6 +31,23 @@ export class FeedbackRoutes extends RoutesBase {
     });
     ////////////////////////////////////////////////////////////////////////////
 
+    ////////////////////// get all annotations
+    router.get(`${RoutesBase.API_BASE_URL}/annotations`, async (req, res) => {
+
+      try {
+        const mongo = req.app.get('mongo');
+        // using await
+        const docs = await mongo.db('feedback').collection('annotations').find().toArray();
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status: true, message: docs});
+      } catch (e) {
+        logger.error('ERROR: cannot view annotations', e);
+      }
+
+
+    });
+    ////////////////////////////////////////////////////////////////////////////
+
     ////////////////////// get all assignments
     router.get(`${RoutesBase.API_BASE_URL}/assignments`, async (req, res) => {
 
@@ -65,6 +82,38 @@ export class FeedbackRoutes extends RoutesBase {
         logger.error('ERROR: cannot view assignments', e);
       }
 
+
+    });
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////// create or update a drawing
+    router.post(`${RoutesBase.API_BASE_URL}/annotate`, async (req, res) => {
+
+      try {
+        // using await
+        router.use(bodyParser.json()); // parsing JSON files
+        const new_annotation = {
+          idx: req.body.idx,
+          content: req.body.content,
+          type: req.body.type,
+          timestamp: req.body.timestamp,
+          content_idx: req.body.content_idx,
+        };
+        const mongo = req.app.get('mongo');
+        const rval = await mongo.db('feedback').collection('annotations')
+          .updateOne({ idx: new_annotation.idx}, { $set: new_annotation }, { upsert: true } );
+        // status true if success
+        if (rval.modifiedCount === 1) {
+          res.send({status: true});
+        } else {
+          logger.error(`Unexpected Result: from mongo updateOne in edit_snote ${rval}`);
+          // TODO: fix error happening here?
+          res.send({status: false});
+        }
+      } catch (e) {
+        res.send({status: false});
+        logger.error(`Unexpected Exception: ${e}`);
+      }
 
     });
     ////////////////////////////////////////////////////////////////////////////
@@ -133,14 +182,14 @@ export class FeedbackRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-       
         const rval = await mongo.db('feedback').collection('snotes')
-          .updateOne({ idx: req.query.idx}, { $set: { content: req.query.content } }); // TODO: update timestamp
+          .updateOne({ idx: req.query.idx}, { $set: { content: req.query.content, timestamp: req.query.timestamp } });
         // status true if success
         if (rval.modifiedCount === 1) {
           res.send({status: true});
         } else {
-          logger.error(`Unexpected Result: from mongo updateOne in edit_snote ${rval}`); // TODO: fix error happening here?
+          logger.error(`Unexpected Result: from mongo updateOne in edit_snote ${rval}`);
+          // TODO: fix error happening here?
           res.send({status: false});
         }
       } catch (e) {
@@ -159,11 +208,11 @@ export class FeedbackRoutes extends RoutesBase {
         const rval = await mongo.db('feedback').collection('snotes')
           .updateOne({ idx: req.query.idx}, { $set: { x: req.query.x, y: req.query.y } });
         // status true if success
-        logger.error('New x: '+req.query.x+' New y: '+req.query.y);
+        logger.info('New x: '+req.query.x+' New y: '+req.query.y+'for '+req.query.idx);
         if(rval.modifiedCount === 1) {
           res.send({status: true});
-        } else {
-          logger.error(`Unexpected Result in move_snote: from mongo updateOne ${rval}`);
+        } else { // TODO: is the error coming from here actually an error? 
+          logger.error(new Error(`Unexpected Result in move_snote: from mongo updateOne ${rval}`));
           res.send({status: false});
         }
       } catch (e) {

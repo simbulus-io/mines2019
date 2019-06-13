@@ -13,6 +13,7 @@ export interface FeedbackState {
   // SK - when snote data assumes its final form suggest you define an interface
   // instead of using any[] here (e.g. Array<SNoteData>)
   snotes: Note[];
+  annotations: any[];
   students: Student[];
   assignments: Assignment[];
   clickerMode: string;
@@ -23,6 +24,7 @@ const feedback_state: FeedbackState = {
   hello: 'Hello Mines 2019 Field Session',
   // SK - filling in the missing state
   snotes: [],
+  annotations: [],
   students: [],
   assignments: [],
   clickerMode: '',
@@ -41,6 +43,9 @@ export const feedback: Module<FeedbackState, RootState> = {
     // snotes 5/29
     snotes: (state: any, snotes:any) => {
       state.snotes = snotes;
+    },
+    annotations: (state: any, annots:any) => {
+      state.snotes = annots;
     },
     assignments: (state: any, assigns:any) => {
       state.assignments = assigns;
@@ -105,6 +110,20 @@ export const feedback: Module<FeedbackState, RootState> = {
       }
     },
 
+    // route to view all annotations (canvas drawings)
+    annotations: async (context: any, args: any) => {
+      try {
+        // references route defined in test_routes.ts::
+        const rval = await fetch('http://localhost:5101/feedback/v1.0/annotations')
+        const rval_json = await rval.json();
+        log.info(`Got (all annotations) ${rval_json} from the server`);
+        log.info(rval_json.message);
+        context.commit('annotations', rval_json.message);
+      } catch(e) {
+        log.error(e);
+      }
+    },
+
     // route to view all assignments
     assignments: async (context: any, args: any) => {
       try {
@@ -150,7 +169,7 @@ export const feedback: Module<FeedbackState, RootState> = {
       try{
         log.info( 'Accessing route to edit content of a sticky' );
 
-        const query_string = '?idx='+snote.note_idx+'&content='+snote.note.content;
+        const query_string = '?idx='+snote.note_idx+'&content='+snote.note_content+'&timestamp='+Date.now();
         const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string;
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url);
@@ -197,6 +216,25 @@ export const feedback: Module<FeedbackState, RootState> = {
     clickerMode: async (context: any, new_mode: string) => {
       log.info('CHANGED CLICKER MODE TO ' + new_mode);
       context.commit('clickerMode', new_mode);
+    },
+
+    annotate: async ( context: any, annotation:any ) => {
+      try {
+        const json_annotation = JSON.stringify(annotation);
+        log.info(json_annotation);
+        const rval = await fetch('http://localhost:5101/feedback/v1.0/annotate',
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: json_annotation
+        });
+        log.info(rval);
+      } catch(err) {
+        log.error(err);
+      }
     },
 
   }
