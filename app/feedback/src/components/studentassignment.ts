@@ -24,16 +24,26 @@ export default class StudentAssignment extends Vue{
         // filter only gets the sticky notes that are on the content
     }
 
-    public get get_image_path(){
-      const assign:Assignment = this.get_assignment;
-      return assign.url;
+    public get assignment_url(){
+      const assign:Assignment = this.assignment;
+      return assign ? assign.url: '';
     }
 
-    public get get_assignment() {
+    public get assignment() {
         // Passing the this context as the second arg to JS find
         const rval:Assignment = this.$store.state.feedback.assignments.find( (assig) => {
             return assig.idx === this.$route.params.idx;
         }, this);
         return rval;
+    }
+
+    public get assignment_title(){
+      const assign:Assignment = this.assignment;
+      return assign ? assign.title: '';
+    }
+
+    public get student_idx() {
+      const assign:Assignment = this.assignment;
+      return assign ? assign.student_idx: '';
     }
 }

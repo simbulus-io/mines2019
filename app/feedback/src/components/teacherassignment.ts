@@ -22,7 +22,7 @@ import { Student } from './student';
 
 export default class TeacherAssignment extends Vue {
   // This is to record the State of the mouse wheter it's in stickynote or annotation
-    private clickerMode = '';  
+    private clickerMode = '';
 
     constructor() {
       super();
@@ -30,18 +30,23 @@ export default class TeacherAssignment extends Vue {
 
     // snotes 5/29
     public get snotes(){
-        return this.$store.state.feedback.snotes.filter( (curr_snote) => {
-          return curr_snote.content_idx === this.$route.params.idx;
-        }, this);
-        // filter only gets the sticky notes that are on the content
+      return this.$store.state.feedback.snotes.filter( (curr_snote) => {
+        return curr_snote.content_idx === this.$route.params.idx;
+      }, this);
+      // filter only gets the sticky notes that are on the content
     }
 
-    public get get_image_path(){
-      const assign:Assignment = this.get_assignment;
-      return assign.url;
+    public get image_path(){
+      const assign:Assignment = this.assignment;
+      return assign ? assign.url : '';
     }
 
-    public get get_assignment() {
+    public get assignment_title(){
+      const assignment = this.assignment;
+      return assignment ? assignment.title : ''; 
+    }
+
+    public get assignment() {
         // Passing the this context as the second arg to JS find
         const rval = this.$store.state.feedback.assignments.find( (assig) => {
             return assig.idx === this.$route.params.idx;
@@ -49,22 +54,18 @@ export default class TeacherAssignment extends Vue {
         return rval;
     }
 
-    public get get_student() {
-      const assign = this.get_assignment;
-      const rval:Student = this.$store.state.feedback.students.find( (stud) => {
-          return stud.idx === assign.student_idx;
+    public get student_name() {
+      const student:Student = this.$store.state.feedback.students.find( (stud) => {
+          return stud.idx === this.assignment.student_idx;
       }, this);
-      // TODO: figure out why can't do .name here but can do in vue file
-      // const stud_name = rval.name;
-      // return stud_name;
-      return rval;
-  }
+      return student ? student.name : '';
+    }
 
     public get get_message() {
       return this.$store.state.feedback.clickerMode;
       // return this.clickerMode;
     }
-  
+
     public create_snote(){
       const new_idx = Guid.raw();
       const new_note:Note = {
@@ -89,8 +90,8 @@ export default class TeacherAssignment extends Vue {
       this.clickerMode = 'pointer';
     }
     public erase(){
-      this.$store.dispatch('feedback/clickerMode', 'erase');  
+      this.$store.dispatch('feedback/clickerMode', 'erase');
       this.clickerMode = 'erase';
     }
-    
+
 }

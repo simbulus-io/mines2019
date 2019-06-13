@@ -4,11 +4,15 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> Your Assignment: {{get_assignment.title}} </span>
+        <span class="banner"> Your Assignment: {{assignment_title}} </span>
       </div>
-      <div class="bgimg" v-bind:style="{'background-image': 'url(' + get_image_path +')'}">
+      <router-link v-bind:to="'/student/slug/'+student_idx">
+        <button class="button" title="Return to All Assignments">Return to All Assignments</button>
+      </router-link>
+      <hr/>
+      <div class="bgimg" v-bind:style="{'background-image': 'url(' + assignment_url +')'}">
         <DrawingBoard></DrawingBoard>
-        <snote-student v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.get_note"/>
+        <snote-student v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
       </div>
       
 

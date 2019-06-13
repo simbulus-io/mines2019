@@ -60,7 +60,7 @@ export default class DrawingBoard extends Vue{
     public handleMouseUp() {
         this.mouse.down = false;
     }
-    
+
     public handleMouseMove (event) {
         this.mouse.previousx = this.mouse.currentx;
         this.mouse.previousy = this.mouse.currenty;

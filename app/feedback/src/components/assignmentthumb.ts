@@ -6,7 +6,7 @@ import { Student } from './student';
 export default class AssignmentThumb extends Vue {
     @Prop() private readonly assign_idx!: string;
 
-    public get get_assignment() {
+    public get assignment() {
         // Passing the this context as the second arg to JS find
         const rval:Assignment = this.$store.state.feedback.assignments.find( (assig) => {
             return assig.idx === this.assign_idx;
@@ -14,21 +14,21 @@ export default class AssignmentThumb extends Vue {
         return rval;
     }
 
-    public get get_student() {
-        const assign:Assignment = this.get_assignment;
+    public get assignment_url() {
+      return this.assignment ? this.assignment.url : '';
+    }
+
+    public get student_name() {
+      const student = this.student;
+      return student ? student.name : '';
+    }
+
+    public get student() {
+        const assign:Assignment = this.assignment;
         const rval:Student = this.$store.state.feedback.students.find( (stud) => {
             return stud.idx === assign.student_idx;
         }, this);
-        // TODO: figure out why can't do .name here but can do in vue file
-        // getting "Cannot read property of 'name' undefined"
-        // const stud_name = rval.name;
-        // return stud_name;
         return rval;
-    }
-
-    public get get_img_path() {
-        const assign:Assignment = this.get_assignment;
-        return this.get_assignment.url;
     }
 
 }
