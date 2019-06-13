@@ -27,8 +27,7 @@ export default class DrawingBoard extends Vue{
         const ctx = c.getContext('2d') as CanvasRenderingContext2D;
         if (this.mouse.down) {
             this.currentMouse();
-            this.$store.state.feedback.clickerMode === 'annotate'
-            ctx.globalCompositeOperation = this.$store.state.feedback.clickerMode === 'annotate' ? 'source-over' : 'destination-out';
+            ctx.globalCompositeOperation = (this.$store.state.feedback.clickerMode === 'annotate') ? 'source-over' : 'destination-out';
             ctx.beginPath();
             ctx.moveTo(this.mouse.previousx, this.mouse.previousy);
             ctx.lineTo(this.mouse.currentx, this.mouse.currenty);
@@ -72,6 +71,9 @@ export default class DrawingBoard extends Vue{
         if(this.$store.state.feedback.clickerMode === 'erase'){
             this.annotateMode(event);
         }
+        if(this.$store.state.feedback.clickerMode === 'clear'){
+            this.clear();
+        }
     }
 
     public mounted() {
@@ -80,6 +82,22 @@ export default class DrawingBoard extends Vue{
         ctx.translate(0.5, 0.5);
         ctx.imageSmoothingEnabled= false;
         // this.draw();
+    }
+
+    public clear() {
+        const c = document.getElementById('canvas') as HTMLCanvasElement;
+        const ctx = c.getContext('2d') as CanvasRenderingContext2D;
+        ctx.clearRect(0, 0, 1024, 768);
+    }
+
+    public save() {
+        const c = document.getElementById('canvas') as HTMLCanvasElement;
+        const ctx = c.getContext('2d') as CanvasRenderingContext2D;
+        const new_png = ctx.getImageData(0, 0, 1024, 768);
+        // SERIALIZATION
+        this.$store.dispatch('feedback/savePNG', new_png);
+        // DERP
+
     }
 
 }

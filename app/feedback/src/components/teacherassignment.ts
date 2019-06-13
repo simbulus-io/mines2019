@@ -63,7 +63,6 @@ export default class TeacherAssignment extends Vue {
 
     public get get_message() {
       return this.$store.state.feedback.clickerMode;
-      // return this.clickerMode;
     }
 
     public create_snote(){
@@ -83,15 +82,18 @@ export default class TeacherAssignment extends Vue {
     }
     public create_annotation(){
       this.$store.dispatch('feedback/clickerMode', 'annotate');
-      this.clickerMode = 'annotate';
     }
     public pointer(){
       this.$store.dispatch('feedback/clickerMode', 'pointer');
-      this.clickerMode = 'pointer';
     }
     public erase(){
       this.$store.dispatch('feedback/clickerMode', 'erase');
-      this.clickerMode = 'erase';
+    }
+    public clear_all_annotations(){
+      this.$store.dispatch('feedback/clickerMode', 'clear');
+    }
+    public save_annotations(){
+      this.$store.dispatch('feedback/clickerMode', 'clear');
     }
 
 }
