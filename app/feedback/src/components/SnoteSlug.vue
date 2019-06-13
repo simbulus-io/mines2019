@@ -10,8 +10,6 @@
 
 <style lang="scss">
 .slug {
-	margin: 5px;
-	padding: 5px;
 	font-family: sans-serif;
 	text-align: left;
 	display:block;

@@ -45,12 +45,13 @@ $accordion_height: 60px;
 }
 .tab__content {
     width: 96%;
+    min-height: $accordion_height;
     height: auto;
     background-color: rgba(104, 109, 224,1.0);
     padding: 10px;
     margin: 6px;
     color: white;
-    overflow:auto;
+    overflow:hidden;
     div{
         display:inline-block;
     }
