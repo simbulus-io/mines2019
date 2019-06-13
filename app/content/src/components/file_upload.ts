@@ -11,7 +11,7 @@ import { log }                  from '@/logger';
   }
 })
 
-export default class TestRoute extends Vue {
+export default class FileUpload extends Vue {
   private selected_file: any;
   
   constructor() {
@@ -23,10 +23,14 @@ export default class TestRoute extends Vue {
   }
 
   public on_upload(){
+    try {
     fetch('http://localhost:5101/content/v1.0/store_file_upload', {
       method: 'POST',
       body: this.selected_file
-    })
+    }) }
+    catch (e) {
+      console.log('ERROR: not perpetuated', e);
+    }
   }
 
   // Computed

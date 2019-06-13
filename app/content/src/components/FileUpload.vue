@@ -15,7 +15,7 @@
   </MainContent>
 </template>
 
-<script lang="ts" src="./test_route.ts"></script>
+<script lang="ts" src="./file_upload.ts"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
