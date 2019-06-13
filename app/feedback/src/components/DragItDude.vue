@@ -159,6 +159,8 @@
     mounted() {
       this.isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       this.elem = this.$el;
+      this.left = parseInt(this.x);
+      this.top = parseInt(this.y);
       this.elem.style.left = `${this.x}px`;
       this.elem.style.top =  `${this.y}px`;
     },
