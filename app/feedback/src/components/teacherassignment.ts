@@ -61,8 +61,8 @@ export default class TeacherAssignment extends Vue {
   }
 
     public get get_message() {
-      // return this.$store.state.feedback.clickerMode;
-      return this.clickerMode;
+      return this.$store.state.feedback.clickerMode;
+      // return this.clickerMode;
     }
   
     public create_snote(){
