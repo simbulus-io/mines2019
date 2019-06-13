@@ -152,7 +152,7 @@ export const feedback: Module<FeedbackState, RootState> = {
         log.info( 'Accessing route to edit content of a sticky' );
 
         const query_string = '?idx='+snote.note_idx+'&content='+snote.get_note.content;
-        const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string; 
+        const url = 'http://localhost:5101/feedback/v1.0/edit_snote'+query_string;
 
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url);
@@ -162,19 +162,15 @@ export const feedback: Module<FeedbackState, RootState> = {
       }
     },
 
-    move_snote: async (context: any, args:any[] ) => { // snote:any, new_x:number, new_y:number TODO: if don't need commit then just pass idx not whole object
+    move_snote: async (context: any, args:any ) => { // snote:any, new_x:number, new_y:number TODO: if don't need commit then just pass idx not whole object
       try{
         log.info( 'Accessing route to move sticky location' );
-
         //const query_string = '?idx='+snote.note_idx+'&x='+new_x+'&y='+new_y;
-        const query_string = '?idx='+args[0].note_idx+'&x='+args[1]+'&y='+args[2];
-        const url = 'http://localhost:5101/feedback/v1.0/move_snote'+query_string;
-
+        const query_string = `?idx=${args.idx}&x=${args.pt.x}&y=${args.pt.y}`;
+        const url = `http://localhost:5101/feedback/v1.0/move_snote${query_string}`;
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url);
-        args[0].get_note.x = args[1];
-        args[0].get_note.y = args[2];
-        context.commit('move_snote', args[0]);
+        // context.commit('move_snote', args[0]);
       } catch ( e ) {
         log.error(e.message);
       }
