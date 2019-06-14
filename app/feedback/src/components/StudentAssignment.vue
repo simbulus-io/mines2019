@@ -3,7 +3,7 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      <div class="other">
+      <div class="main-layout">
         <span class="banner"> Your Assignment: {{assignment_title}} </span>
       </div>
       <router-link v-bind:to="'/student/slug/'+student_idx">
@@ -38,27 +38,4 @@
     width: 1024px;
     height: 768px;
 }
-.other {
-  position: relative;
-  $left_margin: 60px;
-  margin: 0 auto;
-  text-align: left;
-  min-width: 900px;
-  .banner {
-    display: inline-block;
-    margin: 50px 0 0 $left_margin;
-    font-size: 30px;
-    font-weight: 300;
-    line-height: 36px;
-    text-align: left;
-    user-select: none;
-    color: #555;
-    max-width: calc(100% - 320px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-}
-
 </style>

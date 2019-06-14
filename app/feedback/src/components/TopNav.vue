@@ -1,8 +1,8 @@
 <template>
   <div class="top-nav">
-    <span>Mines 2019 Field Session</span><span style="font-size:19px;margin-left:1px"></span>
+    <span>Woot Tang Clan</span><span style="font-size:19px;margin-left:1px"></span>
     <span><font-awesome-icon icon="bars" /></span>
-    <span>{{display_name}}</span>
+    <span>{{display_name_teacher}}</span>
   </div>
 </template>
 <script lang="ts" src="./top_nav.ts"></script>

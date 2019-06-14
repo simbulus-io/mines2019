@@ -10,6 +10,7 @@
             <router-link :to="{ name: 'studentassignment', params: { idx: assign_idx } }">
                 <div class="tab__content" v-show="active">
                     <div class="assign-img">
+                        <!-- <span class="bgimg" v-bind:style="{'background-image': 'url(' + assignment_url +')'}"></span> -->
                         <img v-bind:src="assignment_url" :alt="assignment_title+' worksheet. Can\'t find '+assignment_url" width="80%">
                     </div>
                     <div class="assign-snotes">
@@ -27,6 +28,17 @@
 <style scoped lang="scss">
 @import "../styles/common.scss";
 $accordion_height: 60px;
+.bgimg {
+    background-position: center center;
+    position:relative;
+    display:inline-block;
+    background-size:contain; // also cover is an option
+    background-repeat:no-repeat;
+    // background-image: url("../../public/wkst.jpg");
+    // //background-image: url("../../public/kitten.jpg");
+    width: 100%;
+    height: 100%;
+}
 .tab__header {
     width: 96%;
     height: $accordion_height;
@@ -35,13 +47,12 @@ $accordion_height: 60px;
     margin: 3px;
     background-color: $wm_green;
     color:$white;
-    font-family: sans-serif;
     a{
         color:$white;
     }
-}
-.tab__header span {
-    float: left;
+    span {
+        float: left;
+    }
 }
 .tab__content {
     width: 96%;
@@ -58,13 +69,13 @@ $accordion_height: 60px;
 }
 .assign-snotes{
     width:75%;
-    font-family: sans-serif;
     text-align: left;
 }
 .assign-img{
     width:25%;
-    max-height: 100px;
+    max-height: 25%;
     vertical-align: top;
+    background-size:contain;
 }
 
 .content {

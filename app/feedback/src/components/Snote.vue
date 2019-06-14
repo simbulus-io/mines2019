@@ -72,7 +72,6 @@
 }
 .snote-text {
   font-size: 8pt;
-  font-family: sans-serif;
 }
 .attr {
   font-style: italic;

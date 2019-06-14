@@ -10,13 +10,11 @@
 
 <style lang="scss">
 .slug {
-	font-family: sans-serif;
 	text-align: left;
 	display:block;
 	width:100%;
 }
 div.snote {
-	
 	h2 {
 		text-decoration: underline;
 	}

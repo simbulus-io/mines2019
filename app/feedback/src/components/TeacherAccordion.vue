@@ -27,13 +27,12 @@ $accordion_height: 60px;
     margin: 3px;
     background-color: $wm_blue;
     color: $white;
-    font-family: sans-serif;
     a{
         color:$white;
     }
-}
-.tab__header span {
-    float: left;
+    span {
+        float: left;
+    }
 }
 .tab__content {
     width: 96%;
@@ -43,7 +42,6 @@ $accordion_height: 60px;
     margin: 6px;
     color: $white;
     div{
-        
         display:inline-block;
     }
 }

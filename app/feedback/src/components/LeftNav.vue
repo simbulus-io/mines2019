@@ -2,7 +2,7 @@
   <div class="left-nav">
     <div class="link-container">
       <router-link :to="{ name: 'studentslug', params: { idx: '313c712e-4772-c17a-eecb-881fc52c82f8' } }">
-        <font-awesome-icon icon="bars" />Sample Student Slug
+        <font-awesome-icon icon="bars" />Student Slug
       </router-link>
       <router-link to="/teacher/slug"><font-awesome-icon icon="bars" />Teacher Slug</router-link>
 

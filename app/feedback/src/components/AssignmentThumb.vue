@@ -22,7 +22,6 @@
   height: auto;
   background-color: $wm_purple; // last value controls transparency
   text-align: left;
-  font-family: sans-serif;
   color: $white;
 }
 .bgimg {
@@ -31,7 +30,6 @@
     display:inline-block;
     background-size:contain; // also cover is an option
     background-repeat:no-repeat;
-    background-repeat: no-repeat;
     height: 200px;
     width: auto;
     max-width: 100%;
