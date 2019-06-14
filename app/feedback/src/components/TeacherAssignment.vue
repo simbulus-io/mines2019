@@ -1,7 +1,5 @@
 <template>
   <MainContent>
-                
-
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
@@ -10,11 +8,9 @@
       <router-link to="/teacher/slug">
         <button class="button" title="Return to All Assignments">Return to All Assignments</button>
       </router-link>
-
       <hr/>
       <div class = "buttontoolbar" >
        <div key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
-
         <button class="button" title="Add Note" v-on:click="create_snote">
           <font-awesome-icon icon="sticky-note" color="rgba(105, 105, 105,1.0)"/>
           </button>
@@ -33,17 +29,12 @@
         <button class="button" title="Return to Pointer" v-on:click="pointer()">
           <font-awesome-icon icon="mouse-pointer" color="rgba(105, 105, 105,1.0)"/>
         </button>
-
        </div>
      </div>
-      <div class="bgimg" v-bind:style="{'background-image': 'url(' + image_path +')'}">
-                    
+      <div class="bgimg" v-bind:style="{'background-image': 'url(' + image_path +')'}">          
           <DrawingBoard></DrawingBoard>
-
         <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
       </div>
-
- 
     </template>
   </MainContent>
 </template>

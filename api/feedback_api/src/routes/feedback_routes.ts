@@ -93,15 +93,15 @@ export class FeedbackRoutes extends RoutesBase {
         // using await
         router.use(bodyParser.json()); // parsing JSON files
         const new_annotation = {
-          idx: req.body.idx,
+          // idx: req.body.idx,
           content: req.body.content,
-          type: req.body.type,
+          // type: req.body.type,
           timestamp: req.body.timestamp,
           content_idx: req.body.content_idx,
         };
         const mongo = req.app.get('mongo');
         const rval = await mongo.db('feedback').collection('annotations')
-          .updateOne({ idx: new_annotation.idx}, { $set: new_annotation }, { upsert: true } );
+          .updateOne({ content_idx: new_annotation.content_idx}, { $set: new_annotation }, { upsert: true } );
         // status true if success
         if (rval.modifiedCount === 1) {
           res.send({status: true});

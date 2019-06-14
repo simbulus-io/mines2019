@@ -8,6 +8,8 @@ import { Note } from './note';
 import {Guid} from 'guid-typescript';
 import { Assignment } from './assignment';
 import { Student } from './student';
+import { Annotation } from './annotation';
+import { stringify } from 'query-string';
 
 
 @Component({
@@ -35,6 +37,7 @@ export default class TeacherAssignment extends Vue {
       }, this);
       // filter only gets the sticky notes that are on the content
     }
+
 
     public get image_path(){
       const assign:Assignment = this.assignment;
@@ -93,7 +96,22 @@ export default class TeacherAssignment extends Vue {
       this.$store.dispatch('feedback/clickerMode', 'clear');
     }
     public save_annotations(){
-      this.$store.dispatch('feedback/clickerMode', 'clear');
+
+      // const new_idx = Guid.raw();
+      const c = document.getElementById('canvas') as HTMLCanvasElement;
+      // const ctx = c.getContext('2d') as CanvasRenderingContext2D;
+      // SERIALIZATION
+      const serializedCanvas = c.toDataURL();
+      const new_png: Annotation = {
+        // author: '',
+        content: serializedCanvas,
+        timestamp: Date.now(),
+        // idx: new_idx,
+        // deleted: false,
+        content_idx: this.$route.params.idx,
+      };
+      this.$store.dispatch('feedback/annotate', new_png);
+
     }
 
 }
