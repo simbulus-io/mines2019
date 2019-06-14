@@ -60,7 +60,7 @@
 
         this.parent.width = this.parentWidth || this.elem.parentNode.offsetWidth;
         this.parent.height = this.parentHeight || this.elem.parentNode.offsetHeight;
-        
+
         if (newHeight > this.parent.height - this.top) {
           const newTop = this.parent.height - this.height;
           this.top = newTop;
@@ -137,7 +137,7 @@
         }
       },
       drop() {
-        this.$emit('dropped');
+        this.$emit('dropped', new Array( this.left, this.top ) );
         document.body.style.overflow = null;
         this.elem.parentElement.removeEventListener('mousemove', this.elementMove, false);
         this.elem.removeEventListener('touchmove', this.elementMove, false);

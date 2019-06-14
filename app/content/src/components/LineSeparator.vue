@@ -10,13 +10,13 @@
     <!--Adds Image to page-->
 
     <!--Makes line(HR tag) draggable-->
-  <li v-for="line in line_data" v-bind:key="line.idx">
-    <drag-it-dude :y="line.y">
-      <div class="line" id="line1" align="center">
-        <hr size="5px" width="99%" color="red">
-      </div>
-    </drag-it-dude>
-  </li>
+    <div class="line-container" v-for="i in [1,2,3]" :key="i">
+      <drag-it-dude class="line" :y="`${i*100}`" >
+        <div id="line1" align="center">
+          <div style="background:red; width:100%; height:10px"></div>
+        </div>
+      </drag-it-dude>
+    </div>
 
   </div>
 </template>
@@ -33,11 +33,17 @@
   height: 5550px;
 }
 
+.line-container {
+  width: 100%;
+  height: 100%;
+}
+
 .line {
-  top: 42px;
-  position: relative;
-  width: 825px;
-  height: 10px;
+  width:100%;
+  // top: 42px;
+  // position: relative;
+  // width: 825px;
+  // height: 10px;
 }
 .picture {
   position: fixed;
