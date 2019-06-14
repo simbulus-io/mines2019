@@ -1,3 +1,3 @@
 export interface Post {
-        string_displacement: string;
+        string_displacement: string[];
 }

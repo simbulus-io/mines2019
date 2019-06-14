@@ -21,17 +21,27 @@ import { Post } from './post';
 
 export default class LineSeparator extends Vue {
 
-
   public line_data = [
     {
-      y:'47',
+      y:'0',
       idx:0,
     },
     {
-      y:'147',
+      y:'200',
       idx:1,
+    },
+    {
+      y:'455',
+      idx:3,
+    },
+    {
+      y:'550',
+      idx:4,
     }
   ]
+  public $http;
+
+  @Prop() private post!: Post;
 
   //this is how you declare reactive data
   constructor() {
@@ -42,43 +52,49 @@ export default class LineSeparator extends Vue {
   
   //Returns the distance of each line from the top of document
   public get_location(){
-    var i:number;
-    let line:any;
+    let i:number;
     let lines = document.getElementsByClassName('line');
-    //Inital offset of lines with respect to page
-    let lineOffset = 90;
-    let data;
 
+    const margin = 25/2;
+    const displacement: number[] = [];
     for (i=0;i<lines.length;i++) {
-      let line = lines[i] as HTMLDivElement;
-      console.log(line.getBoundingClientRect().top -lineOffset + window.pageYOffset);
-      let data = JSON.stringify({line_position: line.getBoundingClientRect().top -100 + window.pageYOffset});
-      
+      displacement[i] = (lines[i].getBoundingClientRect().top - (lines[i].getBoundingClientRect().height/2) - margin);
+      if (displacement[i] < 0){
+        displacement[i] = 0;
+      }
     }
+
+    displacement.sort();
+    this.JSONify(displacement);
+    console.log(displacement);
 }
 
   // Computed
 
-public position_lines(){
-  
-  let data = this.JSONify(47, 147, 247);
-
-  let newData: linePositions =  JSON.parse(data);
-
-}
-
-public JSONify(x,y,z){
-  const data = JSON.stringify({seg1:x,
-                               seg2:y,
-                               seg3:z,
-});
+public JSONify(arr){
+  const data = JSON.stringify(arr);
+  console.log('json ' + data);
 return data;
 }
 
+public poll(){
+  //Poll api
+  const interval = setInterval(() => {this.request(interval); console.log('i')},6000)
+
+  /*
+  fetch('/localHost:5101', { timeout: 60000, interval: 1000 } ).then((response) => {
+    return true;
+  }, Response => {
+    console.log('Big error');
+  });*/
+
 }
 
-interface linePositions {
-  seg1: number;
-  seg2: number;
-  seg3: number;
+public request(interval){
+  fetch('http://localhost:5101/content/v1.0', {
+    method: 'GET'
+  })
+clearInterval(interval)
+return timeHandler
+}
 }

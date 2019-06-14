@@ -1,8 +1,7 @@
 
 <template>
   <div class="line_separator" id="line_separator" style="position: relative;">
-    <button class="button" type="button" v-on:click="get_location()">Submit</button>
-    <button class="button" type="button" v-on:click="position_lines()">Add line</button>
+    <button class="button" type="button" v-on:click="poll()">Submit</button>
 
     <img src="./EngageNY/Algebra1-m03-b-l08.png">
     <!--Displays vertical offset of first horizontal segmentation line-->
@@ -10,8 +9,8 @@
     <!--Adds Image to page-->
 
     <!--Makes line(HR tag) draggable-->
-    <div class="line-container" v-for="i in [1,2,3]" :key="i">
-      <drag-it-dude class="line" :y="`${i*100}`">
+    <div class="line-container" v-for="line in line_data" :key="line">
+      <drag-it-dude class="line" :y="`${line.y}`">
         <div style="background:red; width:100%; height:5px; margin:25px"></div>
       </drag-it-dude>
     </div>
@@ -48,6 +47,10 @@
   height: 10px;
 }
 .button {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+
   height: 50px;
   width: 200px;
 }
