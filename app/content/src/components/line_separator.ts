@@ -1,7 +1,8 @@
 import { clone } from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { log } from '@/logger';
-import DragItDude from '@/components/vue-drag-it-dude/src/DragItDude.vue';
+import DragItDude from '@/components/DragItDude.vue';
+import { Post } from './post';
 
 
 //computed properties = getters
@@ -17,30 +18,70 @@ import DragItDude from '@/components/vue-drag-it-dude/src/DragItDude.vue';
 
 })
 
+
 export default class LineSeparator extends Vue {
 
+
+  public line_data = [
+    {
+      y:47,
+      idx:0,
+    },
+    {
+      y:147,
+      idx:0,
+    }
+  ]
+
   //this is how you declare reactive data
-  private foo: string = 'yoda';
-
-
-
   constructor() {
     super();
 
   }
+  
+  
+  //Returns the distance of each line from the top of document
+  public get_location(){
+    var i:number;
+    let line:any;
+    let lines = document.getElementsByClassName('line');
+    //Inital offset of lines with respect to page
+    let lineOffset = 90;
+    let data;
 
-
+    for (i=0;i<lines.length;i++) {
+      let line = lines[i] as HTMLDivElement;
+      console.log(line.getBoundingClientRect().top -lineOffset + window.pageYOffset);
+      let data = JSON.stringify({line_position: line.getBoundingClientRect().top -100 + window.pageYOffset});
+      
+    }
+}
 
   // Computed
-  public text_in_div(element) {
 
-    
+public position_lines(){
+  
+  let data = this.JSONify(47, 147, 247);
 
-  const rectangle = element.getBoundingClientRect();
+  let newData: linePositions =  JSON.parse(data);
+  var lines = document.getElementsByClassName('line');
+  let i = 0;
+  let newTop;
 
-  return rectangle.top;
 }
 
+public JSONify(x,y,z){
+  const data = JSON.stringify({seg1:x,
+                               seg2:y,
+                               seg3:z,
+});
+return data;
+}
 
 }
 
+interface linePositions {
+  seg1: number;
+  seg2: number;
+  seg3: number;
+}
