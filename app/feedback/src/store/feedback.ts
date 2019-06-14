@@ -5,6 +5,7 @@ import Vue            from 'vue';
 import { Note } from '@/components/note';
 import { Student } from '@/components/student';
 import { Assignment } from '@/components/assignment';
+import { Annotation } from '@/components/annotation';
 
 // FeedbackState Interface
 export interface FeedbackState {
@@ -45,7 +46,7 @@ export const feedback: Module<FeedbackState, RootState> = {
       state.snotes = snotes;
     },
     annotations: (state: any, annots:any) => {
-      state.snotes = annots;
+      state.annotations = annots;
     },
     assignments: (state: any, assigns:any) => {
       state.assignments = assigns;
@@ -218,10 +219,10 @@ export const feedback: Module<FeedbackState, RootState> = {
       context.commit('clickerMode', new_mode);
     },
 
-    annotate: async ( context: any, annotation:any ) => {
+    annotate: async ( context: any, annotation:Annotation ) => {
       try {
         const json_annotation = JSON.stringify(annotation);
-        log.info(json_annotation);
+        // log.info(json_annotation);
         const rval = await fetch('http://localhost:5101/feedback/v1.0/annotate',
         {
           headers: {

@@ -1,7 +1,5 @@
 <template>
   <MainContent>
-                
-
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="main-layout">
@@ -10,7 +8,6 @@
       <router-link to="/teacher/slug">
         <button class="button" title="Return to All Assignments">Return to All Assignments</button>
       </router-link>
-
       <hr/>
       <div class="buttontoolbar" >
        <div key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
@@ -33,17 +30,12 @@
         <button class="toolbar-button-wrapper" title="Return to Pointer" v-on:click="pointer()">
           <font-awesome-icon icon="mouse-pointer"/>
         </button>
-
        </div>
      </div>
-      <div class="bgimg" v-bind:style="{'background-image': 'url(' + image_path +')'}">
-                    
+      <div class="bgimg" v-bind:style="{'background-image': 'url(' + image_path +')'}">          
           <DrawingBoard></DrawingBoard>
-
         <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
       </div>
-
- 
     </template>
   </MainContent>
 </template>

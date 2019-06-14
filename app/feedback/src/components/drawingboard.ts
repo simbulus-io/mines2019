@@ -1,4 +1,5 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { log } from '@/logger';
 
 @Component
 export default class DrawingBoard extends Vue{
@@ -21,6 +22,29 @@ export default class DrawingBoard extends Vue{
         this.mouse.currentx= this.mouse.currentx - rect.left;
         this.mouse.currenty= this.mouse.currenty - rect.top - window.scrollY;
     }
+
+    public get annotation(){
+        log.info('***********')
+        log.info(this.$store.state.feedback.annotations);
+
+        return this.$store.state.feedback.annotations.filter( (curr_annotation) => {
+            return curr_annotation.content_idx === this.$route.params.idx;
+        }, this);
+        // filter only gets the sticky notes that are on the content
+  
+    }
+    public deserializeAnnotation(data, canvas){
+        const img = new Image();
+        log.info(data + 'Hello');
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+        };
+        img.src = data;
+
+    }
+  
 
     public annotateMode (event) {
         const c = document.getElementById('canvas') as HTMLCanvasElement;
@@ -77,27 +101,33 @@ export default class DrawingBoard extends Vue{
     }
 
     public mounted() {
+        const curr_annotation = this.annotation;
         const c = document.getElementById('canvas') as HTMLCanvasElement;
-        const ctx = c.getContext('2d') as CanvasRenderingContext2D;       
-        ctx.translate(0.5, 0.5);
-        ctx.imageSmoothingEnabled= false;
-        // this.draw();
+        const ctx = c.getContext('2d') as CanvasRenderingContext2D;   
+        // if(curr_annotation === null){
+        //     log.info('current annotation is null');
+        //     // ctx.translate(0.5, 0.5);
+        //     // ctx.imageSmoothingEnabled= false;
+        // }
+        // else{
+            // log.info('current annotation is not null');
+            log.info(this.annotation);
+            if(this.annotation){
+                log.info('deserializing annotation');
+                log.info(this.annotation[0].content);
+                this.deserializeAnnotation(this.annotation[0].content, c);
+            }
+            else
+            {
+                log.info('undefined');
+            }
+        // }
     }
 
     public clear() {
         const c = document.getElementById('canvas') as HTMLCanvasElement;
         const ctx = c.getContext('2d') as CanvasRenderingContext2D;
         ctx.clearRect(0, 0, 1024, 768);
-    }
-
-    public save() {
-        const c = document.getElementById('canvas') as HTMLCanvasElement;
-        const ctx = c.getContext('2d') as CanvasRenderingContext2D;
-        const new_png = ctx.getImageData(0, 0, 1024, 768);
-        // SERIALIZATION
-        this.$store.dispatch('feedback/savePNG', new_png);
-        // DERP
-
     }
 
 }
