@@ -53,6 +53,7 @@
   "keywords": [],
   "author": "Sean Kelly",
   "dependencies": {
+    "fs-minipass": "^1.2.6",
     "jest": "^24.8.0",
     "jest-html-reporter": "^2.5.0",
     "random-name": "^0.1.2"

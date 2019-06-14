@@ -12,25 +12,38 @@ import { log }                  from '@/logger';
 })
 
 export default class FileUpload extends Vue {
+  //variable to store file upload
   private selected_file: any;
   
   constructor() {
     super();
   }
 
+  //get the target file
   public on_file_selected(event){
     this.selected_file = event.target.files[0]
   }
 
+  //send the file to the API
   public on_upload(){
+    //console.log(this.selected_file);
     try {
-    fetch('http://localhost:5101/content/v1.0/store_file_upload', {
+    fetch('http://localhost:5101/content/v1.0/db_file_upload', {
       method: 'POST',
       body: this.selected_file
     }) }
     catch (e) {
-      console.log('ERROR: not perpetuated', e);
+      log.info('ERROR: not perpetuated in the db', e);
     }
+
+    try {
+      fetch('http://localhost:5101/content/v1.0/static_file_upload', {
+        method: 'POST',
+        body: this.selected_file
+      }) }
+      catch (e) {
+        log.info('ERROR: not perpetuated statically', e);
+      }
   }
 
   // Computed

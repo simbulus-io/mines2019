@@ -3,15 +3,26 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      <div class="other">
-        <span class="banner"> {{ hello_mines }} </span>
-        <div v-for="elem in test_array" v-bind:key="elem">
-          {{elem.name}}
-        </div>
-        <h1>New name collection should appear below:</h1>
-        <div v-for="idx in test_array" v-bind:key="idx">
-          {{idx.name}}
-        </div>
+      <div class="edit_segments">
+        <h1 class="banner">W00t Math Digital Content Editor</h1>
+          <span>Edit, tag, accept/reject!: </span><br><br>
+            <textarea name="math_problem" rows="18" cols="70">MATH PROBLEM SHOULD DISPLAY HERE</textarea><br><br>
+            <input type="checkbox" name="arithmetic" value="is_arithmetic">Arithmetic
+            <input type="checkbox" name="division" value="is_division">Division
+            <input type="checkbox" name="multiplication" value="is_multiplication">Multiplication
+            <input type="checkbox" name="decimals" value="is_decimals">Decimals<br><br>
+            <input type="checkbox" name="fractions" value="is_fractions">Fractions
+            <input type="checkbox" name="algebra" value="is_algebra">Algebra
+            <input type="checkbox" name="exponents" value="is_exponents">Exponents
+            <input type="checkbox" name="irrationals" value="is_irrationals">Irrationals<br><br>
+            <input type="checkbox" name="geometry" value="is_geometry">Geometry
+            <input type="checkbox" name="logarithms" value="is_logarithms">Logarithms 
+            <input type="checkbox" name="complex_numbers" value="is_complex_numbers">Complex Numbers<br><br>
+            <input type="checkbox" name="trig" value="is_trig">Trigonometry
+            <input type="checkbox" name="calculus" value="is_calculus">Calculus<br><br>
+            <input type="radio" name="save" value="keep" checked> Save it!
+            <input type="radio" name="save" value="discard"> Forget it!<br><br>
+            <button @click="on_submit">Submit!</button><br><br>
       </div>
     </template>
   </MainContent>
