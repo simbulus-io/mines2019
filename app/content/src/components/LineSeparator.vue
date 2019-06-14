@@ -10,13 +10,13 @@
     <!--Adds Image to page-->
 
     <!--Makes line(HR tag) draggable-->
-  <li v-for="line in line_data" v-bind:key="line.idx">
-    <drag-it-dude :y="line.y">
+
+    <drag-it-dude>
       <div class="line" id="line1" align="center">
         <hr size="5px" width="99%" color="red">
       </div>
     </drag-it-dude>
-  </li>
+
     
   </div>
 </template>

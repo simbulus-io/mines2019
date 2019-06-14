@@ -24,12 +24,12 @@ export default class LineSeparator extends Vue {
 
   public line_data = [
     {
-      y:47,
+      y:'47',
       idx:0,
     },
     {
-      y:147,
-      idx:0,
+      y:'147',
+      idx:1,
     }
   ]
 
@@ -64,9 +64,6 @@ public position_lines(){
   let data = this.JSONify(47, 147, 247);
 
   let newData: linePositions =  JSON.parse(data);
-  var lines = document.getElementsByClassName('line');
-  let i = 0;
-  let newTop;
 
 }
 
