@@ -21,7 +21,9 @@ export default class FileUpload extends Vue {
 
   //get the target file
   public on_file_selected(event){
-    this.selected_file = event.target.files[0]
+    this.selected_file = event.target.files[0];
+    log.info(this.selected_file.name);
+
   }
 
   //send the file to the API
@@ -30,7 +32,7 @@ export default class FileUpload extends Vue {
     try {
     fetch('http://localhost:5101/content/v1.0/db_file_upload', {
       method: 'POST',
-      body: this.selected_file
+      body: this.selected_file.name
     }) }
     catch (e) {
       log.info('ERROR: not perpetuated in the db', e);
