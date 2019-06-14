@@ -10,7 +10,7 @@ export class TestRoutes extends RoutesBase {
 
     router.get(`${RoutesBase.API_BASE_URL}/hello`, (req: Request, res: Response, next: NextFunction) => {
       res.setHeader('Content-Type', 'application/json');
-      res.json({status: true, message: 'Welcome Field Session 2019 - This message is from the feedback_api'});
+      res.json({status: true, message: 'Welcome Field Session 2019 - This message is from the content_api'});
     });
 
     router.get(`${RoutesBase.API_BASE_URL}/test/logger`, (req: Request, res: Response, next: NextFunction) => {
