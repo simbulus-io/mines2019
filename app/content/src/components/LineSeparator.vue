@@ -17,7 +17,7 @@
       </div>
     </drag-it-dude>
   </li>
-    
+
   </div>
 </template>
 
