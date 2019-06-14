@@ -15,6 +15,14 @@
   export default {
     name: 'drag-it-dude',
     props: {
+      x: {
+        type: String,
+        default: '0',
+      },
+      y: {
+        type: String,
+        default: '0',
+      },
       width: {
         type: Number,
         default: 0,
@@ -102,10 +110,10 @@
         } else {
           newTop = y - this.shiftY;
         }
-        this.elem.style.left = `${newLeft}px`;
-        this.left = newLeft;
-        this.elem.style.top = `${newTop}px`;
-        this.top = newTop;
+          this.elem.style.left = `${newLeft}px`;
+          this.left = newLeft;
+          this.elem.style.top = `${newTop}px`;
+          this.top = newTop;
       },
       hang(e) {
         this.$emit('activated');
@@ -140,6 +148,10 @@
     mounted() {
       this.isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       this.elem = this.$el;
+      this.left = parseInt(this.x);
+      this.top = parseInt(this.y);
+      this.elem.style.left = `${this.x}px`;
+      this.elem.style.top =  `${this.y}px`;
     },
   };
 </script>
