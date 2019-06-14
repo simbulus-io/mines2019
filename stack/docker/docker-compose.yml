@@ -78,6 +78,25 @@ services:
   #     - shared_tmp:/shared
   #   networks:
   #     - backend
+  coproc:
+    tty: true # Enables debugging capabilities when attached to this container.
+    image: python-coproc
+    user: "root"
+    restart: "always"
+    command:  tail -f /dev/null
+    # We are not using any of the environment setup w/in the express config... but it might be nice to
+    environment:
+      - DATABASE_URL=mongodb://mongodb:27017/content
+      - SKIP_DB_WAIT=0
+      - SKIP_DB_MIGRATION=0
+      - SKIP_NPM_INSTALL=0
+      - SKIP_BOWER_INSTALL=0
+    depends_on:
+      - mongodb
+    volumes:
+      - shared_tmp:/shared
+    networks:
+      - backend
 networks:
   backend:
 

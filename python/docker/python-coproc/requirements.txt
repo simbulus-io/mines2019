@@ -1,0 +1,5 @@
+# - - - -
+# insert packages needed, e.g. as
+# python-dateutil
+# python-dateutil==2.8.0
+# python-dateutil>=2.8
