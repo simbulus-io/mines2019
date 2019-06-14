@@ -17,7 +17,7 @@
 
 </script>
 <style scoped lang="scss">
-
+@import "../styles/common.scss";
 $accordion_height: 60px;
 .tab__header {
     width: 96%;
@@ -25,11 +25,11 @@ $accordion_height: 60px;
     padding: 10px;
     border: none;
     margin: 3px;
-    background-color: rgba(19, 15, 64,1.0);
-    color:rgba(255,255,255,1.0);
+    background-color: $wm_blue;
+    color: $white;
     font-family: sans-serif;
     a{
-        color:rgba(255,255,255,1.0);
+        color:$white;
     }
 }
 .tab__header span {
@@ -38,10 +38,10 @@ $accordion_height: 60px;
 .tab__content {
     width: 96%;
     height: auto;
-    background-color: rgba(104, 109, 224,1.0);
+    background-color: $wm_bright_blue;
     padding: 10px;
     margin: 6px;
-    color: white;
+    color: $white;
     div{
         
         display:inline-block;

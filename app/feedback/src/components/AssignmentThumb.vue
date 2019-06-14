@@ -12,7 +12,7 @@
 <script lang="ts" src="./assignmentthumb.ts"></script>
 
 <style lang="scss">
-
+@import "../styles/common.scss";
 .assign-thumb {
   position: inline;
   display: inline-block;
@@ -20,10 +20,10 @@
   padding: 10px;
   max-width: 200px;
   height: auto;
-  background-color: rgba(48, 51, 107,1.0); // last value controls transparency
+  background-color: $wm_purple; // last value controls transparency
   text-align: left;
   font-family: sans-serif;
-  color: white;
+  color: $white;
 }
 .bgimg {
     background-position: center center;
