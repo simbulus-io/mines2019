@@ -1,0 +1,13 @@
+diff --git a/ccmain/equationdetect.cpp b/ccmain/equationdetect.cpp
+index 07a3c491..5386f142 100644
+--- a/ccmain/equationdetect.cpp
++++ b/ccmain/equationdetect.cpp
+@@ -292,7 +292,7 @@ void EquationDetect::IdentifySpecialText() {
+       }
+     }
+     blob_heights.sort();
+-    int height_th =  blob_heights[blob_heights.size() / 2] / 3 * 2;
++    int height_th =  (blob_heights.size()>0) ? blob_heights[blob_heights.size() / 2] / 3 * 2 : 0;
+     for (bbox_it.mark_cycle_pt (); !bbox_it.cycled_list();
+          bbox_it.forward()) {
+       if (bbox_it.data()->special_text_type() != BSTT_SKIP) {

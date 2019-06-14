@@ -71,8 +71,8 @@ export class TestRoutes extends RoutesBase {
       }
     });
 
-    //TEST ROUTE TO SERVE STATIC FILES LOCATED IN 'content_api/dist/routes/public' DIRECTORY
-    router.get(`${RoutesBase.API_BASE_URL}/:static_file`, async (req: Request,
+    ///////serve files in the 'content_api/dist/routes/public' directory when requested by name//////
+    router.get(`${RoutesBase.API_BASE_URL}/static/:static_file`, async (req: Request,
       res: Response,
       next: NextFunction) => {
       try {
