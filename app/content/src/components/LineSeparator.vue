@@ -1,6 +1,6 @@
 
 <template>
-  <div class="line_separator" style="position: relative;">
+  <div class="line_separator" id="line_separator" style="position: relative;">
     <button class="button" type="button" v-on:click="get_location()">Submit</button>
     <button class="button" type="button" v-on:click="position_lines()">Add line</button>
 
@@ -10,24 +10,14 @@
     <!--Adds Image to page-->
 
     <!--Makes line(HR tag) draggable-->
-
-    <drag-it-dude id="drag1">
+  <li v-for="line in line_data" v-bind:key="line.idx">
+    <drag-it-dude :y="line.y">
       <div class="line" id="line1" align="center">
         <hr size="5px" width="99%" color="red">
       </div>
     </drag-it-dude>
-
-    <drag-it-dude>
-      <div class="line" align="center">
-        <hr size="5px" width="99%" color="red">
-      </div>
-    </drag-it-dude>
-
-    <drag-it-dude>
-      <div class="line" align="center">
-        <hr size="5px" width="99%" color="red">
-      </div>
-    </drag-it-dude>
+  </li>
+    
   </div>
 </template>
 

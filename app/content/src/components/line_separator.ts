@@ -1,7 +1,7 @@
 import { clone } from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { log } from '@/logger';
-import DragItDude from '@/components/vue-drag-it-dude/src/DragItDude.vue';
+import DragItDude from '@/components/DragItDude.vue';
 import { Post } from './post';
 
 
@@ -18,14 +18,26 @@ import { Post } from './post';
 
 })
 
+
 export default class LineSeparator extends Vue {
+
+
+  public line_data = [
+    {
+      y:47,
+      idx:0,
+    },
+    {
+      y:147,
+      idx:0,
+    }
+  ]
 
   //this is how you declare reactive data
   constructor() {
     super();
 
   }
-
   
   
   //Returns the distance of each line from the top of document
@@ -47,16 +59,29 @@ export default class LineSeparator extends Vue {
 
   // Computed
 
-public position_lines(JSONinfo){
+public position_lines(){
+  
+  let data = this.JSONify(47, 147, 247);
+
+  let newData: linePositions =  JSON.parse(data);
   var lines = document.getElementsByClassName('line');
-  let i;
+  let i = 0;
   let newTop;
-  for (i = 0; i < lines.length; i++){
-    newTop = 42 + (100*i);
-    lines[i].setAttribute('style','top:'+ newTop + 'px');
-    console.log(lines[i].clientTop);
-  }
+
+}
+
+public JSONify(x,y,z){
+  const data = JSON.stringify({seg1:x,
+                               seg2:y,
+                               seg3:z,
+});
+return data;
 }
 
 }
 
+interface linePositions {
+  seg1: number;
+  seg2: number;
+  seg3: number;
+}
