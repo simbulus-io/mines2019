@@ -34,7 +34,7 @@
     line-height: 36px;
     text-align: left;
     user-select: none;
-    color: #555;
+    color: $wm_gray;
     max-width: calc(100% - 320px);
     overflow: hidden;
     text-overflow: ellipsis;

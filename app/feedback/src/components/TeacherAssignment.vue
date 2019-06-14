@@ -12,26 +12,26 @@
       </router-link>
 
       <hr/>
-      <div class = "buttontoolbar" >
+      <div class="buttontoolbar" >
        <div key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
 
-        <button class="button" title="Add Note" v-on:click="create_snote">
-          <font-awesome-icon icon="sticky-note" color="rgba(105, 105, 105,1.0)"/>
+        <button class="toolbar-button-wrapper" title="Add Note" v-on:click="create_snote">
+          <font-awesome-icon icon="sticky-note" color="#444444"/>
           </button>
-        <button class="button" title="Annotate" v-on:click="create_annotation()">
-          <font-awesome-icon icon="pen" color="rgba(105, 105, 105,1.0)"/>
+        <button class="toolbar-button-wrapper" title="Annotate" v-on:click="create_annotation()">
+          <font-awesome-icon icon="pen" color="#444444"/>
         </button>
-        <button class="button" title="Erase Annotation" v-on:click="erase()">
-          <font-awesome-icon icon="eraser" color="rgba(105, 105, 105,1.0)"/>
+        <button class="toolbar-button-wrapper" title="Erase Annotation" v-on:click="erase()">
+          <font-awesome-icon icon="eraser" color="#444444"/>
         </button>
-        <button class="button" title="Save Annotations" v-on:click="save_annotations()">
-          <font-awesome-icon icon="save" color="rgba(105,105,105,1.0)"/>
+        <button class="toolbar-button-wrapper" title="Save Annotations" v-on:click="save_annotations()">
+          <font-awesome-icon icon="save" color="#444444"/>
         </button>
-        <button class="button" title="Clear All Annotations" v-on:click="clear_all_annotations()">
-          <font-awesome-icon icon="bomb" color="rgba(105,105,105,1.0)"/>
+        <button class="toolbar-button-wrapper" title="Clear All Annotations" v-on:click="clear_all_annotations()">
+          <font-awesome-icon icon="bomb" color="#444444"/>
         </button>
-        <button class="button" title="Return to Pointer" v-on:click="pointer()">
-          <font-awesome-icon icon="mouse-pointer" color="rgba(105, 105, 105,1.0)"/>
+        <button class="toolbar-button-wrapper" title="Return to Pointer" v-on:click="pointer()">
+          <font-awesome-icon icon="mouse-pointer" color="#444444"/>
         </button>
 
        </div>
@@ -87,50 +87,52 @@
     line-height: 36px;
     text-align: left;
     user-select: none;
-    color: #555;
+    color: $wm_gray;
     max-width: calc(100% - 320px);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-.transparent{
-  z-index: 10;
-  opacity: 0;
-}
-   .button {
-     z-index: 4;
-     background: #ffffff;
-     border-radius: 3px;
-     border: none;
-     font-family: Arial;
-     color: #000000;
-     font-size: 12px;
-     padding: 2px 2px 2px 2px;
-     text-decoration: none;
-     height: 30px;
-     width: 30px;
-     margin-top: 5px;
-     margin-left: 2px;
-     margin-right: 2px;
-     margin-bottom: 5px;
-     // display: block;
- }
-
-.buttontoolbar {
- position: fixed;
- bottom: 0;
- z-index: 3;
- background: #435ebc;
-// box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- box-shadow: 0 0 8px #000;
- border: none;
- border-radius: 3px;
-}
-
-.button.active {
-    background: #cecece;
+  .transparent{
+    z-index: 10;
+    opacity: 0;
+  }
+  .toolbar-button-wrapper {
+    z-index: 4;
+    background: $white;
+    border-radius: 3px;
+    border: none;
+    font-family: Arial;
+    color: $wm_gray;
+    font-size: 12px;
+    padding: 2px 2px 2px 2px;
     text-decoration: none;
-}
+    height: 60px;
+    width: 60px;
+    margin-top: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 5px;
+    font-awesome-icon {
+      color: red;
+    }
+    // display: block;
+  }
+
+  .buttontoolbar {
+  position: fixed;
+  bottom: 0;
+  z-index: 3;
+  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 0 8px #000;
+  border: none;
+  border-radius: 3px;
+  }
+
+  .button.active {
+      background: $white;
+      text-decoration: none;
+  }
 
 }
 
