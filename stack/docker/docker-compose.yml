@@ -38,9 +38,10 @@ services:
     user: "root"
     restart: "always"
     command:  /bin/sh -c "yarn --cwd api build && node api/dist/bootstrap.js"
+#    command: tail -f /dev/null
     # We are not using any of the environment setup w/in the express config... but it might be nice to
     environment:
-      - DATABASE_URL=mongodb://mongodb:27017/content
+      - DATABASE_URL=mongodb://mongodb:27017
       - SKIP_DB_WAIT=0
       - SKIP_DB_MIGRATION=0
       - SKIP_NPM_INSTALL=0
