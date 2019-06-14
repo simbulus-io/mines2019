@@ -1,13 +1,11 @@
-
 <template>
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <span class="banner"> {{ hello_mines }} </span>
-        <div v-for="elem in test_array" v-bind:key="elem">
-          {{elem.name}}
-        </div>
+        
+        <line-separator></line-separator>
+    
       </div>
     </template>
   </MainContent>
@@ -40,3 +38,8 @@
   }
 }
 </style>
+
+
+
+
+                                                                          

@@ -7,6 +7,7 @@ import { MongoHelper }       from './helpers/mongo_helper';
 import { IndexRoutes }       from './routes/index_routes';
 import { TestRoutes }        from './routes/test_routes';
 import express               from 'express';
+import { ContentRoutes } from './routes/content_routes';
 
 const cookieParser = require('cookie-parser');
 const cors         = require('cors');
@@ -52,6 +53,7 @@ export class Server {
       this.app.use(cookieParser());
       //add static paths
       this.app.use(express.static(path.join(__dirname, 'public')));
+      //this.app.use(express.static('public'));
       //mount json form parser
       this.app.use(bodyParser.json());
       //mount query string parser
@@ -75,6 +77,7 @@ export class Server {
     // This is where you plug in routes (REST endpoints)
     new IndexRoutes(router);
     new TestRoutes(router);
+    new ContentRoutes(router);
     //use router middleware
     this.app.use(router);
   }
