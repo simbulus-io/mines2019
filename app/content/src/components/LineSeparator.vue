@@ -11,10 +11,8 @@
 
     <!--Makes line(HR tag) draggable-->
     <div class="line-container" v-for="i in [1,2,3]" :key="i">
-      <drag-it-dude class="line" :y="`${i*100}`" >
-        <div id="line1" align="center">
-          <div style="background:red; width:100%; height:10px"></div>
-        </div>
+      <drag-it-dude class="line" :y="`${i*100}`">
+        <div style="background:red; width:100%; height:5px; margin:25px"></div>
       </drag-it-dude>
     </div>
 
@@ -27,6 +25,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../styles/common.scss";
+
 .line_separator {
   position: absolute;
   width: 825px;
@@ -40,10 +39,6 @@
 
 .line {
   width:100%;
-  // top: 42px;
-  // position: relative;
-  // width: 825px;
-  // height: 10px;
 }
 .picture {
   position: fixed;
