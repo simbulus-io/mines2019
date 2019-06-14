@@ -76,7 +76,6 @@ export class TestRoutes extends RoutesBase {
       res: Response,
       next: NextFunction) => {
       try {
-        //console.log(req.params.static_file);
         res.sendFile('/public/' + req.params.static_file, { root: __dirname });
       } catch (e) {
         logger.error('Error serving image', e);

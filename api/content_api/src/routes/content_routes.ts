@@ -17,12 +17,13 @@ export class ContentRoutes extends RoutesBase {
     router.post(`${RoutesBase.API_BASE_URL}/db_file_upload`, async (req, res) => {
 
       try {
-        logger.info('heres the db body: ' + req.body);
+        const bdy = JSON.stringify(req.body.file);
+        logger.info('heres the db body: ' + bdy);
         //console.log(req.body);
         const mongo = req.app.get('mongo');
         const collection = mongo.db('content').collection('file_uploads');
         const promises: Array<Promise<any>> = [];
-        const data = {file: req.body};
+        const data = {file: bdy};
         const promise = collection.insertOne(
             data,
         );
@@ -41,9 +42,9 @@ export class ContentRoutes extends RoutesBase {
       try {
         logger.info('heres the static body: ' + req.body);
         const readStream = req.body;
-        const writeStream = new fsm.WriteStream('./public');
+        const writeStream = new fsm.WriteStream('./public.txt');
         writeStream.write('some file header or whatever\n');
-        readStream.pipe(writeStream);
+        //readStream.pipe(writeStream);
         return;
       } catch (e) {
         logger.error('Unexpected Exception TestWrite', e);

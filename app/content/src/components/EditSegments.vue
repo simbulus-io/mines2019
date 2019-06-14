@@ -3,10 +3,11 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      <div class="edit_segments">
-        <h1 class="banner">W00t Math Digital Content Editor</h1>
-          <span>Edit, tag, accept/reject!: </span><br><br>
-            <textarea name="math_problem" rows="18" cols="70">MATH PROBLEM SHOULD DISPLAY HERE</textarea><br><br>
+      <h1 class="banner">W00t Math Digital Content Editor</h1>
+      <span>Edit, tag, accept/reject!: </span><br><br>
+      <div v-for="elem in test_array" v-bind:key="elem">
+           <!-- <p style="white-space: pre-line;">{{elem.name}}</p>-->
+            <textarea name="math_problem" rows="18" cols="70" v-model="elem.name"></textarea><br><br>
             <input type="checkbox" name="arithmetic" value="is_arithmetic">Arithmetic
             <input type="checkbox" name="division" value="is_division">Division
             <input type="checkbox" name="multiplication" value="is_multiplication">Multiplication
