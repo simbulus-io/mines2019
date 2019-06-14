@@ -1,38 +1,23 @@
 
 <template>
+  <div class="line_separator" id="line_separator" style="position: relative;">
+    <button class="button" type="button" v-on:click="get_location()">Submit</button>
+    <button class="button" type="button" v-on:click="position_lines()">Add line</button>
 
-  <div class="line_separator"  style="position: relative;">
+    <img src="./EngageNY/Algebra1-m03-b-l08.png">
     <!--Displays vertical offset of first horizontal segmentation line-->
-    <button type="button" onclick="text_in_div">Add Another line</button>    
-    
-    <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped"></drag-it-dude>
+
     <!--Adds Image to page-->
-    <img src='./EngageNY/Algebra1-m03-b-l08.png'>
 
     <!--Makes line(HR tag) draggable-->
-      <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-      <div class="line" id="line1" align="center" onmouseup="console.log(getBoundingClientRect().top -63 + window.pageYOffset)">
-        <hr size="5px" width="99%" color="red">
-    
-      </div>
-      
+    <div class="line-container" v-for="i in [1,2,3]" :key="i">
+      <drag-it-dude class="line" :y="`${i*100}`" >
+        <div id="line1" align="center">
+          <div style="background:red; width:100%; height:10px"></div>
+        </div>
       </drag-it-dude>
-
-      
-      <drag-it-dude@activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-      <div class="line" align="center" onmouseup="console.log(getBoundingClientRect().top -63 + window.pageYOffset)">
-        <hr size="5px" width="99%" color="red">
-      </div>
-      </drag-it-dude>
-      
-      <drag-it-dude @activated="handleActivated" @dragging="handleDragging" @dropped="handleDropped">
-      
-      <div class="line" align="center" onmouseup="console.log(getBoundingClientRect().top -63 + window.pageYOffset)">
-        <hr size="5px" width="99%" color="red">
-      </div>
-      </drag-it-dude>
-  <div class="Button">
     </div>
+
   </div>
 </template>
 
@@ -45,37 +30,30 @@
 .line_separator {
   position: absolute;
   width: 825px;
-  height: 5250px;
-} 
+  height: 5550px;
+}
+
+.line-container {
+  width: 100%;
+  height: 100%;
+}
 
 .line {
-  top: 15px;
-  position: relative;
-  width: 825px;
-  height: 10px;
-
-
+  width:100%;
+  // top: 42px;
+  // position: relative;
+  // width: 825px;
+  // height: 10px;
 }
-.vl {
-  position: relative;
-  border-left: 6px solid red;
-  height: 5250px;
-  width: 50px;
-  top: 65px;
-}
-.vr {
-  position: relative;
-  border-right: 6px solid red;
-  height: 5250px;
-  width: 50px;
-  top: 65px;
-  left: 0px;
-}
-.picture{
+.picture {
   position: fixed;
-  bottom:1000px;
+  bottom: 1000px;
   left: 0px;
   width: 10px;
   height: 10px;
+}
+.button {
+  height: 50px;
+  width: 200px;
 }
 </style>

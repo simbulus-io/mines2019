@@ -15,6 +15,14 @@
   export default {
     name: 'drag-it-dude',
     props: {
+      x: {
+        type: String,
+        default: '0',
+      },
+      y: {
+        type: String,
+        default: '0',
+      },
       width: {
         type: Number,
         default: 0,
@@ -52,7 +60,7 @@
 
         this.parent.width = this.parentWidth || this.elem.parentNode.offsetWidth;
         this.parent.height = this.parentHeight || this.elem.parentNode.offsetHeight;
-        
+
         if (newHeight > this.parent.height - this.top) {
           const newTop = this.parent.height - this.height;
           this.top = newTop;
@@ -102,10 +110,10 @@
         } else {
           newTop = y - this.shiftY;
         }
-        this.elem.style.left = `${newLeft}px`;
-        this.left = newLeft;
-        this.elem.style.top = `${newTop}px`;
-        this.top = newTop;
+          this.elem.style.left = `${newLeft}px`;
+          this.left = newLeft;
+          this.elem.style.top = `${newTop}px`;
+          this.top = newTop;
       },
       hang(e) {
         this.$emit('activated');
@@ -129,7 +137,7 @@
         }
       },
       drop() {
-        this.$emit('dropped');
+        this.$emit('dropped', new Array( this.left, this.top ) );
         document.body.style.overflow = null;
         this.elem.parentElement.removeEventListener('mousemove', this.elementMove, false);
         this.elem.removeEventListener('touchmove', this.elementMove, false);
@@ -140,6 +148,10 @@
     mounted() {
       this.isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       this.elem = this.$el;
+      this.left = parseInt(this.x);
+      this.top = parseInt(this.y);
+      this.elem.style.left = `${this.x}px`;
+      this.elem.style.top =  `${this.y}px`;
     },
   };
 </script>
