@@ -1,6 +1,7 @@
 import * as logger       from 'winston';
 import { Guid }          from 'guid-typescript';
 import { Router }        from 'express';
+import { ThrowReporter } from "io-ts/lib/ThrowReporter";
 
 import { RoutesBase }    from './routes_base';
 // schema
@@ -34,10 +35,12 @@ export class JobsRoutes extends RoutesBase {
           // return  job_id
           res.json({status: true, job_id: job.id});
         } else {
-          throw new Error(`SchemaViolation`);
+          const result = JobInput.decode(payload);
+          // Use a reporter to throw an error if validation fails
+          ThrowReporter.report(result);
         }
       } catch (e) {
-        logger.error(new Error(`Unexpected Error in schedule_job: ${e}`));
+        logger.error(new Error(`Unexpected Error in schedule_job:\n ${e}`));
         res.json({status: false});
         res.status(422);
       }
