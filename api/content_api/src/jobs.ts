@@ -4,6 +4,7 @@ import * as t         from 'io-ts';
 // JobInput Schema
 export const JobInput = t.type({
   name: t.string,
+  args: t.union([t.object , t.undefined]),
 });
 
 // JobID Schema
