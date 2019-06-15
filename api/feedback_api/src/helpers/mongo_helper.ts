@@ -10,7 +10,8 @@ export class MongoHelper {
       host: 'localhost',
       port: '27027',
     };
-    const mongo_url = 'mongodb://' + mongo_conf.host + ':' + mongo_conf.port;
+    const mongo_url = 'mongodb://mongodb:27017/content';
+    // const mongo_url = 'mongodb://' + mongo_conf.host + ':' + mongo_conf.port;
     try {
       const client  = await MongoClient.connect(mongo_url);
       logger.info(`Successfully to mongodb at ${mongo_url}`);

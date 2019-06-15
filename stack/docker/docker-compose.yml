@@ -12,7 +12,7 @@ services:
       # [local file]:[container file]
       - "./mongodb/mongod.conf:/etc/mongod.conf"
     ports:
-      - 27017:27017
+      - 27027:27017
     networks:
       - backend
   nginx-proxy:
@@ -83,18 +83,16 @@ services:
     image: python-coproc
     user: "root"
     restart: "always"
-    command:  tail -f /dev/null
-    # We are not using any of the environment setup w/in the express config... but it might be nice to
+    command:  python /app/app.py
     environment:
-      - DATABASE_URL=mongodb://mongodb:27017/content
-      - SKIP_DB_WAIT=0
-      - SKIP_DB_MIGRATION=0
-      - SKIP_NPM_INSTALL=0
-      - SKIP_BOWER_INSTALL=0
+      - MONGO_URL=mongodb://mongodb:27017
     depends_on:
       - mongodb
     volumes:
       - shared_tmp:/shared
+      - ../../python/docker/python-coproc:/app
+      - ../../python/docker/modules:/modules
+      - ../../python/docker/data:/data
     networks:
       - backend
 networks:
