@@ -1,7 +1,7 @@
 import * as logger       from 'winston';
 import { Guid }          from 'guid-typescript';
 import { Router }        from 'express';
-import { ThrowReporter } from "io-ts/lib/ThrowReporter";
+import { ThrowReporter } from 'io-ts/lib/ThrowReporter';
 
 import { RoutesBase }    from './routes_base';
 // schema
