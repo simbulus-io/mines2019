@@ -23,6 +23,7 @@
     "only-arrow-functions": false,
     "object-literal-shorthand": false,
     "align": false,
+    "curly": false,
     "comment-format": false,
     "no-debugger": false,
     "no-var-requires": false,
