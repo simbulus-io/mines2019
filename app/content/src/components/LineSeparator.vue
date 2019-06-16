@@ -1,7 +1,7 @@
 
 <template>
   <div class="line_separator" id="line_separator" style="position: relative;">
-    <button class="button" type="button" v-on:click="get_location()">Submit</button>
+    <button class="button" type="button" v-on:click="get_location();submit_locations();poll();">Submit</button>
 
     <img src="./EngageNY/Algebra1-m03-b-l08.png">
     <!--Displays vertical offset of first horizontal segmentation line-->
@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script lang="ts" src="./line_separator.ts">
+<script lang="ts" src="./line_separator.js">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
