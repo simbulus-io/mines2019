@@ -121,13 +121,13 @@ while True:
     r = poll_for_jobs(jobs, results)
     if r==None:
         time.sleep(sleep_time)
-        if (sleep_time<8):
-            sleep_time *= 1.2
+        # if (sleep_time<8):
+        #    sleep_time *= 1.2
     else:
         sys.stdout.flush()
-        sleep_time = 1
-        if jobs.count()==0:
-            time.sleep(sleep_time)
+        # sleep_time = 1
+        # if jobs.count()==0:
+        #     time.sleep(sleep_time)
             
         
 
