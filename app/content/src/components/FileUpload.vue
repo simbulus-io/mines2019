@@ -6,10 +6,10 @@
       <div class="upload">
         <h1 class="banner">W00t Math Content Digitzer</h1>
           <span>Select file to upload (.jpg, .png, .pdf), should you so desire: </span><br>
-            <input type="file" id="file_upload" accept=".jpg,.png,.pdf" @change="on_file_selected"><br><br>
+            <input type="file" name="file_upload" id="file_upload" accept=".jpg,.png,.pdf" @change="on_file_selected"><br><br>
             <button @click="on_upload">Upload!</button><br><br>
-            <!--this img loads from /public via the test_image route-->   
-            <img v-bind:src="test_image">
+            <!--this img loads from /public via the test_image route 
+            <img v-bind:src="test_image">-->  
       </div>
     </template>
   </MainContent>
