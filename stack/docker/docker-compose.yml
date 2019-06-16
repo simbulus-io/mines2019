@@ -34,17 +34,17 @@ services:
       # - express-feedback
   express-content:
     tty: true # Enables debugging capabilities when attached to this container.
-    image: base-express
+    # image: base-express
+    image: bmilne/express:1.0
     user: "root"
     restart: "always"
     command:  /bin/sh -c "yarn --cwd api build && node api/dist/bootstrap.js"
-    # We are not using any of the environment setup w/in the express config... but it might be nice to
     environment:
       - DATABASE_URL=mongodb://mongodb:27017/content
-      - SKIP_DB_WAIT=0
-      - SKIP_DB_MIGRATION=0
-      - SKIP_NPM_INSTALL=0
-      - SKIP_BOWER_INSTALL=0
+      # - SKIP_DB_WAIT=0
+      # - SKIP_DB_MIGRATION=0
+      # - SKIP_NPM_INSTALL=0
+      # - SKIP_BOWER_INSTALL=0
     depends_on:
       - mongodb
     ports:
@@ -79,7 +79,8 @@ services:
   #     - backend
   coproc:
     tty: true # Enables debugging capabilities when attached to this container.
-    image: python-coproc
+    image: bmilne/pyco:1.0
+    # image: python-coproc
     user: "root"
     restart: "always"
     command:  python /app/app.py

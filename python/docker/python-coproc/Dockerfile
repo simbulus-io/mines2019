@@ -11,6 +11,12 @@ FROM coproc-stage-0
 
 WORKDIR /app
 
+
+RUN set -xe ; \
+      cat /etc/ImageMagick-6/policy.xml \
+      | sed -e 's/rights="none"/rights="read"/' \
+      > /etc/ImageMagick-6/policy.xml
+
 COPY ./requirements.txt /requirements.txt
 
 RUN pip install -r /requirements.txt
