@@ -13,7 +13,7 @@ docker-compose up
 To restart one of the components, e.g. the coprocessor, run the following docker-compose command in this directory:
 
 ```
-docker-compose up
+docker-compose restart coproc_1
 ```
 
 
