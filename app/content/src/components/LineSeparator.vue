@@ -1,7 +1,7 @@
 
 <template>
   <div class="line_separator" id="line_separator" style="position: relative;">
-    <button class="button" type="button" v-on:click="get_location();submit_locations();poll();">Submit</button>
+    <button class="button" type="button" v-on:click="get_location();submit_locations(line_data);">Submit</button>
 
     <img src="./EngageNY/Algebra1-m03-b-l08.png">
     <!--Displays vertical offset of first horizontal segmentation line-->
