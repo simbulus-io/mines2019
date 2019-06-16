@@ -4,26 +4,50 @@ import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 import { file } from '@babel/types';
 
+const fsm = require('fs-minipass');
+const rp = require('fs.realpath');
+
+
 export class ContentRoutes extends RoutesBase {
 
   constructor(router: Router) {
     super();
 
-    router.post(`${RoutesBase.API_BASE_URL}/store_file_upload`, async (req, res) => {
+    ///////Get the file from the app and perpetuate in mongo//////
+    router.post(`${RoutesBase.API_BASE_URL}/db_file_upload`, async (req, res) => {
 
       try {
-        const file_to_store = req.body.FormData;
-        console.log('req heard');
-        console.log(file_to_store);
+        const bdy = JSON.stringify(req.body.file);
+        logger.info('heres the db body: ' + bdy);
+        //console.log(req.body);
         const mongo = req.app.get('mongo');
-        await mongo.db('content').collection('file_uploads').save(file_to_store, (err: Error, result: any) => {
-          if(err) {
-            console.log(err);
-          }
-          res.send('file perpetuated');
-        });
+        const collection = mongo.db('content').collection('file_uploads');
+        const promises: Array<Promise<any>> = [];
+        const data = {file: bdy};
+        const promise = collection.insertOne(
+            data,
+        );
+        promises.push(promise);
+        const rval = await Promise.all(promises);
+        logger.info('rval is: ' + rval);
+        res.send('post succesful');
+        return;
       } catch (e) {
-        logger.error('ERROR: not perpetuated', e);
+        logger.error('Unexpected Exception TestWrite', e);
+      }
+    });
+
+    router.post(`${RoutesBase.API_BASE_URL}/static_file_upload`, async (req, res) => {
+
+      try {
+        logger.info('heres the static body: ' + req.body);
+        const readStream = req.body;
+        const writeStream = new fsm.WriteStream('./public.txt');
+        writeStream.write('some file header or whatever\n');
+        //readStream.pipe(writeStream);
+        return;
+      } catch (e) {
+        logger.error('Unexpected Exception TestWrite', e);
       }
     });
 

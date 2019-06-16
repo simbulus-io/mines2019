@@ -5,7 +5,9 @@ import { ConfigHelper }      from './helpers/config_helper';
 import { LoggerHelper }      from './helpers/logger_helper';
 import { MongoHelper }       from './helpers/mongo_helper';
 import { IndexRoutes }       from './routes/index_routes';
+import { JobsRoutes }        from './routes/jobs_routes';
 import { TestRoutes }        from './routes/test_routes';
+
 import express               from 'express';
 import { ContentRoutes } from './routes/content_routes';
 
@@ -78,6 +80,7 @@ export class Server {
     new IndexRoutes(router);
     new TestRoutes(router);
     new ContentRoutes(router);
+    new JobsRoutes(router);
     //use router middleware
     this.app.use(router);
   }

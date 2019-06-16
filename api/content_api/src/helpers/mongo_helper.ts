@@ -6,15 +6,20 @@ import { MongoClient }     from 'mongodb';
 //
 export class MongoHelper {
   public static async connect(): Promise<MongoClient> {
+
     const mongo_conf =  {
       host: 'localhost',
       port: '27017',
     };
 
-    // The below is for running inside the base-express docker container
-    //const mongo_url = 'mongodb://mongodb:27017/content';
+    let mongo_url: string;
+    if (process.env.DATABASE_URL) {
+        // The below is for running inside the base-express docker container
+      mongo_url = process.env.DATABASE_URL;
+    } else {
+      mongo_url = 'mongodb://' + mongo_conf.host + ':' + mongo_conf.port;
+    }
 
-    const mongo_url = 'mongodb://' + mongo_conf.host + ':' + mongo_conf.port;
     try {
       const client  = await MongoClient.connect(mongo_url);
       logger.info(`Successfully to mongodb at ${mongo_url}`);
