@@ -23,7 +23,7 @@ export default class LineSeparator extends Vue {
 
   public line_data = [
     {
-      y:'0',
+      y:'10',
       idx:0,
     },
     {
@@ -35,11 +35,10 @@ export default class LineSeparator extends Vue {
       idx:3,
     },
     {
-      y:'550',
+      y:'50',
       idx:4,
     }
   ]
-  public $http;
 
   @Prop() private post!: Post;
 
@@ -53,7 +52,7 @@ export default class LineSeparator extends Vue {
   //Returns the distance of each line from the top of document
   public get_location(){
     let i:number;
-    let lines = document.getElementsByClassName('line');
+    const lines = document.getElementsByClassName('line');
 
     const margin = 25/2;
     const displacement: number[] = [];
@@ -73,7 +72,6 @@ export default class LineSeparator extends Vue {
 
 public JSONify(arr){
   const data = JSON.stringify(arr);
-  console.log('json ' + data);
 return data;
 }
 
@@ -95,6 +93,5 @@ public request(interval){
     method: 'GET'
   })
 clearInterval(interval)
-return timeHandler
 }
 }
