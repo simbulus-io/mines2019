@@ -1,5 +1,4 @@
 import * as logger                                from 'winston';
-import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 

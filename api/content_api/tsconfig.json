@@ -15,7 +15,7 @@
     "declaration": true,                      /* Generates corresponding '.d.ts' file. */
     "outDir": "./dist",                       /* Redirect output structure to the directory. */
     "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
-    "inlineSourceMap": true,                  /* Emit a single file with source maps instead of having a separate file. */
+    "sourceMap": true,
     "strictNullChecks": true,                 /* Enable strict null checks. */
     "plugins": [
       {
