@@ -3,7 +3,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="main-layout">
-        <span class="banner"> {{student_name}}'s Assignment: {{assignment_title}}</span>
+        <span class="banner">{{student_name}}'s Assignment: {{assignment_title}}</span>
       </div>
 
       <router-link to="/teacher/slug">

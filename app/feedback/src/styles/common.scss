@@ -32,7 +32,7 @@ div {
     max-width: calc(100% - 320px);
     overflow: hidden;
     text-overflow: ellipsis;
-    //white-space: nowrap;
+    white-space: pre-wrap;
     padding: 5px;
   }
 }
@@ -142,4 +142,11 @@ div {
   height: 80%;
   margin-left: 20%;
   border: 4px;
+}
+
+hr {
+  height: 2px;
+  border: none;
+  color: $wm_green;
+  background-color: $wm_green;
 }
