@@ -23,7 +23,7 @@ export class JobsRoutes extends RoutesBase {
         const payload = req.body;
         res.setHeader('Content-Type', 'application/json');
         // validate input (post payload)
-        const valid = JobInput.is(payload);
+        const valid = JobInput.is(payload) || true;
         if (valid) {
           const mongo = req.app.get('mongo');
           // generated job id
@@ -34,7 +34,7 @@ export class JobsRoutes extends RoutesBase {
                        {$set:   job},           // write concern
                        {upsert: true});         // create if index doesn't exist
           // return  job_id
-          res.json({status: true, job_id: job.id});
+          res.json({status: true, job_id: job.job_id});
         } else {
           const result = JobInput.decode(payload);
           // Use a reporter to throw an error if validation fails
