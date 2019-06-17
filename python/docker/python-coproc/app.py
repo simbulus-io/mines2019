@@ -28,7 +28,6 @@ def fetch_engageny_content(*,url=None):
     if url is None:
         print('fetch_engageny_content job did not specify a url')
         return {'status': -1, 'error': 'fetch_engageny_content job did not specify a url'}
-    return {}
     res = handle_eny(url)
     return res
 
