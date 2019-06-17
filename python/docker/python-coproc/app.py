@@ -21,6 +21,33 @@ def command(func):
 
 # - - - - - - - - - - - - - - - - - - - -
 
+from modules.fetch_content import fetch_and_hash as fetch_and_hash
+
+@command
+def fetch_content(*,url=None):
+    if url is None:
+        print('fetch_content job did not specify a url')
+        return {'status': -1, 'error': 'fetch_content job did not specify a url'}
+    res = fetch_and_hash(**locals())
+    return res
+
+# - - - - - - - - - - - - - - - - - - - -
+
+from modules.fetch_content import pdf_to_image as _pdf_to_image
+
+@command
+def pdf_to_image(*, src=None, tgt=None, crop_rect=[0.0, 0.0, 1.0, 1.0], pages='-', dpi=108):
+    if src is None:
+        print('pdf_to_image job did not specify a src file as args.src')
+        return {'status': -1, 'error': 'pdf_to_image job did not specify a src'}
+    if tgt is None:
+        print('pdf_to_image job did not specify a tgt file as args.tgt')
+        print('... assuming png and deriving from args.src')
+        tgt = src.split('.')[0] + '.png'
+    return _pdf_to_image(**locals())
+
+# - - - - - - - - - - - - - - - - - - - -
+
 from modules.fetch_content import handle_engageny as handle_eny;
 
 @command
@@ -121,12 +148,12 @@ def do_job(job, jobdir = '/shared/jobs'):
         result,log,trace = run_w_t_out(job,timeout)
         if isinstance(result, Exception):
             # result = {'status': -1, 'error': '\n'.join(result.args)}
-            error = "%s: %s" % (type(result).__name__, '; '.join(result.args))
+            error = "%s: %s" % (type(result).__name__, result.args[-1])
             result = {'status': -1, 'error': error, 'trace': trace}
         if not 'status' in result:
             result['status'] = 0
     except Exception as ex:
-        error = "%s: %s" % (type(ex).__name__, '; '.join(ex.args))
+        error = "%s: %s" % (type(ex).__name__, ex.args[-1])
         result = {'status': -1, 'error': error, 'trace': traceback.format_exc()}
 
     os.chdir(pwd)
@@ -195,17 +222,50 @@ def main():
 def mock_main():
     
     jobs = [
-        {'name': 'beny1',
-         'dir' : 'my_job',
-         'command': 'fetch_engageny_content',
-         'args': {
-           'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
+        {'name'        : 'beny0',
+         'dir'         : 'my_job',
+         'command'     : 'fetch_content',
+         'args'        : {
+           'url'       : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
          }},
+        {'name'        : 'beny1',
+         'dir'         : 'my_job',
+         'command'     : 'pdf_to_image',
+         'args'        : {
+           'src'       :  "23d0d29406f.pdf",
+           'tgt'       :  "should-not-exist.png",
+           'pages'     : '37-',
+         }},
+        {'name'        : 'beny1',
+         'dir'         : 'my_job',
+         'command'     : 'pdf_to_image',
+         'args'        : {
+           'src'       :  "23d0d29406f.pdf",
+           'crop_rect' : [0.03, 0.10, 0.93, 0.90],
+           'dpi'       : 108,
+           'pages'     : '1-2',
+         }},
+        {'name'        : 'beny1',
+         'dir'         : 'my_job',
+         'command'     : 'pdf_to_image',
+         'args'        : {
+           'src'       :  "23d0d29406f.pdf",
+           'tgt'       :  "23d0d29406f-hi-res.png",
+           'crop_rect' : [0.03, 0.10, 0.93, 0.90],
+           'dpi'       : 4*108,
+           'pages'     : '1-2',
+         }},
+        # {'name': 'beny1',
+        #  'dir' : 'my_job',
+        #  'command': 'fetch_engageny_content',
+        #  'args': {
+        #    'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
+        #  }},
         {'name': 'beny2',
          'dir' : 'my_job',
          'command': 'xy_segment_image',
          'args': {
-           'file':  "0d4e3b00.png"
+           'file':  "23d0d29406f.png"
          }},
         # {'name': 'beny3',
         #  'command': 'fetch_engageny_content',
