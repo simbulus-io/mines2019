@@ -23,7 +23,7 @@ $accordion_height: 60px;
     width: 96%;
     height: $accordion_height;
     padding: 10px;
-    border: none;
+    // border: none;
     margin: 3px;
     background-color: $wm_blue;
     color: $white;

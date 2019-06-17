@@ -61,9 +61,9 @@ $toolbar-height: 48px;
     height: 768px; 
 }
 .toolbar-button-wrapper {
+    border-radius: 3px;
     z-index: 4;
     background: $white;
-    border-radius: 3px;
     border: none;
     color: $wm_purple;
     font-size: $button-size;
