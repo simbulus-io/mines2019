@@ -36,6 +36,10 @@ export default class Snote extends Vue {
     }
   }
 
+  public get show() {
+    return this.selected && !this.note_deleted;
+  }
+
   public get note() {
     // Passing the this context as the second arg to JS find
     const rval:Note = this.$store.state.feedback.snotes.find( (snote) => {

@@ -168,6 +168,7 @@ export const feedback: Module<FeedbackState, RootState> = {
         log.info ( 'rvals type: ' + typeof(rval) );
         //const state = await rval.json();
         // log.info(`Got ${state.message} from the server`);
+        // TODO: fix delete snote moves other snote bug
         context.commit('delete_snote', rval.body); // context.commit('delete_snote', state.message);
       } catch ( e ) {
         log.error(e.message);
@@ -196,6 +197,7 @@ export const feedback: Module<FeedbackState, RootState> = {
         const url = `http://localhost:5101/feedback/v1.0/move_snote${query_string}`;
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url);
+        // TODO: make move update store
         // context.commit('move_snote', args[0]);
       }catch ( e ) {
         log.error(e.message);

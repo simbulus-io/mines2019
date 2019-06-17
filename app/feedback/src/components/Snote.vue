@@ -9,7 +9,7 @@
     :y="note_y"
     :selected="selected">
 
-    <div class="close-wrapper" v-show="selected">
+    <div class="close-wrapper" v-show="show">
       <button class="snote-close-button" v-on:click="save_exit_snote" @click.stop>
         <font-awesome-icon icon="times" color="#bdbdbd"/>
       </button>
