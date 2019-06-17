@@ -1,8 +1,11 @@
 
 <template>
     <div>
-        <canvas id="canvas" v-on:mousedown="handleMouseDown" v-on:mouseup="handleMouseUp" v-on:mousemove="handleMouseMove" width="800px" height="800px">
-
+        <canvas id="canvas"
+         v-on:mousedown="handleMouseDown"
+         v-on:mouseup="handleMouseUp" 
+         v-on:mousemove="handleMouseMove" 
+         width="800px" height="768px">
         </canvas>
     </div>
 </template>
@@ -12,10 +15,7 @@
 </script>
 
 <style>
-body {
-  margin: 2rem;
-  /* opacity: 0.7; */
-}
+
 
 
 

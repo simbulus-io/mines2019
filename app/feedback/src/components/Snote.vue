@@ -77,6 +77,7 @@
   font-style: italic;
 }
 .snote-inactive {
+  border-radius: 0;
   clear: both;
   display: block;
   float: left;

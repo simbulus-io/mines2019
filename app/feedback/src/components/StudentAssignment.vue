@@ -1,6 +1,6 @@
 
 <template>
-  <MainContent>
+  <MainContent class= "graphbackground">
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="main-layout">
@@ -37,5 +37,11 @@
     min-height: 500px;
     width: 1024px;
     height: 768px;
+}
+.graphbackground {
+  background-position: center;
+  background-image: url('../../public/graphpaper.png');
+  z-index: 0;
+  background-repeat: repeat;
 }
 </style>
