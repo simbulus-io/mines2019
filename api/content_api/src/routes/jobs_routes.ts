@@ -23,7 +23,7 @@ export class JobsRoutes extends RoutesBase {
         const payload = req.body;
         res.setHeader('Content-Type', 'application/json');
         // validate input (post payload)
-        const valid = JobInput.is(payload) || true;
+        const valid = JobInput.is(payload);
         if (valid) {
           const mongo = req.app.get('mongo');
           // generated job id
