@@ -1,14 +1,14 @@
 
 <template>
   <div class="line_separator" id="line_separator" style="position: relative;">
-    <button class="button" type="button" v-on:click="poll()">Submit</button>
+    <button class="button" type="button" v-on:click="get_location();submit_locations(line_data);">Submit</button>
 
     <img src="./EngageNY/Algebra1-m03-b-l08.png">
     <!--Displays vertical offset of first horizontal segmentation line-->
 
     <!--Adds Image to page-->
 
-    <!--Makes line(HR tag) draggable-->
+    <!--Makes lines draggable-->
     <div class="line-container" v-for="line in line_data" :key="line">
       <drag-it-dude class="line" :y="`${line.y}`">
         <div style="background:red; width:100%; height:5px; margin:25px"></div>
@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script lang="ts" src="./line_separator.ts">
+<script lang="ts" src="./line_separator.js">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
