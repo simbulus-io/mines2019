@@ -2,7 +2,7 @@
 
 
 # docker-compose.yml is set to map :80 to nginx container
-HOST=localhost:5101
+HOST=localhost
 
 # -curl -d '{"name":"SegmentPhase1", "command":"run_seg_1.py", "args":{"file":"a_file_to_process.png"}}' \
 # --H "Content-Type: application/json" \
