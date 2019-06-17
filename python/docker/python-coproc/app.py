@@ -132,11 +132,13 @@ def do_job(job, jobdir = '/shared/jobs'):
     os.chdir(pwd)
     return result,log
 
-# Looks for jobs in the jobs collection, and if found, pulls and runs one
-# and populates the results data
-# returns a result blob if a job was found and executed (regardless of the outcome)
-# else returns None
 def poll_for_jobs(jobs,worker='unknown'):
+    '''
+    Looks for jobs in the jobs collection, and if found, pulls and runs one
+    and populates the results data.
+    Returns a result blob if a job was found and executed (regardless of the outcome)
+    else returns None.
+    '''
     # print('polling for jobs from %s at %s' % (mongo_url, time.ctime()) )
     potential_job = jobs.find_one({'status': 'new'})
     if potential_job is None:
@@ -197,6 +199,7 @@ def mock_main():
          'dir' : 'my_job',
          'command': 'fetch_engageny_content',
          'args': {
+           'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
          }},
         {'name': 'beny2',
          'dir' : 'my_job',
