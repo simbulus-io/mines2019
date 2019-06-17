@@ -16,7 +16,8 @@ export const JobInputRequired = t.type({
 });
 
 // This is the syntax for creating an object with combined optional and required
-// keys
+// keys -- t.optional is in the works but apparently has some complications
+// associated its implementation -- until then..
 export const JobInput = t.intersection([JobInputRequired, JobInputRequired]);
 
 // JobID Schema
