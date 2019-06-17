@@ -68,7 +68,7 @@ export default class TeacherAssignment extends Vue {
       const new_idx = Guid.raw();
       const new_note:Note = {
         idx: new_idx,
-        author: 'TODO',
+        author: 'Mr. RZA',
         content: 'Write Your Feedback Here',
         type: 'snote',
         timestamp: Date.now(),

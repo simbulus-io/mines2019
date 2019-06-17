@@ -4,7 +4,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="main-layout">
-        <span class="banner"> Your Assignment: {{assignment_title}} </span>
+        <span class="banner">Your Assignment: {{assignment_title}}</span>
       </div>
 
       <router-link v-bind:to="'/student/slug/'+student_idx">

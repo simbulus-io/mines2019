@@ -75,10 +75,14 @@ export const feedback: Module<FeedbackState, RootState> = {
     //   // log.info('***** new content: '+state.snotes[index].content+' by '+state.snotes[index].author);
     // },
 
-    // move_snote: (state: any, snote:any) => {
-    //   const idx = state.snotes.findIndex(note => note.id === snote.id );
-    //   Vue.set(state.snotes,idx,snote);
-    // },
+    move_snote: (state: any, args:any ) => {
+      log.info('move snote mutation with: '+args.idx+' ('+args.pt.x+', '+args.pt.y+')');
+      const idx = state.snotes.findIndex(note => note.idx === args.idx );
+      const snote = state.snotes[idx];
+      snote.x = Number(args.pt.x);
+      snote.y = Number(args.pt.y);
+      Vue.set(state.snotes,idx,snote);
+    },
 
     create_snote: (state: any, snote:Note) => {
 
@@ -198,7 +202,7 @@ export const feedback: Module<FeedbackState, RootState> = {
         log.info('********** Getting url: ' + url );
         const rval = await fetch(url);
         // TODO: make move update store
-        // context.commit('move_snote', args[0]);
+        context.commit('move_snote', args );
       }catch ( e ) {
         log.error(e.message);
       }
