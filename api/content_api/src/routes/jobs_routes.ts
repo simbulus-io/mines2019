@@ -23,11 +23,11 @@ export class JobsRoutes extends RoutesBase {
         const payload = req.body;
         res.setHeader('Content-Type', 'application/json');
         // validate input (post payload)
-        const valid = JobInput.is(payload);
+        const valid = true || JobInput.is(payload);
         if (valid) {
           const mongo = req.app.get('mongo');
           // generated job id
-          const job = { ...payload, job_id: Guid.raw() };
+          const job = { ...payload, job_id: Guid.raw(), status: 'new', log: '', result: {}};
           // push to mongo
           const doc = await mongo.db(CONTENT_DB).collection(JOBS_COLL)
             .updateOne({job_id: job.job_id},    // index

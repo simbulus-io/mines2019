@@ -26,7 +26,9 @@ from modules.fetch_content import handle_engageny as handle_eny;
 @command
 def fetch_engageny_content(*,url=None):
     if url is None:
+        print('fetch_engageny_content job did not specify a url')
         return {'status': -1, 'error': 'fetch_engageny_content job did not specify a url'}
+    return {}
     res = handle_eny(url)
     return res
 
@@ -67,12 +69,39 @@ def run(job):
     else:
         return Known_Commands[cmd]()
 
+import datetime
+import io
 import os
 import pathlib
+import sys
+import time
 import traceback
+from contextlib import redirect_stdout
+from threading import Thread
+
+
+
+def t_run(job, res):
+    capture = io.StringIO()
+    with redirect_stdout(capture):
+        try:
+            res[0] = run(job);
+        except Exception as ex:
+            res[0] = ex
+            res[2] = traceback.format_exc()
+    res[1] = capture.getvalue()
+
+def run_w_t_out(job,timeout):
+    res = [Exception('job timeout of %s seconds was exceeded' % timeout), '', None]
+    t = Thread(target=t_run, args=(job, res))
+    t.start()
+    t.join(timeout)
+    return res
 
 def do_job(job, jobdir = '/shared/jobs'):
     pwd = os.getcwd()
+    log = ''
+    result = {}
     try:
         tdname = 'tmp'
         if 'dir' in job:
@@ -81,49 +110,62 @@ def do_job(job, jobdir = '/shared/jobs'):
             tdname = job['name']
         elif 'job_id' in job:
             tdname = job['job_id']
-        tdir = '/'.join([jobdir, tdname])
+        tdir = '%s/%s' % (jobdir, tdname)
         pathlib.Path(tdir).mkdir(parents=True, exist_ok=True)
         os.chdir(tdir)
-        result = run(job)
-        result['status'] = 0
+        timeout = 60.0
+        if 'timeout' in job:
+            try:
+                timeout = float(job['timeout'])
+            except ValueError:
+                raise Exception('expected number for value of "timeout" but was passed %s' % job['timeout'])
+        result,log,trace = run_w_t_out(job,timeout)
+        if isinstance(result, Exception):
+            # result = {'status': -1, 'error': '\n'.join(result.args)}
+            error = "%s: %s" % (type(result).__name__, '; '.join(result.args))
+            result = {'status': -1, 'error': error, 'trace': trace}
+        if not 'status' in result:
+            result['status'] = 0
     except Exception as ex:
-        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-        e_message = template.format(type(ex).__name__, ex.args)
-        result = {'status': -1, 'error': e_message, 'trace': traceback.format_exc()}
-
-    if ('job_id' in job) and not ('job_id' in result):
-        result['job_id'] = job['job_id']
-    if ('name' in job) and not ('name' in result):
-        result['name'] = job['name']
-    if result['status'] != 0:
-        result['orig_job'] = job
-    if not ('jobdir' in result):
-        result['jobdir'] = tdir
+        error = "%s: %s" % (type(ex).__name__, '; '.join(ex.args))
+        result = {'status': -1, 'error': error, 'trace': traceback.format_exc()}
 
     os.chdir(pwd)
-    return result
+    return result,log
 
 # Looks for jobs in the jobs collection, and if found, pulls and runs one
-# and populates the results collection
+# and populates the results data
 # returns a result blob if a job was found and executed (regardless of the outcome)
 # else returns None
-def poll_for_jobs(jobs,results):
+def poll_for_jobs(jobs,worker='unknown'):
     # print('polling for jobs from %s at %s' % (mongo_url, time.ctime()) )
-    job = jobs.find_one()
-    if job!=None:
-        jobs.delete_one({'_id': job['_id']})
-        print('Got a Job: ', job)
-        result = do_job(job)
-        results.insert_one(result)
-        print('Completed Job and pushed results blob to mongodb.')
-        return result
-    else:
+    potential_job = jobs.find_one({'status': 'new'})
+    if potential_job is None:
         return None
+    # We found a potential job in the jobs collection. Make an atomic test to see if
+    # it is still in the 'new' state and if so (atomically) modify it so as to lock it 
+    stat = jobs.update_one({ '_id': potential_job['_id'], 'status': 'new' },
+                           {'$set': {'status': 'processing',
+                                     'worker': worker,
+                                     'start_time': datetime.datetime.utcnow()} })
+    if stat.modified_count==0:
+        return poll_for_jobs(jobs,worker) #someone beat us to the potential_job -- try again
+    # Got the lock on potential_job
+    job = potential_job;
+    print('Got a Job: ', job)
+    start_time = time.time()
+    result,log = do_job(job)
+    elapsed_time = time.time() - start_time
+    jobs.update_one({ '_id': job['_id']},
+                    {'$set': {'status': 'finished',
+                              'elapsed_time': elapsed_time,
+                              'finish_time': datetime.datetime.utcnow(),
+                              'log': log,
+                              'result': result}})
+    print('Completed Job and updated mongodb with results blob.')
+    return result
 
 # - - - - - - - - - - - - - - - - - - - -
-
-import sys
-from time import sleep
 
 def main():
     from pymongo import MongoClient
@@ -133,16 +175,16 @@ def main():
     mongo_client = MongoClient(mongo_url)
     db = mongo_client.content
     jobs = db.jobs
-    results = db.results
+    worker_name = os.getenv('HOSTNAME', 'unknown')
 
     min_sleep_time = 1
     max_sleep_time = 1
     sleep_time = min_sleep_time
 
     while True:
-        r = poll_for_jobs(jobs, results)
+        r = poll_for_jobs(jobs, worker_name)
         if r==None:
-            sleep(sleep_time)
+            time.sleep(sleep_time)
             if (sleep_time<max_sleep_time):
                 sleep_time *= 1.1
         else:
@@ -150,12 +192,12 @@ def main():
             sleep_time = min_sleep_time
 
 def mock_main():
+    
     jobs = [
         {'name': 'beny1',
          'dir' : 'my_job',
          'command': 'fetch_engageny_content',
          'args': {
-           'url':  "https://www.engageny.org/file/61111/download/math-g7-m4-topic-b-lesson-9-student.pdf?token=U5lmuBD4"
          }},
         {'name': 'beny2',
          'dir' : 'my_job',
@@ -169,13 +211,15 @@ def mock_main():
         #     'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
         #     }},
         ]
-    for job in jobs:
+    for idx, job in enumerate(jobs):
+        if idx>0:
+            time.sleep(2)
         print('running job %s' % job) 
         sys.stdout.flush()
-        res = do_job(job, '/app/jobs')
+        res,log = do_job(job, '/app/jobs')
+        print('log: %s' % log)
         print('result: %s' % res) 
         sys.stdout.flush()
-        sleep(2)
         
 
 if __name__ == '__main__':
