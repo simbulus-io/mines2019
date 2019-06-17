@@ -113,6 +113,7 @@ def poll_for_jobs(jobs,results):
     if job!=None:
         jobs.delete_one({'_id': job['_id']})
         print('Got a Job: ', job)
+        result = do_job(job)
         results.insert_one(result)
         print('Completed Job and pushed results blob to mongodb.')
         return result
