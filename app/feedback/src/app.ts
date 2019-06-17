@@ -12,11 +12,11 @@ import qs                   from 'query-string';
 export default class App extends Vue {
   // Lifecycle
   public async created() {
-    await this.$store.dispatch('feedback/hello')
-    await this.$store.dispatch('feedback/snotes')
-    await this.$store.dispatch('feedback/assignments')
-    await this.$store.dispatch('feedback/students')
-    await this.$store.dispatch('feedback/annotations')
+    await this.$store.dispatch('feedback/hello');
+    await this.$store.dispatch('feedback/snotes');
+    await this.$store.dispatch('feedback/assignments');
+    await this.$store.dispatch('feedback/students');
+    await this.$store.dispatch('feedback/annotations');
 
     // SK - reintroduce these then they have been properly plumbed into the
     // store

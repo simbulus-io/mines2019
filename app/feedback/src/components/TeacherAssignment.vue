@@ -33,7 +33,7 @@
        </div>
      </div>
       <div class="bgimg" v-bind:style="{'background-image': 'url(' + image_path +')'}">          
-          <DrawingBoard></DrawingBoard>
+          <DrawingBoard :clickerMode="clickerMode"></DrawingBoard>
         <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
       </div>
     </template>

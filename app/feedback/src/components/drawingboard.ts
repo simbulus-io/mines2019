@@ -4,7 +4,9 @@ import { log } from '@/logger';
 @Component
 export default class DrawingBoard extends Vue{
 
-    private mouse= {
+    @Prop() private readonly clickerMode!: string;
+
+    private mouse = {
         currentx: 0,
         currenty: 0,
         previousx: 0,
@@ -35,7 +37,7 @@ export default class DrawingBoard extends Vue{
     }
     public deserializeAnnotation(data, canvas){
         const img = new Image();
-        log.info(data + 'Hello');
+        //log.info(data + 'Hello');
         img.onload = function() {
             canvas.width = img.width;
             canvas.height = img.height;
@@ -51,7 +53,7 @@ export default class DrawingBoard extends Vue{
         const ctx = c.getContext('2d') as CanvasRenderingContext2D;
         if (this.mouse.down) {
             this.currentMouse();
-            ctx.globalCompositeOperation = (this.$store.state.feedback.clickerMode === 'annotate') ? 'source-over' : 'destination-out';
+            ctx.globalCompositeOperation = (this.clickerMode === 'annotate') ? 'source-over' : 'destination-out';
             ctx.beginPath();
             ctx.moveTo(this.mouse.previousx, this.mouse.previousy);
             ctx.lineTo(this.mouse.currentx, this.mouse.currenty);
@@ -89,18 +91,21 @@ export default class DrawingBoard extends Vue{
         this.mouse.previousy = this.mouse.currenty;
         this.mouse.currentx = event.pageX;
         this.mouse.currenty = event.pageY;
-        if(this.$store.state.feedback.clickerMode === 'annotate'){
+        if(this.clickerMode === 'annotate'){
             this.annotateMode(event);
         }
-        if(this.$store.state.feedback.clickerMode === 'erase'){
+        if(this.clickerMode === 'erase'){
             this.annotateMode(event);
         }
-        if(this.$store.state.feedback.clickerMode === 'clear'){
+        if(this.clickerMode === 'clear'){
             this.clear();
         }
     }
 
-    public mounted() {
+    public async mounted() {
+        if( this.$store.state.feedback.annotations.length === 0 ){
+            await this.$store.dispatch('feedback/annotations');
+        }
         const curr_annotation = this.annotation;
         const c = document.getElementById('canvas') as HTMLCanvasElement;
         const ctx = c.getContext('2d') as CanvasRenderingContext2D;   
@@ -112,13 +117,11 @@ export default class DrawingBoard extends Vue{
         // else{
             // log.info('current annotation is not null');
             log.info(this.annotation);
-            if(this.annotation){
+            if(this.annotation.length>0){
                 log.info('deserializing annotation');
-                log.info(this.annotation[0].content);
+                //log.info(this.annotation[0].content);
                 this.deserializeAnnotation(this.annotation[0].content, c);
-            }
-            else
-            {
+            }else{
                 log.info('undefined');
             }
         // }

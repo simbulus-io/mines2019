@@ -17,7 +17,7 @@ export interface FeedbackState {
   annotations: any[];
   students: Student[];
   assignments: Assignment[];
-  clickerMode: string;
+  //clickerMode: string;
 }
 
 // FeedbackState Default
@@ -28,7 +28,7 @@ const feedback_state: FeedbackState = {
   annotations: [],
   students: [],
   assignments: [],
-  clickerMode: '',
+  //clickerMode: '',
 }
 
 // SK - there is more state down here that needs to be propagated to
@@ -81,13 +81,21 @@ export const feedback: Module<FeedbackState, RootState> = {
     // },
 
     create_snote: (state: any, snote:Note) => {
+
       state.snotes.push(snote);
     },
 
-    clickerMode: (state: any, mouse: string) => {
-      state.clickerMode = mouse;
-    }
-
+    annotate: (state: any, annot:Annotation) => {
+      const idx = state.annotations.findIndex(curr_annot => curr_annot.content_idx === annot.content_idx );
+      // ^idx = -1 if not found
+      log.info('idx: '+idx);
+      if( idx >= 0 && idx < state.annotations.length ){
+        Vue.set(state.annotations, idx, annot);
+      }else{
+        state.annotations.push(annot);
+      }
+      
+    },
   },
   actions: {
     hello: async (context: any, args: any) => {
@@ -213,11 +221,6 @@ export const feedback: Module<FeedbackState, RootState> = {
         log.error(err);
       }
     },
-    // The Action
-    clickerMode: async (context: any, new_mode: string) => {
-      log.info('CHANGED CLICKER MODE TO ' + new_mode);
-      context.commit('clickerMode', new_mode);
-    },
 
     annotate: async ( context: any, annotation:Annotation ) => {
       try {
@@ -233,6 +236,7 @@ export const feedback: Module<FeedbackState, RootState> = {
           body: json_annotation
         });
         log.info(rval);
+        context.commit( 'annotate', annotation );
       } catch(err) {
         log.error(err);
       }

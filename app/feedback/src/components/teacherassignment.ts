@@ -24,7 +24,7 @@ import { stringify } from 'query-string';
 
 export default class TeacherAssignment extends Vue {
   // This is to record the State of the mouse wheter it's in stickynote or annotation
-    private clickerMode = '';
+    private clickerMode = 'pointer';
 
     constructor() {
       super();
@@ -64,10 +64,6 @@ export default class TeacherAssignment extends Vue {
       return student ? student.name : '';
     }
 
-    public get get_message() {
-      return this.$store.state.feedback.clickerMode;
-    }
-
     public create_snote(){
       const new_idx = Guid.raw();
       const new_note:Note = {
@@ -84,16 +80,16 @@ export default class TeacherAssignment extends Vue {
       this.$store.dispatch( 'feedback/create_snote', new_note );
     }
     public create_annotation(){
-      this.$store.dispatch('feedback/clickerMode', 'annotate');
+      this.clickerMode = 'annotate';
     }
     public pointer(){
-      this.$store.dispatch('feedback/clickerMode', 'pointer');
+      this.clickerMode = 'pointer';
     }
     public erase(){
-      this.$store.dispatch('feedback/clickerMode', 'erase');
+      this.clickerMode = 'erase';
     }
     public clear_all_annotations(){
-      this.$store.dispatch('feedback/clickerMode', 'clear');
+      this.clickerMode = 'clear';
     }
     public save_annotations(){
 
