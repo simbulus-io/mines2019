@@ -3,6 +3,7 @@
     <MainContent>
         <template v-slot:main-content>
             <div class="main-layout">
+                <p class="name">Logged In As: Mr. RZA</p>
                 <span class="banner"> Completed Student Assignments: Give Feedback </span>
             </div>
             <div id="app">

@@ -55,7 +55,7 @@ export default class Snote extends Vue {
   }
 
   public get date() {
-    const d = new Date( (this.note ? this.note.timestamp : 0));
+    const d = new Date( (this.note ? Number(this.note.timestamp) : 0));
     return d.toLocaleString();
   }
 

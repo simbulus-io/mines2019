@@ -10,4 +10,5 @@
 <script lang="ts" src="./snotestudent.ts"></script>
 
 <style lang="scss">
+@import "../styles/common.scss";
 </style>

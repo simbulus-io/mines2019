@@ -1,14 +1,15 @@
 <template>
-  <MainContent class= "graphbackground">
+  <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="main-layout">
         <span class="banner"> {{student_name}}'s Assignment: {{assignment_title}}</span>
       </div>
+
       <router-link to="/teacher/slug">
-        <button class="button" title="Return to All Assignments">Return to All Assignments</button>
+        <button class="assigns-button" title="Return to All Assignments">Return to All Assignments</button>
       </router-link>
-      <hr/>
+
       <div class="buttontoolbar" >
        <div key-nav aria-label="Toolbar with button groups" name="Feedback Toolbar">
 
@@ -32,10 +33,12 @@
         </button>
        </div>
      </div>
-      <div class="bgimg" v-bind:style="{'background-image': 'url(' + image_path +')'}">          
-          <DrawingBoard :clickerMode="clickerMode"></DrawingBoard>
-        <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
-      </div>
+     <div class="graphbackground">
+        <div class="bgimg" v-bind:style="{'background-image': 'url(' + image_path +')'}">          
+            <DrawingBoard :clickerMode="clickerMode"></DrawingBoard>
+          <snote v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
+        </div>
+     </div>
     </template>
   </MainContent>
 </template>
@@ -50,45 +53,37 @@
 $button-size: 30px;
 $toolbar-width: 32%;
 $toolbar-height: 48px;
-.bgimg {
-    background-position: center center;
-    position:relative;
-    display:inline-block;
-    background-size:contain; // also cover is an option
-    background-repeat:no-repeat;
-    min-height: 500px;
-    width: 1024px;
-    height: 768px; 
-}
-.graphbackground {
-  background-position: center;
-  background-image: url('../../public/graphpaper.png');
-  z-index: 0;
-  background-repeat: repeat;
-}
+
 .toolbar-button-wrapper {
-    border-radius: 3px;
-    z-index: 4;
-    background: $white;
-    border: none;
-    color: $wm_purple;
-    font-size: $button-size;
-    //color: $icon-colour;
-    padding: 2px 2px 2px 2px;
-    text-decoration: none;
-    height: 100%;
-    width: 15%;
-    margin-top: 5px;
-    margin-left: 2px;
-    margin-right: 2px;
-    margin-bottom: 5px;
-    font-awesome-icon {
-      color: red;
-    }
+  border-radius: 3px;
+  z-index: 4;
+  background: $white;
+  border: none;
+  color: $wm_purple;
+  font-size: $button-size;
+  //color: $icon-colour;
+  padding: 2px 2px 2px 2px;
+  text-decoration: none;
+  height: 100%;
+  width: 15%;
+  margin-top: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 5px;
+}
 
-  }
+.toolbar-button-wrapper:hover {
+  background: $wm_green;
+  color: $wm_blue;
+}
 
-  .buttontoolbar {
+.toolbar-button-wrapper:focus {
+  background: $wm_green;
+  color: $wm_blue;
+  //text-decoration: none;
+}
+
+.buttontoolbar {
   position: fixed;
   bottom: 0;
   z-index: 3;
@@ -100,20 +95,6 @@ $toolbar-height: 48px;
   text-align:center;
   height: $toolbar-height;
   background-color:$wm_gray;
-  }
-
-  .toolbar-button-wrapper:hover {
-    background: $wm_green;
-    color: $wm_blue;
-  }
-
-  .toolbar-button-wrapper:focus {
-      background: $wm_green;
-      color: $wm_blue;
-      //text-decoration: none;
-  }
-
-
-
+}
 
 </style>

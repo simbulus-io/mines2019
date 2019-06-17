@@ -24,14 +24,4 @@
   text-align: left;
   color: $white;
 }
-.bgimg {
-    background-position: center center;
-    position:relative;
-    display:inline-block;
-    background-size:contain; // also cover is an option
-    background-repeat:no-repeat;
-    height: 200px;
-    width: auto;
-    max-width: 100%;
-}
 </style>

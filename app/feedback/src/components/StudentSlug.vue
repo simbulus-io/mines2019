@@ -19,10 +19,4 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../styles/common.scss";
-.name {
-    padding: 0px 25px 0px 0px;
-    float: right;
-    text-align: right;
-    display: block;
-  }
 </style>

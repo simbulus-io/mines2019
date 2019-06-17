@@ -7,13 +7,14 @@
 <script lang="ts" src="./app.ts"></script>
 
 <style lang="scss">
-@import "@/styles/common.scss";
+//@import "@/styles/common.scss";
 
 #wmtutor-app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: $light_gray;
+  //color: $light_gray;
+  color: #898989;
   height:100vh;
   min-height:500px;
 }

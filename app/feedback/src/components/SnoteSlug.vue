@@ -1,5 +1,5 @@
 <template>
-	<div class="slug" v-if="!note_deleted">
+	<div class="slug-snote" v-if="!note_deleted">
 		<p>{{ note.content }}</p>
 		<h6 class="meta" style="font-style: italic;">Written by {{ note_author }}; {{ date }}</h6>
 		<hr width="95%"/>
@@ -9,12 +9,10 @@
 <script lang="ts" src="./snoteslug.ts"></script>
 
 <style lang="scss">
-.slug {
+.slug-snote {
 	text-align: left;
 	display:block;
 	width:100%;
-}
-div.snote {
 	h2 {
 		text-decoration: underline;
 	}

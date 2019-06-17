@@ -2,6 +2,8 @@
 @import 'layout';
 @import 'font';
 
+$accordion_height: 60px;
+
 body {
     font-family: $font-family;
     font-weight: $font-weight;
@@ -13,23 +15,131 @@ div {
 }
 
 .main-layout {
-    position: relative;
-    $left_margin: 60px;
-    margin: 0 auto;
+  position: relative;
+  $left_margin: 50px;
+  margin: 0 auto;
+  text-align: left;
+  min-width: 900px;
+  .banner {
+    display: inline-block;
+    margin: 50px 0 0 $left_margin;
+    font-size: 30pt;
+    font-weight: bold;
+    line-height: auto;
     text-align: left;
-    min-width: 900px;
-    .banner {
-      display: inline-block;
-      margin: 50px 0 0 $left_margin;
-      font-size: 30px;
-      font-weight: bold;
-      line-height: 36px;
-      text-align: left;
-      user-select: none;
-      color: #555;
-      max-width: calc(100% - 320px);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    user-select: none;
+    color: $wm_gray;
+    max-width: calc(100% - 320px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    //white-space: nowrap;
+    padding: 5px;
   }
+}
+
+.graphbackground {
+  background-position: center;
+  background-image: url('../../public/graphpaper.png');
+  z-index: 0;
+  background-repeat: repeat;
+  border-top: 2px solid $wm_gray;
+  border-radius: 0%;
+}
+
+.assigns-button {
+  margin-bottom: 10px;
+}
+
+.bgimg {
+  background-position: center center;
+  position:relative;
+  display:inline-block;
+  background-size:contain; // also cover is an option
+  background-repeat:no-repeat;
+  background-repeat: no-repeat;
+  min-height: 500px;
+  width: 1024px;
+  height: 768px;
+}
+
+.snote-wrapper {
+  position: absolute;
+  color:$wm_gray;
+}
+
+.snote-text {
+  font-size: 8pt;
+}
+
+.attr {
+  font-style: italic;
+}
+
+.snote-inactive {
+  border-radius: 0;
+  clear: both;
+  display: block;
+  float: left;
+	padding: 10px;
+	max-width: 300px;
+	background-color: rgba(246, 229, 141,1.0); // last value controls transparency
+  text-align: right;
+}
+
+// box shadow on hover
+.snote-inactive:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.name {
+  padding: 0px 25px 0px 0px;
+  float: right;
+  text-align: right;
+  display: block;
+}
+
+.tab__header {
+  width: 96%;
+  height: $accordion_height;
+  padding: 10px;
+  border: none;
+  margin: 3px;
+  background-color: $wm_blue;
+  color: $white;
+  a{
+      color:$white;
+  }
+  span {
+    //padding-top:2%;
+    float: right;
+    padding: 1.5% 2% 0% 2%;
+    font-size: 20pt;
+  }
+  .title {
+    width: 78%;
+    height: 100%;
+    float: left;
+    text-align: left;
+    //padding-left: 2%;
+  }
+}
+
+.tab__content {
+    width: 96%;
+    min-height: $accordion_height;
+    height: auto;
+    background-color: $wm_blue;
+    padding: 10px;
+    margin: 6px;
+    color: white;
+    div{
+        display:inline-block;
+    }
+}
+
+.content {
+  width:75%;
+  height: 80%;
+  margin-left: 20%;
+  border: 4px;
+}

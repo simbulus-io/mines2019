@@ -45,10 +45,7 @@
 
 <style lang="scss">
 @import "../styles/common.scss";
-.snote-wrapper {
-  position: absolute;
-  color:$wm_gray;
-}
+
 .close-wrapper {
   display: block;
   float: right;
@@ -58,6 +55,7 @@
   resize: none;
   background-color: inherit;
   border: none;
+  outline: none;
 }
 .snote-button {
 	float: right;
@@ -69,27 +67,6 @@
 	border-radius: 50%;
   border-color: $lighter_gray;
   background-color: $white;
-}
-.snote-text {
-  font-size: 8pt;
-}
-.attr {
-  font-style: italic;
-}
-.snote-inactive {
-  border-radius: 0;
-  clear: both;
-  display: block;
-  float: left;
-	padding: 10px;
-	max-width: 300px;
-	background-color: rgba(246, 229, 141,1.0); // last value controls transparency
-  text-align: right;
-}
-
-// box shadow on hover
-.snote-inactive:hover {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .snote-active {

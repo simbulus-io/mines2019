@@ -3,8 +3,8 @@
         <div class="tab__header">
             <a href="#" class="tab__link p-4 block bg-blue-dark hover:bg-blue-darker no-underline text-white border-b-2 border-white flex justify-between" @click.prevent="active = !active">
                 <span class="title"><strong>{{assignment_title}}</strong></span>
-                <span class="down-Arrow" v-show="!active">&#9660;</span>
-                <span class="up-Arrow" v-show="active">&#9650;</span>
+                <span class="down-arrow" v-show="!active">&#9660;</span>
+                <span class="up-arrow" v-show="active">&#9650;</span>
             </a>
         </div>
             <router-link :to="{ name: 'studentassignment', params: { idx: assign_idx } }">
@@ -27,46 +27,10 @@
 </script>
 <style scoped lang="scss">
 @import "../styles/common.scss";
-$accordion_height: 60px;
-.bgimg {
-    background-position: center center;
-    position:relative;
-    display:inline-block;
-    background-size:contain; // also cover is an option
-    background-repeat:no-repeat;
-    // background-image: url("../../public/wkst.jpg");
-    // //background-image: url("../../public/kitten.jpg");
-    width: 100%;
-    height: 100%;
-}
 .tab__header {
-    width: 96%;
-    height: $accordion_height;
-    padding: 10px;
-    border: none;
-    margin: 3px;
     background-color: $wm_green;
-    color:$white;
-    a{
-        color:$white;
-    }
-    span {
-        float: left;
-    }
 }
-.tab__content {
-    width: 96%;
-    min-height: $accordion_height;
-    height: auto;
-    background-color: $wm_blue;
-    padding: 10px;
-    margin: 6px;
-    color: white;
-    overflow:hidden;
-    div{
-        display:inline-block;
-    }
-}
+
 .assign-snotes{
     width:75%;
     text-align: left;
@@ -76,20 +40,5 @@ $accordion_height: 60px;
     max-height: 25%;
     vertical-align: top;
     background-size:contain;
-}
-
-.content {
-    width:75%;
-    height: 80%;
-    margin-left: 20%;
-    border: 4px;
-}
-
-.title {
-    width: 78%;
-    height: 100%;
-    text-align: left;
-    padding-left: 2%;
-    font-size: 16pt;
 }
 </style>

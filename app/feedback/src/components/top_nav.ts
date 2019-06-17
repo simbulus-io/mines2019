@@ -8,9 +8,9 @@ export default class TopNav extends Vue {
     super();
   }
 
-  get display_name_teacher(): any {
-    // return this.$store.state.tutor.email
-    // sneaky shorthand
-    return 'Mr. RZA';
-  }
+  // get display_name_teacher(): any {
+  //   // return this.$store.state.tutor.email
+  //   // sneaky shorthand
+  //   return 'Mr. RZA';
+  // }
 }
