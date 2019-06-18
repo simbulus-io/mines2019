@@ -3,7 +3,8 @@ import { Module }     from 'vuex';
 import { RootState }  from '@/store/types';
 import Vue            from 'vue';
 import Vuex           from 'vuex';
-import { __await } from 'tslib';
+// Had to hack this up to work in the browser
+import asyncPoll      from '@/async_poll';
 
 const USING_DOCKER = true;
 const API_BASE_URL = USING_DOCKER ? 'http://localhost' :  'http://localhost:5101'
@@ -67,15 +68,22 @@ export const content: Module<ContentState, RootState> = {
           },
           body: JSON.stringify(payload)
         });
-        const response = await rval.json();
-        log.info(response);
-        // if(response.job_id) {
-        //   const i = 0;
-        //   // poll every second
-        //   const poller = setInterval(async () => {
-        //     const rval = await fetch(`${API_BASE_URL}/content/v1.0/job/result?job_id=${response.job_id}`);
-        //   }, 1000);
-        // }
+        const { status, job_id } = await rval.json();
+        if(status){
+          // dummy polling function
+          let idx=0;
+          const poll_fn = async () => setTimeout(() => {
+            idx++;
+            log.info(`polling ${idx}th iteration`);
+          }, 1000);
+          // dummy condition
+          const condition_fn = () => idx > 10
+          const interval = 2e3;
+          const timeout = 30e3;
+          const result = await asyncPoll<any>(poll_fn, condition_fn, {interval, timeout});
+        } else {
+          log.error(`Bad status job/schedule`);
+        }
       } catch( e) {
         log.error(e);
       }
