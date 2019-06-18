@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script lang="ts" src="./line_separator.js">
+<script lang="ts" src="./line_separator.ts">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
