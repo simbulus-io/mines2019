@@ -5,10 +5,10 @@ import { tsAnyKeyword } from '@babel/types';
 // JobInput Schema
 
 export const JobInputOptional = t.partial({
-  timeout: t.string,
   args:    t.object,   // optional but commands usually require specific args
-  name:    t.string,   // optional: job name (job_id guid added regardless)
   dir:     t.string,   // optional: create and set as working dir - defaults to (name || job_id)
+  name:    t.string,   // optional: job name (job_id guid added regardless)
+  timeout: t.number,   // optional: job timeout in seconds; defaults to 60.0
 });
 
 export const JobInputRequired = t.type({

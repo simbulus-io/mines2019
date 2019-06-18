@@ -33,7 +33,7 @@ services:
       - express-content
       # - express-feedback
   express-content:
-    tty: true # Enables debugging capabilities when attached to this container.
+    # tty: true # Enables debugging capabilities when attached to this container.
     # image: base-express
     image: bmilne/express:1.0
     user: "root"
@@ -79,7 +79,7 @@ services:
   #   networks:
   #     - backend
   coproc:
-    tty: true # Enables debugging capabilities when attached to this container.
+    # tty: true # Enables debugging capabilities when attached to this container.
     image: bmilne/pyco:1.0
     # image: python-coproc
     user: "root"
