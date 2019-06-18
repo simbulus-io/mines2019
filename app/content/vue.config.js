@@ -3,6 +3,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 let widget_name = "content"
 module.exports = {
   productionSourceMap: false,
+  devServer: {
+    proxy: 'http://localhost',
+  },
   css: {
     extract: true // bundle the CSS with JS and apply dynamically
   },
