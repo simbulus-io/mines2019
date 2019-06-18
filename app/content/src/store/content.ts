@@ -102,7 +102,7 @@ export const content: Module<ContentState, RootState> = {
 
     test_array_2: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_BASE_URL}/CONTENT/v1.0/test_route`)
+        const rval = await fetch(`${API_BASE_URL}/content/v1.0/test_route`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
