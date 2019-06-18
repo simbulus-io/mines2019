@@ -10,7 +10,6 @@ import { JobInput }      from '../jobs';
 
 const CONTENT_DB   = 'content';
 const JOBS_COLL    = 'jobs';
-const RESULTS_COLL = 'results';
 
 export class JobsRoutes extends RoutesBase {
 
@@ -23,18 +22,18 @@ export class JobsRoutes extends RoutesBase {
         const payload = req.body;
         res.setHeader('Content-Type', 'application/json');
         // validate input (post payload)
-        const valid = JobInput.is(payload);
+        const valid = true || JobInput.is(payload);
         if (valid) {
           const mongo = req.app.get('mongo');
           // generated job id
-          const job = { ...payload, job_id: Guid.raw() };
+          const job = { ...payload, job_id: Guid.raw(), status: 'new', log: '', result: {}};
           // push to mongo
           const doc = await mongo.db(CONTENT_DB).collection(JOBS_COLL)
             .updateOne({job_id: job.job_id},    // index
                        {$set:   job},           // write concern
                        {upsert: true});         // create if index doesn't exist
           // return  job_id
-          res.json({status: true, job_id: job.id});
+          res.json({status: true, job_id: job.job_id});
         } else {
           const result = JobInput.decode(payload);
           // Use a reporter to throw an error if validation fails
@@ -51,14 +50,8 @@ export class JobsRoutes extends RoutesBase {
       res.setHeader('Content-Type', 'application/json');
       try {
         const mongo = req.app.get('mongo');
-        const job_id = req.query.job_id;
-        if (job_id) {
-          const job = await mongo.db(CONTENT_DB).collection(RESULTS_COLL).findOne({ job_id });
-          res.json(job);
-        } else {
-          const jobs = await mongo.db(CONTENT_DB).collection(RESULTS_COLL).find().toArray();
-          res.json(_.map(jobs, j => _.omit(j, '_id')));
-        }
+        const jobs = await mongo.db(CONTENT_DB).collection(JOBS_COLL).find({...req.query, status: 'finished'}).toArray();
+        res.json(_.map(jobs, j => _.omit(j, '_id')));
       } catch (e) {
         logger.error(new Error(`Unexpected Error in job/results:\n ${e}`));
         res.json({status: false});

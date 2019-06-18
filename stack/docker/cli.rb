@@ -76,7 +76,7 @@ class CLI < Thor
     `docker inspect -f '{{.State.Running}}' docker_mongodb_1`
     status = $?.exitstatus==0
     if(status)
-      cmd = "mongo -host localhost:27017"
+      cmd = "mongo -host localhost:27027"
       command_runner(cmd:cmd)
     else
       error("The container docker_mongodb_1 doesn't appear to be running")
