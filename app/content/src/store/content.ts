@@ -1,13 +1,14 @@
-import { log }        from '@/logger';
+import { log, puts }  from '@/logger';
 import { Module }     from 'vuex';
 import { RootState }  from '@/store/types';
 import Vue            from 'vue';
 import Vuex           from 'vuex';
 // Had to hack this up to work in the browser
-import asyncPoll      from '@/async_poll';
+import { rpc }        from '@/rpc';
 
 const USING_DOCKER = true;
-const API_BASE_URL = USING_DOCKER ? 'http://localhost' :  'http://localhost:5101'
+// const API_BASE_URL = USING_DOCKER ? 'http://localhost' :  'http://localhost:5101'
+const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
 
 export interface ContentState {
   hello: string;
@@ -46,51 +47,66 @@ export const content: Module<ContentState, RootState> = {
   // These are asynchronus actions - model interactions with a server
   actions: {
     hello: async (context: any, args: any) => {
-      const rval = await fetch(`${API_BASE_URL}/content/v1.0/hello`)
+      const rval = await fetch(`${API}/hello`)
       const state = await rval.json();
-      log.info(`Got ${state.message} from the server`);
+      puts(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
     },
     ingest_url: async (context:any , args:any) => {
-      try {
-        const payload = {
+      // try {
+        const job = {
           name: 'A Job',
           command: 'fetch_content',
           dir: 'ingested_files',
           args: {
             url: args.url
           }
-        }
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/job/schedule`,{
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload)
-        });
-        const { status, job_id } = await rval.json();
-        if(status){
-          // dummy polling function
-          let idx=0;
-          const poll_fn = async () => setTimeout(() => {
-            idx++;
-            log.info(`polling ${idx}th iteration`);
-          }, 1000);
-          // dummy condition
-          const condition_fn = () => idx > 10
-          const interval = 2e3;
-          const timeout = 30e3;
-          const result = await asyncPoll<any>(poll_fn, condition_fn, {interval, timeout});
-        } else {
-          log.error(`Bad status job/schedule`);
-        }
-      } catch( e) {
-        log.error(e);
-      }
+        };
+        puts(job);
+        const result = await rpc(job);
+        puts('= = = = Got Result from Job Coproc: = = = =');
+        puts(result);
+        puts('= = = = = = = = = = = = = = = = = = = = = = ');
+        return result;
+        // const hresp = await fetch(`${API}/job/schedule`,{
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(job)
+        // });
+        // const resp = await hresp.json();
+        // const { status, job_id } = resp; 
+        // puts(`resp=${resp}`);
+        // if(resp.status!==0){
+        //     log.error('error scheduling job with api');
+        //     log.error({job: payload, response: resp});
+        //     return;
+        // }
+        // puts(`job_id = ${job_id}`);
+        // const polling_url = `${API}/job/results?job_id=${job_id}`
+        // puts(`polling_url = ${polling_url}`);
+        // puts(`zzz`);
+        // // await new Promise(r => setTimeout(r, 1000))
+        // puts(`polling`);
+        // // const poll_fn = async () => fetch(polling_url).then(r => r.json());
+        // const poll_fn = async () => fetch(polling_url).then(async function(r) {const j= await r.json(); puts(j[0]); return j[0];});
+        // const condition_fn = (d: any) => d && ('status' in d) && (d.status === 'finished');
+        // //  const condition_fn = function(d: any) {puts(d); puts(d.status); return d.status === 'finished'};
+        // const sec = 1e3;
+        // const interval = 2*sec;
+        // const timeout = 30*sec;
+        // const result = await asyncPoll<any>(poll_fn, condition_fn, {interval, timeout});
+        // puts('= = = = Got Result from Job Coproc = = = =');
+        // puts(result);
+        // return result;
+        // } catch( e) {
+        //   log.error(e);
+        // }
     },
     test_array: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/contents`)
+        const rval = await fetch(`${API}/contents`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -102,7 +118,7 @@ export const content: Module<ContentState, RootState> = {
 
     test_array_2: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/test_route`)
+        const rval = await fetch(`${API}/test_route`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -117,7 +133,7 @@ export const content: Module<ContentState, RootState> = {
     //////TODO: parameterize the url passed to fetch() so that any file in public can be called by name
     test_image: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/static/Algebra.png`)
+        const rval = await fetch(`${API}/static/Algebra.png`)
         const img = await rval.blob();
         const state = URL.createObjectURL(img);
         // upon successfully completing the action - synchronusly update the Vue application state
