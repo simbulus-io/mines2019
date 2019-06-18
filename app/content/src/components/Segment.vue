@@ -2,19 +2,19 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      <div class="other">
-        <line-separator></line-separator>    
+      <div class="segment">
+        <line-separator></line-separator>
       </div>
     </template>
   </MainContent>
 </template>
 
-<script lang="ts" src="./other.ts"></script>
+<script lang="ts" src="./segment.ts"></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../styles/common.scss";
-.other {
+.segment {
   position: relative;
   $left_margin: 60px;
   margin: 0 auto;
@@ -40,4 +40,3 @@
 
 
 
-                                                                          

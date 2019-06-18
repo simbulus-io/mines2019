@@ -45,6 +45,6 @@ export async function load_app() {
     router,
     store,
     render: (h) => h(App),
-  }).$mount('#feedback-app');
+  }).$mount('#content-app');
 
 };

@@ -1,6 +1,6 @@
 // Need this for VSCode debugging
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-let widget_name = "feedback"
+let widget_name = "content"
 module.exports = {
   productionSourceMap: false,
   css: {
