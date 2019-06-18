@@ -69,15 +69,15 @@ export const content: Module<ContentState, RootState> = {
           body: JSON.stringify(payload)
         });
         const { status, job_id } = await rval.json();
-        const i=0;
         if(status){
           // dummy polling function
-          const idx=0;
+          let idx=0;
           const poll_fn = async () => setTimeout(() => {
-            log.info('polling ${i}\'th iteration');
+            idx++;
+            log.info(`polling ${idx}th iteration`);
           }, 1000);
           // dummy condition
-          const condition_fn = () => idx<10
+          const condition_fn = () => idx > 10
           const interval = 2e3;
           const timeout = 30e3;
           const result = await asyncPoll<any>(poll_fn, condition_fn, {interval, timeout});
