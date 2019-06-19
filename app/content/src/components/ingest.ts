@@ -11,7 +11,7 @@ import LineSeparator            from '@/components/LineSeparator.vue';
 })
 export default class Ingest extends Vue {
 
-  public url:string = '';
+  public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
 
   constructor() {
     super();

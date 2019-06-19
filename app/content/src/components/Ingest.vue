@@ -4,10 +4,11 @@
     <template v-slot:main-content>
       <!-- this your place to play -->
       <div class="ingest">
-        <div class="banner">Hello RBM</div>
+        <h1 class="banner">Create Content from PDF</h1>
         <div class="ingest-form">
+          <h2 class="label">URL of Content to load (e.g. "https://www.engageny.org/file/...-student.pdf?token=..."):</h2>
           <input v-model="url" @keyup.enter.native="handle_submit"/>
-          <br><button @click="handle_submit">Submit</button>
+          <br><button @click="handle_submit">Load</button>
         </div>
       </div>
     </template>
@@ -22,8 +23,8 @@
 .ingest {
   position: relative;
   .banner {
-    display: inline-block;
-    margin: 50px 0 0 $left_margin;
+    display: block;
+    margin: 50px 0 0 25px;
     font-size: 30px;
     font-weight: 300;
     line-height: 36px;
@@ -34,15 +35,25 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 100%;
+  }
+  h2.label {
+    text-align: left;
+    margin-left: 25px;
+    margin-bottom: 10px;
   }
   .ingest-form {
     display: block;
-    width: 900px;
-    font-size: 10px;
-    margin: 20px;
-    input: {
-      margin: 25px;
-      width:90%;
+    width: 90%;
+    font-size: 14px;
+    input {
+      margin-left: 25px;
+      width:100%;
+    }
+    button {
+      display: block;
+      margin-left: 25px;
+      margin-top: 40px;
     }
   }
 }

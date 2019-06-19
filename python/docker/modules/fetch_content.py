@@ -109,7 +109,7 @@ def pdf_to_image(*,src,tgt,crop_rect,pages,dpi=108):
     if img is None or (0 == img.shape[0]*img.shape[1]):
         raise(Exception('Image is empty - no file written'))
     cv2.imwrite(tgt, img)
-    return {'shape': img.shape}
+    return {'shape': img.shape, 'fname': tgt, 'path': ('%s/%s' % (os.getcwd(),tgt))}
 
     
 def handle_engageny(url):
