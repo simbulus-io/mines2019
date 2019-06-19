@@ -5,6 +5,7 @@
   ],
   "linterOptions": {
     "exclude": [
+      "**/*",
       "node_modules/**",
       "**/OWMSchema.ts",
       "**/hxclasses*.ts",

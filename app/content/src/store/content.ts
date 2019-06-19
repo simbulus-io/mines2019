@@ -1,10 +1,10 @@
+/* tslint:disable:prefer-const */
 import { log, puts }  from '@/logger';
 import { Module }     from 'vuex';
 import { RootState }  from '@/store/types';
 import Vue            from 'vue';
 import Vuex           from 'vuex';
-// Had to hack this up to work in the browser
-import { rpc }        from '@/rpc';
+import { rpc , rpc_job_succeeded } from '@/rpc';
 
 const USING_DOCKER = true;
 // const API_BASE_URL = USING_DOCKER ? 'http://localhost' :  'http://localhost:5101'
@@ -53,8 +53,7 @@ export const content: Module<ContentState, RootState> = {
       context.commit('hello', state.message);
     },
     ingest_url: async (context:any , args:any) => {
-      // try {
-        const job = {
+        let job = {
           name: 'A Job',
           command: 'fetch_content',
           dir: 'ingested_files',
@@ -62,47 +61,31 @@ export const content: Module<ContentState, RootState> = {
             url: args.url
           }
         };
-        puts(job);
-        const result = await rpc(job);
+        let jout = await rpc(job);
+        puts({job, jout});
+        if (!rpc_job_succeeded(jout)) {
+            return jout;
+        }
+        const hash = jout.result.md5.substr(0,12);
+        job.dir = hash;
+        jout = await rpc(job);
+        puts({job, jout});
+        const job2 = {
+          name: 'A Second Job',
+          command: 'pdf_to_image',
+          dir: hash,
+          args: {
+           'src'       :  jout.result.fname,
+           'crop_rect' : [0.0, 0.0, 1.0, 1.0],
+           'dpi'       : 30,
+           'pages'     : '1',
+          }
+        };
+        let jout2 = await rpc(job2);
         puts('= = = = Got Result from Job Coproc: = = = =');
-        puts(result);
+        puts({job2, jout2});
         puts('= = = = = = = = = = = = = = = = = = = = = = ');
-        return result;
-        // const hresp = await fetch(`${API}/job/schedule`,{
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(job)
-        // });
-        // const resp = await hresp.json();
-        // const { status, job_id } = resp; 
-        // puts(`resp=${resp}`);
-        // if(resp.status!==0){
-        //     log.error('error scheduling job with api');
-        //     log.error({job: payload, response: resp});
-        //     return;
-        // }
-        // puts(`job_id = ${job_id}`);
-        // const polling_url = `${API}/job/results?job_id=${job_id}`
-        // puts(`polling_url = ${polling_url}`);
-        // puts(`zzz`);
-        // // await new Promise(r => setTimeout(r, 1000))
-        // puts(`polling`);
-        // // const poll_fn = async () => fetch(polling_url).then(r => r.json());
-        // const poll_fn = async () => fetch(polling_url).then(async function(r) {const j= await r.json(); puts(j[0]); return j[0];});
-        // const condition_fn = (d: any) => d && ('status' in d) && (d.status === 'finished');
-        // //  const condition_fn = function(d: any) {puts(d); puts(d.status); return d.status === 'finished'};
-        // const sec = 1e3;
-        // const interval = 2*sec;
-        // const timeout = 30*sec;
-        // const result = await asyncPoll<any>(poll_fn, condition_fn, {interval, timeout});
-        // puts('= = = = Got Result from Job Coproc = = = =');
-        // puts(result);
-        // return result;
-        // } catch( e) {
-        //   log.error(e);
-        // }
+        return jout2;
     },
     test_array: async (context:any , arg: any) => {
       try {

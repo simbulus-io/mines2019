@@ -17,7 +17,7 @@ export default class Ingest extends Vue {
     super();
   }
 
-  public handle_submit_clicked() {
+  public handle_submit() {
     puts(`The URL submitted was ${this.url}`);
     const result = this.$store.dispatch('content/ingest_url', {url:this.url});
     puts(result);

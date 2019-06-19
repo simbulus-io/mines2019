@@ -6,8 +6,8 @@
       <div class="ingest">
         <div class="banner">Hello RBM</div>
         <div class="ingest-form">
-          <input v-model="url"/>
-          <button @click="handle_submit_clicked">Submit</button>
+          <input v-model="url" @keyup.enter.native="handle_submit"/>
+          <br><button @click="handle_submit">Submit</button>
         </div>
       </div>
     </template>
