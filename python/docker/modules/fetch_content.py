@@ -90,7 +90,7 @@ def fetch_and_hash(*,url):
     return results
         
 
-def pdf_to_image(*,src,tgt,crop_rect,pages,dpi=108):
+def pdf_to_image(*,src,tgt,crop_rect,pages,dpi=108,concatenate=True):
     input = PdfFileReader(src)
     npages = input.getNumPages()
     page_list = get_page_indices(pages,npages)
@@ -102,15 +102,24 @@ def pdf_to_image(*,src,tgt,crop_rect,pages,dpi=108):
         pg_img = crop_image(pg_img, crop_rect)
         if resample>1:
             pg_img = scale_down(pg_img, resample)
-        if img is None:
+        if concatenate:
+            if img is None:
+                img = pg_img
+            else:
+                img = np.concatenate((img,pg_img), axis=0)
+        if not concatenate:
+            if pg_img is not None and (0 < pg_img.shape[0]*pg_img.shape[1]):
+                cv2.imwrite(tgt%i, pg_img)
             img = pg_img
-        else:
-            img = np.concatenate((img,pg_img), axis=0)
-    if img is None or (0 == img.shape[0]*img.shape[1]):
-        raise(Exception('Image is empty - no file written'))
-    cv2.imwrite(tgt, img)
-    return {'shape': img.shape, 'fname': tgt, 'path': ('%s/%s' % (os.getcwd(),tgt))}
 
+    if concatenate:
+        if img is None or (0 == img.shape[0]*img.shape[1]):
+            raise(Exception('Image is empty - no file written'))
+        cv2.imwrite(tgt, img)
+        return {'image_shape': img.shape, 'fname': tgt, 'path': ('%s/%s' % (os.getcwd(),tgt))}
+    else:
+        return {'image_shape': img.shape, 'path': os.getcwd(), 'pages': list(page_list), 'images': [tgt%i for i in page_list]}
+        
     
 def handle_engageny(url):
     subprocess.run(["wget", "-O", "src.pdf", url])

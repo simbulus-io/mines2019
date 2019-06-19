@@ -36,14 +36,18 @@ def fetch_content(*,url=None):
 from modules.fetch_content import pdf_to_image as _pdf_to_image
 
 @command
-def pdf_to_image(*, src=None, tgt=None, crop_rect=[0.0, 0.0, 1.0, 1.0], pages='-', dpi=108):
+def pdf_to_image(*, src=None, tgt=None, crop_rect=[0.0, 0.0, 1.0, 1.0], pages='-', dpi=108, concatenate=True):
     if src is None:
         print('pdf_to_image job did not specify a src file as args.src')
         return {'status': -1, 'error': 'pdf_to_image job did not specify a src'}
     if tgt is None:
         print('pdf_to_image job did not specify a tgt file as args.tgt')
-        print('... assuming png and deriving from args.src')
-        tgt = src.split('.')[0] + '.png'
+        if concatenate:
+            print('... assuming png and deriving from args.src')
+            tgt = src.split('.')[0] + '.png'
+        else:
+            tgt = '%03d.png'
+            print('... assuming png and setting tgt = "%s"' % tgt)
     return _pdf_to_image(**locals())
 
 # - - - - - - - - - - - - - - - - - - - -
@@ -221,13 +225,7 @@ def main():
 
 def mock_main():
     
-    jobs = [
-        {'name'        : 'beny0',
-         'dir'         : 'my_job',
-         'command'     : 'fetch_content',
-         'args'        : {
-           'url'       : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
-         }},
+    other_jobs = [
         {'name'        : 'beny1',
          'dir'         : 'my_job',
          'command'     : 'pdf_to_image',
@@ -265,18 +263,38 @@ def mock_main():
            'dpi'       : 4*108,
            'pages'     : '-2',
          }},
-        # {'name': 'beny1',
-        #  'dir' : 'my_job',
-        #  'command': 'fetch_engageny_content',
-        #  'args': {
-        #    'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
-        #  }},
         {'name': 'beny2',
          'dir' : 'my_job',
          'command': 'xy_segment_image',
          'args': {
            'file':  "23d0d29406f.png"
          }},
+        
+        ]
+    
+    jobs = [
+        {'name'          : 'beny0',
+         'dir'           : 'my_job',
+         'command'       : 'fetch_content',
+         'args'          : {
+           'url'         : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
+         }},
+        {'name'          : 'beny1',
+         'dir'           : 'my_job/thumbs',
+         'command'       : 'pdf_to_image',
+         'args'          : {
+           'src'         :  "../23d0d29406f.pdf",
+           'crop_rect'   : [0.0, 0.0, 1.0, 1.0],
+           'dpi'         : 30,
+           'pages'       : '-',
+           'concatenate' : False,
+         }},
+        # {'name': 'beny1',
+        #  'dir' : 'my_job',
+        #  'command': 'fetch_engageny_content',
+        #  'args': {
+        #    'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
+        #  }},
         # {'name': 'beny3',
         #  'command': 'fetch_engageny_content',
         #  'args': {
