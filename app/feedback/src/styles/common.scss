@@ -9,6 +9,16 @@ body {
     font-weight: $font-weight;
 
 }
+//"'Return to all assignments' from individual view"
+.assigns-button {
+  border-radius: 10px;
+  background-color: $wm_blue;
+  color: $white;
+  font-size: 20pt;
+  border: none;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
 
 div {
   border-radius: 10px;
@@ -37,6 +47,7 @@ div {
   }
 }
 
+//graph paper background for individual view
 .graphbackground {
   background-position: center;
   background-image: url('../../public/graphpaper.png');
@@ -44,10 +55,6 @@ div {
   background-repeat: repeat;
   border-top: 2px solid $wm_gray;
   border-radius: 0%;
-}
-
-.assigns-button {
-  margin-bottom: 10px;
 }
 
 .bgimg {
