@@ -4,7 +4,7 @@ let widget_name = "content"
 module.exports = {
   productionSourceMap: false,
   devServer: {
-    proxy: 'http://localhost',
+    proxy: 'http://localhost:5102',
   },
   css: {
     extract: true // bundle the CSS with JS and apply dynamically

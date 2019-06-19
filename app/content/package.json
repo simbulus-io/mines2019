@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "@types/query-string": "^6.3.0",
+    "add": "^2.0.6",
     "chalk": "^2.4.2",
     "console": "^0.7.2",
     "core-js": "^2.6.5",
@@ -25,9 +26,11 @@
     "query-string": "^6.5.0",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
+    "vue-loading-overlay": "^3.2.0",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "yarn": "^1.16.0"
   },
   "devDependencies": {
     "@types/async-polling": "^0.0.3",

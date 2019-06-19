@@ -11,20 +11,27 @@
           <br><button @click="handle_submit">Load</button>
           <h2 v-if="page_thumbnails.length>0" class="label">Content Preview:</h2>
           <div class="thumbnail-container">
-            <img v-for="url in page_thumbnails" :src="url" alt="Thumbnail Image" />
+            <img v-for="(url,index) in page_thumbnails" :src="url" alt="Thumbnail Image" :key="index"/>
           </div>
-          <div v-if="hash" class="stage_two">
+          <div v-if="hash" class="stage_t2wo">
             <h2 class="label">List of Pages to Import (default &rarr; all):</h2>
              <input v-model="page_list" />
              <br><button @click="handle_segment">Process</button>
           </div>
           <div class="errors">
             <h2 v-if="reported_errors.length>0">Errors:</h2>
-            <ol v-for="msg in reported_errors">
+            <ol v-for="(msg,index) in reported_errors" :key="index">
             <li> {{msg.trim()}}</li>
             </ol>
           </div>
         </div>
+          <loading :active.sync="show_spinner"></loading>
+        <div>
+        </div>
+         <!-- <loading :active.sync="true"
+                  :can-cancel="true"
+                  :on-cancel="onCancel"
+                  :is-full-page="true"></loading> -->
       </div>
     </template>
   </MainContent>
