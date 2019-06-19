@@ -11,7 +11,7 @@ Vue.use(Router);
 export default new Router({
   routes: [
     // Redirects
-    { path: '/', redirect: 'ingest', },
+    { path: '/', redirect: '/ingest', },
     // Routes
     { path: '/ingest',         name: 'ingest',         component: Ingest, },
     { path: '/segment',        name: 'segment',        component: Segment, },

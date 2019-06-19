@@ -7,7 +7,7 @@ import Vuex           from 'vuex';
 import asyncPoll      from '@/async_poll';
 
 const USING_DOCKER = true;
-const API_BASE_URL = USING_DOCKER ? 'http://localhost' :  'http://localhost:5101'
+const API_BASE_URL = USING_DOCKER ? 'http://localhost:8080' :  'http://localhost:5101'
 
 export interface ContentState {
   hello: string;
