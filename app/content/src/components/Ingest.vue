@@ -9,10 +9,15 @@
           <h2 class="label">URL of Content to load (e.g. "https://www.engageny.org/file/...-student.pdf?token=..."):</h2>
           <input v-model="url" @keyup.enter.native="handle_submit"/>
           <br><button @click="handle_submit">Load</button>
+          <h2 v-if="page_thumbnails.length>0" class="label">Content Preview:</h2>
           <div class="thumbnail-container">
             <img v-for="url in page_thumbnails" :src="url" alt="Thumbnail Image" />
           </div>
-          <br><button @click="handle_segment">Segment</button>
+          <div v-if="hash" class="stage_two">
+            <h2 class="label">List of Pages to Import (default &rarr; all):</h2>
+             <input v-model="page_list" />
+             <br><button @click="handle_segment">Process</button>
+          </div>
           <div class="errors">
             <h2 v-if="reported_errors.length>0">Errors:</h2>
             <ol v-for="msg in reported_errors">
@@ -74,7 +79,8 @@
     }
     .thumbnail-container {
       img {
-        display: block;
+        display: inline-block;
+        text-align: left;
         margin-left: 25px;
         margin-top: 40px;
         border: 1px solid #ccc;

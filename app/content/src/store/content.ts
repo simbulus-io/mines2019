@@ -73,18 +73,18 @@ export const content: Module<ContentState, RootState> = {
         const job2 = {
           name: 'A Second Job',
           command: 'pdf_to_image',
-          dir: hash,
+          dir: `${hash}/pg_thumbs`,
           args: {
-           'src'       :  jout.result.fname,
-           'crop_rect' : [0.0, 0.0, 1.0, 1.0],
-           'dpi'       : 30,
-           'pages'     : '1',
+           'src'         :  `../${jout.result.fname}`,
+           'crop_rect'   : [0.0, 0.0, 1.0, 1.0],
+           'dpi'         : 30,
+           'pages'       : '-',
+           'concatenate' : false,
           }
         };
         let jout2 = await rpc(job2);
-        puts('= = = = Got Result from Job Coproc: = = = =');
         puts({job2, jout2});
-        puts('= = = = = = = = = = = = = = = = = = = = = = ');
+        jout2.result.hash = hash;
         return jout2;
     },
     test_array: async (context:any , arg: any) => {

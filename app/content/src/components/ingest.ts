@@ -14,10 +14,11 @@ export default class Ingest extends Vue {
 
   public server='http://localhost/';
 
+  public hash:(string|null) = null;
   public reported_errors:Array<string> = [];
   public page_thumbnails:Array<string> = [];
+  public page_list:string = '-';
   public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
-  
   
   constructor() {
     super();
@@ -36,10 +37,16 @@ export default class Ingest extends Vue {
       this.reported_errors.push(error_message);
     }
     else {
-      this.page_thumbnails.push(this.server + finished_job.result.path);
+      for (let f of finished_job.result.images)
+        this.page_thumbnails.push(this.server + finished_job.result.path + '/' + f);
+      this.page_list = `1-${finished_job.result.pages.length}`;
+      this.hash = finished_job.result.hash;
     }
   }
 
+  public async handle_segment() {
+  }
+  
   // Computed
   public get hello_mines() {
     // First content identifies the store module
