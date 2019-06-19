@@ -1,13 +1,14 @@
-import { log }        from '@/logger';
+/* tslint:disable:prefer-const */
+import { log, puts }  from '@/logger';
 import { Module }     from 'vuex';
 import { RootState }  from '@/store/types';
 import Vue            from 'vue';
 import Vuex           from 'vuex';
-// Had to hack this up to work in the browser
-import asyncPoll      from '@/async_poll';
+import { rpc , rpc_job_succeeded } from '@/rpc';
 
 const USING_DOCKER = true;
-const API_BASE_URL = USING_DOCKER ? 'http://localhost:8080' :  'http://localhost:5101'
+// const API_BASE_URL = USING_DOCKER ? 'http://localhost' :  'http://localhost:5101'
+const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
 
 export interface ContentState {
   hello: string;
@@ -46,51 +47,49 @@ export const content: Module<ContentState, RootState> = {
   // These are asynchronus actions - model interactions with a server
   actions: {
     hello: async (context: any, args: any) => {
-      const rval = await fetch(`${API_BASE_URL}/content/v1.0/hello`)
+      const rval = await fetch(`${API}/hello`)
       const state = await rval.json();
-      log.info(`Got ${state.message} from the server`);
+      puts(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
     },
     ingest_url: async (context:any , args:any) => {
-      try {
-        const payload = {
+        let job = {
           name: 'A Job',
           command: 'fetch_content',
           dir: 'ingested_files',
           args: {
             url: args.url
           }
+        };
+        let jout = await rpc(job);
+        puts({job, jout});
+        if (!rpc_job_succeeded(jout)) {
+            return jout;
         }
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/job/schedule`,{
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload)
-        });
-        const { status, job_id } = await rval.json();
-        if(status){
-          // dummy polling function
-          let idx=0;
-          const poll_fn = async () => setTimeout(() => {
-            idx++;
-            log.info(`polling ${idx}th iteration`);
-          }, 1000);
-          // dummy condition
-          const condition_fn = () => idx > 10
-          const interval = 2e3;
-          const timeout = 30e3;
-          const result = await asyncPoll<any>(poll_fn, condition_fn, {interval, timeout});
-        } else {
-          log.error(`Bad status job/schedule`);
-        }
-      } catch( e) {
-        log.error(e);
-      }
+        const hash = jout.result.md5.substr(0,12);
+        job.dir = hash;
+        jout = await rpc(job);
+        puts({job, jout});
+        const job2 = {
+          name: 'A Second Job',
+          command: 'pdf_to_image',
+          dir: hash,
+          args: {
+           'src'       :  jout.result.fname,
+           'crop_rect' : [0.0, 0.0, 1.0, 1.0],
+           'dpi'       : 30,
+           'pages'     : '1',
+          }
+        };
+        let jout2 = await rpc(job2);
+        puts('= = = = Got Result from Job Coproc: = = = =');
+        puts({job2, jout2});
+        puts('= = = = = = = = = = = = = = = = = = = = = = ');
+        return jout2;
     },
     test_array: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/contents`)
+        const rval = await fetch(`${API}/contents`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -102,7 +101,7 @@ export const content: Module<ContentState, RootState> = {
 
     test_array_2: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/test_route`)
+        const rval = await fetch(`${API}/test_route`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -117,7 +116,7 @@ export const content: Module<ContentState, RootState> = {
     //////TODO: parameterize the url passed to fetch() so that any file in public can be called by name
     test_image: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_BASE_URL}/content/v1.0/static/Algebra.png`)
+        const rval = await fetch(`${API}/static/Algebra.png`)
         const img = await rval.blob();
         const state = URL.createObjectURL(img);
         // upon successfully completing the action - synchronusly update the Vue application state

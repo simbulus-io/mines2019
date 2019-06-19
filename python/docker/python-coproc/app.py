@@ -241,9 +241,19 @@ def mock_main():
          'command'     : 'pdf_to_image',
          'args'        : {
            'src'       :  "23d0d29406f.pdf",
+           'tgt'       :  "23d0d29406f-thumb.png",
+           'crop_rect' : [0.0, 0.0, 1.0, 1.0],
+           'dpi'       : 30,
+           'pages'     : '1',
+         }},
+        {'name'        : 'beny1',
+         'dir'         : 'my_job',
+         'command'     : 'pdf_to_image',
+         'args'        : {
+           'src'       :  "23d0d29406f.pdf",
            'crop_rect' : [0.03, 0.10, 0.93, 0.90],
            'dpi'       : 108,
-           'pages'     : '1-2',
+           'pages'     : '1-3',
          }},
         {'name'        : 'beny1',
          'dir'         : 'my_job',
@@ -253,7 +263,7 @@ def mock_main():
            'tgt'       :  "23d0d29406f-hi-res.png",
            'crop_rect' : [0.03, 0.10, 0.93, 0.90],
            'dpi'       : 4*108,
-           'pages'     : '1-2',
+           'pages'     : '-2',
          }},
         # {'name': 'beny1',
         #  'dir' : 'my_job',
@@ -274,8 +284,8 @@ def mock_main():
         #     }},
         ]
     for idx, job in enumerate(jobs):
-        if idx>0:
-            time.sleep(2)
+        # if idx>0:
+        #     time.sleep(2)
         print('running job %s' % job) 
         sys.stdout.flush()
         res,log = do_job(job, '/app/jobs')

@@ -15,8 +15,13 @@ root_log.enableAll();
 
 prefix.apply(root_log, {
   format(level:any, name:any) {
-    return `${chalk.green(`${name}: ${colors[level.toUpperCase()](level)}`)}`;
+    const LEVEL = level.toUpperCase();
+    if (LEVEL==='DEBUG') return '';
+    return `${chalk.green(`${name}: ${colors[LEVEL](level)}`)}`;
   },
 });
-const log = root_log.getLogger('wmtutor');
-export { log }
+
+const log = root_log.getLogger('content-app');
+const puts = log.debug;
+
+export { log, puts }
