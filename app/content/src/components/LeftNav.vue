@@ -1,9 +1,8 @@
 <template>
   <div class="left-nav">
     <div class="link-container">
-      <router-link to="/dashboard"><font-awesome-icon icon="home" />DASHBOARD</router-link>
-      <router-link to="/other"><font-awesome-icon icon="home" />OTHER</router-link>
       <router-link to="/file_upload"><font-awesome-icon icon="home" />FILE UPLOAD</router-link>
+      <router-link to="/other"><font-awesome-icon icon="home" />ADJUST CUTLINES</router-link>
       <router-link to="/edit_segments"><font-awesome-icon icon="home" />EDIT SEGMENTS</router-link>
     </div>
   </div>

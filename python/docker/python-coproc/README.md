@@ -37,3 +37,35 @@ The required form of a "jobs" document is:
   }
 }
 ```
+## Running the local App in a docker container withou the full stack
+
+You can also run the app stand-alone without the full stack. To do this you can invoke the ./run script 
+(after having successfully built or pulled the container image... see below)
+
+When run standalone, the app.py script will run mock_main() rather than main() -- it makes this choice on seeing the 
+environment variable MONGO_URL is not set.
+The mock_main() will run command on mock data... currently the mock data is statically defined in the app.
+The mock example will 1) grab pdf content from engageny.com, 2) render the pages to images and crop them and vertically
+concatenate the images, and 3) run a fake x-y cuts command. The outputs of these commands send document blobs to the console
+and write files under a working directory in ./jobs/
+
+## Building or Pulling the image for the docker container
+
+You can pull an image from docker hub by:
+
+```console
+docker pull bmilne/pyco:1.0
+docker tag bmilne/pyco:1.0 python-coproc
+```
+Or you can build by first making sure you have either built [base-py-tess](../base-py-tess) or pulled an image from docker
+hub for base-py-tess.
+
+```console
+# either:
+(cd ../base-py-tess ; ./build)
+# or:
+docker pull bmilne/py-tess:1.0
+docker tag bmilne/py-tess:1.0 base-py-tess
+# and then:
+./build
+```

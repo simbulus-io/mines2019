@@ -1,12 +1,12 @@
 
 <template>
   <div class="line_separator" id="line_separator" style="position: relative;">
-    <button class="button" type="button" v-on:click="get_location();submit_locations();poll();">Submit</button>
-
-    <img src="./EngageNY/Algebra1-m03-b-l08.png">
-    <!--Displays vertical offset of first horizontal segmentation line-->
+    <button class="button" type="button" v-on:click="get_location();submit_locations(line_data);">Submit</button>
 
     <!--Adds Image to page-->
+    <img src="./EngageNY/Algebra1-m03-b-l08.png">
+
+    
 
     <!--Makes lines draggable-->
     <div class="line-container" v-for="line in line_data" :key="line">
@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script lang="ts" src="./line_separator.js">
+<script lang="ts" src="./line_separator.ts">
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

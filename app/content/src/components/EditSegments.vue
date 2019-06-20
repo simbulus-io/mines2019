@@ -5,9 +5,10 @@
     <template v-slot:main-content>
       <h1 class="banner">W00t Math Digital Content Editor</h1>
       <span>Edit, tag, accept/reject!: </span><br><br>
-      <div v-for="elem in test_array" v-bind:key="elem">
-           <!-- <p style="white-space: pre-line;">{{elem.name}}</p>-->
-            <textarea name="math_problem" rows="18" cols="70" v-model="elem.name"></textarea><br><br>
+      <div>
+     <!--  <div v-for="elem in test_array" v-bind:key="elem"> -->
+            <!-- <textarea name="math_problem" rows="18" cols="70" v-model="elem.name"></textarea><br><br> -->
+            <textarea name="math_problem" rows="18" cols="70">the sequence of perfect squares {1,4,9,16,25, …} earned its name because the ancient Greeks realized these quantities could be arranged to form perfect square shapes.  if S(n) denotes the nth square number, what is the formula for S(n)?</textarea><br><br>
             <input type="checkbox" name="arithmetic" value="is_arithmetic">Arithmetic
             <input type="checkbox" name="division" value="is_division">Division
             <input type="checkbox" name="multiplication" value="is_multiplication">Multiplication
