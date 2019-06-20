@@ -66,7 +66,7 @@ export const content: Module<ContentState, RootState> = {
         if (!rpc_job_succeeded(jout)) {
             return jout;
         }
-        const hash = jout.result.md5.substr(0,12);
+        const hash = jout.result.md5.substr(0,11);
         job.dir = hash;
         jout = await rpc(job);
         puts({job, jout});
@@ -86,6 +86,36 @@ export const content: Module<ContentState, RootState> = {
         puts({job2, jout2});
         jout2.result.hash = hash;
         return jout2;
+    },
+    process_pdf: async (context:any , args:any) => {
+      let dpi=108;
+      const job = {
+        command: 'pdf_to_image',
+        dir: `${args.hash}`,
+        args: {
+          'src'         :  args.src,
+          'tgt'         :  `${args.hash}-${dpi}d.png`,
+          'crop_rect'   : [0.03, 0.10, 0.93, 0.90],
+          'dpi'         : dpi,
+          'pages'       : '-',
+          'concatenate' : true,
+        }
+      };
+      let jout = await rpc(job);
+      puts({job, jout});
+      if (!rpc_job_succeeded(jout)) {
+        jout.summary = {};
+        return jout;
+      }
+      const lo_res:string = jout.result.path;
+      dpi = 4*108;
+      job.args.dpi = dpi;
+      job.args.tgt = `${args.hash}-${dpi}d.png`;
+      let jout2 = await rpc(job);
+      puts({job, jout:jout});
+      const hi_res:string = jout2.result.path;
+      jout2.summary = {lo_res, hi_res};
+      return jout2;
     },
     test_array: async (context:any , arg: any) => {
       try {

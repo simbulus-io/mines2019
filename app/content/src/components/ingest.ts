@@ -21,6 +21,7 @@ export default class Ingest extends Vue {
 
   public server='http://localhost/';
 
+  public content_image:(string|null) = null;
   public hash:(string|null) = null;
   public reported_errors:Array<string> = [];
   public page_thumbnails:Array<string> = [];
@@ -40,28 +41,41 @@ export default class Ingest extends Vue {
   }
   public async handle_submit() {
     try {
-      this.reset();
       this.show_spinner = true;
+      this.reset();
       const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
       // puts(finished_job);
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
         this.reported_errors.push(error_message);
-      }
-      else {
+      } else {
         for (let f of finished_job.result.images)
           this.page_thumbnails.push(this.server + finished_job.result.path + '/' + f);
         this.page_list = `1-${finished_job.result.pages.length}`;
         this.hash = finished_job.result.hash;
       }
-      this.show_spinner = false;
     } catch(e) {
       log.error(`Unexpected exception in handle submit ${e}`);
-      this.show_spinner = false;
     }
+    this.show_spinner = false;
   }
 
   public async handle_segment() {
+    try {
+      this.show_spinner = true;
+      const finished_job = await this.$store.dispatch('content/process_pdf',
+                                                      {hash:this.hash, src:`${this.hash}.pdf`} );
+      // puts(finished_job);
+      if (!rpc_job_succeeded(finished_job)) {
+        let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
+        this.reported_errors.push(error_message);
+      } else {
+        this.content_image = this.server + finished_job.summary.lo_res;
+      }
+    } catch(e) {
+      log.error(`Unexpected exception in handle submit ${e}`);
+    }
+    this.show_spinner = false;
   }
 
   // Computed

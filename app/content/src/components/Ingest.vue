@@ -13,10 +13,17 @@
           <div class="thumbnail-container">
             <img v-for="(url,index) in page_thumbnails" :src="url" alt="Thumbnail Image" :key="index"/>
           </div>
-          <div v-if="hash" class="stage_t2wo">
+          <div v-if="hash" class="stage_two">
             <h2 class="label">List of Pages to Import (default &rarr; all):</h2>
              <input v-model="page_list" />
              <br><button @click="handle_segment">Process</button>
+          </div>
+          <div v-if="content_image" class="stage_three">
+            <h2 class="label">Concatenated Image:</h2>
+             <div class="segmentation-container">
+               <img :src="content_image" />
+             </div>
+             <br><button>Upload (coming soon!)</button>
           </div>
           <div class="errors">
             <h2 v-if="reported_errors.length>0">Errors:</h2>
@@ -74,6 +81,7 @@
     display: block;
     width: 90%;
     font-size: 14px;
+    padding-bottom: 50px;
     input {
       margin-left: 25px;
       width:100%;
@@ -91,6 +99,19 @@
         margin-left: 25px;
         margin-top: 40px;
         border: 1px solid #ccc;
+      }
+    }
+    .segmentation-container {
+      border: 2px solid #80808a;
+      height: 1000px;
+      width: 1000px;
+      overflow-y: scroll;
+      margin-left: 30px;
+      margin-top: 10px;
+      img {
+        display: block;
+        margin: 10px;
+        border: 2px solid #ccc;
       }
     }
   }
