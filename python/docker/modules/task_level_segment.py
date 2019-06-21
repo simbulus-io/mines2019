@@ -58,7 +58,7 @@ def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
     # with the start and end rows of all-white blocks of rows... i.e. bound on␣vertical whitespace
     white_blocks = []
     pos = 0
-    print(white_rows)
+    # print(white_rows)
 
     # condensing adjacent equivalencies
     for k,g in groupby(white_rows):
