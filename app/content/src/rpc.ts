@@ -2,7 +2,6 @@
 import { log, puts }  from '@/logger';
 import asyncPoll      from '@/async_poll'; // Had to hack this up to work in the browser
 
-
 const USING_DOCKER = true;
 const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
 
@@ -10,7 +9,7 @@ const rpc = async (job:any): Promise<any | null>  => {
   const sec = 1e3;
   const polling_interval = 2*sec;
   const rpc_timeout      = 30*sec;
-  try {          
+  try {
     const hresp = await fetch(`${API}/job/schedule`,{
       method: 'POST',
       headers: {
@@ -19,7 +18,7 @@ const rpc = async (job:any): Promise<any | null>  => {
       body: JSON.stringify(job)
     });
     const response = await hresp.json();
-    const { status, job_id } = response; 
+    const { status, job_id } = response;
     if(response.status!==0){
       log.error('error scheduling job with api');
       log.error({job , response});
@@ -34,7 +33,7 @@ const rpc = async (job:any): Promise<any | null>  => {
     const finished_job = await asyncPoll<any>(poll_fn, condition_fn, {interval: polling_interval, timeout: rpc_timeout});
     let result:any = null;
     if  (finished_job && ('result' in finished_job)) {
-      result = finished_job['result']
+      result = finished_job.result;
     }
     if (!rpc_job_succeeded(finished_job)) {
       puts(`Got error returned from job with job_id: ${finished_job.job_id},` +

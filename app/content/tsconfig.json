@@ -12,7 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": [
+    "outDir": "ignore",
+      "types": [
       "webpack-env",
       "jest"
     ],

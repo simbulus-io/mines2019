@@ -5,16 +5,16 @@ import MainContent                                 from '@/components/MainConten
 import { log , puts }                              from '@/logger';
 import LineSeparator                               from '@/components/LineSeparator.vue';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
-// RBM - import the component
 import Loading                                     from 'vue-loading-overlay';
-// RBM - import stylesheet for component
+import { BlobCache }                               from '@/blob_cache'
 import 'vue-loading-overlay/dist/vue-loading.css';
+import SegmentUI                                   from '@/components/SegmentUI.vue';
 
 @Component({
   components: {
     MainContent,
-    // RBM - this is the goo that makes the comp available to the template
     Loading,
+    SegmentUI
   }
 })
 export default class Ingest extends Vue {
@@ -26,7 +26,8 @@ export default class Ingest extends Vue {
   public page_list:string = '-';
   public page_thumbnails:Array<string> = [];
   public reported_errors:Array<string> = [];
-  public segmentation:(any|null) = null;
+  public segmentation_job:(any|null) = {'job_id':'7321808d-684e-ea24-f4df-e9a6a7399699','args':{'src':'23d0d29406f.pdf','tgt':'23d0d29406f-432d.png','crop_rect':[0.03,0.1,0.93,0.9],'dpi':432,'pages':'1-4','concatenate':true},'command':'pdf_to_image','dir':'23d0d29406f','log':'','result':{'image_shape':[15204,3304,4],'fname':'23d0d29406f-432d.png','path':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','status':0},'status':'finished','start_time':'2019-06-21T20:14:19.233Z','worker':'0bba057d5bb9','elapsed_time':8.941241264343262,'finish_time':'2019-06-21T20:14:28.175Z','summary':{'image':'/shared/jobs/23d0d29406f/23d0d29406f-108d.png','hi_res':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','white_space_rows':[[0,43],[76,95],[124,175],[196,207],[228,231],[256,399],[440,615],[636,647],[668,675],[696,975],[996,1003],[1028,1031],[1056,1059],[1100,1139],[1164,1175],[1192,1199],[1224,1575],[1596,1603],[1624,1631],[1652,1923],[1964,2175],[2200,2411],[2436,2871],[3000,3039],[3060,3091],[3112,3115],[3140,3163],[3188,3211],[3240,3271],[3292,3799]],'dpi':108,'image_shape':[3800,826,4]}};
+
   public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
 
   // RBM - bind loader prop to reactive data
@@ -42,13 +43,19 @@ export default class Ingest extends Vue {
     this.page_list = '-';
     this.page_thumbnails = [];
     this.reported_errors = [];
-    this.segmentation = null;
+    this.segmentation_job = null;
   }
+
+  public async handle_keyup(e) {
+    if (e.keyCode === 13) await this.handle_submit();
+  }
+
   public async handle_submit() {
     try {
       this.show_spinner = true;
       this.reset();
       const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
+
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
         puts(error_message);
@@ -84,17 +91,20 @@ export default class Ingest extends Vue {
         }
         puts(finished_job.summary);
         this.content_image = this.server + finished_job.summary.image;
+        this.segmentation_job = finished_job;
+        /*
         this.segmentation = {
           dpi: finished_job.summary.dpi,
           shape: finished_job.summary.image_shape,
           white_rows: finished_job.summary.white_space_rows
-        };
+        };*/
       }
     } catch(e) {
       log.error(`Unexpected exception in handle_segment: ${e}`);
     }
     this.show_spinner = false;
   }
+
 
   // Computed
   public get hello_mines() {

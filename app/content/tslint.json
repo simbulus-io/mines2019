@@ -8,8 +8,6 @@
       "node_modules/**",
       "**/OWMSchema.ts",
       "**/hxclasses*.ts",
-      "**/quick*.ts",
-      "**/bill*.ts",
       "**/*.vue"
     ]
   },
@@ -32,6 +30,9 @@
     "array-type": false,
     "prefer-const": false,
     "curly": false,
-    "no-empty": false
+    "no-empty": false,
+    "max-classes-per-file":false,
+    "member-ordering":false,
+    "forin":false
   }
 }
