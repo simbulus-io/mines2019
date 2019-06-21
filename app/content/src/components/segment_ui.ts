@@ -1,11 +1,13 @@
 // RBM - from the CL yarn add vue-loading-overlay
 //
 import { Component, Prop, Vue }                    from 'vue-property-decorator';
+import SegmentSelector from './segment';
 
 declare class SegmentType {
-  offset:number;
-  height:number;
-  group:number;
+  public offset:number;
+  public height:number;
+  public group:number;
+  public idx:number;
 }
 
 const COLORS = ['green', 'red', 'blue', 'yellow', 'purple', 'cyan', 'white'];
@@ -61,22 +63,27 @@ export default class SegmentUI extends Vue {
 
   private disable_context(e) { e.preventDefault(); }
 
-  private _dragging:SegmentType|null = null;
+  private _drag_start_seg:SegmentType|null = null;
   private _drag_grp = 0;
+  private _drag_undo:any = {};
+  private ui_stage = 1;
+
   private handle_down(e)
   {
-    var seg = this.get_segment_for_event(e);
+    let seg = this.get_segment_for_event(e);
 
     if (seg) {
-      this._dragging = seg;
-      if (e.button==2) {
+      this._drag_undo = { };
+      this._drag_undo[seg.idx] = seg.group;
+      this._drag_start_seg = seg;
+      if (e.button === 2) {
         this._drag_grp = -1; // right-click erase
       } else if (seg.group>=0) { // Same color
          this._drag_grp = seg.group;
       } else { // create new group
-        var max = 0;
+        let max = 0;
         this.get_segments().forEach((ss)=>{
-          if (ss.group>=max) max = ss.group+1;
+          if (ss.group >= max) max = ss.group+1;
         });
         this._drag_grp = max;
       }
@@ -88,36 +95,116 @@ export default class SegmentUI extends Vue {
       return false;
     }
   }
+
+  private handle_stage2(e)
+  {
+    this.ui_stage = 2;
+  }
+
+  private handle_stage1(e)
+  {
+    this.ui_stage = 1;
+  }
+
+  private handle_upload(e)
+  {
+    console.log('TBD: UPLOAD!!!');
+  }
+
+  private get_groups()
+  {
+    let segs = this.get_segments();
+    let groups:Array<any> = [];
+
+    let last_group:any = null;
+    let last_gid = -2;
+    segs.forEach((seg)=>{
+      if (seg.group>=0) {
+        function new_group(gid) {
+          last_group = { segments:[], height:0 };
+          last_gid = gid;
+          groups.push(last_group);
+        }
+        if (last_group == null) new_group(seg.group);
+        if (last_gid !== seg.group) new_group(seg.group);
+
+        // Here, guaranteed to have a last_group
+        last_group.segments.push(seg);
+        last_group.height += seg.height;
+      }
+    });
+
+    return groups;
+  }
+
+  private get_outer_style() {
+    if (this.ui_stage === 2) return 'background-color:#ccc';
+    return '';
+  }
+
+  private get_group_segment_style(group_segment) {
+    return `height:${ group_segment.height }px`;
+  }
+  private get_group_segment_img_style(group_segment) {
+    return `position:relative;top:${ -group_segment.offset }px`;
+  }
+
   private handle_move(e)
   {
-    if (this._dragging) {
-      var seg = this.get_segment_for_event(e);
-      if (seg) seg.group = this._drag_grp;
+    if (this._drag_start_seg) {
+      let seg = this.get_segment_for_event(e);
+      if (seg) this.color_segments_between(this._drag_start_seg, seg, this._drag_grp);
     }
   }
+
+  private color_segments_between(start, end, grp)
+  {
+    let segs = this.get_segments();
+    if (segs.indexOf(start) > segs.indexOf(end)) {
+      let tmp = start;
+      start = end;
+      end = tmp;
+    }
+
+    for (let idx in this._drag_undo) {
+      let seg:SegmentType = segs[parseInt(idx)];
+      seg.group = this._drag_undo[idx];
+    }
+
+    let on = false;
+    segs.forEach((seg)=>{
+      if (seg === start) on = true;
+      if (on) {
+        if (!this._drag_undo[seg.idx]) this._drag_undo[seg.idx] = seg.group;
+        seg.group = grp;
+      }
+      if (seg === end) on = false;
+    });
+  }
+
   private handle_up(e)
   {
     window.removeEventListener('mousemove', this.handle_move);
-    if (this._dragging) {
-      this._dragging = null;
+    if (this._drag_start_seg) {
+      this._drag_start_seg = null;
     }
   }
 
   private get_segment_for_event(e)
   {
-    var uicont = this.nearest(e.target, "ui-cont");
+    let uicont = this.nearest(e.target, "ui-cont");
     if (uicont) {
-      var r = uicont.getBoundingClientRect();
-      var x = e.clientX - r.left;
-      var y = e.clientY - r.top + uicont.scrollTop;
-      var s = this.get_segment_at(y);
+      let r = uicont.getBoundingClientRect();
+      let x = e.clientX - r.left;
+      let y = e.clientY - r.top + uicont.scrollTop;
+      let s = this.get_segment_at(y);
       return s;
     }
     return null;
   }
 
   private get_segment_at(y) {
-    var hits = this.get_segments().filter((seg) => {
+    let hits = this.get_segments().filter((seg) => {
       return (seg.offset <= y && seg.offset+seg.height >= y);
     });
 
@@ -125,9 +212,9 @@ export default class SegmentUI extends Vue {
   }
 
   private get_segment_style(seg) {
-    var style = `top:${ seg.offset }px; height: ${ seg.height }px`;
+    let style = `top:${ seg.offset }px; height: ${ seg.height }px`;
     if (seg.group>=0) {
-      var color = COLORS[seg.group % COLORS.length];
+      let color = COLORS[seg.group % COLORS.length];
       style += `;background-color:${ color }`;
     }
     return style;
@@ -137,20 +224,21 @@ export default class SegmentUI extends Vue {
     if (this.segments==null) {
       const white_space_rows = this.prop_job.summary.white_space_rows;
       this.segments = [];
-      var i = 0;
-      var last_offset = 0;
+      let i = 0;
+      let last_offset = 0;
       while (i<white_space_rows.length) {
-        var row = white_space_rows[i];
-        var offset = row[0];
-        var height = row[1]-row[0];
+        let row = white_space_rows[i];
+        let offset = row[0];
+        let height = row[1]-row[0];
         if (i>0) {
-          this.segments.push({ offset:last_offset, height:row[0]-last_offset, group:-1 });
+          this.segments.push({ offset:last_offset, height:row[0]-last_offset, group:-1, idx:this.segments.length });
         }
         last_offset = offset + height;
-        this.segments.push({ offset, height, group:-1 });
+        this.segments.push({ offset, height, group:-1, idx:this.segments.length });
         i++;
       }
     }
+
     return this.segments;
   }
 
