@@ -7,7 +7,7 @@
         <h1 class="banner">Create Content from PDF</h1>
         <div class="ingest-form">
           <h2 class="label">URL of Content to load (e.g. "https://www.engageny.org/file/...-student.pdf?token=..."):</h2>
-          <input v-model="url" @keyup.enter.native="handle_submit"/>
+          <input v-model="url" @keyup="handle_keyup"/>
           <br><button @click="handle_submit">Load</button>
           <h2 v-if="page_thumbnails.length>0" class="label">Content Preview:</h2>
           <div class="thumbnail-container">

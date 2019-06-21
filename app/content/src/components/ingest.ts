@@ -47,6 +47,9 @@ export default class Ingest extends Vue {
     this.reported_errors = [];
     this.segmentation_job = null;
   }
+  public async handle_keyup(e) {
+    if (e.keyCode === 13) await this.handle_submit();
+  }
   public async handle_submit() {
     try {
       this.show_spinner = true;
