@@ -23,6 +23,7 @@ services:
       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
       - ../../www-static/:/www-static
       - ../../app/content/public/:/www-content
+      - /shared/pool/ingest/content:/shared
       - shared_tmp:/shared
     ports:
       # [local port]:[container port]
@@ -51,6 +52,7 @@ services:
     ports:
       - 5102:5101
     volumes:
+      - /shared/pool/ingest/content:/shared
       - shared_tmp:/shared
       - ../../app/content:/root/app
       - ../../api/content_api:/root/api
@@ -90,7 +92,8 @@ services:
     depends_on:
       - mongodb
     volumes:
-      - shared_tmp:/shared
+      - /shared/pool/ingest/content:/shared
+      - shared_tmp:/shared_tmp
       - ../../python/docker/python-coproc:/app
       - ../../python/docker/modules:/modules
       - ../../python/docker/data:/data
