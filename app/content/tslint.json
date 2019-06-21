@@ -5,7 +5,6 @@
   ],
   "linterOptions": {
     "exclude": [
-      "**/*",
       "node_modules/**",
       "**/OWMSchema.ts",
       "**/hxclasses*.ts",
@@ -29,6 +28,10 @@
     "align": false,
     "comment-format": false,
     "no-debugger": false,
-    "radix": false
+    "radix": false,
+    "array-type": false,
+    "prefer-const": false,
+    "curly": false,
+    "no-empty": false
   }
 }
