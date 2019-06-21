@@ -34,6 +34,7 @@
     "curly": false,
     "no-empty": false,
     "max-classes-per-file":10,
-    "member-ordering":false
+    "member-ordering":false,
+    "forin":false
   }
 }

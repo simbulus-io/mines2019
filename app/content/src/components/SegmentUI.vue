@@ -3,8 +3,7 @@
 
     <!-- stage 1 -->
     <div class="ui-cont"
-         @mousedown="handle_down"
-         @mouseup="handle_up"
+         @mousedown="handle_paint_down"
          @contextmenu="disable_context"
          v-if="ui_stage==1">
       <div v-for="(item,index) in get_segments()"
@@ -16,12 +15,17 @@
     </div>
 
     <!-- stage 2 -->
-    <div class="ui-cont" v-if="ui_stage==2">
+    <div class="ui-cont"
+         v-if="ui_stage==2"
+         @contextmenu="disable_context">
       <div v-for="(group,index) in get_groups()"
            class="group-segment-cont"
            :key="index">
-           <div v-for="(seg,index) in group.segments" class="sub-segment-cont" :style="get_group_segment_style(seg)">
-             <img :src="prop_server + prop_job.summary.image" :style="get_group_segment_img_style(seg)"/>
+           <div v-for="(seg,index) in group.segments" class="sub-segment-cont" :style="get_group_segment_style(seg)" :key="index">
+             <div class="sub-segment-img-cont" :style="get_group_segment_img_cont_style(seg)">
+               <img :src="prop_server + prop_job.summary.image" :style="get_group_segment_img_style(seg)"/>
+             </div>
+             <div class="bottom-edge" @mousedown="handle_edge_down($event, group, seg)"></div>
            </div>
       </div>
       <button class="stage-btn" @click="handle_stage1">Back to Stage 1</button>
@@ -45,6 +49,9 @@
     margin-left: 30px;
     margin-top: 10px;
     padding:10px;
+
+    * { user-select: none }
+
     .ui-cont {
       position:relative;
       display:inline-block;
@@ -69,9 +76,33 @@
       margin-bottom:30px;
       padding-top:15px;
       background-color:#fff;
+      &:hover {
+        .sub-segment-cont .bottom-edge {
+          opacity:0.25;
+          &:hover {
+            border-bottom-width:2px;
+            opacity:1.0;
+          }
+        }
+      }
     }
     .sub-segment-cont {
+      position:relative;
       overflow:hidden;
+      .sub-segment-img-cont {
+        position:relative;
+        overflow:hidden;
+      }
+      .bottom-edge {
+        position:absolute;
+        bottom:0;
+        height:15px;
+        width:100%;
+        border-bottom:1px solid #3b74df;
+        opacity:0;
+        transition:opacity 0.2s linear;
+        cursor:grab;
+      }
     }
     .stage-btn {
       font-size:20px;
