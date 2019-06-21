@@ -8,6 +8,7 @@ declare class SegmentType {
   public height:number;
   public group:number;
   public idx:number;
+  public d_height:number;
 }
 
 const COLORS = ['green', 'red', 'blue', 'yellow', 'purple', 'cyan', 'white'];
@@ -52,6 +53,24 @@ export default class SegmentUI extends Vue {
     super();
   }
 
+  private ui_stage = 1;
+  private handle_stage2(e) { this.ui_stage = 2; }
+  private handle_stage1(e) { this.ui_stage = 1; }
+  private handle_upload(e)
+  {
+    console.log('TBD: UPLOAD!!!');
+    // Push get_groups() --> server
+    // groups is just: Array<segments:<Array<SegmentType>>
+    // each segment, you care about offset and d_height
+    // (positive is added whitespace, negative reduces height.)
+  }
+  private get_outer_style() {
+    if (this.ui_stage === 2) return 'background-color:#ccc';
+    return '';
+  }
+
+  private disable_context(e) { e.preventDefault(); }
+
   private nearest(elem:Element|null, cls:string)
   {
     while (elem!=null) {
@@ -61,14 +80,15 @@ export default class SegmentUI extends Vue {
     return null;
   }
 
-  private disable_context(e) { e.preventDefault(); }
+  // - - - - - - - - - - - -
+  // Stage 1: Painting segments
+  // - - - - - - - - - - - -
 
   private _drag_start_seg:SegmentType|null = null;
   private _drag_grp = 0;
   private _drag_undo:any = {};
-  private ui_stage = 1;
 
-  private handle_down(e)
+  private handle_paint_down(e)
   {
     let seg = this.get_segment_for_event(e);
 
@@ -89,67 +109,17 @@ export default class SegmentUI extends Vue {
       }
 
       seg.group = this._drag_grp;
-      window.addEventListener('mousemove', this.handle_move);
+      if (this._drag_grp === -1) seg.d_height = 0; // ungroup resets d_height also
+
+      window.addEventListener('mousemove', this.handle_paint_move);
+      window.addEventListener('mouseup', this.handle_paint_up);
       e.preventDefault();
       e.stopImmediatePropagation();
       return false;
     }
   }
 
-  private handle_stage2(e)
-  {
-    this.ui_stage = 2;
-  }
-
-  private handle_stage1(e)
-  {
-    this.ui_stage = 1;
-  }
-
-  private handle_upload(e)
-  {
-    console.log('TBD: UPLOAD!!!');
-  }
-
-  private get_groups()
-  {
-    let segs = this.get_segments();
-    let groups:Array<any> = [];
-
-    let last_group:any = null;
-    let last_gid = -2;
-    segs.forEach((seg)=>{
-      if (seg.group>=0) {
-        function new_group(gid) {
-          last_group = { segments:[], height:0 };
-          last_gid = gid;
-          groups.push(last_group);
-        }
-        if (last_group == null) new_group(seg.group);
-        if (last_gid !== seg.group) new_group(seg.group);
-
-        // Here, guaranteed to have a last_group
-        last_group.segments.push(seg);
-        last_group.height += seg.height;
-      }
-    });
-
-    return groups;
-  }
-
-  private get_outer_style() {
-    if (this.ui_stage === 2) return 'background-color:#ccc';
-    return '';
-  }
-
-  private get_group_segment_style(group_segment) {
-    return `height:${ group_segment.height }px`;
-  }
-  private get_group_segment_img_style(group_segment) {
-    return `position:relative;top:${ -group_segment.offset }px`;
-  }
-
-  private handle_move(e)
+  private handle_paint_move(e)
   {
     if (this._drag_start_seg) {
       let seg = this.get_segment_for_event(e);
@@ -177,14 +147,20 @@ export default class SegmentUI extends Vue {
       if (on) {
         if (!this._drag_undo[seg.idx]) this._drag_undo[seg.idx] = seg.group;
         seg.group = grp;
+        if (grp === -1) seg.d_height = 0; // ungroup resets d_height also
       }
       if (seg === end) on = false;
     });
   }
 
-  private handle_up(e)
+  private cleanup_paint_listeners() { // TODO: how to call this on $destroy ???
+    window.removeEventListener('mousemove', this.handle_paint_move);
+    window.removeEventListener('mouseup', this.handle_paint_up);
+  }
+
+  private handle_paint_up(e)
   {
-    window.removeEventListener('mousemove', this.handle_move);
+    this.cleanup_paint_listeners();
     if (this._drag_start_seg) {
       this._drag_start_seg = null;
     }
@@ -192,7 +168,7 @@ export default class SegmentUI extends Vue {
 
   private get_segment_for_event(e)
   {
-    let uicont = this.nearest(e.target, "ui-cont");
+    let uicont = this.nearest(e.target, 'ui-cont');
     if (uicont) {
       let r = uicont.getBoundingClientRect();
       let x = e.clientX - r.left;
@@ -231,10 +207,10 @@ export default class SegmentUI extends Vue {
         let offset = row[0];
         let height = row[1]-row[0];
         if (i>0) {
-          this.segments.push({ offset:last_offset, height:row[0]-last_offset, group:-1, idx:this.segments.length });
+          this.segments.push({ offset:last_offset, height:row[0]-last_offset, group:-1, idx:this.segments.length, d_height:0 });
         }
         last_offset = offset + height;
-        this.segments.push({ offset, height, group:-1, idx:this.segments.length });
+        this.segments.push({ offset, height, group:-1, idx:this.segments.length, d_height:0 });
         i++;
       }
     }
@@ -242,11 +218,96 @@ export default class SegmentUI extends Vue {
     return this.segments;
   }
 
-  // Computed
-  private get hello_mines() {
-    // First content identifies the store module
-    // Second identifies the state member
-    return 'hello';
+
+  // - - - - - - - - - - - -
+  // Stage 2: Groups / edges
+  // - - - - - - - - - - - -
+
+  private get_groups()
+  {
+    let segs = this.get_segments();
+    let groups:Array<{ segments:Array<SegmentType> }> = [];
+
+    let last_group:any = null;
+    let last_gid = -2;
+    segs.forEach((seg)=>{
+      if (seg.group>=0) {
+        function new_group(gid) {
+          last_group = { segments:[] };
+          last_gid = gid;
+          groups.push(last_group);
+        }
+        if (last_group == null) new_group(seg.group);
+        if (last_gid !== seg.group) new_group(seg.group);
+
+        // Here, guaranteed to have a last_group
+        last_group.segments.push(seg);
+      }
+    });
+
+    return groups;
+  }
+
+  private get_group_segment_style(group_segment) {
+    if (group_segment.d_height === 0) {
+      return `height:${ group_segment.height }px`;
+    } else if (group_segment.d_height<0) {
+      return `height:${ group_segment.height + group_segment.d_height }px`;
+    } else {
+      return `height:${ group_segment.height }px;padding-bottom:${ group_segment.d_height }px`;
+    }
+  }
+  private get_group_segment_img_cont_style(group_segment) {
+    return `height:${ group_segment.height }px`;
+  }
+  private get_group_segment_img_style(group_segment) {
+    return `position:relative;top:${ -group_segment.offset }px`;
+  }
+
+  private _edge_y_start = -1;
+  private _edge_drag_seg:SegmentType|null = null;
+  private handle_edge_down(e, group, seg)
+  {
+    if (e.button === 2) { // right-click erases customization
+      seg.d_height = 0;
+      return;
+    }
+
+    this._edge_drag_seg = seg;
+    this._edge_y_start = e.clientY - seg.d_height;
+
+    window.addEventListener('mousemove', this.handle_edge_move);
+    window.addEventListener('mouseup', this.handle_edge_up);
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    return false;
+  }
+
+  private handle_edge_move(e)
+  {
+    let seg:SegmentType|null = this._edge_drag_seg;
+    if (seg) {
+      let dy = e.clientY - this._edge_y_start;
+      const min_h = 2.0;
+      if (dy < 0 && dy < -(seg.height-min_h)) dy = -seg.height + min_h; // Max negative is height
+      seg.d_height = dy;
+    }
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    return false;
+}
+
+  private handle_edge_up(e)
+  {
+    this._edge_drag_seg = null;
+    this.cleanup_edge_listeners();
+  }
+
+  private cleanup_edge_listeners() { // TODO: how to call this on $destroy ???
+    window.removeEventListener('mousemove', this.handle_edge_move);
+    window.removeEventListener('mouseup', this.handle_edge_up);
   }
 
 }

@@ -31,7 +31,8 @@
     "prefer-const": false,
     "curly": false,
     "no-empty": false,
-    "max-classes-per-file":10,
-    "member-ordering":false
+    "max-classes-per-file":false,
+    "member-ordering":false,
+    "forin":false
   }
 }
