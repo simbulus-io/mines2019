@@ -7,13 +7,12 @@ import LineSeparator                               from '@/components/LineSepara
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
 import hash                                        from 'object-hash';
 import Loading                                     from 'vue-loading-overlay';
-
+import { BlobCache }                               from '@/blob_cache'
 import 'vue-loading-overlay/dist/vue-loading.css';
 
 @Component({
   components: {
     MainContent,
-    // RBM - this is the goo that makes the comp available to the template
     Loading,
   }
 })
@@ -50,6 +49,7 @@ export default class Ingest extends Vue {
       this.show_spinner = true;
       this.reset();
       const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
+
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
         puts(error_message);
