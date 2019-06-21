@@ -25,14 +25,13 @@ def preprocess_image(img):
     The values returned is a openCV2 object containing the 
     thresholded image data and grayscale image.
     """
-    # retain 25% of original pixels
-    # downsampled = cv2.resize(CV_img, None, fx=0.25, fy=0.25) 
 
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    downsampled = cv2.resize(img, None, fx=0.25, fy=0.25) 
+    gray = cv2.cvtColor(downsampled, cv2.COLOR_BGR2GRAY)
     # set threshholding (what is black/white)?
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
-    dilated = cv2.dilate(gray, kernel, iterations=1)
-    thresh = cv2.adaptiveThreshold(dilated, 1, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 5, 10) 
+    ext = cv2.erode(gray, kernel, iterations=1)
+    thresh = cv2.adaptiveThreshold(ext, 1, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 5, 10) 
     return gray, thresh
 
 def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
@@ -47,10 +46,11 @@ def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
         # rotate image 90 deg clock-wise
         thresh_img = np.rot90(thresh_img, 3)
     
-    # reduce matrix to a vector using the sum of all rows (consider removing flatten())
+    # reduce matrix to a vector containg the sum of numbe of white pixels in each row
     row_counts = cv2.reduce(thresh_img, 1, cv2.REDUCE_SUM, dtype=cv2.CV_32SC1).flatten()
+
     height, width = thresh_img.shape;
-   
+
     # white_rows is a binary vector of length height. white_rows[i]=1 if and only if the i'th row
     # in the thresholded image is all white pixels
     white_rows = np.where(row_counts==max(row_counts), 1, 0)
@@ -58,7 +58,6 @@ def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
     # with the start and end rows of all-white blocks of rows... i.e. bound on␣vertical whitespace
     white_blocks = []
     pos = 0
-    # print(white_rows)
 
     # condensing adjacent equivalencies
     for k,g in groupby(white_rows):
@@ -69,7 +68,7 @@ def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
         # if a row is white (k==1) and is not a margin then it is a white block
         is_margin = False; #include margins for now
         if k==1 and not is_margin:
-            white_blocks.append([start,end-1])
+            white_blocks.append([4*start,4*end-1])
         pos = end
     
     # = = = = = = = = =
@@ -211,7 +210,7 @@ def y_wspace(*,file):
     gray_img, thresh_img = preprocess_image(image)
     
     # find vertical segmentation
-    break_coords = segment_image(thresh_img, direction='vertical')
+    break_coords = segment_image(thresh_img, direction='horizontal')
     return break_coords
 
 def main(img_str):
