@@ -5,9 +5,9 @@ import MainContent                                 from '@/components/MainConten
 import { log , puts }                              from '@/logger';
 import LineSeparator                               from '@/components/LineSeparator.vue';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
-// RBM - import the component
+import hash                                        from 'object-hash';
 import Loading                                     from 'vue-loading-overlay';
-// RBM - import stylesheet for component
+
 import 'vue-loading-overlay/dist/vue-loading.css';
 
 @Component({
@@ -44,6 +44,7 @@ export default class Ingest extends Vue {
     this.reported_errors = [];
     this.segmentation = null;
   }
+
   public async handle_submit() {
     try {
       this.show_spinner = true;
@@ -95,6 +96,7 @@ export default class Ingest extends Vue {
     }
     this.show_spinner = false;
   }
+
 
   // Computed
   public get hello_mines() {
