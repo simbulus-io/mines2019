@@ -18,12 +18,15 @@
              <input v-model="page_list" />
              <br><button @click="handle_segment">Process</button>
           </div>
-          <div v-if="content_image" class="stage_three">
+          <div v-if="segmentation_job" class="stage_three">
             <h2 class="label">Concatenated Image:</h2>
+            <SegmentUI :prop_job="segmentation_job" :prop_server="server"></SegmentUI>
+            <!--
              <div class="segmentation-container">
                <img :src="content_image" />
              </div>
              <br><button>Upload (coming soon!)</button>
+             -->
           </div>
           <div class="errors">
             <h2 v-if="reported_errors.length>0">Errors:</h2>
@@ -99,19 +102,6 @@
         margin-left: 25px;
         margin-top: 40px;
         border: 1px solid #ccc;
-      }
-    }
-    .segmentation-container {
-      border: 2px solid #80808a;
-      height: 1000px;
-      width: 1000px;
-      overflow-y: scroll;
-      margin-left: 30px;
-      margin-top: 10px;
-      img {
-        display: block;
-        margin: 10px;
-        border: 2px solid #ccc;
       }
     }
   }
