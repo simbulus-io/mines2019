@@ -5,7 +5,6 @@ import MainContent                                 from '@/components/MainConten
 import { log , puts }                              from '@/logger';
 import LineSeparator                               from '@/components/LineSeparator.vue';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
-import hash                                        from 'object-hash';
 import Loading                                     from 'vue-loading-overlay';
 import { BlobCache }                               from '@/blob_cache'
 import 'vue-loading-overlay/dist/vue-loading.css';

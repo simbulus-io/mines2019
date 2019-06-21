@@ -8,8 +8,9 @@ import { RoutesBase }    from './routes_base';
 // schema
 import { JobInput }      from '../jobs';
 
-const CONTENT_DB   = 'content';
-const JOBS_COLL    = 'jobs';
+const CONTENT_DB                  = 'content';
+const JOBS_COLL                   = 'jobs';
+const JOBS_CACHED_RESULTS_COLL    = 'jobs_cached_results';
 
 export class JobsRoutes extends RoutesBase {
 
@@ -51,7 +52,8 @@ export class JobsRoutes extends RoutesBase {
       res.setHeader('Content-Type', 'application/json');
       try {
         const mongo = req.app.get('mongo');
-        const jobs = await mongo.db(CONTENT_DB).collection(JOBS_COLL).find({...req.query, status: 'finished'}).toArray();
+        const jobs = await mongo.db(CONTENT_DB)
+          .collection(JOBS_COLL).find({...req.query, status: 'finished'}).toArray();
         res.json(_.map(jobs, j => _.omit(j, '_id')));
       } catch (e) {
         logger.error(new Error(`Unexpected Error in job/results:\n ${e}`));
@@ -78,6 +80,50 @@ export class JobsRoutes extends RoutesBase {
         res.json({status: false});
         res.status(422);
       }
+    });
+
+    router.get(`${RoutesBase.API_BASE_URL}/job/cache`, async (req, res) => {
+      res.setHeader('Content-Type', 'application/json');
+      try {
+        const mongo = req.app.get('mongo');
+        const key = req.query.key;
+        if (key) {
+          const job = await mongo.db(CONTENT_DB).collection(JOBS_CACHED_RESULTS_COLL).findOne({ key });
+          res.json(job);
+        }
+      } catch (e) {
+        logger.error(new Error(`Unexpected Error in job/cache:\n ${e}`));
+        res.json({status: false});
+        res.status(422);
+      }
+    });
+
+    router.post(`${RoutesBase.API_BASE_URL}/job/cache`, async (req, res) => {
+      try {
+        res.setHeader('Content-Type', 'application/json');
+        const key = req.query.key;
+        const payload = req.body;
+        if (key && payload) {
+          const mongo = req.app.get('mongo');
+          // push to mongo
+          const doc = await mongo.db(CONTENT_DB).collection(JOBS_CACHED_RESULTS_COLL)
+            .updateOne({key},                   // index
+                       {$set:   payload},       // write concern
+                       {upsert: true});         // create if index doesn't exist
+          res.json({status: 0});
+        } else {
+          const msg = `Unexpected to process job/cache`
+          logger.error(new Error(msg));
+          res.json({status: -1, error: msg});
+          res.status(422);
+        }
+      } catch (e) {
+        const msg = `Unexpected Error in job/cache:\n ${e}`;
+        logger.error(new Error(msg));
+        res.json({status: -1, error: msg});
+        res.status(422);
+      }
+
     });
 
   }

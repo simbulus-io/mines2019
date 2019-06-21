@@ -13,7 +13,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "outDir": "ignore",
-    "types": [
+      "types": [
       "webpack-env",
       "jest"
     ],

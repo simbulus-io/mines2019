@@ -8,8 +8,6 @@
       "node_modules/**",
       "**/OWMSchema.ts",
       "**/hxclasses*.ts",
-      "**/quick*.ts",
-      "**/bill*.ts",
       "**/*.vue"
     ]
   },
