@@ -18,7 +18,7 @@ def load_image(img_str):
     return cv2.imread(img_str)
     
 # Start Preprocess function?
-def preprocess_image(CV_img):
+def preprocess_image(img):
     """
     This function takes a openCV2 object containing the image data.
     
@@ -26,10 +26,13 @@ def preprocess_image(CV_img):
     thresholded image data and grayscale image.
     """
     # retain 25% of original pixels
-    downsampled = cv2.resize(CV_img, None, fx=0.25, fy=0.25) 
-    gray = cv2.cvtColor(downsampled, cv2.COLOR_BGR2GRAY)
+    # downsampled = cv2.resize(CV_img, None, fx=0.25, fy=0.25) 
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # set threshholding (what is black/white)?
-    thresh = cv2.adaptiveThreshold(gray, 1, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 5, 10) 
+    kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
+    dilated = cv2.dilate(gray, kernel, iterations=1)
+    thresh = cv2.adaptiveThreshold(dilated, 1, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 5, 10) 
     return gray, thresh
 
 def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
@@ -55,17 +58,24 @@ def segment_image(thresh_img, direction='horizontal', whitespace_thresh=5):
     # with the start and end rows of all-white blocks of rows... i.e. bound on␣vertical whitespace
     white_blocks = []
     pos = 0
+    print(white_rows)
+
     # condensing adjacent equivalencies
     for k,g in groupby(white_rows):
         start = pos
         # The size of the white block + your current position is where the block ends
         end = pos + len(list(g))
         is_margin = start==0 or end==height
-        # if a row is NOT white space and is not a margin then it is a white block
+        # if a row is white (k==1) and is not a margin then it is a white block
+        is_margin = False; #include margins for now
         if k==1 and not is_margin:
             white_blocks.append([start,end-1])
         pos = end
     
+    # = = = = = = = = =
+    return white_blocks
+    # = = = = = = = = =
+
     # if there are no white blocks found
     if not white_blocks:
         return None
@@ -194,6 +204,15 @@ def plot_segmented_image(image, break_coords):
             ax.add_patch(rect)
 
     plt.show()
+
+def y_wspace(*,file):
+    image = load_image(file)
+
+    gray_img, thresh_img = preprocess_image(image)
+    
+    # find vertical segmentation
+    break_coords = segment_image(thresh_img, direction='vertical')
+    return break_coords
 
 def main(img_str):
     # load the image

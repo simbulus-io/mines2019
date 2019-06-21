@@ -76,12 +76,15 @@ def image_stats(*,file=None):
 
 # - - - - - - - - - - - - - - - - - - - -
 
+from modules.task_level_segment import y_wspace as y_wspace;
+
 @command
-def xy_segment_image(*,file=None):
+def y_segment_image(*,file=None):
     if file is None:
         return {'status': -1, 'error': 'xy_segment_image job did not specify a file'}
     stats = image_stats(file=file)
-    return {'cuts': [stats['height']//4, stats['height']//2]}
+    yw = y_wspace(file=file)
+    return {'white_space_rows': yw}
 
 # - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -
@@ -226,6 +229,22 @@ def main():
 def mock_main():
     
     other_jobs = [
+        {'name'          : 'beny0',
+         'dir'           : 'my_job',
+         'command'       : 'fetch_content',
+         'args'          : {
+           'url'         : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
+         }},
+        {'name'          : 'beny1',
+         'dir'           : 'my_job/thumbs',
+         'command'       : 'pdf_to_image',
+         'args'          : {
+           'src'         :  "../23d0d29406f.pdf",
+           'crop_rect'   : [0.0, 0.0, 1.0, 1.0],
+           'dpi'         : 30,
+           'pages'       : '-',
+           'concatenate' : False,
+         }},
         {'name'        : 'beny1',
          'dir'         : 'my_job',
          'command'     : 'pdf_to_image',
@@ -263,31 +282,15 @@ def mock_main():
            'dpi'       : 4*108,
            'pages'     : '-2',
          }},
-        {'name': 'beny2',
-         'dir' : 'my_job',
-         'command': 'xy_segment_image',
-         'args': {
-           'file':  "23d0d29406f.png"
-         }},
         
         ]
     
     jobs = [
-        {'name'          : 'beny0',
-         'dir'           : 'my_job',
-         'command'       : 'fetch_content',
-         'args'          : {
-           'url'         : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
-         }},
-        {'name'          : 'beny1',
-         'dir'           : 'my_job/thumbs',
-         'command'       : 'pdf_to_image',
-         'args'          : {
-           'src'         :  "../23d0d29406f.pdf",
-           'crop_rect'   : [0.0, 0.0, 1.0, 1.0],
-           'dpi'         : 30,
-           'pages'       : '-',
-           'concatenate' : False,
+        {'name': 'beny2',
+         'dir' : 'my_job',
+         'command': 'y_segment_image',
+         'args': {
+           'file':  "23d0d29406f.png"
          }},
         # {'name': 'beny1',
         #  'dir' : 'my_job',
