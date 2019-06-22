@@ -10,7 +10,7 @@
            class="segment"
            :style="get_segment_style(item)"
            :key="index"></div>
-      <img :src="prop_server + prop_job.summary.image" />
+      <img :src="prop_content_image" />
       <button class="stage-btn" @click="handle_stage2">Continue to Stage 2</button>
     </div>
 
@@ -23,7 +23,7 @@
            :key="index">
            <div v-for="(seg,index) in group.segments" class="sub-segment-cont" :style="get_group_segment_style(seg)" :key="index">
              <div class="sub-segment-img-cont" :style="get_group_segment_img_cont_style(seg)">
-               <img :src="prop_server + prop_job.summary.image" :style="get_group_segment_img_style(seg)"/>
+               <img :src="prop_content_image" :style="get_group_segment_img_style(seg)"/>
              </div>
              <div class="bottom-edge" @mousedown="handle_edge_down($event, group, seg)"></div>
            </div>

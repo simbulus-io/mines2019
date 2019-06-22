@@ -18,9 +18,13 @@
              <input v-model="page_list" />
              <br><button @click="handle_segment">Process</button>
           </div>
-          <div v-if="segmentation_job" class="stage_three">
+          <div v-if="image_dpi>0" class="stage_three">
             <h2 class="label">Concatenated Image:</h2>
-            <SegmentUI :prop_job="segmentation_job" :prop_server="server"></SegmentUI>
+            <SegmentUI :prop_content_image="content_image"
+                       :prop_white_space_rows="white_space_rows"
+                       :prop_image_size="image_size"
+                       :prop_image_dpi="image_dpi">
+            </SegmentUI>
             <!--
              <div class="segmentation-container">
                <img :src="content_image" />

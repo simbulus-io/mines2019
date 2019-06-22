@@ -21,17 +21,18 @@ export default class Ingest extends Vue {
 
   public server='http://localhost/';
 
+  private cache_seg = {'image':'/shared/jobs/23d0d29406f/23d0d29406f-108d.png','hi_res':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','white_space_rows':[[0,43],[76,95],[124,175],[196,207],[228,231],[256,399],[440,615],[636,647],[668,675],[696,975],[996,1003],[1028,1031],[1056,1059],[1100,1139],[1164,1175],[1192,1199],[1224,1575],[1596,1603],[1624,1631],[1652,1923],[1964,2175],[2200,2411],[2436,2871],[3000,3039],[3060,3091],[3112,3115],[3140,3163],[3188,3211],[3240,3271],[3292,3799]],'dpi':108,'image_shape':[3800,826,4]};
+  
   public content_image:(string|null) = null;
   public hash:(string|null) = null;
+  public image_size:([number, number]) = [0,0]
   public page_list:string = '-';
   public page_thumbnails:Array<string> = [];
+  public image_dpi:number = 0;
   public reported_errors:Array<string> = [];
-  public segmentation_job:(any|null) = {'job_id':'7321808d-684e-ea24-f4df-e9a6a7399699','args':{'src':'23d0d29406f.pdf','tgt':'23d0d29406f-432d.png','crop_rect':[0.03,0.1,0.93,0.9],'dpi':432,'pages':'1-4','concatenate':true},'command':'pdf_to_image','dir':'23d0d29406f','log':'','result':{'image_shape':[15204,3304,4],'fname':'23d0d29406f-432d.png','path':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','status':0},'status':'finished','start_time':'2019-06-21T20:14:19.233Z','worker':'0bba057d5bb9','elapsed_time':8.941241264343262,'finish_time':'2019-06-21T20:14:28.175Z','summary':{'image':'/shared/jobs/23d0d29406f/23d0d29406f-108d.png','hi_res':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','white_space_rows':[[0,43],[76,95],[124,175],[196,207],[228,231],[256,399],[440,615],[636,647],[668,675],[696,975],[996,1003],[1028,1031],[1056,1059],[1100,1139],[1164,1175],[1192,1199],[1224,1575],[1596,1603],[1624,1631],[1652,1923],[1964,2175],[2200,2411],[2436,2871],[3000,3039],[3060,3091],[3112,3115],[3140,3163],[3188,3211],[3240,3271],[3292,3799]],'dpi':108,'image_shape':[3800,826,4]}};
-
-  public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
-
-  // RBM - bind loader prop to reactive data
   public show_spinner = false;
+  public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
+  public white_space_rows:(Array<[number, number]>|null) = null
 
   constructor() {
     super();
@@ -43,7 +44,8 @@ export default class Ingest extends Vue {
     this.page_list = '-';
     this.page_thumbnails = [];
     this.reported_errors = [];
-    this.segmentation_job = null;
+    this.show_spinner = false;
+    this.white_space_rows = null;
   }
 
   public async handle_keyup(e) {
@@ -51,9 +53,9 @@ export default class Ingest extends Vue {
   }
 
   public async handle_submit() {
+    this.reset();
+    this.show_spinner = true;
     try {
-      this.show_spinner = true;
-      this.reset();
       const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
 
       if (!rpc_job_succeeded(finished_job)) {
@@ -74,8 +76,8 @@ export default class Ingest extends Vue {
   }
 
   public async handle_segment() {
+    this.show_spinner = true;
     try {
-      this.show_spinner = true;
       const finished_job = await this.$store.dispatch('content/process_pdf',
                                                       {hash:this.hash, src:`${this.hash}.pdf`, page_list: this.page_list} );
       if (!rpc_job_succeeded(finished_job)) {
@@ -91,13 +93,11 @@ export default class Ingest extends Vue {
         }
         puts(finished_job.summary);
         this.content_image = this.server + finished_job.summary.image;
-        this.segmentation_job = finished_job;
-        /*
-        this.segmentation = {
-          dpi: finished_job.summary.dpi,
-          shape: finished_job.summary.image_shape,
-          white_rows: finished_job.summary.white_space_rows
-        };*/
+        
+        this.image_dpi = finished_job.summary.dpi;
+        const ishape:[number, number, number] = finished_job.summary.image_shape;
+        this.image_size = [ishape[0], ishape[1]];
+        this.white_space_rows = finished_job.summary.white_space_rows;
       }
     } catch(e) {
       log.error(`Unexpected exception in handle_segment: ${e}`);

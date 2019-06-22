@@ -1,7 +1,8 @@
 // RBM - from the CL yarn add vue-loading-overlay
 //
 import { Component, Prop, Vue }                    from 'vue-property-decorator';
-import SegmentSelector from './segment';
+import { puts }                                    from '@/logger';
+import SegmentSelector                             from './segment';
 
 declare class SegmentType {
   public offset:number;
@@ -20,32 +21,10 @@ const COLORS = ['green', 'red', 'blue', 'yellow', 'purple', 'cyan', 'white'];
 export default class SegmentUI extends Vue {
 
   // This is how we are doing properties - prop_ is a convention
-  @Prop(Object) private readonly prop_job!:{
-    args: {
-      src:string, // "23d0d29406f.pdf",
-      tgt:string, // "23d0d29406f-432d.png",
-      crop_rect: [ number, number, number, number ], // [ 0.03, 0.1, 0.93, 0.9 ]
-      dpi:number,   // 432,
-      pages:string, // "1-4",
-      concatenate:boolean // true
-    },
-    // Other goo...
-    result: {
-      image_shape:[number, number, number],  // [ 15204, 3304, 4 ]
-      fname:string,  // "23d0d29406f-432d.png",
-      path:string,   // "/shared/jobs/23d0d29406f/23d0d29406f-432d.png",
-      status: number // 0
-    },
-    // Other goo...
-    summary: {
-      image:string,  // "/shared/jobs/23d0d29406f/23d0d29406f-108d.png",
-      hi_res:string  // "/shared/jobs/23d0d29406f/23d0d29406f-432d.png",
-      white_space_rows: Array<[number, number]>, // [ [ 0, 30 ], [ 772, 825 ], ... ]
-      dpi: number,  // 108,
-      image_shape:[number, number, number],      // [ 3800, 826, 4 ]
-    }
-  };
-  @Prop(String) private readonly prop_server!: string;
+  @Prop(String) private readonly prop_content_image!:(string); // "/shared/jobs/23d0d29406f/23d0d29406f-108d.png",
+  @Prop(Array)  private readonly prop_white_space_rows!:(Array<[number, number]>); // [ [ 0, 30 ], [ 772, 825 ], ... ]
+  @Prop(Array)  private readonly prop_image_size!:([number, number]); // [ 3800, 826]
+  @Prop(Number) private readonly prop_image_dpi!:number;
 
   public segments:Array<SegmentType> | null = null;
 
@@ -58,7 +37,8 @@ export default class SegmentUI extends Vue {
   private handle_stage1(e) { this.ui_stage = 1; }
   private handle_upload(e)
   {
-    console.log('TBD: UPLOAD!!!');
+    puts('TBD: UPLOAD!!!');
+    puts(this.get_groups())
     // Push get_groups() --> server
     // groups is just: Array<segments:<Array<SegmentType>>
     // each segment, you care about offset and d_height
@@ -198,7 +178,7 @@ export default class SegmentUI extends Vue {
 
   private get_segments() {
     if (this.segments==null) {
-      const white_space_rows = this.prop_job.summary.white_space_rows;
+      const white_space_rows = this.prop_white_space_rows;
       this.segments = [];
       let i = 0;
       let last_offset = 0;
