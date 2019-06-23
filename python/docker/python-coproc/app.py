@@ -87,6 +87,57 @@ def y_segment_image(*,file=None):
     return {'white_space_rows': yw}
 
 # - - - - - - - - - - - - - - - - - - - -
+import cv2
+import numpy as np
+
+@command
+def compose_images(*,source,sequence,target_format='%02d.png'):
+    src_imgs = []
+    src_w = 0
+    src_h = 0
+    for idx, fname in enumerate(source):
+        if fname is None:
+            src_imgs.append(None)
+        else:
+            img = cv2.imread(fname)
+            src_h, src_w, src_ps = img.shape
+            src_imgs.append(img)
+            
+    for idx, seq in enumerate(sequence):
+        tgt = target_format % idx
+        # timg = np.zeros((0, 0, 3), np.uint8)
+        timg = None
+        print(tgt)
+        for cidx, cmd in enumerate(seq):
+            if len(cmd)==3:
+                sid, y0, height = cmd
+                x0, width = (0, src_w)
+            elif len(cmd)==1:
+                sid, width, height = (0, src_w, cmd[0])
+            elif len(cmd)==2:
+                y0, height = cmd
+                x0, width = (0, src_w)
+                sid = 1
+            else:
+                sid, x0, y0, width, height = cmd
+            src = src_imgs[sid]
+            if src is None:
+               img = np.zeros((height, width, 3), np.uint8)
+               img[:] = (255, 255, 255)
+            else:
+               x1 = x0+width
+               y1 = y0+height
+               img = src[y0:y1,x0:x1]
+            if timg is None:
+               print(img.shape)
+               timg = img
+            else:
+               print(timg.shape,' <-- ',img.shape)
+               timg = np.concatenate((timg,img), axis=0)
+        cv2.imwrite(tgt, timg)
+    return {}
+
+# - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -
 
 def run(job):
@@ -282,15 +333,39 @@ def mock_main():
            'dpi'       : 4*108,
            'pages'     : '-2',
          }},
-        
-        ]
-    
-    jobs = [
         {'name': 'beny2',
          'dir' : 'my_job',
          'command': 'y_segment_image',
          'args': {
            'file':  "23d0d29406f.png"
+         }},
+        
+        ]
+    
+    jobs = [
+        {'name': 'fooo',
+         'dir' : 'my_job',
+         'command': 'compose_images',
+         'args': {
+           'target_format': 'task-%02d.png',
+           'source':  [None, "108.png"],
+           'sequence': [
+             # page 1
+             [
+               #  top, height
+               [50,  250],
+               [500],
+               [00,  350],
+             ],
+             # page 2
+             [
+               # source index, left, top, width, height
+               [0,    0,    0,  826, 500],
+               [1,    0,  100,  826, 250],
+               [0,    0,    0,  826, 500],
+               [1,    0, 1200,  826, 350],
+             ],
+           ]
          }},
         # {'name': 'beny1',
         #  'dir' : 'my_job',
