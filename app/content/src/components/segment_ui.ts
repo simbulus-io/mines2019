@@ -64,7 +64,7 @@ export default class SegmentUI extends Vue {
     }
     puts(JSON.stringify(this.get_groups()))
     puts(json_seq)
-    // this.show_spinner = true; // TODO:sk
+    // this.show_spinner = true; // TODO:sk: how should this component talk to Ingest?
     try {
       const finished_job = await this.$store.dispatch('content/compose_images',
                                                       {hash:this.prop_hash, src:`${this.prop_hash}-${scl*108}d.png`,
@@ -73,8 +73,8 @@ export default class SegmentUI extends Vue {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
         puts(error_message);
         puts(finished_job);
-        // ? on Ingest: 
-        // this.reported_errors.push(error_message);
+        // Push error up to Ingest reported_errors  // TODO: sk:
+        // (ingest ctrl).reported_errors.push(error_message);
       } else {
         // display state...
       }
