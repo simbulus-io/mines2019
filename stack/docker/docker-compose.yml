@@ -21,8 +21,8 @@ services:
     restart: always
     volumes:
       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
-      - ../../www-static/:/www-static
-      - ../../app/content/public/:/www-content
+      - ../../www-static:/www-static
+      - ../../app/content:/vue_app
       - /tmp/pool/ingest/content:/shared
       - shared_tmp:/shared
     ports:

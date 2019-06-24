@@ -90,6 +90,12 @@ export const content: Module<ContentState, RootState> = {
     },
     process_pdf: async (context:any , args:any) => {
       let dpi=108;
+      // TODO: sk... two things I'm not sure about...
+      // 1. How much logic should live here in content.ts vs in the component controllers.
+      // 2. How I should reduce some of the redundant code here in the way jobs are run;
+      //    I think maybe we should have some sort of Jobs class or typedef and perhaps,
+      //    derived types for each command (?). E.g. in the code below, both the first and
+      //    the third job are calling pdf_to_image in similar ways.
       const job = {
         command: 'pdf_to_image',
         timeout: 75,

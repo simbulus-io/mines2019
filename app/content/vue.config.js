@@ -2,6 +2,7 @@
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 let widget_name = "content"
 module.exports = {
+  publicPath: '/content/',
   productionSourceMap: false,
   devServer: {
     proxy: 'http://localhost:5102',
