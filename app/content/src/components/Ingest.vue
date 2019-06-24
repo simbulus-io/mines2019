@@ -34,12 +34,14 @@
              <br><button>Upload (coming soon!)</button>
              -->
           </div>
-          <div class="errors">
+          <error-reporter/>
+          <!-- The error-reporter component component supercedes the below -->
+          <!-- <div class="errors">
             <h2 v-if="reported_errors.length>0">Errors:</h2>
             <ol v-for="(msg,index) in reported_errors" :key="index">
             <li> {{msg.trim()}}</li>
             </ol>
-          </div>
+          </div> -->
         </div>
           <loading :active.sync="show_spinner"></loading>
         <div>

@@ -9,12 +9,13 @@ import Loading                                     from 'vue-loading-overlay';
 import { BlobCache }                               from '@/blob_cache'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import SegmentUI                                   from '@/components/SegmentUI.vue';
-
+import ErrorReporter                               from '@/components/ErrorReporter.vue'
 @Component({
   components: {
     MainContent,
     Loading,
-    SegmentUI
+    SegmentUI,
+    ErrorReporter
   }
 })
 export default class Ingest extends Vue {
