@@ -147,7 +147,12 @@
       },
       drop() {
         if(!this.selected){
-          this.$emit('dropped', new Array( this.left, this.top ) );
+          const point = {
+            x: this.left,
+            y: this.top,
+          }
+          //this.$emit('dropped', new Array( this.left, this.top ) ); // creating coordArr for move_snote
+          this.$emit('dropped', point );
           document.body.style.overflow = null;
           this.elem.removeEventListener('mousemove', this.elementMove, false);
           this.elem.removeEventListener('touchmove', this.elementMove, false);

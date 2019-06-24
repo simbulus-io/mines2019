@@ -17,12 +17,5 @@ export default class App extends Vue {
     await this.$store.dispatch('feedback/assignments');
     await this.$store.dispatch('feedback/students');
     await this.$store.dispatch('feedback/annotations');
-
-    // SK - reintroduce these then they have been properly plumbed into the
-    // store
-    //
-    // await this.$store.dispatch('feedback/al')
-    // await this.$store.dispatch('feedback/view_names')
-    // await this.$store.dispatch('feedback/delete_snote')
   }
 }

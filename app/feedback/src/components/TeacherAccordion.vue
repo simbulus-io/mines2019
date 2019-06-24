@@ -1,7 +1,7 @@
 <template>
    <div class="accordion">
         <div class="tab__header">
-            <a href="#" class="tab__link p-4 block bg-blue-dark hover:bg-blue-darker no-underline text-white border-b-2 border-white flex justify-between" @click.prevent="active = !active">
+            <a href="#" class="tab__link p-4 block bg-blue-dark hover:bg-blue-darker no-underline text-white border-b-2 border-white flex justify-between" @click.prevent=" active=!active ">
                 <span class="title"><strong>{{assign_title}}</strong></span>
                 <span class="down-arrow" v-show="!active">&#9660;</span>
                 <span class="up-arrow" v-show="active">&#9650;</span>

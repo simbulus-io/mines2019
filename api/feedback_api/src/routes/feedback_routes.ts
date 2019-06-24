@@ -9,6 +9,8 @@ import { MongoHelper } from '../helpers/mongo_helper';
 
 export class FeedbackRoutes extends RoutesBase {
 
+  
+
   constructor(router: Router) {
     super();
 
@@ -107,7 +109,6 @@ export class FeedbackRoutes extends RoutesBase {
           res.send({status: true});
         } else {
           logger.error(`Unexpected Result: from mongo updateOne in edit_snote ${rval}`);
-          // TODO: fix error happening here?
           res.send({status: false});
         }
       } catch (e) {
@@ -208,10 +209,10 @@ export class FeedbackRoutes extends RoutesBase {
         const rval = await mongo.db('feedback').collection('snotes')
           .updateOne({ idx: req.query.idx}, { $set: { x: req.query.x, y: req.query.y } });
         // status true if success
-        logger.info('New x: '+req.query.x+' New y: '+req.query.y+'for '+req.query.idx);
-        if(rval.modifiedCount === 1) {
+        logger.info(`New x: ${req.query.x} New y: ${req.query.y} for ${req.query.idx}`);
+        if (rval.modifiedCount === 1) {
           res.send({status: true});
-        } else { // TODO: is the error coming from here actually an error? 
+        } else { // TODO: fix updateOne error
           logger.error(new Error(`Unexpected Result in move_snote: from mongo updateOne ${rval}`));
           res.send({status: false});
         }

@@ -80,12 +80,7 @@ export default class Snote extends Vue {
 
   public selecting(e) {
     log.info('selecting snote');
-    this.selected=true;
-    // if( this.selected ){
-    //   e.stopPropagation();
-    // }else{
-    //   this.selected=true;
-    // }
+    this.selected = true;
   }
 
 
@@ -109,33 +104,27 @@ export default class Snote extends Vue {
     Vue.set(this, 'selected', false);
   }
 
-  // public async move_snote_prompt( ){
-  //   const new_x = Number(prompt('Please enter new x coordinate'));
-  //   const new_y = Number(prompt('Please enter new y coordinate'));
-  //   this.$store.dispatch( 'feedback/move_snote', [this, new_x, new_y] );
-  // }
-  public handle_activate(e:Event,b) {
-    log.info('activate');
-    //this.selected=false;
+  // this.selected false needed in activate, dragging, & dropped when activating selected was not on the button but the whole note
+  public handle_activate(e:Event,b) { 
+    // log.info('activate');
+    // this.selected = false;
   }
 
   public handle_dragging(e,b) {
-    this.selected=false;
-    //log.info('dragging');
+    // log.info('dragging');
+    // this.selected = false;
   }
 
   public handle_dropped(e,b) {
-    this.selected=false;
+    // this.selected = false;
     this.move_snote(e);
   }
 
-  public move_snote( coordArr:any[] ){ // new_x:number, new_y:number
-    log.info('changing to ('+coordArr[0]+', '+coordArr[1]+')');
-    const new_x = coordArr[0];
-    const new_y = coordArr[1];
+  public move_snote( point:any ){ // new_x:number, new_y:number
+    log.info('changing to ('+point.x+', '+point.y+')');
     this.$store.dispatch( 'feedback/move_snote', {
       idx:this.note_idx,
-      pt: {x:new_x, y:new_y}
+      pt: point
      });
   }
 

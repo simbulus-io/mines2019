@@ -79,18 +79,23 @@ export default class TeacherAssignment extends Vue {
       };
       this.$store.dispatch( 'feedback/create_snote', new_note );
     }
+
     public create_annotation(){
       this.clickerMode = 'annotate';
     }
+
     public pointer(){
       this.clickerMode = 'pointer';
     }
+
     public erase(){
       this.clickerMode = 'erase';
     }
+
     public clear_all_annotations(){
       this.clickerMode = 'clear';
     }
+    
     public save_annotations(){
 
       // const new_idx = Guid.raw();

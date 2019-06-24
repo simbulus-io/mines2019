@@ -26,25 +26,22 @@ export default class DrawingBoard extends Vue{
     }
 
     public get annotation(){
-        log.info('***********')
-        log.info(this.$store.state.feedback.annotations);
+        //log.info(this.$store.state.feedback.annotations);
 
         return this.$store.state.feedback.annotations.filter( (curr_annotation) => {
             return curr_annotation.content_idx === this.$route.params.idx;
         }, this);
-        // filter only gets the sticky notes that are on the content
-  
+        // filter only gets the annotation(s) that are on the content
     }
+
     public deserializeAnnotation(data, canvas){
         const img = new Image();
-        //log.info(data + 'Hello');
         img.onload = function() {
             canvas.width = img.width;
             canvas.height = img.height;
             canvas.getContext('2d').drawImage(img, 0, 0);
         };
         img.src = data;
-
     }
   
 
@@ -91,43 +88,32 @@ export default class DrawingBoard extends Vue{
         this.mouse.previousy = this.mouse.currenty;
         this.mouse.currentx = event.pageX;
         this.mouse.currenty = event.pageY;
-        if(this.clickerMode === 'annotate'){
+        if(this.clickerMode === 'annotate' || this.clickerMode === 'erase'){
             this.annotateMode(event);
-        }
-        if(this.clickerMode === 'erase'){
-            this.annotateMode(event);
-        }
-        if(this.clickerMode === 'clear'){
+        }else if(this.clickerMode === 'clear'){
             this.clear();
         }
     }
 
     public async mounted() {
-        if( this.$store.state.feedback.annotations.length === 0 ){
+        if( this.$store.state.feedback.annotations.length === 0 ){ // TODO: fix this to not be the second dispatch bandaid fix
             await this.$store.dispatch('feedback/annotations');
         }
         const curr_annotation = this.annotation;
         const c = document.getElementById('canvas') as HTMLCanvasElement;
         const ctx = c.getContext('2d') as CanvasRenderingContext2D;   
-        // if(curr_annotation === null){
-        //     log.info('current annotation is null');
-        //     // ctx.translate(0.5, 0.5);
-        //     // ctx.imageSmoothingEnabled= false;
-        // }
-        // else{
-            // log.info('current annotation is not null');
-            log.info(this.annotation);
-            if(this.annotation.length>0){
-                log.info('deserializing annotation');
-                //log.info(this.annotation[0].content);
-                this.deserializeAnnotation(this.annotation[0].content, c);
-            }else{
-                log.info('undefined');
-            }
-        // }
+        log.info(this.annotation);
+        if(this.annotation.length>0){
+            log.info('deserializing annotation');
+            this.annotation.forEach(element => {
+                this.deserializeAnnotation(element.content, c);
+            });
+        }else{
+            log.info('undefined');
+        }
     }
 
-    public clear() {
+    public clear() { // TODO: fix delay on this that occurs (if possible)
         const c = document.getElementById('canvas') as HTMLCanvasElement;
         const ctx = c.getContext('2d') as CanvasRenderingContext2D;
         ctx.clearRect(0, 0, 1024, 768);

@@ -3,7 +3,7 @@
   <router-link :to="{ name: 'teacherassignment', params: { idx: assign_idx } }">
     <div class="assign-thumb" >
         <p><strong>Student:</strong> {{student_name}}</p>
-        <img v-bind:src="assignment_url" :alt="student_name+'\'s worksheet. Can\'t find '+assignment_url" width="100%">
+        <img v-bind:src="assignment_url" :alt="`${student_name}'s worksheet. Can't find ${assignment_url}`" width="100%">
     </div>
   </router-link>
 
@@ -20,7 +20,7 @@
   padding: 10px;
   max-width: 200px;
   height: auto;
-  background-color: $wm_purple; // last value controls transparency
+  background-color: $wm_purple;
   text-align: left;
   color: $white;
 }

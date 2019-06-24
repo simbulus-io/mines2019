@@ -23,4 +23,9 @@ export default class StudentSlug extends Vue{
       const student:Student = student_arr[0];
       return student;
     }
+
+    public get name(){
+      const stud = this.student;
+      return stud ? stud.name : '';
+    }
 }

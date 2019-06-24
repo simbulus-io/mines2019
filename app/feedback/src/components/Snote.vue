@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: have dropping the note set the selected to false (can't get without delay even with Vue.set -->
   <drag-it-dude
     class="snote-wrapper"
     @activated="handle_activate"
@@ -10,10 +9,9 @@
     :selected="selected">
 
     <div class="close-wrapper" v-show="show">
-      <button class="snote-close-button" v-on:click="save_exit_snote" @click.stop>
+      <button class="snote-close-button" v-on:click="save_exit_snote">
         <font-awesome-icon icon="times" color="#bdbdbd"/>
       </button>
-      <!-- @click.stop needed to keep Snote click listener from changing selected right back to true -->
     </div>
     <div
       class="snote-inactive"
@@ -28,14 +26,10 @@
       <div class="button-wrapper" v-show="!selected">
         <button class="snote-button" v-on:click="selected=true"><font-awesome-icon icon="edit" color="#444444"/></button>
       </div>
-      <!-- TODO: fix so does not drag when editing. Causing not to be able to highlight -->
       <!-- TODO: have textarea be size of content (currently set at 5) -->
       <textarea class="snote-input" v-model="note.content" rows="5" v-bind:readonly="!selected"></textarea>
       <p class="snote-text attr">Written by {{ note_author }}</p>
       <p class="snote-text">{{ date }}</p>
-      <!-- <div class="button-wrapper" v-show="selected">
-        <button class="snote-button" v-on:click="move_snote_prompt" @click.stop>Move Note</button>
-      </div> -->
     </div>
   </drag-it-dude>
 
