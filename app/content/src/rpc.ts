@@ -8,7 +8,7 @@ const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:
 const rpc = async (job:any): Promise<any | null>  => {
   const sec = 1e3;
   const polling_interval = 2*sec;
-  const rpc_timeout      = 30*sec;
+  const rpc_timeout      = 80*sec;
   try {
     const hresp = await fetch(`${API}/job/schedule`,{
       method: 'POST',

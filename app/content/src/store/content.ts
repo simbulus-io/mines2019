@@ -73,6 +73,7 @@ export const content: Module<ContentState, RootState> = {
       const job2 = {
         name: 'A Second Job',
         command: 'pdf_to_image',
+        timeout: 75,
         dir: `${hash}/pg_thumbs`,
         args: {
           'src'         :  `../${jout.result.fname}`,
@@ -91,6 +92,7 @@ export const content: Module<ContentState, RootState> = {
       let dpi=108;
       const job = {
         command: 'pdf_to_image',
+        timeout: 75,
         dir: `${args.hash}`,
         args: {
           'src'         :  args.src,
@@ -113,6 +115,7 @@ export const content: Module<ContentState, RootState> = {
       const job2 = {
         'command': 'y_segment_image',
         dir: `${args.hash}`,
+        timeout: 75,
         'args': {
           'file' :  `${args.hash}-${dpi}d.png`,
         }};
@@ -125,7 +128,7 @@ export const content: Module<ContentState, RootState> = {
       }
       const white_space_rows:Array<Array<number>> = jout2.result.white_space_rows;
       
-      dpi = 4*108;
+      dpi = 2*108;
       job.args.dpi = dpi;
       job.args.tgt = `${args.hash}-${dpi}d.png`;
       let jout3 = await rpc(job);
@@ -138,6 +141,21 @@ export const content: Module<ContentState, RootState> = {
       jout3.summary = {image: lo_res, hi_res, white_space_rows, dpi: 108, image_shape: jout.result.image_shape};
       puts(jout3.summary);
       return jout3;
+    },
+    compose_images: async (context:any , args:any) => {
+      let job = {
+        name: 'A Job',
+        command: 'compose_images',
+        dir: `${args.hash}/task_imgs`,
+        args: {
+          'source'      : [null, '../'+args.src],
+          'tgt_fmt'     : `%02d.png`,
+          'sequence'    : args.sequence,
+        }
+      };
+      let jout = await rpc(job);
+      puts({job, jout});
+      return jout;
     },
     test_array: async (context:any , arg: any) => {
       try {

@@ -91,7 +91,7 @@ import cv2
 import numpy as np
 
 @command
-def compose_images(*,source,sequence,target_format='%02d.png'):
+def compose_images(*,source,sequence,tgt_fmt='%02d.png'):
     src_imgs = []
     src_w = 0
     src_h = 0
@@ -104,7 +104,7 @@ def compose_images(*,source,sequence,target_format='%02d.png'):
             src_imgs.append(img)
             
     for idx, seq in enumerate(sequence):
-        tgt = target_format % idx
+        tgt = tgt_fmt % idx
         # timg = np.zeros((0, 0, 3), np.uint8)
         timg = None
         print(tgt)
@@ -347,7 +347,7 @@ def mock_main():
          'dir' : 'my_job',
          'command': 'compose_images',
          'args': {
-           'target_format': 'task-%02d.png',
+           'tgt_fmt': 'task-%02d.png',
            'source':  [None, "108.png"],
            'sequence': [
              # page 1
