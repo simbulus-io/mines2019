@@ -7,10 +7,10 @@
                 <span class="up-arrow" v-show="active">&#9650;</span>
             </a>
         </div>
-            <div class="tab__content" v-show="active">
-                <assignment-thumb v-for="assign in assignments" :assign_idx="assign.idx" :key="assign.idx"/>
-            </div>            
-        </div>
+        <div class="tab__content" v-show="active">
+            <assignment-thumb v-for="assign in assignments" :assign_idx="assign.idx" :key="assign.idx"/>
+        </div>            
+    </div>
 </template>
 
 <script lang="ts" src="./teacheraccordion.ts">

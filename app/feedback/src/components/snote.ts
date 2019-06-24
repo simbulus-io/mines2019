@@ -120,10 +120,10 @@ export default class Snote extends Vue {
     this.move_snote(e);
   }
 
-  public move_snote( point:any ){ // new_x:number, new_y:number
+  public move_snote( point:any ){ 
     log.info('changing to ('+point.x+', '+point.y+')');
     this.$store.dispatch( 'feedback/move_snote', {
-      idx:this.note_idx,
+      idx: this.note_idx,
       pt: point
      });
   }

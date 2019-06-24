@@ -15,7 +15,7 @@ export default class StudentAccordion extends Vue {
   private active = false; // if slug row is expanded or not
 
   public get getActive(){
-      return this.active;
+    return this.active;
   }
 
   public get assignment() {
@@ -27,10 +27,10 @@ export default class StudentAccordion extends Vue {
   }
 
   public get snotes(){
-      return this.$store.state.feedback.snotes.filter( (curr_snote) => {
-        return curr_snote.content_idx === this.assign_idx;
-      }, this);
-      // filter only gets the sticky notes that are on the content
+    return this.$store.state.feedback.snotes.filter( (curr_snote) => {
+      return curr_snote.content_idx === this.assign_idx;
+    }, this);
+    // filter only gets the sticky notes that are on the content
   }
 
   public get no_snotes(){ // TODO: merge this condition with snotes?; more broadly, where to put this instead of having it everywhere?
@@ -45,13 +45,13 @@ export default class StudentAccordion extends Vue {
   }
 
   public get assignment_url() {
-      const assign:Assignment = this.assignment;
-      return assign ? assign.url : '';
+    const assign:Assignment = this.assignment;
+    return assign ? assign.url : '';
   }
 
   public get assignment_title() {
     const assign:Assignment = this.assignment;
     return assign ? assign.title : '';
-}
+  }
 
 }

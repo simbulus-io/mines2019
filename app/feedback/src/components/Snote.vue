@@ -13,6 +13,7 @@
         <font-awesome-icon icon="times" color="#bdbdbd"/>
       </button>
     </div>
+
     <div
       class="snote-inactive"
       v-bind:class="{ 'snote-active': selected }"
@@ -31,6 +32,7 @@
       <p class="snote-text attr">Written by {{ note_author }}</p>
       <p class="snote-text">{{ date }}</p>
     </div>
+    
   </drag-it-dude>
 
 </template>

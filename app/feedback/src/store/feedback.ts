@@ -85,7 +85,6 @@ export const feedback: Module<FeedbackState, RootState> = {
     },
 
     create_snote: (state: any, snote:Note) => {
-
       state.snotes.push(snote);
     },
 

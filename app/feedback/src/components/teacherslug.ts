@@ -1,4 +1,3 @@
-import { clone }                from 'lodash-es';
 import * as _                   from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import MainContent              from '@/components/MainContent.vue';
@@ -17,7 +16,6 @@ export default class TeacherSlug extends Vue {
   }
 
   public get assignment_titles(){
-
     const groups = new Set();
     const assigns = this.assignments;
     assigns.forEach(element => {

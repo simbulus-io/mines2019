@@ -11,14 +11,13 @@
         <button class="assigns-button" title="Return to All Assignments">Return to All Assignments</button>
       </router-link>
 
-    <div class="graphbackground">
-      <div class="bgimg" v-bind:style="{'background-image': 'url(' + assignment_url +')'}">
-        <DrawingBoard></DrawingBoard>
-        <snote-student v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
+      <div class="graphbackground">
+        <div class="bgimg" v-bind:style="{'background-image': 'url(' + assignment_url +')'}">
+          <DrawingBoard></DrawingBoard>
+          <snote-student v-for="curr_note in snotes" :note_idx="curr_note.idx" :key="curr_note.note"/>
+        </div>
       </div>
-    </div>
       
-
     </template>
   </MainContent>
 </template>
