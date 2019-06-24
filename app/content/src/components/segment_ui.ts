@@ -4,6 +4,7 @@ import { Component, Prop, Vue }                    from 'vue-property-decorator'
 import { puts, log }                               from '@/logger';
 import SegmentSelector                             from './segment';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
+import { pubsub, PubSubMessage }            from '@/pubsub';
 
 declare class SegmentType {
   public offset:number;
@@ -74,6 +75,7 @@ export default class SegmentUI extends Vue {
         puts(error_message);
         puts(finished_job);
         // Push error up to Ingest reported_errors  // TODO: sk:
+        pubsub.$emit(PubSubMessage.RPC_JOB_FAILED, error_message);
         // (ingest ctrl).reported_errors.push(error_message);
       } else {
         // display state...

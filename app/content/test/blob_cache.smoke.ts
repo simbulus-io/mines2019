@@ -28,6 +28,7 @@ afterAll(async () => {
 
 describe('BlobCache smoke tests', () => {
   test('TestSetAndGet', async () => {
+    //  key is object | string
     blob_cache.set(stable_key, random_obj)
     const cached_random_obj = await blob_cache.get(stable_key)
     expect(random_obj).toEqual(cached_random_obj);

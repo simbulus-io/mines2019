@@ -101,18 +101,18 @@ export class JobsRoutes extends RoutesBase {
     router.post(`${RoutesBase.API_BASE_URL}/job/cache`, async (req, res) => {
       try {
         res.setHeader('Content-Type', 'application/json');
-        const key = req.query.key;
+        const { key } = req.query;
         const payload = req.body;
         if (key && payload) {
           const mongo = req.app.get('mongo');
           // push to mongo
-          const doc = await mongo.db(CONTENT_DB).collection(JOBS_CACHED_RESULTS_COLL)
-            .updateOne({key},                   // index
-                       {$set:   payload},       // write concern
-                       {upsert: true});         // create if index doesn't exist
+          const coll = mongo.db(CONTENT_DB).collection(JOBS_CACHED_RESULTS_COLL);
+          const doc = await coll.replaceOne({key},
+                                            {$set:   payload},
+                                            {upsert: true});
           res.json({status: 0});
         } else {
-          const msg = `Unexpected to process job/cache`
+          const msg = `Unexpected to process job/cache`;
           logger.error(new Error(msg));
           res.json({status: -1, error: msg});
           res.status(422);
