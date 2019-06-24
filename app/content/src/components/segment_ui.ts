@@ -1,15 +1,16 @@
 // RBM - from the CL yarn add vue-loading-overlay
 //
 import { Component, Prop, Vue }                    from 'vue-property-decorator';
-import { puts }                                    from '@/logger';
+import { puts, log }                               from '@/logger';
 import SegmentSelector                             from './segment';
+import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
 
 declare class SegmentType {
   public offset:number;
   public height:number;
   public group:number;
   public idx:number;
-  public d_height:number;
+  public d_height:number; // positive is added whitespace, negative reduces height.
 }
 
 const COLORS = ['green', 'red', 'blue', 'yellow', 'purple', 'cyan', 'white'];
@@ -22,9 +23,10 @@ export default class SegmentUI extends Vue {
 
   // This is how we are doing properties - prop_ is a convention
   @Prop(String) private readonly prop_content_image!:(string); // "/shared/jobs/23d0d29406f/23d0d29406f-108d.png",
-  @Prop(Array)  private readonly prop_white_space_rows!:(Array<[number, number]>); // [ [ 0, 30 ], [ 772, 825 ], ... ]
+  @Prop(String) private readonly prop_hash!:(string); // "23d0d29406f",
   @Prop(Array)  private readonly prop_image_size!:([number, number]); // [ 3800, 826]
   @Prop(Number) private readonly prop_image_dpi!:number;
+  @Prop(Array)  private readonly prop_white_space_rows!:(Array<[number, number]>); // [ [ 0, 30 ], [ 772, 825 ], ... ]
 
   public segments:Array<SegmentType> | null = null;
 
@@ -35,14 +37,52 @@ export default class SegmentUI extends Vue {
   private ui_stage = 1;
   private handle_stage2(e) { this.ui_stage = 2; }
   private handle_stage1(e) { this.ui_stage = 1; }
-  private handle_upload(e)
+  private async handle_upload(e)
   {
     puts('TBD: UPLOAD!!!');
-    puts(this.get_groups())
-    // Push get_groups() --> server
-    // groups is just: Array<segments:<Array<SegmentType>>
-    // each segment, you care about offset and d_height
-    // (positive is added whitespace, negative reduces height.)
+    let groups:Array<{ segments:Array<SegmentType> }> = this.get_groups();
+    // For each segment, we care about offset and d_height
+    // (d_height positive is added whitespace, negative reduces height.)
+    let json_seq: Array< Array< [number, number] | [number] >> = [];
+    const top_margin = 15;
+    const scl = 2;
+    for (let g of groups) {
+      let g_seq:Array<([number, number] | [number])> = [];
+      g_seq.push([top_margin]);
+      for (let s of g.segments) {
+        if (s.d_height<=0) {
+          // cropped image segment
+          g_seq.push( [scl*s.offset, scl*s.height + scl*s.d_height] );
+        }
+        else {
+          // cropped image segment with white space below
+          g_seq.push( [scl*s.offset, scl*s.height] );
+          g_seq.push( [scl*s.d_height] ); // convention: array w len 1 --> white space insertion
+        }
+      }
+      json_seq.push (g_seq);
+    }
+    puts(JSON.stringify(this.get_groups()))
+    puts(json_seq)
+    // this.show_spinner = true; // TODO:sk
+    try {
+      const finished_job = await this.$store.dispatch('content/compose_images',
+                                                      {hash:this.prop_hash, src:`${this.prop_hash}-${scl*108}d.png`,
+                                                       sequence: json_seq} );
+      if (!rpc_job_succeeded(finished_job)) {
+        let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
+        puts(error_message);
+        puts(finished_job);
+        // ? on Ingest: 
+        // this.reported_errors.push(error_message);
+      } else {
+        // display state...
+      }
+    } catch(e) {
+      log.error(`Unexpected exception in handle_upload: ${e}`);
+    }
+    // this.show_spinner = false; // TODO:sk
+
   }
   private get_outer_style() {
     if (this.ui_stage === 2) return 'background-color:#ccc';

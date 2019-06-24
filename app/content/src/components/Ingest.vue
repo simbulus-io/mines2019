@@ -21,9 +21,11 @@
           <div v-if="image_dpi>0" class="stage_three">
             <h2 class="label">Concatenated Image:</h2>
             <SegmentUI :prop_content_image="content_image"
-                       :prop_white_space_rows="white_space_rows"
+                       :prop_hash="hash"
+                       :prop_image_dpi="image_dpi"
                        :prop_image_size="image_size"
-                       :prop_image_dpi="image_dpi">
+                       :prop_white_space_rows="white_space_rows"
+                       >
             </SegmentUI>
             <!--
              <div class="segmentation-container">
