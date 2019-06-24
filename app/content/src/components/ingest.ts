@@ -22,7 +22,7 @@ export default class Ingest extends Vue {
   public server='http://localhost/';
 
   private cache_seg = {'image':'/shared/jobs/23d0d29406f/23d0d29406f-108d.png','hi_res':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','white_space_rows':[[0,43],[76,95],[124,175],[196,207],[228,231],[256,399],[440,615],[636,647],[668,675],[696,975],[996,1003],[1028,1031],[1056,1059],[1100,1139],[1164,1175],[1192,1199],[1224,1575],[1596,1603],[1624,1631],[1652,1923],[1964,2175],[2200,2411],[2436,2871],[3000,3039],[3060,3091],[3112,3115],[3140,3163],[3188,3211],[3240,3271],[3292,3799]],'dpi':108,'image_shape':[3800,826,4]};
-  
+
   public content_image:(string|null) = null;
   public hash:(string|null) = null;
   public image_size:([number, number]) = [0,0]
@@ -33,9 +33,10 @@ export default class Ingest extends Vue {
   public show_spinner = false;
   public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
   public white_space_rows:(Array<[number, number]>|null) = null
-
+  private blob_cache:BlobCache;
   constructor() {
     super();
+    this.blob_cache = new BlobCache({url: `${this.server}content/v1.0/job/cache`});
   }
 
   public reset() {
@@ -54,10 +55,16 @@ export default class Ingest extends Vue {
 
   public async handle_submit() {
     this.reset();
-    this.show_spinner = true;
+    const job_args = {url:this.url};
     try {
-      const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
-
+      // from cache
+      let finished_job = await this.blob_cache.get(job_args);
+      // cache miss
+      if(!finished_job) {
+        this.show_spinner = true;
+        finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
+        await this.blob_cache.set(job_args, finished_job);
+      }
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
         puts(error_message);
@@ -93,7 +100,7 @@ export default class Ingest extends Vue {
         }
         puts(finished_job.summary);
         this.content_image = this.server + finished_job.summary.image;
-        
+
         this.image_dpi = finished_job.summary.dpi;
         const ishape:[number, number, number] = finished_job.summary.image_shape;
         this.image_size = [ishape[0], ishape[1]];
