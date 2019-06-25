@@ -12,13 +12,12 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../styles/common.scss";
-.error_reporter {
-  .errors {
-    color: red;
-    text-align:left;
-    h2 {margin-bottom: 2px;}
-    ol {margin-top: 0px; margin-left:20px;font-size: 20px;}
-  }
+.errors {
+  margin-left: 25px;
+  color: red;
+  text-align:left;
+  h2 {margin-bottom: 2px;}
+  ol {margin-top: 0px; margin-left:20px;font-size: 20px;}
 }
 </style>
 

@@ -4,7 +4,7 @@ import { Component, Prop, Vue }                    from 'vue-property-decorator'
 import { puts, log }                               from '@/logger';
 import SegmentSelector                             from './segment';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
-import { pubsub, PubSubMessage }            from '@/pubsub';
+import { pubsub, PubSubMessage }                   from '@/pubsub';
 
 declare class SegmentType {
   public offset:number;

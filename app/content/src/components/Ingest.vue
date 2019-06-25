@@ -43,7 +43,7 @@
             </ol>
           </div> -->
         </div>
-          <loading :active.sync="show_spinner"></loading>
+        <loading :active.sync="show_spinner"></loading>
         <div>
         </div>
          <!-- <loading :active.sync="true"
