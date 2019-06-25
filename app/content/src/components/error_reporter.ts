@@ -1,4 +1,4 @@
-import { Component, Vue }        from 'vue-property-decorator';
+import { Component, Vue, Prop }        from 'vue-property-decorator';
 import { pubsub, PubSubMessage } from '@/pubsub';
 import { log }                   from '@/logger';
 
@@ -8,6 +8,7 @@ import { log }                   from '@/logger';
   }
 })
 export default class ErrorReporter extends Vue {
+
 
   public reported_errors:string[] = [];
 
@@ -23,6 +24,10 @@ export default class ErrorReporter extends Vue {
 
     pubsub.$on(PubSubMessage.TEST_MESSAGE, (payload) => {
       log.info(PubSubMessage.TEST_MESSAGE, payload);
+    });
+
+    pubsub.$on(PubSubMessage.ERROR_REPORTER_RESET, (payload) => {
+      this.reset();
     });
 
     pubsub.$on(PubSubMessage.RPC_JOB_FAILED, (error_message: string) => {

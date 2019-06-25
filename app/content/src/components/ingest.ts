@@ -47,6 +47,8 @@ export default class Ingest extends Vue {
     this.page_list = '-';
     this.page_thumbnails = [];
     //this.reported_errors = [];
+    // Init from @Prop
+    pubsub.$emit(PubSubMessage.ERROR_REPORTER_RESET);
     this.show_spinner = false;
     this.white_space_rows = null;
   }
@@ -59,20 +61,16 @@ export default class Ingest extends Vue {
     this.reset();
     const job_args = {url:this.url};
     try {
-      // from cache
-      let finished_job:any;// = await this.blob_cache.get(job_args);
-      // cache miss
-      if(!finished_job) {
-        this.show_spinner = true;
-        finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
-        await this.blob_cache.set(job_args, finished_job);
-      }
+
+      this.show_spinner = true;
+      const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
+      await this.blob_cache.set(job_args, finished_job);
+
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
         puts(error_message);
         puts(finished_job);
         pubsub.$emit(PubSubMessage.RPC_JOB_FAILED, error_message);
-        //this.reported_errors.push(error_message);
       } else {
         for (let f of finished_job.result.images)
           this.page_thumbnails.push(this.server + finished_job.result.path + '/' + f);
@@ -94,7 +92,6 @@ export default class Ingest extends Vue {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
         puts(error_message);
         puts(finished_job);
-        //this.reported_errors.push(error_message);
         pubsub.$emit(PubSubMessage.RPC_JOB_FAILED, error_message);
       } else {
         if (!('summary' in finished_job)) {
