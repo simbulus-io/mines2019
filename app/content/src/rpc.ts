@@ -3,7 +3,7 @@ import { log, puts }  from '@/logger';
 import asyncPoll      from '@/async_poll';
 import { BlobCache }  from '@/blob_cache'
 
-const USING_DOCKER = false;
+const USING_DOCKER = true;
 const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
 
 // BlobCache client gets initialized with BlobCache API URL
