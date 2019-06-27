@@ -1,14 +1,11 @@
 /* tslint:disable:prefer-const */
-import { log, puts }  from '@/logger';
-import { Module }     from 'vuex';
-import { RootState }  from '@/store/types';
-import Vue            from 'vue';
-import Vuex           from 'vuex';
+import { log, puts }               from '@/logger';
+import { Module }                  from 'vuex';
+import { RootState }               from '@/store/types';
+import Vue                         from 'vue';
+import Vuex                        from 'vuex';
 import { rpc , rpc_job_succeeded } from '@/rpc';
-
-const USING_DOCKER = true;
-// const API_BASE_URL = USING_DOCKER ? 'http://localhost' :  'http://localhost:5101'
-const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
+import { API_URL }                 from '@/config';
 
 export interface ContentState {
   hello: string;
@@ -47,7 +44,7 @@ export const content: Module<ContentState, RootState> = {
   // These are asynchronus actions - model interactions with a server
   actions: {
     hello: async (context: any, args: any) => {
-      const rval = await fetch(`${API}/hello`)
+      const rval = await fetch(`${API_URL}/hello`)
       const state = await rval.json();
       puts(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
@@ -133,7 +130,7 @@ export const content: Module<ContentState, RootState> = {
         return jout2;
       }
       const white_space_rows:Array<Array<number>> = jout2.result.white_space_rows;
-      
+
       dpi = 2*108;
       job.args.dpi = dpi;
       job.args.tgt = `${args.hash}-${dpi}d.png`;
@@ -165,7 +162,7 @@ export const content: Module<ContentState, RootState> = {
     },
     test_array: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API}/contents`)
+        const rval = await fetch(`${API_URL}/contents`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -177,7 +174,7 @@ export const content: Module<ContentState, RootState> = {
 
     test_array_2: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API}/test_route`)
+        const rval = await fetch(`${API_URL}/test_route`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -192,7 +189,7 @@ export const content: Module<ContentState, RootState> = {
     //////TODO: parameterize the url passed to fetch() so that any file in public can be called by name
     test_image: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API}/static/Algebra.png`)
+        const rval = await fetch(`${API_URL}/static/Algebra.png`)
         const img = await rval.blob();
         const state = URL.createObjectURL(img);
         // upon successfully completing the action - synchronusly update the Vue application state

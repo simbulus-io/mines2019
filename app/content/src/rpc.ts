@@ -1,13 +1,12 @@
 /* tslint:disable:prefer-const */
 import { log, puts }  from '@/logger';
 import asyncPoll      from '@/async_poll';
-import { BlobCache }  from '@/blob_cache'
+import { BlobCache }  from '@/blob_cache';
+import { API_URL }    from '@/config';
 
-const USING_DOCKER = true;
-const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
 
 // BlobCache client gets initialized with BlobCache API URL
-const blob_cache = new BlobCache({url: `${API}/job/cache`});
+const blob_cache = new BlobCache({url: `${API_URL}/job/cache`});
 
 const rpc = async (job:any): Promise<any | null>  => {
   const sec = 1e3;
@@ -23,7 +22,7 @@ const rpc = async (job:any): Promise<any | null>  => {
   }
 
   try {
-    const hresp = await fetch(`${API}/job/schedule`,{
+    const hresp = await fetch(`${API_URL}/job/schedule`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +38,7 @@ const rpc = async (job:any): Promise<any | null>  => {
     }
     puts(`created remote processing job with job_id = ${job_id}`);
     await new Promise(r => setTimeout(r, 0.5*sec)); // pause a beat to let job possibly get picked up
-    const polling_url      = `${API}/job/results?job_id=${job_id}`
+    const polling_url      = `${API_URL}/job/results?job_id=${job_id}`
     // const poll_fn = async () => fetch(polling_url).then(r => r.json());
     const poll_fn = async () => fetch(polling_url).then(async function(r) {const j= await r.json(); return j[0];});
     const condition_fn = (d: any) => d && ('status' in d) && (d.status === 'finished');
