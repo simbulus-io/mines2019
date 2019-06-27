@@ -2,6 +2,8 @@
 import * as _         from 'lodash';
 import { log , puts } from './logger';
 import hash           from 'object-hash';
+import qs             from 'query-string';
+import { faThList } from '@fortawesome/free-solid-svg-icons';
 
 interface ServerCache {
   url: string,
@@ -10,10 +12,13 @@ interface ServerCache {
 export class BlobCache {
 
   private readonly server:ServerCache | undefined;
+  private no_cache: boolean = false;
 
   constructor(server?:ServerCache) {
-    puts(`Initializing BlobCache`);
     if(server) this.server = server;
+    const { no_cache } = qs.parse(location.search);
+    this.no_cache = no_cache ? true : false;
+    log.info(`blob_cache -- no_cache is ${this.no_cache}`);
   }
 
   public async set(key:string | object, value:object) {
