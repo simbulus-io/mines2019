@@ -90,6 +90,9 @@ export class JobsRoutes extends RoutesBase {
         if (key) {
           const job = await mongo.db(CONTENT_DB).collection(JOBS_CACHED_RESULTS_COLL).findOne({ key });
           res.json(job);
+        } else {
+          res.json({status: false});
+          res.status(422);
         }
       } catch (e) {
         logger.error(new Error(`Unexpected Error in job/cache:\n ${e}`));

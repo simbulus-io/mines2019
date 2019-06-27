@@ -1,14 +1,27 @@
 /* tslint:disable:prefer-const */
 import { log, puts }  from '@/logger';
-import asyncPoll      from '@/async_poll'; // Had to hack this up to work in the browser
+import asyncPoll      from '@/async_poll';
+import { BlobCache }  from '@/blob_cache'
 
-const USING_DOCKER = true;
+const USING_DOCKER = false;
 const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
+
+// BlobCache client gets initialized with BlobCache API URL
+const blob_cache = new BlobCache({url: `${API}/job/cache`});
 
 const rpc = async (job:any): Promise<any | null>  => {
   const sec = 1e3;
   const polling_interval = 2*sec;
   const rpc_timeout      = 80*sec;
+
+  const cached_result = await blob_cache.get(job);
+  if(cached_result) {
+    log.info(`cache hit for job ${JSON.stringify(job)}`);
+    return cached_result;
+  } else {
+    log.info(`cache miss for job ${JSON.stringify(job)}`);
+  }
+
   try {
     const hresp = await fetch(`${API}/job/schedule`,{
       method: 'POST',
@@ -38,6 +51,9 @@ const rpc = async (job:any): Promise<any | null>  => {
     if (!rpc_job_succeeded(finished_job)) {
       puts(`Got error returned from job with job_id: ${finished_job.job_id},` +
            ` command: ${finished_job.command}, error_message: ${rpc_job_error_string(finished_job)}` );
+    } else {
+      // only cache if no error
+      await blob_cache.set(job, finished_job);
     }
     return finished_job;
   } catch( e) {
