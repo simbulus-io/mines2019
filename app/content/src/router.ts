@@ -15,7 +15,7 @@ export default new Router({
     // Routes
     { path: '/ingest',         name: 'ingest',         component: Ingest, },
     { path: '/segment',        name: 'segment',        component: Segment, },
-    // { path: '/dashboard',      name: 'dashboard',      component: Dashboard, },
+    { path: '/dashboard',      name: 'dashboard',      component: Dashboard, },
     // { path: '/file_upload',    name: 'file_upload',    component: FileUpload, },
     // { path: '/edit_segments',  name: 'edit_segments',  component: EditSegments, },
   ],

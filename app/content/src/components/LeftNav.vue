@@ -1,6 +1,7 @@
 <template>
   <div class="left-nav">
     <div class="link-container">
+      <router-link to="/dashboard"><font-awesome-icon icon="home" />DASHBOARD</router-link>
       <router-link to="/ingest"><font-awesome-icon icon="home" />INGEST</router-link>
       <router-link to="/segment"><font-awesome-icon icon="home" />SEGMENT</router-link>
       <!-- <router-link to="/file_upload"><font-awesome-icon icon="home" />FILE UPLOAD</router-link>

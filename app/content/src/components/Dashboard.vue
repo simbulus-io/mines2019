@@ -3,8 +3,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-       
-        
+       <json-view :data="data" />
 	    </div>
     </template>
   </MainContent>
