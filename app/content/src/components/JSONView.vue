@@ -23,6 +23,20 @@ export default Vue.extend({
       required: true,
       type: Object
     },
+    /*
+     * FORMAT FOR DATA:
+     * {
+     *  'nodeTitle1': 'nodeDescription1',
+     *  'nodeTitle2': {
+     *    'node2Child1Title': 'node2Child1Desc',
+     *    'node2Child2Title': {
+     *      ...
+     *    }
+     *  },
+     *  ...
+     * }
+
+    */
     rootKey: {
       type: String,
       required: false,

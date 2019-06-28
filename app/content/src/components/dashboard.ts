@@ -47,4 +47,10 @@ export default class Dashboard extends Vue {
     return this.$store.state.content.test_data;
   }
 
+  public itemSelected(e: any){ // when a leaf node is selected
+    // e is passed from json-view from json-view-item
+    // object with key, value, and path properties
+    alert(`Item Selected. ${e.key} ${e.value} ${e.path}`);
+  }
+
 }
