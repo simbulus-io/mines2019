@@ -22,6 +22,7 @@ export class BlobCache {
   }
 
   public async set(key:string | object, value:object) {
+    if(this.no_cache) return null;
     log.info('blob_cache -- set');
     const hash_key = _.isString(key)  ? key as string : hash(key)
     const value_json = JSON.stringify(value);
@@ -47,9 +48,11 @@ export class BlobCache {
   }
 
   public async get(key:string | object) {
+    if(this.no_cache) return null;
     log.info('blob_cache -- get');
     const hash_key = _.isString(key)  ? key as string : hash(key);
     let blob = null;
+
     try {
       if(this.server) {
         log.info('blob_cache -- get - attempting to fetch blob from mongo');

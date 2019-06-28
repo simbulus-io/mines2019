@@ -1,9 +1,6 @@
 import { Component, Vue }   from 'vue-property-decorator';
 import Nav                  from '@/components/Nav.vue'; // @ is an alias to /src
 import { log }              from './logger';
-import qs                   from 'query-string';
-import { NO_CACHE }         from '@/config';
-
 
 @Component({
   name: 'app',
@@ -14,8 +11,6 @@ import { NO_CACHE }         from '@/config';
 export default class App extends Vue {
   // Lifecycle
   public async created() {
-
-
     // Initial action dispatches are done here - its very
     // possible that other actions will be dispatched from
     // other components
