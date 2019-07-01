@@ -134,12 +134,12 @@ export default Vue.extend({
     },
     customStyles: function(): object {
       const target = {
-        key: "#002b36",
-        valueKey: "#073642",
-        string: "#268bd2",
-        number: "#2aa198",
-        boolean: "#cb4b16",
-        null: "#6c71c4",
+        key: "#356b9a",
+        valueKey: "#356b9a",
+        string: "#f47321",
+        number: "#f47321",
+        boolean: "#f47321",
+        null: "#e84118",
         arrowSize: "6px"
       };
       return Object.assign(target, this.styles);

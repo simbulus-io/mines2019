@@ -15,6 +15,7 @@ export default class App extends Vue {
     // possible that other actions will be dispatched from
     // other components
     await this.$store.dispatch('content/hello');
+    await this.$store.dispatch('content/content_tree');
     await this.$store.dispatch('content/test_array');
     await this.$store.dispatch('content/test_array_2');
     await this.$store.dispatch('content/test_image');

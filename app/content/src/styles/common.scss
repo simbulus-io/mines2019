@@ -1,2 +1,9 @@
 @import 'colors';
 @import 'layout';
+@import 'font';
+
+body {
+    font-family: $font-family;
+    font-weight: $font-weight;
+
+}

@@ -2,11 +2,13 @@
   <div class="json-view-item">
     <!-- Handle Objects and Arrays-->
     <div v-if="data.type === 'object' || data.type === 'array'">
+      
       <div @click.stop="toggleOpen" class="data-key" :style="keyColor">
         <div :class="classes" :style="arrowStyles"></div>
         {{ data.key }}:
         <span class="properties">&nbsp;{{ lengthString }}</span>
       </div>
+
       <json-view-item
         v-on:selected="bubbleSelected"
         v-for="child in data.children"
@@ -17,6 +19,7 @@
         :styles="styles"
         :canSelect="canSelect"
       />
+
     </div>
     <!-- Handle Leaf Values -->
     <div
@@ -125,7 +128,7 @@ export default Vue.extend({
     arrowStyles: function(): object {
       return { width: this.styles.arrowSize, height: this.styles.arrowSize };
     },
-    lengthString: function(): string {
+    lengthString: function(): string { // TODO: change this from properties to reflect desired verbage
       if (this.data.type === "array") {
         return this.data.length === 1
           ? this.data.length + " element"
@@ -146,6 +149,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/common.scss";
 .json-view-item {
   margin-left: 20px;
 }
@@ -187,8 +191,8 @@ export default Vue.extend({
 
 .chevron-arrow {
   flex-shrink: 0;
-  border-right: 4px solid #444;
-  border-bottom: 4px solid #444;
+  border-right: 4px solid $wm_gray;
+  border-bottom: 4px solid $wm_gray;
   width: 6px;
   height: 6px;
   margin-right: 20px;

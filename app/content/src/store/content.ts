@@ -9,6 +9,7 @@ import { API_URL }                 from '@/config';
 
 export interface ContentState {
   hello: string;
+  content_tree: any;
   test_array: any[];
   test_array_2: any[];
   test_image: string;
@@ -16,6 +17,7 @@ export interface ContentState {
 
 export const content_state: ContentState = {
   hello: 'Hello Mines 2019 Field Session',
+  content_tree: {}, // 'Content': 'None'
   test_array: [],
   test_array_2: [],
   test_image: 'this is the url',
@@ -29,6 +31,10 @@ export const content: Module<ContentState, RootState> = {
   mutations: {
     hello: (state: any, message: any) => {
       state.hello  = message;
+    },
+    content_tree: (state: any, message: any) => {
+      delete message._id;
+      state.content_tree  = message;
     },
     test_array: (state: any, data: any) => {
       state.test_array = data;
@@ -48,6 +54,12 @@ export const content: Module<ContentState, RootState> = {
       const state = await rval.json();
       puts(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
+    },
+    content_tree: async (context: any, args: any) => {
+      const rval = await fetch(`${API_URL}/content_tree`)
+      const state = await rval.json();
+      puts(`In content_tree got ${state.message} from the server`);
+      context.commit('content_tree', state.message);
     },
     ingest_url: async (context:any , args:any) => {
       let job = {
