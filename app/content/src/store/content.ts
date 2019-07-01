@@ -10,6 +10,8 @@ import { API_URL }                 from '@/config';
 export interface ContentState {
   hello: string;
   content_tree: any;
+  content_providers: any[];
+  content_lessons: any[];
   test_array: any[];
   test_array_2: any[];
   test_image: string;
@@ -18,6 +20,8 @@ export interface ContentState {
 export const content_state: ContentState = {
   hello: 'Hello Mines 2019 Field Session',
   content_tree: {}, // 'Content': 'None'
+  content_providers: [],
+  content_lessons: [],
   test_array: [],
   test_array_2: [],
   test_image: 'this is the url',
@@ -35,6 +39,12 @@ export const content: Module<ContentState, RootState> = {
     content_tree: (state: any, message: any) => {
       delete message._id;
       state.content_tree  = message;
+    },
+    content_providers: (state: any, message: any) => {
+      state.content_providers  = message;
+    },
+    content_lessons: (state: any, message: any) => {
+      state.content_lessons  = message;
     },
     test_array: (state: any, data: any) => {
       state.test_array = data;
@@ -60,6 +70,18 @@ export const content: Module<ContentState, RootState> = {
       const state = await rval.json();
       puts(`In content_tree got ${state.message} from the server`);
       context.commit('content_tree', state.message);
+    },
+    content_providers: async (context: any, args: any) => {
+      const rval = await fetch(`${API_URL}/content/providers`)
+      const state = await rval.json();
+      puts(`In content_providers got ${state.message} from the server`);
+      context.commit('content_providers', state.message);
+    },
+    content_lessons: async (context: any, args: any) => {
+      const rval = await fetch(`${API_URL}/content/lessons`)
+      const state = await rval.json();
+      puts(`In content_lessons got ${state.message} from the server`);
+      context.commit('content_lessons', state.message);
     },
     ingest_url: async (context:any , args:any) => {
       let job = {

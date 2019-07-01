@@ -37,6 +37,7 @@
 
 <script lang="ts">
 import Vue, { VueConstructor } from "vue";
+import { log }                 from '@/logger';
 
 export interface SelectedData {
   key: string;
@@ -131,8 +132,20 @@ export default Vue.extend({
     lengthString: function(): string { // TODO: change this from properties to reflect desired verbage
       if (this.data.type === "array") {
         return this.data.length === 1
-          ? this.data.length + " element"
-          : this.data.length + " elements";
+          ? this.data.length + " Element"
+          : this.data.length + " Elements";
+      } else if ( this.data.depth === 1 ) {
+        return this.data.length === 1
+        ? this.data.length + " Grade"
+        : this.data.length + " Grades";
+      } else if ( this.data.depth === 2 ) {
+        return this.data.length === 1
+        ? this.data.length + " Module"
+        : this.data.length + " Modules";
+      } else if ( this.data.depth === 3 ) {
+        return this.data.length === 1
+        ? this.data.length + " Lesson"
+        : this.data.length + " Lessons";
       }
       return this.data.length === 1
         ? this.data.length + " property"
