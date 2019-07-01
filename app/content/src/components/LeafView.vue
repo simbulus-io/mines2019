@@ -1,11 +1,9 @@
 <template>
     <div class="m-content">
         <div> <!-- TODO: do something meaningful with this binding/clean up -->
-            <h1 v-show="content===null"> No Lesson Selected </h1>
-            <div v-show="content!==null">
-                <h1> {{key}} from {{path}}</h1>
-                <p> {{parse_path}} </p>
-                <p> {{find_db_lesson_id}} </p>
+            <h1 v-show="lesson_id===''"> No Lesson Selected </h1>
+            <div v-show="lesson_id!==''">
+                <h1>Lesson {{lesson_id}}</h1>
             </div>
         </div>
     </div>

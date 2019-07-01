@@ -17,10 +17,10 @@ import LeafView                 from './LeafView.vue';
 export default class Dashboard extends Vue {
   constructor() {
     super();
-    this.currSelection = null;
+    this.currSelection = '';
   }
 
-  public currSelection!: any;
+  public currSelection!: string;
 
   // Computed
   public get content_data() {
@@ -41,7 +41,8 @@ export default class Dashboard extends Vue {
     const provs = this.content_provders;
     const lessons = this.content_lessons.sort( (a,b) => {
       // should go grade > module > lesson in order
-      if( a.grade < b.grade ){ 
+      if( a.grade < b.grade ){
+        // TODO: improve grade comparison to be grade order and not just alphabetical
         return -1;
       } else if( a.grade > b.grade ){
         return 1;
@@ -110,7 +111,59 @@ export default class Dashboard extends Vue {
     // e is passed from json-view from json-view-item
     // object with key, value, and path properties
     //alert(`Item Selected. ${e.key} ${e.value} ${e.path}`);
-    this.currSelection = e;
+    this.currSelection = this.find_db_lesson_id(e);
+  }
+
+  public key(e) {
+    return e ? e.key : '';
+  }
+
+  public value(e) {
+    return e ? e.value : '';
+  }
+
+  public path(e) {
+    return e ? e.path : '';
+  }
+
+  public parse_path(e) {
+      const parsed: string[] = this.path(e).split('.');
+      if( parsed !== undefined && parsed.length >= 5 ){
+          const prov = this.$store.state.content.content_providers.find( (provider) => {
+              return provider.name === parsed[1];
+          });
+          const pprovid = prov ? prov._id : -1;
+          const pgrade = parsed[2];
+          const pmodule_arr = parsed[3].match(/\d+/g)
+          const pmodule =  pmodule_arr ? pmodule_arr[0] : -1;
+          const pnumber_arr = parsed[4].match(/\d+/g);
+          const pnumber = pnumber_arr ? pnumber_arr[0] : -1;
+          return {
+              content_provider_id : pprovid,
+              grade: pgrade,
+              module: pmodule,
+              number: pnumber,
+          };
+      }
+      return { // TODO: is there a better not found rval?
+          content_provider_id : -1,
+          grade: -1,
+          module: -1,
+          number: -1,
+      };
+  }
+
+  public find_db_lesson_id(e) {
+      const parsed = this.parse_path(e);
+      if( parsed !== null ) {
+          const rval = this.$store.state.content.content_lessons.find( (lesson) => {
+              return lesson.content_provider_id === parsed.content_provider_id &&
+                      lesson.grade === parsed.grade &&
+                      lesson.module === parsed.module &&
+                      lesson.number === parsed.number;
+          }, this);
+          return rval ? rval._id : -1;
+      }
   }
 
 }
