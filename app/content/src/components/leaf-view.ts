@@ -34,9 +34,16 @@ export default class LeafView extends Vue {
         return lesson ? lesson.notes : [];
     }
 
+    public set lesson_status( new_status: string) {
+        this.$store.dispatch( 'content/update_lesson_status', {
+            idx: this.lesson_idx,
+            status: new_status,
+        });
+    }
+
     public get lesson_status() {
         const lesson: Lesson = this.lesson;
-        return lesson ? lesson.status : [];
+        return lesson ? lesson.status : '';
     }
 
     public get lesson_keywords() {
@@ -45,13 +52,13 @@ export default class LeafView extends Vue {
     }
 
     public update_keywords( newTags: any[] ) {
-        log.info(`update_keywords: ${newTags}`);
+        //log.info(`update_keywords: ${newTags}`);
         let string_tags: string[] = [];
         newTags.forEach(keyword => {
             const text = keyword ? keyword.text : '';
             string_tags.push(text);
         });
-        log.info(`update_keywords: ${string_tags}`);
+        //log.info(`update_keywords: ${string_tags}`);
         this.$store.dispatch( 'content/update_lesson_keywords', {
             idx: this.lesson_idx,
             keywords: string_tags,

@@ -4,7 +4,7 @@ import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 import { file }                                   from '@babel/types';
 import bodyParser                                 from 'body-parser';
-import {Guid} from 'guid-typescript';
+
 
 const fsm = require('fs-minipass');
 const rp = require('fs.realpath');
@@ -90,12 +90,49 @@ export class ContentRoutes extends RoutesBase {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const rval = await mongo.db('content').collection('content_lessons')
-          .updateOne({ idx: req.query.idx}, { $set: { keywords: req.query.keywords } });
+          .updateOne({ idx: req.query.idx}, { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } });
+        if (rval.modifiedCount === 1) {
+          res.send({status: true});
+        } else { // TODO: fix updateOne error
+          logger.error(new Error(`Unexpected Result in updating lesson keywords: from mongo updateOne ${rval}`));
+          res.send({status: false});
+        }
+      } catch (e) {
+        res.send({status: false});
+        logger.error(`Unexpected Exception: ${e}`);
+      }
+    });
+
+    router.get(`${RoutesBase.API_BASE_URL}/update_lesson/status`, async (req, res) => {
+      try {
+        router.use( bodyParser.urlencoded( {extended: false} ) );
+        const mongo = req.app.get('mongo');
+        const rval = await mongo.db('content').collection('content_lessons')
+          .updateOne({ idx: req.query.idx}, { $set: { status: req.query.status } });
         // status true if success
         if (rval.modifiedCount === 1) {
           res.send({status: true});
         } else { // TODO: fix updateOne error
-          logger.error(new Error(`Unexpected Result in move_snote: from mongo updateOne ${rval}`));
+          logger.error(new Error(`Unexpected Result in updating lesson status: from mongo updateOne ${rval}`));
+          res.send({status: false});
+        }
+      } catch (e) {
+        res.send({status: false});
+        logger.error(`Unexpected Exception: ${e}`);
+      }
+    });
+
+    router.get(`${RoutesBase.API_BASE_URL}/update_lesson/notes`, async (req, res) => {
+      try {
+        router.use( bodyParser.urlencoded( {extended: false} ) );
+        const mongo = req.app.get('mongo');
+        const rval = await mongo.db('content').collection('content_lessons')
+          .updateOne({ idx: req.query.idx}, { $set: { notes: (req.query.notes ? req.query.notes : []) } });
+        // status true if success
+        if (rval.modifiedCount === 1) {
+          res.send({status: true});
+        } else { // TODO: fix updateOne error
+          logger.error(new Error(`Unexpected Result in updating lesson notes: from mongo updateOne ${rval}`));
           res.send({status: false});
         }
       } catch (e) {

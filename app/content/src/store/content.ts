@@ -44,7 +44,19 @@ export const content: Module<ContentState, RootState> = {
       const index = state.content_lessons.findIndex(less => less.idx === args.idx );
       const lesson = state.content_lessons[index];
       lesson.keywords = args.keywords;
-      Vue.set(state.snotes,index,lesson);
+      Vue.set(state.content_lessons,index,lesson);
+    },
+    update_lesson_notes: (state: any, args: any) => {
+      const index = state.content_lessons.findIndex(less => less.idx === args.idx );
+      const lesson = state.content_lessons[index];
+      lesson.notes = args.notes;
+      Vue.set(state.content_lessons,index,lesson);
+    },
+    update_lesson_status: (state: any, args: any) => {
+      const index = state.content_lessons.findIndex(less => less.idx === args.idx );
+      const lesson = state.content_lessons[index];
+      lesson.status = args.status;
+      Vue.set(state.content_lessons,index,lesson);
     },
     test_array: (state: any, data: any) => {
       state.test_array = data;
@@ -87,6 +99,27 @@ export const content: Module<ContentState, RootState> = {
       const state = await rval.json();
       puts(`In update_lesson_keywords got ${state.message} from the server`);
       context.commit('update_lesson_keywords', args);
+    },
+    update_lesson_notes:  async (context: any, args: any) => {
+      let query_string = `?idx=${args.idx}`;
+      args.notes.forEach(note => {
+        query_string += `&notes[]=${note}`;
+      });
+      log.info(query_string);
+      const url = `${API_URL}/update_lesson/notes${query_string}`;
+      const rval = await fetch(url)
+      const state = await rval.json();
+      puts(`In update_lesson_notes got ${state.message} from the server`);
+      context.commit('update_lesson_notes', args);
+    },
+    update_lesson_status:  async (context: any, args: any) => {
+      let query_string = `?idx=${args.idx}&status=${args.status}`;
+      log.info(query_string);
+      const url = `${API_URL}/update_lesson/status${query_string}`;
+      const rval = await fetch(url)
+      const state = await rval.json();
+      puts(`In update_lesson_status got ${state.message} from the server`);
+      context.commit('update_lesson_status', args);
     },
     ingest_url: async (context:any , args:any) => {
       let job = {

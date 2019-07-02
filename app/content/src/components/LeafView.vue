@@ -5,6 +5,12 @@
             <div v-show="lesson_idx!==''">
                 <h1>Lesson {{lesson_idx}}</h1>
                 <h4>Status: {{lesson_status}}</h4>
+                <select v-model="lesson_status">
+                    <!-- <option disabled value="">Please select one</option> -->
+                    <option>unprocessed</option>
+                    <option>processed - accepted</option>
+                    <option>processed - rejected</option>
+                </select>
                 <h4>Notes</h4>
                 <textarea
                     class="lesson-input"
