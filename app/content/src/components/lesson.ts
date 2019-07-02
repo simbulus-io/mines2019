@@ -1,6 +1,7 @@
 export interface Lesson {
     _id: string;
-    content_provider_id: string;
+    idx: string;
+    content_provider_idx: string;
     grade: string;
     module: string;
     number: string;

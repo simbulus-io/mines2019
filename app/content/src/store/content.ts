@@ -40,13 +40,18 @@ export const content: Module<ContentState, RootState> = {
     content_lessons: (state: any, message: any) => {
       state.content_lessons  = message;
     },
+    update_lesson_keywords: (state: any, args: any) => {
+      const index = state.content_lessons.findIndex(less => less.idx === args.idx );
+      const lesson = state.content_lessons[index];
+      lesson.keywords = args.keywords;
+      Vue.set(state.snotes,index,lesson);
+    },
     test_array: (state: any, data: any) => {
       state.test_array = data;
     },
     test_array_2: (state: any, data: any) => {
       state.test_array_2 = data;
     },
-
     test_image: (state: any, message: any) => {
       state.test_image = message;
     },
@@ -60,16 +65,28 @@ export const content: Module<ContentState, RootState> = {
       context.commit('hello', state.message);
     },
     content_providers: async (context: any, args: any) => {
-      const rval = await fetch(`${API_URL}/content/providers`)
+      const rval = await fetch(`${API_URL}/providers`)
       const state = await rval.json();
       puts(`In content_providers got ${state.message} from the server`);
       context.commit('content_providers', state.message);
     },
     content_lessons: async (context: any, args: any) => {
-      const rval = await fetch(`${API_URL}/content/lessons`)
+      const rval = await fetch(`${API_URL}/lessons`)
       const state = await rval.json();
       puts(`In content_lessons got ${state.message} from the server`);
       context.commit('content_lessons', state.message);
+    },
+    update_lesson_keywords:  async (context: any, args: any) => {
+      let query_string = `?idx=${args.idx}`;
+      args.keywords.forEach(keyword => {
+        query_string += `&keywords[]=${keyword}`;
+      });
+      log.info(query_string);
+      const url = `${API_URL}/update_lesson/keywords${query_string}`;
+      const rval = await fetch(url)
+      const state = await rval.json();
+      puts(`In update_lesson_keywords got ${state.message} from the server`);
+      context.commit('update_lesson_keywords', args);
     },
     ingest_url: async (context:any , args:any) => {
       let job = {

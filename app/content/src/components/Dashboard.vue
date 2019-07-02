@@ -7,7 +7,7 @@
 	    </div>
       <hr/>
       <div class="other">
-        <leaf-view v-bind:lesson_id="currSelection"/>
+        <leaf-view v-bind:lesson_idx="currSelection"/>
         <!-- TODO: bind state of the currSelection processed or not -->
 	    </div>
     </template>

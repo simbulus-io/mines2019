@@ -69,9 +69,9 @@ export default class Dashboard extends Vue {
     if( lessons !== undefined ){
       lessons.forEach(lesson => {
         const lesson_to_add = lesson.url;
-        const prov_id = lesson.content_provider_id;
+        const prov_idx = lesson.content_provider_idx;
         const prov = provs.find( (provider) => {
-          return provider._id === prov_id;
+          return provider.idx === prov_idx;
         });
         const prov_name = prov.name;
         const lesson_module = `Module ${lesson.module}`;
@@ -111,7 +111,7 @@ export default class Dashboard extends Vue {
     // e is passed from json-view from json-view-item
     // object with key, value, and path properties
     //alert(`Item Selected. ${e.key} ${e.value} ${e.path}`);
-    this.currSelection = this.find_db_lesson_id(e);
+    this.currSelection = this.find_db_lesson_idx(e);
   }
 
   public key(e) {
@@ -132,37 +132,37 @@ export default class Dashboard extends Vue {
           const prov = this.$store.state.content.content_providers.find( (provider) => {
               return provider.name === parsed[1];
           });
-          const pprovid = prov ? prov._id : -1;
+          const pprovid = prov ? prov.idx : -1;
           const pgrade = parsed[2];
           const pmodule_arr = parsed[3].match(/\d+/g)
           const pmodule =  pmodule_arr ? pmodule_arr[0] : -1;
           const pnumber_arr = parsed[4].match(/\d+/g);
           const pnumber = pnumber_arr ? pnumber_arr[0] : -1;
           return {
-              content_provider_id : pprovid,
+              content_provider_idx : pprovid,
               grade: pgrade,
               module: pmodule,
               number: pnumber,
           };
       }
       return { // TODO: is there a better not found rval?
-          content_provider_id : -1,
+          content_provider_idx : -1,
           grade: -1,
           module: -1,
           number: -1,
       };
   }
 
-  public find_db_lesson_id(e) {
+  public find_db_lesson_idx(e) {
       const parsed = this.parse_path(e);
       if( parsed !== null ) {
           const rval = this.$store.state.content.content_lessons.find( (lesson) => {
-              return lesson.content_provider_id === parsed.content_provider_id &&
+              return lesson.content_provider_idx === parsed.content_provider_idx &&
                       lesson.grade === parsed.grade &&
                       lesson.module === parsed.module &&
                       lesson.number === parsed.number;
           }, this);
-          return rval ? rval._id : -1;
+          return rval ? rval.idx : -1;
       }
   }
 

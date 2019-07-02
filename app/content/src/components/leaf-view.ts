@@ -1,7 +1,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { log }                  from '@/logger';
 import { Lesson } from './lesson';
-import VueTagsInput from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
+import { VueTagsInput, createTags } from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
 
 
 @Component({
@@ -15,13 +15,16 @@ export default class LeafView extends Vue {
     }
 
     public tag: string = '';
-    public tags: string[] = [];
 
-    @Prop() public readonly lesson_id!: string;
+    @Prop() public readonly lesson_idx!: string;
+
+    public get validated_tags() {
+        return createTags(this.lesson_keywords);
+    }
 
     public get lesson() {
         const rval: Lesson = this.$store.state.content.content_lessons.find( (lesson) => {
-            return lesson._id === this.lesson_id;
+            return lesson.idx === this.lesson_idx;
           }, this);
         return rval;
     }
@@ -39,5 +42,19 @@ export default class LeafView extends Vue {
     public get lesson_keywords() {
         const lesson: Lesson = this.lesson;
         return lesson ? lesson.keywords : [];
+    }
+
+    public update_keywords( newTags: any[] ) {
+        log.info(`update_keywords: ${newTags}`);
+        let string_tags: string[] = [];
+        newTags.forEach(keyword => {
+            const text = keyword ? keyword.text : '';
+            string_tags.push(text);
+        });
+        log.info(`update_keywords: ${string_tags}`);
+        this.$store.dispatch( 'content/update_lesson_keywords', {
+            idx: this.lesson_idx,
+            keywords: string_tags,
+        });
     }
 }

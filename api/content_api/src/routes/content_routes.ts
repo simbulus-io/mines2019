@@ -2,7 +2,9 @@ import * as logger                                from 'winston';
 import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
-import { file } from '@babel/types';
+import { file }                                   from '@babel/types';
+import bodyParser                                 from 'body-parser';
+import {Guid} from 'guid-typescript';
 
 const fsm = require('fs-minipass');
 const rp = require('fs.realpath');
@@ -51,7 +53,7 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/content/providers`, async (req: Request,
+    router.get(`${RoutesBase.API_BASE_URL}/providers`, async (req: Request,
       res: Response,
       next: NextFunction) => {
       try {
@@ -67,7 +69,7 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/content/lessons`, async (req: Request,
+    router.get(`${RoutesBase.API_BASE_URL}/lessons`, async (req: Request,
       res: Response,
       next: NextFunction) => {
       try {
@@ -80,6 +82,25 @@ export class ContentRoutes extends RoutesBase {
         });
       } catch (e) {
         logger.error('Error in /content/lessons', e);
+      }
+    });
+
+    router.get(`${RoutesBase.API_BASE_URL}/update_lesson/keywords`, async (req, res) => {
+      try {
+        router.use( bodyParser.urlencoded( {extended: false} ) );
+        const mongo = req.app.get('mongo');
+        const rval = await mongo.db('content').collection('content_lessons')
+          .updateOne({ idx: req.query.idx}, { $set: { keywords: req.query.keywords } });
+        // status true if success
+        if (rval.modifiedCount === 1) {
+          res.send({status: true});
+        } else { // TODO: fix updateOne error
+          logger.error(new Error(`Unexpected Result in move_snote: from mongo updateOne ${rval}`));
+          res.send({status: false});
+        }
+      } catch (e) {
+        res.send({status: false});
+        logger.error(`Unexpected Exception: ${e}`);
       }
     });
 

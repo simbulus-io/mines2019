@@ -1,9 +1,9 @@
 <template>
     <div class="m-content">
         <div> <!-- TODO: do something meaningful with this binding/clean up -->
-            <h1 v-show="lesson_id===''"> No Lesson Selected </h1>
-            <div v-show="lesson_id!==''">
-                <h1>Lesson {{lesson_id}}</h1>
+            <h1 v-show="lesson_idx===''"> No Lesson Selected </h1>
+            <div v-show="lesson_idx!==''">
+                <h1>Lesson {{lesson_idx}}</h1>
                 <h4>Status: {{lesson_status}}</h4>
                 <h4>Notes</h4>
                 <textarea
@@ -20,8 +20,8 @@
                 <vue-tags-input
                     v-model="tag"
                     :allow-edit-tags="true"
-                    :tags="lesson_keywords"
-                    @tags-changed="newTags => tags = newTags"/>
+                    :tags="validated_tags"
+                    @tags-changed="update_keywords"/>
                 <!-- TODO: make text area prettier and have spaces in between items in the array -->
                 <!-- TODO: maybe make each note it's own text area? -->
             </div>
