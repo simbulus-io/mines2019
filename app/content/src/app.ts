@@ -15,7 +15,6 @@ export default class App extends Vue {
     // possible that other actions will be dispatched from
     // other components
     await this.$store.dispatch('content/hello');
-    await this.$store.dispatch('content/content_tree'); // TODO: remove when many to one doc complete
     await this.$store.dispatch('content/content_providers');
     await this.$store.dispatch('content/content_lessons');
     await this.$store.dispatch('content/test_array');

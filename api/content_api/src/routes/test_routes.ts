@@ -42,7 +42,7 @@ export class TestRoutes extends RoutesBase {
         const mongo = req.app.get('mongo');
         // using await
         const docs = await mongo.db('content').collection('test_collection').find().toArray();
-        logger.info(JSON.stringify(docs, null, 2));
+        //logger.info(JSON.stringify(docs, null, 2));
         res.json({
           status: true,
           docs: docs,

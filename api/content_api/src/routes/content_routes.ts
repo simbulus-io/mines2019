@@ -51,37 +51,6 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/content_tree`, async (req: Request,
-      res: Response,
-      next: NextFunction) => {
-      try {
-        const mongo = req.app.get('mongo');
-        // using await
-        const docs: any[] = await mongo.db('content').collection('content_tree').find().toArray();
-        let tree = null;
-        if ( docs.length > 0 ) {
-          tree = docs[0];
-        }
-        logger.info(tree);
-        // toArray with a single item?
-        // Will this stay a single item or will we need to build the final single json from csv?
-        //logger.info(JSON.stringify(docs, null, 2));
-        if (tree) {
-          res.json({
-            status: true,
-            message: tree,
-          });
-        } else {
-          res.json({
-            status: false,
-            message: tree,
-          });
-        }
-      } catch (e) {
-        logger.error('Error in /content/tree', e);
-      }
-    });
-
     router.get(`${RoutesBase.API_BASE_URL}/content/providers`, async (req: Request,
       res: Response,
       next: NextFunction) => {
