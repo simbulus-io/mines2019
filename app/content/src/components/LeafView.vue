@@ -3,7 +3,7 @@
         <div> <!-- TODO: do something meaningful with this binding/clean up -->
             <h1 v-show="lesson_idx===''"> No Lesson Selected </h1>
             <div v-show="lesson_idx!==''">
-                <h1>Lesson {{lesson_idx}}</h1>
+                <h1>{{lesson_grade}} Lesson {{lesson_number}} Module {{lesson_module}} from {{lesson_provider}}</h1>
                 <h4>Status: {{lesson_status}}</h4>
                 <select v-model="lesson_status">
                     <!-- <option disabled value="">Please select one</option> -->
