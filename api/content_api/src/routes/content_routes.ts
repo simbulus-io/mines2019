@@ -53,22 +53,6 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/providers`, async (req: Request,
-      res: Response,
-      next: NextFunction) => {
-      try {
-        const mongo = req.app.get('mongo');
-        // using await
-        const docs: any[] = await mongo.db('content').collection('content_providers').find().toArray();
-        res.json({
-          status: true,
-          message: docs,
-        });
-      } catch (e) {
-        logger.error('Error in /content/providers', e);
-      }
-    });
-
     router.get(`${RoutesBase.API_BASE_URL}/lessons`, async (req: Request,
       res: Response,
       next: NextFunction) => {

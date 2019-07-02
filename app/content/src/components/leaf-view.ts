@@ -29,33 +29,26 @@ export default class LeafView extends Vue {
         return rval;
     }
 
-    public get lesson_module() {
+    public get lesson_name() {
         const lesson: Lesson = this.lesson;
-        return lesson ? lesson.module : '-1';
+        return lesson ? lesson.name : 'UNKNOWN';
     }
 
-    public get lesson_provider() {
+    public get lesson_path() {
         const lesson: Lesson = this.lesson;
-        const provider_idx: string = lesson ? lesson.content_provider_idx : 'UNKNOWN';
-        const prov = this.$store.state.content.content_providers.find( (provider) => {
-            return provider.idx === provider_idx;
-        });
-        return prov ? prov.name : 'UNKNOWN';
-    }
-
-    public get lesson_grade() {
-        const lesson: Lesson = this.lesson;
-        return lesson ? lesson.grade : 'UNKNOWN';
-    }
-
-    public get lesson_number() {
-        const lesson: Lesson = this.lesson;
-        return lesson ? lesson.number : '-1';
+        return lesson ? lesson.path : 'UNKNOWN';
     }
 
     public get lesson_notes(){
         const lesson: Lesson = this.lesson;
         return lesson ? lesson.notes : [];
+    }
+    // TODO: fix this so doesn't break and make me sad
+    public set lesson_notes( new_notes: string[]) {
+        this.$store.dispatch( 'content/update_lesson_notes', {
+            idx: this.lesson_idx,
+            notes: new_notes,
+        });
     }
 
     public set lesson_status( new_status: string) {

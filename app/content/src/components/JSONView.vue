@@ -72,7 +72,7 @@ export default Vue.extend({
               childKey,
               childValue,
               depth + 1,
-              includeKey ? `${path}${key}.` : `${path}`,
+              includeKey ? `${path}${key}/` : `${path}`,
               true
             )
           );
@@ -94,7 +94,7 @@ export default Vue.extend({
               i.toString(),
               val[i],
               depth + 1,
-              includeKey ? `${path}${key}[${i}].` : `${path}`,
+              includeKey ? `${path}${key}[${i}]/` : `${path}`,
               false
             )
           );

@@ -34,9 +34,6 @@ export const content: Module<ContentState, RootState> = {
     hello: (state: any, message: any) => {
       state.hello  = message;
     },
-    content_providers: (state: any, message: any) => {
-      state.content_providers  = message;
-    },
     content_lessons: (state: any, message: any) => {
       state.content_lessons  = message;
     },
@@ -75,12 +72,6 @@ export const content: Module<ContentState, RootState> = {
       const state = await rval.json();
       puts(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
-    },
-    content_providers: async (context: any, args: any) => {
-      const rval = await fetch(`${API_URL}/providers`)
-      const state = await rval.json();
-      puts(`In content_providers got ${state.message} from the server`);
-      context.commit('content_providers', state.message);
     },
     content_lessons: async (context: any, args: any) => {
       const rval = await fetch(`${API_URL}/lessons`)
