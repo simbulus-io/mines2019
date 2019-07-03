@@ -134,8 +134,8 @@ export default Vue.extend({
     },
     customStyles: function(): object {
       const target = {
-        key: "#356b9a",
-        valueKey: "#356b9a",
+        key: "#fefefe",
+        valueKey: "#94c34d",
         string: "#f47321",
         number: "#f47321",
         boolean: "#f47321",

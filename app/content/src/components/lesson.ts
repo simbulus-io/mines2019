@@ -10,4 +10,5 @@ export interface Lesson {
         text: string;
       }[];
     keywords: string[];
+    standards: string[];
   }

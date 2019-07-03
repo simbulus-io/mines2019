@@ -3,12 +3,7 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-       <json-view :data="create_tree" v-on:selected="itemSelected"/>
-	    </div>
-      <hr/>
-      <div class="other">
-        <leaf-view v-bind:lesson_idx="currSelection"/>
-        <!-- TODO: bind state of the currSelection processed or not -->
+        <leaf-view v-bind:lesson_idx="content_selection"/>
 	    </div>
     </template>
   </MainContent>

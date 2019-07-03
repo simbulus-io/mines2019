@@ -7,12 +7,13 @@ import Vuex                        from 'vuex';
 import { rpc , rpc_job_succeeded } from '@/rpc';
 import { API_URL }                 from '@/config';
 import { getUnpackedSettings }     from 'http2';
-import {Guid}                      from 'guid-typescript';
+import { Lesson }                  from '@/components/lesson';
 
 export interface ContentState {
   hello: string;
-  content_providers: any[];
-  content_lessons: any[];
+  content_selection: string;
+  //content_providers: any[];
+  content_lessons: Lesson[];
   test_array: any[];
   test_array_2: any[];
   test_image: string;
@@ -20,7 +21,8 @@ export interface ContentState {
 
 export const content_state: ContentState = {
   hello: 'Hello Mines 2019 Field Session',
-  content_providers: [],
+  content_selection: '',
+  //content_providers: [],
   content_lessons: [],
   test_array: [],
   test_array_2: [],
@@ -35,6 +37,9 @@ export const content: Module<ContentState, RootState> = {
   mutations: {
     hello: (state: any, message: any) => {
       state.hello  = message;
+    },
+    content_selection: (state: any, new_value: string) => {
+      state.content_selection  = new_value;
     },
     content_lessons: (state: any, message: any) => {
       state.content_lessons  = message;
@@ -88,6 +93,9 @@ export const content: Module<ContentState, RootState> = {
       const state = await rval.json();
       puts(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
+    },
+    content_selection: async (context: any, new_value: string) => {
+      context.commit('content_selection', new_value);
     },
     content_lessons: async (context: any, args: any) => {
       const rval = await fetch(`${API_URL}/lessons`)

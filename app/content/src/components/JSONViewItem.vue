@@ -27,10 +27,10 @@
       v-on:click="clickEvent(data)"
       v-if="data.type === 'value'"
     >
-      <span :style="valueKeyColor"> {{ data.key }}: </span>
-      <span :style="getValueStyle(data.value)">
-        {{ JSON.stringify(data.value) }}
-      </span>
+      <span :style="valueKeyColor">{{ data.key }}</span>
+      <!-- <span :style="getValueStyle(data.value)">
+        : {{ JSON.stringify(data.value) }}
+      </span> -->
     </div>
   </div>
 </template>
@@ -148,8 +148,8 @@ export default Vue.extend({
         : this.data.length + " Lessons";
       }
       return this.data.length === 1
-        ? this.data.length + " property"
-        : this.data.length + " properties";
+        ? this.data.length + " Property"
+        : this.data.length + " Properties";
     },
     keyColor: function(): object {
       return { color: this.styles.key };
@@ -177,7 +177,7 @@ export default Vue.extend({
   &.can-select {
     cursor: pointer;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.08);
+      background-color: rgba(255, 255, 255, 0.08);
     }
   }
 }
@@ -192,20 +192,24 @@ export default Vue.extend({
   padding: 5px;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.08);
   }
 
   .properties {
-    font-weight: 300;
+    font-weight: 600;
     opacity: 0.6;
     user-select: none;
   }
 }
 
+.value-key {
+  text-align: left;
+}
+
 .chevron-arrow {
   flex-shrink: 0;
-  border-right: 4px solid $wm_gray;
-  border-bottom: 4px solid $wm_gray;
+  border-right: 4px solid $lightest_gray;
+  border-bottom: 4px solid $lightest_gray;
   width: 6px;
   height: 6px;
   margin-right: 20px;

@@ -2,11 +2,13 @@ import { Component, Prop, Vue }         from 'vue-property-decorator';
 import { log }                          from '@/logger';
 import { Lesson }                       from './lesson';
 import { VueTagsInput, createTags }     from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
-import {Guid}                      from 'guid-typescript';
+import {Guid}                           from 'guid-typescript';
+import StandardBlock                    from './StandardBlock.vue';
 
 @Component({
     components: {
         VueTagsInput,
+        StandardBlock
     }
   })
 export default class LeafView extends Vue {
@@ -59,8 +61,8 @@ export default class LeafView extends Vue {
     }
 
     // TODO: what to do with the text since 2 way binding?
+    // is passing it correct??
     public save_note( note_idx: string, note_text: string){
-        log.info(` in save_note: ${note_text}`);
         this.selected_note = '';
         this.$store.dispatch( 'content/update_lesson_note', {
             lesson_idx: this.lesson_idx,
@@ -79,6 +81,7 @@ export default class LeafView extends Vue {
         });
     }
 
+    // TODO: ideal would be to set the focus on the textarea as well, not just open it to edit
     public new_note(){
         const new_note_idx = Guid.raw();
         this.$store.dispatch( 'content/add_lesson_note', {
@@ -103,6 +106,11 @@ export default class LeafView extends Vue {
     public get lesson_keywords() {
         const lesson: Lesson = this.lesson;
         return lesson ? lesson.keywords : [];
+    }
+
+    public get lesson_standards() {
+        const lesson: Lesson = this.lesson;
+        return lesson ? lesson.standards : [];
     }
 
     public update_keywords( newTags: any[] ) {

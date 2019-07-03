@@ -42,6 +42,7 @@
                         </div>
                     </div>
                 </div>
+                <p v-show="lesson_notes.length === 0">No notes <font-awesome-icon icon="sad-tear"/> Add some with the plus icon!</p>
                 <hr/>
                 <h2>Keywords</h2>
                 <vue-tags-input
@@ -50,12 +51,19 @@
                     :tags="validated_tags"
                     @tags-changed="update_keywords"
                     id="key-tags"/>
+                <hr/>
+                <h2>Standards</h2>
+                <div>
+                    <standard-block v-for="standard in lesson_standards" :key="standard" :text="standard"/>
+                    <p v-show="lesson_standards.length === 0">No standards <font-awesome-icon icon="sad-tear"/> </p>
+                </div>
+                
             </div>
         </div>
     </div>
 </template>
 
-<script lang="ts" src="./leaf-view.ts"></script>
+<script lang="ts" src="./leaf_view.ts"></script>
 <style scoped lang="scss">
 @import "../styles/common.scss";
 .status-input {

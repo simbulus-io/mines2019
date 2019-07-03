@@ -32,6 +32,7 @@ describe('Creating Example Content Lesson Documents ', () => {
         status: 'unprocessed',
         notes: [],
         keywords: [],
+        standards: [],
       };
       const promise_k1_1 = collection.updateOne(
         { idx: data_k1_1.idx},        // insert index
@@ -48,6 +49,7 @@ describe('Creating Example Content Lesson Documents ', () => {
         status: 'unprocessed',
         notes: [],
         keywords: [],
+        standards: [],
       };
       const promise_k1_2 = collection.updateOne(
         { idx: data_k1_2.idx},        // insert index
@@ -64,6 +66,7 @@ describe('Creating Example Content Lesson Documents ', () => {
         status: 'unprocessed',
         notes: [],
         keywords: [],
+        standards: [],
       };
       const promise_f1_1 = collection.updateOne(
         { idx: data_f1_1.idx},        // insert index
@@ -80,6 +83,7 @@ describe('Creating Example Content Lesson Documents ', () => {
         status: 'unprocessed',
         notes: [],
         keywords: [],
+        standards: [],
       };
       const promise_f1_2 = collection.updateOne(
         { idx: data_f1_2.idx},        // insert index
