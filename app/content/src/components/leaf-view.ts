@@ -1,8 +1,8 @@
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { log }                  from '@/logger';
-import { Lesson } from './lesson';
-import { VueTagsInput, createTags } from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
-
+import { Component, Prop, Vue }         from 'vue-property-decorator';
+import { log }                          from '@/logger';
+import { Lesson }                       from './lesson';
+import { VueTagsInput, createTags }     from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
+import {Guid}                      from 'guid-typescript';
 
 @Component({
     components: {
@@ -12,9 +12,11 @@ import { VueTagsInput, createTags } from '@johmun/vue-tags-input'; // from http:
 export default class LeafView extends Vue {
     constructor() {
         super();
+        this.selected_note = '';
     }
 
     public tag: string = '';
+    public selected_note: string;
 
     @Prop() public readonly lesson_idx!: string;
 
@@ -39,16 +41,51 @@ export default class LeafView extends Vue {
         return lesson ? lesson.path : 'UNKNOWN';
     }
 
-    public get lesson_notes(){
+    public get lesson_notes() {
         const lesson: Lesson = this.lesson;
         return lesson ? lesson.notes : [];
     }
-    // TODO: fix this so doesn't break and make me sad
-    public set lesson_notes( new_notes: string[]) {
-        this.$store.dispatch( 'content/update_lesson_notes', {
-            idx: this.lesson_idx,
-            notes: new_notes,
+
+    public note_selected(note_idx:string) {
+        if ( note_idx === this.selected_note ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public edit_note( note_idx: string ){
+        this.selected_note = note_idx;
+    }
+
+    // TODO: what to do with the text since 2 way binding?
+    public save_note( note_idx: string, note_text: string){
+        log.info(` in save_note: ${note_text}`);
+        this.selected_note = '';
+        this.$store.dispatch( 'content/update_lesson_note', {
+            lesson_idx: this.lesson_idx,
+            note_idx: note_idx,
+            text: note_text
         });
+    }
+
+    public delete_note( note_idx: string ){
+        if ( this.selected_note === note_idx ) {
+            this.selected_note = '';
+        }
+        this.$store.dispatch( 'content/delete_lesson_note', {
+            lesson_idx: this.lesson_idx,
+            note_idx: note_idx,
+        });
+    }
+
+    public new_note(){
+        const new_note_idx = Guid.raw();
+        this.$store.dispatch( 'content/add_lesson_note', {
+            lesson_idx: this.lesson_idx,
+            note_idx: new_note_idx,
+        });
+        this.edit_note( new_note_idx );
     }
 
     public set lesson_status( new_status: string) {

@@ -4,32 +4,52 @@
             <h1 v-show="lesson_idx===''"> No Lesson Selected </h1>
             <div v-show="lesson_idx!==''">
                 <h1>{{lesson_name}} from {{lesson_path}}</h1>
-                <h4>Status: {{lesson_status}}</h4>
-                <select v-model="lesson_status">
+                <hr/>
+                <h2>Status: {{lesson_status}}</h2>
+                <select v-model="lesson_status" class="status-input">
                     <!-- <option disabled value="">Please select one</option> -->
                     <option>unprocessed</option>
                     <option>processed - accepted</option>
                     <option>processed - rejected</option>
                 </select>
-                <h4>Notes</h4>
-                <textarea
-                    class="lesson-input"
-                    v-model="lesson_notes"
-                    rows="5">
-                </textarea>
-                <!-- <textarea
-                    class="lesson-input"
-                    v-model="lesson_keywords"
-                    rows="5">
-                </textarea> -->
-                <h4>Keywords</h4>
+                <hr/>
+                <h2 style="display:inline;">Notes</h2>
+                <button class="new-button"  type="button" v-on:click="new_note">
+                    <font-awesome-icon icon="plus-circle" />
+                </button>
+                <div v-for="note in lesson_notes" :key="note.idx" class="note">
+                    <div class="note-row">
+                        <div class="note-cell note-text">
+                            <textarea
+                                class="lesson-input"
+                                v-model="note.text"
+                                rows="5"
+                                overflow="auto"
+                                v-bind:class="{ 'lesson-input-inactive': !note_selected(note.idx) }"
+                                v-bind:readonly="!note_selected(note.idx)">
+                            </textarea>
+                        </div>
+                        <div class="note-cell note-button-wrapper">
+                            <button class="note-button edit-button" v-show="!note_selected(note.idx)" type="button" v-on:click="edit_note(note.idx)">
+                                Edit Note
+                            </button>
+                            <button class="note-button edit-button" v-show="note_selected(note.idx)" type="button" v-on:click="save_note(note.idx, note.text)">
+                                Save Note
+                            </button>
+                            <button class="note-button delete-button" type="button" v-on:click="delete_note(note.idx)">
+                                Delete Note
+                            </button> 
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <h2>Keywords</h2>
                 <vue-tags-input
                     v-model="tag"
                     :allow-edit-tags="true"
                     :tags="validated_tags"
-                    @tags-changed="update_keywords"/>
-                <!-- TODO: make text area prettier and have spaces in between items in the array -->
-                <!-- TODO: maybe make each note it's own text area? -->
+                    @tags-changed="update_keywords"
+                    id="key-tags"/>
             </div>
         </div>
     </div>
@@ -38,7 +58,73 @@
 <script lang="ts" src="./leaf-view.ts"></script>
 <style scoped lang="scss">
 @import "../styles/common.scss";
-.lesson-input {
-    width: 100%;
+.status-input {
+    font-size: 14pt;
 }
+.lesson-input {
+    width: 98%;
+    font-size: 14pt;
+    padding: 10px;
+    resize: none;
+}
+.lesson-input-inactive {
+    color: $white;
+    background-color: inherit;
+    border: none;
+    outline: none;
+}
+.note-button {
+    border: none;
+    width: 98%;
+    font-size: 16pt;
+    border-radius: 10px;
+    padding: 10px 25px;
+    color: $white;
+    margin: 10px 0px;
+}
+.delete-button {
+    background-color: $wm_red;
+}
+.edit-button {
+    background-color: $wm_green;
+}
+.new-button {
+    display: inline;
+    border: none;
+    font-size: 20pt;
+    color: $wm_orange;
+}
+.note {
+    background-color: $wm_blue;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    display: table;
+    width: 98%;
+}
+
+.note-cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+}
+.note-text {
+    width: 75%;
+}
+.note-button-wrapper {
+    width: 25%;
+}
+.note-row {
+    display: table-row;
+    width: 90%;
+}
+
+#key-tags {
+    max-width: none;
+    width: 98%;
+    font-size: 14pt;
+    color: $wm_gray;
+}
+// TODO: figure out how to style tags
 </style>

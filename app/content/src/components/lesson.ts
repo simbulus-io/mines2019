@@ -5,6 +5,9 @@ export interface Lesson {
     name: string;
     url: string;
     status: string;
-    notes: string[];
+    notes: {
+        idx: string;
+        text: string;
+      }[];
     keywords: string[];
   }
