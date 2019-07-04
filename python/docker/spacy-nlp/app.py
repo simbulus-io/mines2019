@@ -21,6 +21,11 @@ text = ("When Sebastian Thrun started working on self-driving cars at "
         "worth talking to,” said Thrun, in an interview with Recode earlier "
         "this week.")
 
+text = ("Represent complex numbers on the complex plane in rectangular and "
+        "polar form (including real and imaginary numbers), and explain why the rectangular "
+        "and polar forms of a given complex number represent the same number. "
+        )
+
 print("- - - - - ")
 print("Text:", text)
 print("- - - - - ")
