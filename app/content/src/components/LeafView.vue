@@ -23,7 +23,8 @@
                                 rows="5"
                                 overflow="auto"
                                 v-bind:class="{ 'lesson-input-inactive': !note_selected(note.idx) }"
-                                v-bind:readonly="!note_selected(note.idx)">
+                                v-bind:readonly="!note_selected(note.idx)"
+                                v-focus>
                             </textarea>
                         </div>
                         <div class="note-cell note-button-wrapper">
@@ -147,7 +148,7 @@
 }
 
 .vue-tags-input .ti-selected-item {
-    background-color: $wm_bright_blue;
+    background-color: $wm_bright_blue !important;
 }
 
 </style>

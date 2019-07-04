@@ -10,7 +10,14 @@ import { stringify } from 'querystring';
     components: {
         VueTagsInput,
         StandardBlock
-    }
+    },
+    directives: {
+        focus: {
+          inserted: function (el) {
+            el.focus()
+          }
+        }
+      },
   })
 export default class LeafView extends Vue {
     constructor() {
