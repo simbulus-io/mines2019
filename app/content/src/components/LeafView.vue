@@ -47,6 +47,9 @@
                     :allow-edit-tags="true"
                     :tags="validated_tags"
                     @tags-changed="update_keywords"
+                    :autocomplete-items="filteredItems"
+                    :placeholder="'Tag Keywords'"
+                    :separators="[',',';']"
                     id="key-tags"/>
                 <hr/>
                 <h2>Standards</h2>
@@ -61,7 +64,8 @@
 </template>
 
 <script lang="ts" src="./leaf_view.ts"></script>
-<style scoped lang="scss">
+<!-- DO NOT HAVE SCOPED -> tag styling will not work -->
+<style lang="scss">
 @import "../styles/common.scss";
 .status-input {
     font-size: 14pt;
@@ -129,7 +133,21 @@
     max-width: none;
     width: 98%;
     font-size: 14pt;
-    color: $wm_gray;
+    color: $wm_gray;  
 }
-// TODO: figure out how to style tags
+
+.ti-tag-input {
+    font-size: 13pt;
+}
+
+.vue-tags-input .ti-tag.ti-valid {
+  background-color: $wm_purple;
+  color: $white;
+  font-size: 14pt;
+}
+
+.vue-tags-input .ti-selected-item {
+    background-color: $wm_bright_blue;
+}
+
 </style>
