@@ -17,8 +17,6 @@ import { Post } from './post';
   },
 
 })
-
-
 export default class LineSeparator extends Vue {
 
   public line_data = [
@@ -66,32 +64,35 @@ export default class LineSeparator extends Vue {
     displacement.sort();
     this.JSONify(displacement);
     console.log(displacement);
-}
+  }
 
-  // Computed
+  public JSONify(arr){
+    const data = JSON.stringify(arr);
+  return data;
+  }
 
-public JSONify(arr){
-  const data = JSON.stringify(arr);
-return data;
-}
+  public poll(){
+    //Poll api
+    const interval = setInterval(() => {this.request(interval); console.log('i')},6000)
 
-public poll(){
-  //Poll api
-  const interval = setInterval(() => {this.request(interval); console.log('i')},6000)
+    /*
+    fetch('/localHost:5101', { timeout: 60000, interval: 1000 } ).then((response) => {
+      return true;
+    }, Response => {
+      console.log('Big error');
+    });*/
 
-  /*
-  fetch('/localHost:5101', { timeout: 60000, interval: 1000 } ).then((response) => {
-    return true;
-  }, Response => {
-    console.log('Big error');
-  });*/
+  }
 
-}
+  public request(interval){
+    fetch('http://localhost:5101/content/v1.0', {
+      method: 'GET'
+    })
+    clearInterval(interval)
+  }
 
-public request(interval){
-  fetch('http://localhost:5101/content/v1.0', {
-    method: 'GET'
-  })
-clearInterval(interval)
-}
+  // TODO: functionality submit button
+  public submit_locations(line_data: any[]) {
+    alert('You hit submit!');
+  }
 }

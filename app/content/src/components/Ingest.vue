@@ -1,58 +1,52 @@
 <template>
-  <MainContent>
-    <!-- (v-slot) transclude to the main-content slot -->
-    <template v-slot:main-content>
-      <!-- this your place to play -->
-      <div class="ingest">
-        <h1 class="banner">Create Content from PDF</h1>
-        <div class="ingest-form">
-          <h2 class="label">URL of Content to load (e.g. "https://www.engageny.org/file/...-student.pdf?token=..."):</h2>
-          <input v-model="url" @keyup="handle_keyup"/>
-          <br><button @click="handle_submit">Load</button>
-          <h2 v-if="page_thumbnails.length>0" class="label">Content Preview:</h2>
-          <div class="thumbnail-container">
-            <img v-for="(url,index) in page_thumbnails" :src="url" alt="Thumbnail Image" :key="index"/>
-          </div>
-          <div v-if="hash" class="stage_two">
-            <h2 class="label">List of Pages to Import (default &rarr; all):</h2>
-             <input v-model="page_list" />
-             <br><button @click="handle_segment">Process</button>
-          </div>
-          <div v-if="image_dpi>0" class="stage_three">
-            <h2 class="label">Concatenated Image:</h2>
-            <SegmentUI :prop_content_image="content_image"
-                       :prop_hash="hash"
-                       :prop_image_dpi="image_dpi"
-                       :prop_image_size="image_size"
-                       :prop_white_space_rows="white_space_rows"
-                       >
-            </SegmentUI>
-            <!--
-             <div class="segmentation-container">
-               <img :src="content_image" />
-             </div>
-             <br><button>Upload (coming soon!)</button>
-             -->
-          </div>
-          <error-reporter/>
-          <!-- The error-reporter component component supercedes the below -->
-          <!-- <div class="errors">
-            <h2 v-if="reported_errors.length>0">Errors:</h2>
-            <ol v-for="(msg,index) in reported_errors" :key="index">
-            <li> {{msg.trim()}}</li>
-            </ol>
-          </div> -->
-        </div>
-        <loading :active.sync="show_spinner"></loading>
-        <div>
-        </div>
-         <!-- <loading :active.sync="true"
-                  :can-cancel="true"
-                  :on-cancel="onCancel"
-                  :is-full-page="true"></loading> -->
+  <div class="ingest m-content">
+    <h2>Create Content from PDF</h2>
+    <div class="ingest-form">
+      <h3>URL of Content to load (e.g. "https://www.engageny.org/file/...-student.pdf?token=..."):</h3>
+      <input :value="url" @keyup="handle_keyup"/>
+      <br><button @click="handle_submit">Load</button>
+      <h3 v-if="page_thumbnails.length>0">Content Preview:</h3>
+      <div class="thumbnail-container">
+        <img v-for="(url,index) in page_thumbnails" :src="url" alt="Thumbnail Image" :key="index"/>
       </div>
-    </template>
-  </MainContent>
+      <div v-if="hash" class="stage_two">
+        <h3>List of Pages to Import (default &rarr; all):</h3>
+          <input v-model="page_list" />
+          <br><button @click="handle_segment">Process</button>
+      </div>
+      <div v-if="image_dpi>0" class="stage_three">
+        <h3>Concatenated Image:</h3>
+        <SegmentUI :prop_content_image="content_image"
+                    :prop_hash="hash"
+                    :prop_image_dpi="image_dpi"
+                    :prop_image_size="image_size"
+                    :prop_white_space_rows="white_space_rows"
+                    >
+        </SegmentUI>
+        <!--
+          <div class="segmentation-container">
+            <img :src="content_image" />
+          </div>
+          <br><button>Upload (coming soon!)</button>
+          -->
+      </div>
+      <error-reporter/>
+      <!-- The error-reporter component component supercedes the below -->
+      <!-- <div class="errors">
+        <h2 v-if="reported_errors.length>0">Errors:</h2>
+        <ol v-for="(msg,index) in reported_errors" :key="index">
+        <li> {{msg.trim()}}</li>
+        </ol>
+      </div> -->
+    </div>
+    <loading :active.sync="show_spinner"></loading>
+    <div>
+    </div>
+      <!-- <loading :active.sync="true"
+              :can-cancel="true"
+              :on-cancel="onCancel"
+              :is-full-page="true"></loading> -->
+  </div>
 </template>
 
 <script lang="ts" src="./ingest.ts"></script>
@@ -62,26 +56,6 @@
 @import "../styles/common.scss";
 .ingest {
   position: relative;
-  .banner {
-    display: block;
-    margin: 50px 0 0 25px;
-    font-size: 30px;
-    font-weight: 300;
-    line-height: 36px;
-    text-align: left;
-    user-select: none;
-    color: #555;
-    max-width: calc(100% - 320px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%;
-  }
-  h2 {
-    text-align: left;
-    margin-left: 25px;
-    margin-bottom: 10px;
-  }
   .errors {
     color: red;
     text-align:left;
@@ -90,24 +64,28 @@
   }
   .ingest-form {
     display: block;
-    width: 90%;
-    font-size: 14px;
-    padding-bottom: 50px;
+    width: 98%;
+    //font-size: 14px;
+    padding-bottom: 20px;
     input {
-      margin-left: 25px;
       width:100%;
+      font-size: 14pt;
     }
     button {
       display: block;
-      margin-left: 25px;
-      margin-top: 40px;
-      font-size: 18px;
+      margin-top: 20px;
+      border: none;
+      font-size: 14pt;
+      border-radius: 10px;
+      padding: 5px 15px 8px 15px;
+      color: $white;
+      background-color: $wm_green;
     }
     .thumbnail-container {
       img {
         display: inline-block;
         text-align: left;
-        margin-left: 25px;
+        //margin-left: 25px;
         margin-top: 40px;
         border: 1px solid #ccc;
       }

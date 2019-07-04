@@ -1,10 +1,7 @@
 <template>
     <div class="m-content">
         <div> <!-- TODO: do something meaningful with this binding/clean up -->
-            <h1 v-show="lesson_idx===''"> No Lesson Selected </h1>
             <div v-show="lesson_idx!==''">
-                <h1>{{lesson_name}} from {{lesson_path}}</h1>
-                <hr/>
                 <h2>Status: {{lesson_status}}</h2>
                 <select v-model="lesson_status" class="status-input">
                     <!-- <option disabled value="">Please select one</option> -->

@@ -10,6 +10,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import SegmentUI                                   from '@/components/SegmentUI.vue';
 import ErrorReporter                               from '@/components/ErrorReporter.vue'
 import { pubsub, PubSubMessage }                   from '@/pubsub';
+import { Lesson } from './lesson';
 @Component({
   components: {
     MainContent,
@@ -32,10 +33,21 @@ export default class Ingest extends Vue {
   public image_dpi:number = 0;
   //public reported_errors:Array<string> = [];
   public show_spinner = false;
-  public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
   public white_space_rows:(Array<[number, number]>|null) = null
   constructor() {
     super();
+  }
+
+  public get url() {
+    const curr_selection = this.$store.state.content.content_selection;
+    if( curr_selection !== '' ){
+      const lesson: Lesson = this.$store.state.content.content_lessons.find( (less) => {
+        return less.idx === curr_selection;
+      }, this);
+      return lesson ? lesson.url : '';
+    } else {
+      return '';
+    }
   }
 
   public reset() {

@@ -33,16 +33,6 @@ export default class LeafView extends Vue {
         return rval;
     }
 
-    public get lesson_name() {
-        const lesson: Lesson = this.lesson;
-        return lesson ? lesson.name : 'UNKNOWN';
-    }
-
-    public get lesson_path() {
-        const lesson: Lesson = this.lesson;
-        return lesson ? lesson.path : 'UNKNOWN';
-    }
-
     public get lesson_notes() {
         const lesson: Lesson = this.lesson;
         return lesson ? lesson.notes : [];

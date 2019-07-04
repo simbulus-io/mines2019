@@ -3,7 +3,7 @@
   <MainContent>
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
-      <h1 class="banner">W00t Math Digital Content Editor</h1>
+      <h1>W00t Math Digital Content Editor</h1>
       <span>Edit, tag, accept/reject!: </span><br><br>
       <div v-for="elem in test_array" v-bind:key="elem">
            <!-- <p style="white-space: pre-line;">{{elem.name}}</p>-->
@@ -40,19 +40,5 @@
   margin: 0 auto;
   text-align: left;
   min-width: 900px;
-  .banner {
-    display: inline-block;
-    margin: 50px 0 0 $left_margin;
-    font-size: 30px;
-    font-weight: 300;
-    line-height: 36px;
-    text-align: left;
-    user-select: none;
-    color: #555;
-    max-width: calc(100% - 320px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 }
 </style>
