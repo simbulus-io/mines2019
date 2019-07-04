@@ -102,10 +102,10 @@ export class FeedbackRoutes extends RoutesBase {
           content_idx: req.body.content_idx,
         };
         const mongo = req.app.get('mongo');
-        const rval = await mongo.db('feedback').collection('annotations')
-          .updateOne({ content_idx: new_annotation.content_idx}, { $set: new_annotation }, { upsert: true } );
+        const rval = JSON.parse( await mongo.db('feedback').collection('annotations')
+          .updateOne({ content_idx: new_annotation.content_idx}, { $set: new_annotation }, { upsert: true } ) );
         // status true if success
-        if (rval.modifiedCount === 1) {
+        if (rval.n === 1) {
           res.send({status: true});
         } else {
           logger.error(`Unexpected Result: from mongo updateOne in edit_snote ${rval}`);
@@ -125,13 +125,13 @@ export class FeedbackRoutes extends RoutesBase {
       try {
         // using await
         router.use(bodyParser.json()); // added by me for parsing JSON files
-        var new_note = {
+        const new_note = {
           // TODO: decide abotu idx, timestamp, and deleted to come from app OR api side (currently is app bc of object)
           idx: req.body.idx, // Guid.raw()
           author: req.body.author,
           content: req.body.content,
           type: req.body.type,
-          timestamp: req.body.timestamp,//Date.now(),
+          timestamp: req.body.timestamp, //Date.now(),
           x: req.body.x,
           y: req.body.y,
           deleted: req.body.deleted, //false,
@@ -139,7 +139,7 @@ export class FeedbackRoutes extends RoutesBase {
         };
         const mongo = req.app.get('mongo');
         await mongo.db('feedback').collection('snotes').save(new_note, (err: Error, result: any) => {
-          if(err) {
+          if (err) {
             console.log(err.message);
             logger.error(err.message);
           }
@@ -161,10 +161,10 @@ export class FeedbackRoutes extends RoutesBase {
         const mongo = req.app.get('mongo');
         // SK - cleaned up a bit here -you are either using await with try/catch or
         // promises with resolve reject handlers (e.g. then((success)={..}, (error)=>{...}) )
-        const rval = await mongo.db('feedback').collection('snotes')
-          .updateOne({ idx: req.query.idx}, { $set: { deleted: true } });
+        const rval = JSON.parse( await mongo.db('feedback').collection('snotes')
+          .updateOne({ idx: req.query.idx}, { $set: { deleted: true } }) );
         // status true if success
-        if(rval.modifiedCount === 1) {
+        if (rval.n === 1) {
           res.send({status: true});
         } else {
           logger.error(`Unexpected Result: from mongo updateOne ${rval}`);
@@ -183,10 +183,10 @@ export class FeedbackRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval = await mongo.db('feedback').collection('snotes')
-          .updateOne({ idx: req.query.idx}, { $set: { content: req.query.content, timestamp: req.query.timestamp } });
+        const rval = JSON.parse( await mongo.db('feedback').collection('snotes')
+          .updateOne({ idx: req.query.idx}, { $set: { content: req.query.content, timestamp: req.query.timestamp } }) );
         // status true if success
-        if (rval.modifiedCount === 1) {
+        if (rval.n === 1) {
           res.send({status: true});
         } else {
           logger.error(`Unexpected Result: from mongo updateOne in edit_snote ${rval}`);
@@ -206,11 +206,11 @@ export class FeedbackRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval = await mongo.db('feedback').collection('snotes')
-          .updateOne({ idx: req.query.idx}, { $set: { x: req.query.x, y: req.query.y } });
+        const rval = JSON.parse( await mongo.db('feedback').collection('snotes')
+          .updateOne({ idx: req.query.idx}, { $set: { x: req.query.x, y: req.query.y } }) );
         // status true if success
         logger.info(`New x: ${req.query.x} New y: ${req.query.y} for ${req.query.idx}`);
-        if (rval.modifiedCount === 1) {
+        if (rval.n === 1) {
           res.send({status: true});
         } else { // TODO: fix updateOne error
           logger.error(new Error(`Unexpected Result in move_snote: from mongo updateOne ${rval}`));
