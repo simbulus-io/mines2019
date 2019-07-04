@@ -1,16 +1,28 @@
 /* tslint:disable:prefer-const */
 import { log, puts }  from '@/logger';
-import asyncPoll      from '@/async_poll'; // Had to hack this up to work in the browser
+import asyncPoll      from '@/async_poll';
+import { BlobCache }  from '@/blob_cache';
+import { API_URL }    from '@/config';
 
-const USING_DOCKER = true;
-const API = USING_DOCKER ? 'http://localhost/content/v1.0' :  'http://localhost:5101/content/v1.0'
+
+// BlobCache client gets initialized with BlobCache API URL
+const blob_cache = new BlobCache({url: `${API_URL}/job/cache`});
 
 const rpc = async (job:any): Promise<any | null>  => {
   const sec = 1e3;
   const polling_interval = 2*sec;
   const rpc_timeout      = 80*sec;
+
+  const cached_result = await blob_cache.get(job);
+  if(cached_result) {
+    log.info(`cache hit for job ${JSON.stringify(job)}`);
+    return cached_result;
+  } else {
+    log.info(`cache miss for job ${JSON.stringify(job)}`);
+  }
+
   try {
-    const hresp = await fetch(`${API}/job/schedule`,{
+    const hresp = await fetch(`${API_URL}/job/schedule`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +38,7 @@ const rpc = async (job:any): Promise<any | null>  => {
     }
     puts(`created remote processing job with job_id = ${job_id}`);
     await new Promise(r => setTimeout(r, 0.5*sec)); // pause a beat to let job possibly get picked up
-    const polling_url      = `${API}/job/results?job_id=${job_id}`
+    const polling_url      = `${API_URL}/job/results?job_id=${job_id}`
     // const poll_fn = async () => fetch(polling_url).then(r => r.json());
     const poll_fn = async () => fetch(polling_url).then(async function(r) {const j= await r.json(); return j[0];});
     const condition_fn = (d: any) => d && ('status' in d) && (d.status === 'finished');
@@ -38,6 +50,9 @@ const rpc = async (job:any): Promise<any | null>  => {
     if (!rpc_job_succeeded(finished_job)) {
       puts(`Got error returned from job with job_id: ${finished_job.job_id},` +
            ` command: ${finished_job.command}, error_message: ${rpc_job_error_string(finished_job)}` );
+    } else {
+      // only cache if no error
+      await blob_cache.set(job, finished_job);
     }
     return finished_job;
   } catch( e) {

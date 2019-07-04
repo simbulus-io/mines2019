@@ -1,2 +1,47 @@
 @import 'colors';
 @import 'layout';
+@import 'font';
+
+body {
+  font-family: $font-family;
+  font-weight: $font-weight;
+}
+h1, h2, h3, h4, h5, h6, p {
+  color: $wm_gray;
+}
+
+.other {
+  position: relative;
+  $left_margin: 60px;
+  margin: 0 auto;
+  text-align: left;
+  min-width: 900px;
+
+  .banner {
+    display: inline-block;
+    margin: 50px 0 0 $left_margin;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 36px;
+    text-align: left;
+    user-select: none;
+    color: #555;
+    max-width: calc(100% - 320px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+}
+
+.m-content {
+  margin: 10px;
+}
+
+hr {
+  height: 2px;
+  border: none;
+  color: $wm_gray;
+  background-color: $wm_gray;
+  margin-top: 25px;
+}

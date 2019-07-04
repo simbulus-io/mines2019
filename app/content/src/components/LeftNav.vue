@@ -1,6 +1,12 @@
 <template>
   <div class="left-nav">
+    <div>
+      <h2>Available Content</h2>
+      <json-view :data="create_tree" v-on:selected="itemSelected"/>
+	  </div>
+    <hr class="left-nav-hr"/>
     <div class="link-container">
+      <router-link to="/dashboard"><font-awesome-icon icon="home" />DASHBOARD</router-link>
       <router-link to="/ingest"><font-awesome-icon icon="home" />INGEST</router-link>
       <router-link to="/segment"><font-awesome-icon icon="home" />SEGMENT</router-link>
       <!-- <router-link to="/file_upload"><font-awesome-icon icon="home" />FILE UPLOAD</router-link>
@@ -20,8 +26,16 @@
   left: 0;
   bottom: 0;
   width: $left_nav_width;
+  min-width: 200px;
   color: $white;
-  background-color: $light_gray;
+  background-color: $wm_gray;
+  
+  h2 {
+    color: $white;
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 0px;
+  }
   // This stripe is fixed in the window - so it follows the scroll
   &:before {
     content: '';
@@ -55,5 +69,12 @@
     }
     .router-link-active { color: $white; }
   }
+}
+
+.left-nav-hr {
+  height: 2px;
+  border: none;
+  color: $dark_gray;
+  background-color: $dark_gray;
 }
 </style>

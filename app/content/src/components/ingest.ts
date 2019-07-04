@@ -6,7 +6,6 @@ import { log , puts }                              from '@/logger';
 import LineSeparator                               from '@/components/LineSeparator.vue';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
 import Loading                                     from 'vue-loading-overlay';
-import { BlobCache }                               from '@/blob_cache'
 import 'vue-loading-overlay/dist/vue-loading.css';
 import SegmentUI                                   from '@/components/SegmentUI.vue';
 import ErrorReporter                               from '@/components/ErrorReporter.vue'
@@ -35,10 +34,8 @@ export default class Ingest extends Vue {
   public show_spinner = false;
   public url:string = 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3';
   public white_space_rows:(Array<[number, number]>|null) = null
-  private blob_cache:BlobCache;
   constructor() {
     super();
-    this.blob_cache = new BlobCache({url: `${this.server}content/v1.0/job/cache`});
   }
 
   public reset() {
@@ -64,7 +61,6 @@ export default class Ingest extends Vue {
 
       this.show_spinner = true;
       const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
-      await this.blob_cache.set(job_args, finished_job);
 
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
