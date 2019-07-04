@@ -50,12 +50,12 @@ export default class Snote extends Vue {
 
   public get note_x() {
     const n = this.note;
-    return n ? n.x : 0;
+    return n ? String(n.x) : '0';
   }
 
   public get note_y() {
     const n = this.note;
-    return n ? n.y : 0;
+    return n ? String(n.y) : '0';
   }
 
   public get date() {
@@ -87,6 +87,7 @@ export default class Snote extends Vue {
   public async delete_snote(e){
     log.info('Calling delete_snote from Snote component');
     const confirm_delete = confirm('Are you sure you want to delete the note:\n"'+this.note.content+'"');
+    this.selected = false;
     if( confirm_delete ){
       this.$store.dispatch( 'feedback/delete_snote', this.note_idx )
 
