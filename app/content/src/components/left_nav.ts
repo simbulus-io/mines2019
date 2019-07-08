@@ -103,7 +103,14 @@ export default class LeftNav extends Vue {
       if (this.filter_category === 'status') {
         node[lesson.name] = lesson[this.filter_category];
       } else {
-        node[lesson.name] = lesson[this.filter_category].length;
+        if(lesson[this.filter_category].length === 0){
+          node[lesson.name] = `no ${this.filter_category}`;
+        } else if (lesson[this.filter_category].length === 1) {
+          const cat = this.filter_category.substring(0, this.filter_category.length - 1);
+          node[lesson.name] = `${lesson[this.filter_category].length} ${cat}`;
+        } else {
+          node[lesson.name] = `${lesson[this.filter_category].length} ${this.filter_category}`;
+        }
       }
       
     });

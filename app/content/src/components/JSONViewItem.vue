@@ -31,7 +31,7 @@
       v-on:click="clickEvent(data)"
       v-if="data.type === 'value'"
     >
-      <span :style="valueKeyColor">{{ data.key }}: </span>
+      <span :style="valueKeyColor">{{ data.key }}</span>
       <span :style="getValueStyle(data.value)">
         {{data.value}}
       </span>
@@ -116,7 +116,7 @@ export default Vue.extend({
         color: '#fefefe',
         opacity: 0.6,
       };
-      if ( value === this.filter || value === 0) {
+      if ( value === this.filter || value.includes('no ')) {
         style_data.color = '#519fe4';
         style_data.opacity = 1;
         return style_data;
