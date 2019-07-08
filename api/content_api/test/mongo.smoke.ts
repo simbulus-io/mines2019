@@ -21,7 +21,7 @@ describe('MongoHelper smoke tests', () => {
     // Here we create or update 10 documents in the feedback database in the test_collection
 
     try {
-      const collection = mongo.db('content').collection('test_collection');
+      const collection = mongo.db('internal_tools').collection('test_collection');
       const promises: Array<Promise<any>> = [];
       for (let i = 0; i < 10; ++i) {
         const data = {idx: i, name: randomname.first() };

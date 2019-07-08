@@ -19,7 +19,7 @@ export class ConfigHelper {
     if (this.is_file(config_file)) {
       app_config = YAML.load(config_file);
     } else {
-      logger.error(`Error in config_herlper constructor: Can't stat ${config_file}`);
+      logger.error(`Error in config_helper constructor: Can't stat ${config_file}`);
       process.exit(1);
     }
     this.config = app_config;

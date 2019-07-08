@@ -4,7 +4,6 @@ import MainContent              from '@/components/MainContent.vue';
 import { log }                  from '@/logger';
 import jsonView                 from './JSONView.vue';
 import LeafView                 from './LeafView.vue';
-import Segment                 from './Segment.vue';
 import Ingest                 from './Ingest.vue';
 import { Lesson } from './lesson';
 
@@ -13,11 +12,10 @@ import { Lesson } from './lesson';
     MainContent,
     jsonView,
     LeafView,
-    Segment,
     Ingest
   }
 })
-export default class Dashboard extends Vue {
+export default class LessonDetails extends Vue {
   constructor() {
     super();
   }

@@ -23,7 +23,7 @@ export class ContentRoutes extends RoutesBase {
         logger.info('heres the db body: ' + bdy);
         //console.log(req.body);
         const mongo = req.app.get('mongo');
-        const collection = mongo.db('content').collection('file_uploads');
+        const collection = mongo.db('internal_tools').collection('file_uploads');
         const promises: Array<Promise<any>> = [];
         const data = {file: bdy};
         const promise = collection.insertOne(
@@ -59,7 +59,7 @@ export class ContentRoutes extends RoutesBase {
       try {
         const mongo = req.app.get('mongo');
         // using await
-        const docs: any[] = await mongo.db('content').collection('content_lessons').find().toArray();
+        const docs: any[] = await mongo.db('internal_tools').collection('gester').find().toArray();
         res.json({
           status: true,
           message: docs,
@@ -73,7 +73,7 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+        const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
           .updateOne({ idx: req.query.idx}, { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } }) );
         if (rval.n === 1) {
           res.send({status: true});
@@ -91,7 +91,7 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+        const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
           .updateOne({ idx: req.query.idx}, { $set: { status: req.query.status } }) );
         // status true if success
         if (rval.n === 1) {
@@ -110,8 +110,8 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const docs: any[] = await mongo.db('content')
-          .collection('content_lessons').find( {idx: req.query.idx} ).toArray();
+        const docs: any[] = await mongo.db('internal_tools')
+          .collection('gester').find( {idx: req.query.idx} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
@@ -119,7 +119,7 @@ export class ContentRoutes extends RoutesBase {
             idx: req.query.note_idx,
             text: req.query.text,
           };
-          const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+          const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
             .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
@@ -142,13 +142,13 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const docs: any[] = await mongo.db('content')
-          .collection('content_lessons').find( {idx: req.query.idx} ).toArray();
+        const docs: any[] = await mongo.db('internal_tools')
+          .collection('gester').find( {idx: req.query.idx} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
           lesson_notes.splice(note_index, 1);
-          const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+          const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
             .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
@@ -171,8 +171,8 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const docs: any[] = await mongo.db('content')
-          .collection('content_lessons').find( {idx: req.query.idx} ).toArray();
+        const docs: any[] = await mongo.db('internal_tools')
+          .collection('gester').find( {idx: req.query.idx} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const new_note = {
@@ -180,7 +180,7 @@ export class ContentRoutes extends RoutesBase {
             text: req.query.text,
           };
           lesson_notes.push(new_note);
-          const rval = JSON.parse( await mongo.db('content').collection('content_lessons')
+          const rval = JSON.parse( await mongo.db('internal_tools').collection('gester')
             .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {

@@ -4,9 +4,11 @@
     <div v-if="data.type === 'object' || data.type === 'array'">
       
       <div @click.stop="toggleOpen" class="data-key" :style="keyColor">
-        <div :class="classes" :style="arrowStyles"></div>
-        {{ data.key }}:
-        <span class="properties">&nbsp;{{ lengthString }}</span>
+        <div class="data-key-arrow">
+          <div :class="classes" :style="arrowStyles"></div>
+          {{ data.key }}:
+        </div>
+        <span class="properties">&nbsp;{{ num_filter_nested }}</span>
       </div>
 
       <json-view-item
@@ -18,6 +20,8 @@
         :maxDepth="maxDepth"
         :styles="styles"
         :canSelect="canSelect"
+        :filter="filter"
+        :filter_cat="filter_cat"
       />
 
     </div>
@@ -28,9 +32,9 @@
       v-if="data.type === 'value'"
     >
       <span :style="valueKeyColor">{{ data.key }}</span>
-      <!-- <span :style="getValueStyle(data.value)">
-        : {{ JSON.stringify(data.value) }}
-      </span> -->
+      <span :style="getValueStyle(data.value)">
+        {{data.value}}
+      </span>
     </div>
   </div>
 </template>
@@ -38,6 +42,7 @@
 <script lang="ts">
 import Vue, { VueConstructor } from "vue";
 import { log }                 from '@/logger';
+import { Lesson }               from './lesson';
 
 export interface SelectedData {
   key: string;
@@ -74,7 +79,15 @@ export default Vue.extend({
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    filter: {
+      type: String,
+      required: true
+    },
+    filter_cat: {
+      type: String,
+      required: true
+    },
   },
   methods: {
     toggleOpen: function(): void {
@@ -99,18 +112,33 @@ export default Vue.extend({
     },
     getValueStyle: function(value: any): object {
       const type = typeof value;
+      const style_data = {
+        color: '#fefefe',
+        opacity: 0.6,
+      };
+      if ( value === this.filter || value.includes('no ')) {
+        style_data.color = '#519fe4';
+        style_data.opacity = 1;
+        return style_data;
+      }
       switch (type) {
         case "string":
-          return { color: this.styles.string };
+          style_data.color = this.styles.string;
+          break;
         case "number":
-          return { color: this.styles.number };
+          style_data.color = this.styles.number;
+          break;
         case "boolean":
-          return { color: this.styles.boolean };
+          style_data.color = this.styles.boolean;
+          break;
         case "object":
-          return { color: this.styles.null };
+          style_data.color = this.styles.null;
+          break;
         default:
-          return { color: this.styles.valueKeyColor };
+          style_data.color = this.styles.valueKeyColor;
+          break;
       }
+      return style_data;
     }
   },
   computed: {
@@ -129,27 +157,60 @@ export default Vue.extend({
     arrowStyles: function(): object {
       return { width: this.styles.arrowSize, height: this.styles.arrowSize };
     },
-    lengthString: function(): string { // TODO: change this from properties to reflect desired verbage
+    lengthString: function(): string {
+      // TODO: change this from properties to reflect desired verbage dynamically
+      let rval = '';
       if (this.data.type === "array") {
-        return this.data.length === 1
+        rval += (this.data.length === 1
           ? this.data.length + " Element"
-          : this.data.length + " Elements";
+          : this.data.length + " Elements");
       } else if ( this.data.depth === 1 ) {
-        return this.data.length === 1
+        rval += (this.data.length === 1
         ? this.data.length + " Grade"
-        : this.data.length + " Grades";
+        : this.data.length + " Grades");
       } else if ( this.data.depth === 2 ) {
-        return this.data.length === 1
+        rval += (this.data.length === 1
         ? this.data.length + " Module"
-        : this.data.length + " Modules";
+        : this.data.length + " Modules");
       } else if ( this.data.depth === 3 ) {
-        return this.data.length === 1
+        rval += (this.data.length === 1
         ? this.data.length + " Lesson"
-        : this.data.length + " Lessons";
-      }
-      return this.data.length === 1
+        : this.data.length + " Lessons");
+      } else {
+        rval += (this.data.length === 1
         ? this.data.length + " Property"
-        : this.data.length + " Properties";
+        : this.data.length + " Properties");
+      }
+      return `${rval} - ${this.num_filter_nested}`;
+    },
+    // made to show # of unprocessed at each level of the tree 
+    num_filter_nested: function(): string {
+      const lessons:Lesson[] = this.$store.state.content.content_lessons;
+      let num_tot_lessons = 0;
+      let num_filter_lessons = 0;
+      lessons.forEach((lesson: Lesson) => {
+        const path_arr: string[] = this.data.path.split('/');
+        path_arr.shift(); // remove 'root' from path
+        let path = path_arr.join('/');
+        if( this.data.depth !== 0 ){ // add current key to path except when in root
+          path += this.data.key;
+        }
+        //log.info(`at node: ${this.data.key} checking if ${path} in ${lesson.path}`);
+        if (lesson.path.includes(path)) {
+          num_tot_lessons++;
+          if (this.filter_cat === 'status') {
+            if(lesson[this.filter_cat]===this.filter){
+              num_filter_lessons++;
+            }
+          } else {
+            if (lesson[this.filter_cat].length===0) {
+              num_filter_lessons++;
+            }
+          }
+          
+        }
+      });
+      return `${num_filter_lessons} of ${num_tot_lessons}`;
     },
     keyColor: function(): object {
       return { color: this.styles.key };
@@ -169,7 +230,7 @@ export default Vue.extend({
 
 .value-key {
   font-weight: 600;
-  margin-left: 10px;
+  margin: 0px 10px;
   border-radius: 2px;
   white-space: nowrap;
   padding: 5px 5px 5px 10px;
@@ -181,10 +242,14 @@ export default Vue.extend({
     }
   }
 }
-
+.data-key-arrow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
 .data-key {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   border-radius: 2px;
   font-weight: 600;
   cursor: pointer;
@@ -199,11 +264,13 @@ export default Vue.extend({
     font-weight: 600;
     opacity: 0.6;
     user-select: none;
+    margin-right: 10px;
   }
 }
 
 .value-key {
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
 }
 
 .chevron-arrow {

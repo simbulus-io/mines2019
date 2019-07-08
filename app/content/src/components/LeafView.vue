@@ -3,7 +3,7 @@
         <div> <!-- TODO: do something meaningful with this binding/clean up -->
             <div v-show="lesson_idx!==''">
                 <h2>Status: {{lesson_status}}</h2>
-                <select v-model="lesson_status" class="status-input">
+                <select class="status-input" v-model="lesson_status">
                     <!-- <option disabled value="">Please select one</option> -->
                     <option>unprocessed</option>
                     <option>processed - accepted</option>

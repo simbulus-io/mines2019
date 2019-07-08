@@ -8,7 +8,7 @@ import { RoutesBase }    from './routes_base';
 // schema
 import { JobInput }      from '../jobs';
 
-const CONTENT_DB                  = 'content';
+const CONTENT_DB                  = 'internal_tools';
 const JOBS_COLL                   = 'jobs';
 const JOBS_CACHED_RESULTS_COLL    = 'jobs_cached_results';
 
