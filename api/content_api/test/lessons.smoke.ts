@@ -8,7 +8,7 @@ import {Guid}                      from 'guid-typescript';
 let mongo: MongoClient;
 
 beforeAll(async () => {
-  mongo = await MongoHelper.connect();
+  mongo = await MongoHelper.connect({database_url: 'mongodb://10.0.1.3:27017'});
 });
 
 afterAll(async () => {
@@ -17,11 +17,14 @@ afterAll(async () => {
 });
 
 
-describe('Creating Example Content Lesson Documents ', () => {
+// Good practice: don't have true tests interact with the same db as real data
+// this is ewxempt because it is a "test" for populating the page in order to interact with the UI
+
+describe('Creating Example Gester Lesson Documents ', () => {
   test('CreateTestLessons', async () => {
     // Here we create or update 20 documents in the feedback database in the snotes
     try {
-      const collection = await mongo.db('content').collection('content_lessons');
+      const collection = await mongo.db('internal_tools').collection('gester');
       const promises: Array<Promise<any>> = [];
 
       const data_k1_1 = {

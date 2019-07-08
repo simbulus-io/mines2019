@@ -43,9 +43,11 @@ export class Server {
       const config = new ConfigHelper().config;
       this.app.set('config', config);
       log.info('Config setup done', _.filter(config, (k) => k === 'to_full_url'));
-      const mongo = await MongoHelper.connect();
+
+      const mongo = await MongoHelper.connect(config);
       this.app.set('mongo', mongo);
       log.info('Mongo setup done');
+
       // Enable CORS if in development (suppress Cross Origin errors)
       const development = process.env.NODE_ENV !== 'production';
       if (development) {

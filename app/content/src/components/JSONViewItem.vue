@@ -230,7 +230,7 @@ export default Vue.extend({
 
 .value-key {
   font-weight: 600;
-  margin-left: 10px;
+  margin: 0px 10px;
   border-radius: 2px;
   white-space: nowrap;
   padding: 5px 5px 5px 10px;

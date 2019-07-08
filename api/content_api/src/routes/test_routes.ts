@@ -27,7 +27,7 @@ export class TestRoutes extends RoutesBase {
       try {
         const mongo = req.app.get('mongo');
         // using await
-        const docs = await mongo.db('content').collection('inventory').find().toArray();
+        const docs = await mongo.db('internal_tools').collection('inventory').find().toArray();
         logger.info(JSON.stringify(docs, null, 2));
         res.json({status: true, message: 'Mongo Test Okay'});
       } catch (e) {
@@ -41,7 +41,7 @@ export class TestRoutes extends RoutesBase {
       try {
         const mongo = req.app.get('mongo');
         // using await
-        const docs = await mongo.db('content').collection('test_collection').find().toArray();
+        const docs = await mongo.db('internal_tools').collection('test_collection').find().toArray();
         //logger.info(JSON.stringify(docs, null, 2));
         res.json({
           status: true,
@@ -59,7 +59,7 @@ export class TestRoutes extends RoutesBase {
       try {
         const mongo = req.app.get('mongo');
         // using await
-        const docs = await mongo.db('content').collection('test_collection_2').find().toArray();
+        const docs = await mongo.db('internal_tools').collection('test_collection_2').find().toArray();
         logger.info(JSON.stringify(docs, null, 2));
         res.json({
           status: true,
