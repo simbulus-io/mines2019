@@ -10,8 +10,6 @@
           <leaf-view v-bind:lesson_idx="content_selection"/>
           <hr class="main-hr"/>
           <ingest/>
-          <hr class="main-hr"/>
-          <segment/>
         </div>
       </div>
     </template>
