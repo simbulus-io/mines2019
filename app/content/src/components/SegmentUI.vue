@@ -9,7 +9,8 @@
       <div v-for="(item,index) in get_segments()"
            class="segment"
            :style="get_segment_style(item)"
-           :key="index"></div>
+           :key="index">
+      </div>
       <img :src="prop_content_image" />
       <button class="stage-btn" @click="handle_stage2">Continue to Stage 2</button>
     </div>

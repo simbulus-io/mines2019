@@ -4,12 +4,20 @@ import { Lesson }                       from './lesson';
 import { VueTagsInput, createTags }     from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
 import {Guid}                           from 'guid-typescript';
 import StandardBlock                    from './StandardBlock.vue';
+import { stringify } from 'querystring';
 
 @Component({
     components: {
         VueTagsInput,
         StandardBlock
-    }
+    },
+    directives: {
+        focus: {
+          inserted: function (el) {
+            el.focus()
+          }
+        }
+      },
   })
 export default class LeafView extends Vue {
     constructor() {
@@ -19,6 +27,29 @@ export default class LeafView extends Vue {
 
     public tag: string = '';
     public selected_note: string;
+
+    private autocompleteItems = [
+        'Counting and Cardinality',
+        'Operations and Algebraic Thinking',
+        'Number and Operations',
+        'Number and Operations - Base Ten',
+        'Number and Operations - Fractions',
+        'Measurement and Data',
+        'Geometry',
+        'Ratios and Proportional Relationships',
+        'The Number System',
+        'Expressions and Equations',
+        'Functions',
+        'Statistics and Probability',
+        'Pre-algebra',
+        'Algebra',
+        'Functions',
+        'Modeling',
+        'Trigonometry',
+        'Pre-calculus',
+        'Calculus',
+        'Differential Equations',
+    ]
 
     @Prop() public readonly lesson_idx!: string;
 
@@ -31,16 +62,6 @@ export default class LeafView extends Vue {
             return lesson.idx === this.lesson_idx;
           }, this);
         return rval;
-    }
-
-    public get lesson_name() {
-        const lesson: Lesson = this.lesson;
-        return lesson ? lesson.name : 'UNKNOWN';
-    }
-
-    public get lesson_path() {
-        const lesson: Lesson = this.lesson;
-        return lesson ? lesson.path : 'UNKNOWN';
     }
 
     public get lesson_notes() {
@@ -114,7 +135,6 @@ export default class LeafView extends Vue {
     }
 
     public update_keywords( newTags: any[] ) {
-        //log.info(`update_keywords: ${newTags}`);
         let string_tags: string[] = [];
         newTags.forEach(keyword => {
             const text = keyword ? keyword.text : '';
@@ -124,6 +144,16 @@ export default class LeafView extends Vue {
         this.$store.dispatch( 'content/update_lesson_keywords', {
             idx: this.lesson_idx,
             keywords: string_tags,
+        });
+    }
+
+    public get filteredItems() {
+        const complex_arr: {text: string}[] = [];
+        this.autocompleteItems.forEach(word => {
+            complex_arr.push({text: word});
+        });
+        return complex_arr.filter(i => {
+            return i.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
         });
     }
 }

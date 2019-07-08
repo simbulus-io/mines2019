@@ -35,7 +35,7 @@ export class ContentRoutes extends RoutesBase {
         res.send('post succesful');
         return;
       } catch (e) {
-        logger.error('Unexpected Exception TestWrite', e);
+        logger.error('Unexpected Exception in db_file_upload', e);
       }
     });
 
@@ -49,7 +49,7 @@ export class ContentRoutes extends RoutesBase {
         //readStream.pipe(writeStream);
         return;
       } catch (e) {
-        logger.error('Unexpected Exception TestWrite', e);
+        logger.error('Unexpected Exception in static_file_upload', e);
       }
     });
 
@@ -73,9 +73,9 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval = await mongo.db('content').collection('content_lessons')
-          .updateOne({ idx: req.query.idx}, { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } });
-        if (rval.modifiedCount === 1) {
+        const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+          .updateOne({ idx: req.query.idx}, { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } }) );
+        if (rval.n === 1) {
           res.send({status: true});
         } else { // TODO: fix updateOne error
           logger.error(new Error(`Unexpected Result in updating lesson keywords: from mongo updateOne ${rval}`));
@@ -91,10 +91,10 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval = await mongo.db('content').collection('content_lessons')
-          .updateOne({ idx: req.query.idx}, { $set: { status: req.query.status } });
+        const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+          .updateOne({ idx: req.query.idx}, { $set: { status: req.query.status } }) );
         // status true if success
-        if (rval.modifiedCount === 1) {
+        if (rval.n === 1) {
           res.send({status: true});
         } else { // TODO: fix updateOne error
           logger.error(new Error(`Unexpected Result in updating lesson status: from mongo updateOne ${rval}`));
@@ -119,12 +119,10 @@ export class ContentRoutes extends RoutesBase {
             idx: req.query.note_idx,
             text: req.query.text,
           };
-          const rval = await mongo.db('content').collection('content_lessons')
-            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } });
+          const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
-          logger.info(`***** ${req.query.idx}:`);
-          logger.info(`${lesson_notes[0].idx} ${lesson_notes[0].text}`);
-          if (rval.modifiedCount === 1) {
+          if (rval.n === 1) {
             res.send({status: true});
           } else { // TODO: fix updateOne error
             logger.error(new Error(`Unexpected Result in updating lesson notes: from mongo updateOne ${rval}`));
@@ -150,17 +148,17 @@ export class ContentRoutes extends RoutesBase {
           const lesson_notes = docs[0].notes;
           const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
           lesson_notes.splice(note_index, 1);
-          const rval = await mongo.db('content').collection('content_lessons')
-            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } });
+          const rval =  JSON.parse( await mongo.db('content').collection('content_lessons')
+            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
-          if (rval.modifiedCount === 1) {
+          if (rval.n === 1) {
             res.send({status: true});
           } else { // TODO: fix updateOne error
-            logger.error(new Error(`Unexpected Result in updating lesson notes: from mongo updateOne ${rval}`));
+            logger.error(new Error(`Unexpected Result in deleting a lesson note: from mongo updateOne ${rval}`));
             res.send({status: false});
           }
         } else {
-          logger.error(new Error(`Unexpected Result in updating lesson notes: null find on lesson_idx`));
+          logger.error(new Error(`Unexpected Result in deleting a lesson note: null find on lesson_idx`));
           res.send({status: false});
         }
       } catch (e) {
@@ -182,17 +180,17 @@ export class ContentRoutes extends RoutesBase {
             text: req.query.text,
           };
           lesson_notes.push(new_note);
-          const rval = await mongo.db('content').collection('content_lessons')
-            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } });
+          const rval = JSON.parse( await mongo.db('content').collection('content_lessons')
+            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
-          if (rval.modifiedCount === 1) {
+          if (rval.n === 1) {
             res.send({status: true});
           } else { // TODO: fix updateOne error
-            logger.error(new Error(`Unexpected Result in updating lesson notes: from mongo updateOne ${rval}`));
+            logger.error(new Error(`Unexpected Result in adding a lesson note: from mongo updateOne ${rval}`));
             res.send({status: false});
           }
         } else {
-          logger.error(new Error(`Unexpected Result in updating lesson notes: null find on lesson_idx`));
+          logger.error(new Error(`Unexpected Result in adding a lesson note: null find on lesson_idx`));
           res.send({status: false});
         }
       } catch (e) {

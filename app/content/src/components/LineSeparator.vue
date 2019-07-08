@@ -1,15 +1,17 @@
 
 <template>
   <div class="line_separator" id="line_separator" style="position: relative;">
+    
     <button class="button" type="button" v-on:click="get_location();submit_locations(line_data);">Submit</button>
 
     <img src="./EngageNY/Algebra1-m03-b-l08.png">
+    <!-- TODO: have this be from the ingest stage when complete -->
     <!--Displays vertical offset of first horizontal segmentation line-->
 
     <!--Adds Image to page-->
 
     <!--Makes lines draggable-->
-    <div class="line-container" v-for="line in line_data" :key="line">
+    <div class="line-container" v-for="line in line_data" :key="line.idx">
       <drag-it-dude class="line" :y="`${line.y}`">
         <div style="background:red; width:100%; height:5px; margin:25px"></div>
       </drag-it-dude>
@@ -33,7 +35,7 @@
 
 .line-container {
   width: 100%;
-  height: 100%;
+  height: 100%; // TODO: fix giant space at the end without breaking draggability
 }
 
 .line {
