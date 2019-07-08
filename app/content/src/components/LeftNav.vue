@@ -29,9 +29,7 @@
 
 <style scoped lang="scss">
 @import "../styles/common.scss";
-.pop-color {
-  color: $wm_bright_blue;
-}
+
 .left-nav {
   position: absolute;
   top: $top_nav_height;
@@ -105,28 +103,6 @@
     width: $left_nav_width;
     background-color: $light_gray;
     z-index: -1;
-  }
-  router-link {
-    color: $white;
-  }
-  .link-container {
-    width: $left_nav_width;
-    margin: 0 auto;
-    margin-left: 43px;
-    margin-top: 40px;
-    svg {
-      margin-right: 8px;
-    }
-    a {
-      display: block;
-      margin: 20px 0 20px 0;
-      color: $lighter_gray;
-      text-align: left;
-      font-weight: 700;
-      font-size: 14px;
-      text-decoration: none;
-    }
-    .router-link-active { color: $white; }
   }
 }
 </style>

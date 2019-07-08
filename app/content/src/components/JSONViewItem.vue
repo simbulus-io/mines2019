@@ -250,8 +250,6 @@ export default Vue.extend({
 .data-key {
   display: flex;
   justify-content: space-between;
-  //flex-direction: column;
-  //align-items: flex-start;
   border-radius: 2px;
   font-weight: 600;
   cursor: pointer;

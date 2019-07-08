@@ -16,7 +16,7 @@
   </MainContent>
 </template>
 
-<script lang="ts" src="./dashboard.ts"></script>
+<script lang="ts" src="./lesson_details.ts"></script>
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
