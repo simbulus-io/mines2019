@@ -7,6 +7,8 @@
       :styles="customStyles"
       v-on:selected="itemSelected"
       :canSelect="hasSelectedListener"
+      :filter="filter"
+      :filter_cat="filter_cat"
     />
   </div>
 </template>
@@ -50,7 +52,15 @@ export default Vue.extend({
     styles: {
       type: Object,
       required: false
-    }
+    },
+    filter: {
+      type: String,
+      required: true
+    },
+    filter_cat: {
+      type: String,
+      required: true
+    },
   },
   components: {
     "json-view-item": JSONViewItem
@@ -136,9 +146,9 @@ export default Vue.extend({
       const target = {
         key: "#fefefe",
         valueKey: "#94c34d",
-        string: "#f47321",
-        number: "#f47321",
-        boolean: "#f47321",
+        string: "#fefefe",
+        number: "#fefefe",
+        boolean: "#fefefe",
         null: "#e84118",
         arrowSize: "6px"
       };

@@ -11,6 +11,8 @@ import jsonView                 from './JSONView.vue';
 })
 export default class LeftNav extends Vue {
 
+  public filter_selection: string = 'unprocessed';
+
   constructor() {
     super();
   }
@@ -19,8 +21,56 @@ export default class LeftNav extends Vue {
     log.info(this.$route);
   }
 
+  public filter_options = [
+    'unprocessed',
+    'processed - accepted',
+    'processed - rejected',
+    'no keywords',
+    'no notes',
+    'no standards',
+  ];
+
   public get content_lessons() {
     return this.$store.state.content.content_lessons;
+  }
+
+  public get num_filter_lessons() {
+    const lessons:Lesson[] = this.content_lessons;
+    let num_lessons = 0;
+    lessons.forEach((lesson: Lesson) => {
+      if( this.filter_category === 'status' ){
+        if(lesson.status===this.filter_selection){
+          num_lessons++;
+        }
+      } else {
+        if(lesson[this.filter_category].length===0){
+          num_lessons++;
+        }
+      }
+      
+    });
+    return num_lessons;
+  }
+
+  public get filter_category() {
+    switch(this.filter_selection){
+      case 'unprocessed':
+      case 'processed - accepted':
+      case 'processed - rejected':
+        return 'status';
+        break;
+      case 'no keywords':
+        return 'keywords';
+        break;
+      case 'no notes':
+        return 'notes';
+        break;
+      case 'no standards':
+        return 'standards';
+        break;
+      default:
+        return '';
+    }
   }
 
   public get create_tree() {
@@ -50,7 +100,12 @@ export default class LeftNav extends Vue {
         }
         node = node[field];
       });
-      node[lesson.name] = lesson.url;
+      if (this.filter_category === 'status') {
+        node[lesson.name] = lesson[this.filter_category];
+      } else {
+        node[lesson.name] = lesson[this.filter_category].length;
+      }
+      
     });
     return data;
   }
