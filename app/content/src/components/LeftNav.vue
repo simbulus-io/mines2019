@@ -2,7 +2,7 @@
   <div class="left-nav">
     <div>
       <h2>Available Content</h2>
-      <json-view :data="create_tree" v-on:selected="itemSelected"/>
+      <json-view :data="create_tree" v-on:selected="itemSelected" :rootKey="'Content Providers'"/>
 	  </div>
   </div>
 </template>

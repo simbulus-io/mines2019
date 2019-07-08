@@ -38,6 +38,7 @@
 <script lang="ts">
 import Vue, { VueConstructor } from "vue";
 import { log }                 from '@/logger';
+import { Lesson }               from './lesson';
 
 export interface SelectedData {
   key: string;
@@ -129,27 +130,54 @@ export default Vue.extend({
     arrowStyles: function(): object {
       return { width: this.styles.arrowSize, height: this.styles.arrowSize };
     },
-    lengthString: function(): string { // TODO: change this from properties to reflect desired verbage
+    lengthString: function(): string {
+      // TODO: change this from properties to reflect desired verbage dynamically
+      let rval = '';
       if (this.data.type === "array") {
-        return this.data.length === 1
+        rval += (this.data.length === 1
           ? this.data.length + " Element"
-          : this.data.length + " Elements";
+          : this.data.length + " Elements");
       } else if ( this.data.depth === 1 ) {
-        return this.data.length === 1
+        rval += (this.data.length === 1
         ? this.data.length + " Grade"
-        : this.data.length + " Grades";
+        : this.data.length + " Grades");
       } else if ( this.data.depth === 2 ) {
-        return this.data.length === 1
+        rval += (this.data.length === 1
         ? this.data.length + " Module"
-        : this.data.length + " Modules";
+        : this.data.length + " Modules");
       } else if ( this.data.depth === 3 ) {
-        return this.data.length === 1
+        rval += (this.data.length === 1
         ? this.data.length + " Lesson"
-        : this.data.length + " Lessons";
-      }
-      return this.data.length === 1
+        : this.data.length + " Lessons");
+      } else {
+        rval += (this.data.length === 1
         ? this.data.length + " Property"
-        : this.data.length + " Properties";
+        : this.data.length + " Properties");
+      }
+      return `${rval} - ${this.num_unprocessed_nested}`;
+    },
+    // made to show # of unprocessed at each level of the tree 
+    num_unprocessed_nested: function(): string {
+      const lessons:Lesson[] = this.$store.state.content.content_lessons;
+      let num_tot_lessons = 0;
+      let num_unproc_lessons = 0;
+      lessons.forEach((lesson: Lesson) => {
+        const path_arr: string[] = this.data.path.split('/');
+        path_arr.shift(); // remove 'root' from path
+        //path_arr.pop(); // remove lesson # (or equivalent) from path
+        let path = path_arr.join('/');
+        if( this.data.depth !== 0 ){
+          path += this.data.key;
+        }
+        log.info(`at node: ${this.data.key} checking if ${path} in ${lesson.path}`);
+        if (lesson.path.includes(path)) {
+          num_tot_lessons++;
+          if(lesson.status==='unprocessed'){
+            num_unproc_lessons++;
+          }
+        }
+      });
+      return `${num_unproc_lessons}/${num_tot_lessons} unprocessed`;
     },
     keyColor: function(): object {
       return { color: this.styles.key };

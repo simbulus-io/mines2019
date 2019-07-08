@@ -63,8 +63,8 @@ export default class LeftNav extends Vue {
   public find_lesson_idx(e) {
     if( 'path' in e && 'key' in e ){
       const path_arr: string[] = e.path.split('/');
-      path_arr.shift();
-      path_arr.pop();
+      path_arr.shift(); // remove 'root' from path
+      path_arr.pop(); // remove lesson # (or equivalent) from path
       const path = path_arr.join('/');
       const rval: Lesson = this.$store.state.content.content_lessons.find( (lesson) => {
         return lesson.path === path && lesson.name === e.key;
