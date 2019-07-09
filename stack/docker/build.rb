@@ -17,12 +17,15 @@ def main(opts)
   raise "couldn't figure out my ip address" if my_ip_address.length==0
 
   for_production = opts.prod
-  
-  conf_erb = File.read(src_dir+"/nginx.conf.erb")
-  eruby = Erubis::Eruby.new(conf_erb)
-  conf = eruby.result(binding())
-  File.open('./nginx.conf', 'w') do |fo|
-    fo.puts(conf)
+
+  templates = %w( nginx/nginx.conf.erb  docker-compose.yml.erb )
+
+  templates.each do |tmplt|
+    src = src_dir+"/"+tmplt
+    tgt file.sub('.erb','')
+    erb = File.read(src)
+    result = Erubis::Eruby.new(erb).result(binding())
+    File.open(tgt, "w") { |f| f.puts(result) }
   end
 
 end
