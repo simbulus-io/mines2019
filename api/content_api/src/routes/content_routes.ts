@@ -3,7 +3,7 @@ import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 import bodyParser                                 from 'body-parser';
-import { CONTENT_DB_NAME }                        from '../helpers/consts';
+import { CONTENT_DB_NAME, SOURCE_COLL_NAME }      from '../helpers/consts';
 
 const fsm = require('fs-minipass');
 const rp = require('fs.realpath');
@@ -17,17 +17,13 @@ export class ContentRoutes extends RoutesBase {
     ///////Get the file from the app and perpetuate in mongo//////
     router.post(`${RoutesBase.API_BASE_URL}/db_file_upload`, async (req, res) => {
 
-
-
       try {
         const bdy = JSON.stringify(req.body.file);
         logger.info('heres the db body: ' + bdy);
         //console.log(req.body);
         const mongo = req.app.get('mongo');
 
-        const db = mongo.db(CONTENT_DB_NAME);
-
-        const collection = mongo.db('internal_tools').collection('file_uploads');
+        const collection = mongo.db(CONTENT_DB_NAME).collection('file_uploads');
         const promises: Array<Promise<any>> = [];
         const data = {file: bdy};
         const promise = collection.insertOne(
@@ -63,7 +59,7 @@ export class ContentRoutes extends RoutesBase {
       try {
         const mongo = req.app.get('mongo');
         // using await
-        const docs: any[] = await mongo.db('internal_tools').collection('gester').find().toArray();
+        const docs: any[] = await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME).find().toArray();
         res.json({
           status: true,
           message: docs,
@@ -77,7 +73,7 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
+        const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
           .updateOne({ idx: req.query.idx}, { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } }) );
         if (rval.n === 1) {
           res.send({status: true});
@@ -95,7 +91,7 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
+        const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
           .updateOne({ idx: req.query.idx}, { $set: { status: req.query.status } }) );
         // status true if success
         if (rval.n === 1) {
@@ -114,8 +110,8 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const docs: any[] = await mongo.db('internal_tools')
-          .collection('gester').find( {idx: req.query.idx} ).toArray();
+        const docs: any[] = await mongo.db(CONTENT_DB_NAME)
+          .collection(SOURCE_COLL_NAME).find( {idx: req.query.idx} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
@@ -123,7 +119,7 @@ export class ContentRoutes extends RoutesBase {
             idx: req.query.note_idx,
             text: req.query.text,
           };
-          const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
+          const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
             .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
@@ -146,13 +142,13 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const docs: any[] = await mongo.db('internal_tools')
-          .collection('gester').find( {idx: req.query.idx} ).toArray();
+        const docs: any[] = await mongo.db(CONTENT_DB_NAME)
+          .collection(SOURCE_COLL_NAME).find( {idx: req.query.idx} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
           lesson_notes.splice(note_index, 1);
-          const rval =  JSON.parse( await mongo.db('internal_tools').collection('gester')
+          const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
             .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
@@ -175,8 +171,8 @@ export class ContentRoutes extends RoutesBase {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
-        const docs: any[] = await mongo.db('internal_tools')
-          .collection('gester').find( {idx: req.query.idx} ).toArray();
+        const docs: any[] = await mongo.db(CONTENT_DB_NAME)
+          .collection(SOURCE_COLL_NAME).find( {idx: req.query.idx} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const new_note = {
@@ -184,7 +180,7 @@ export class ContentRoutes extends RoutesBase {
             text: req.query.text,
           };
           lesson_notes.push(new_note);
-          const rval = JSON.parse( await mongo.db('internal_tools').collection('gester')
+          const rval = JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
             .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {

@@ -4,11 +4,12 @@ import { logger }                  from './logger_helper';
 import { MongoClient }             from 'mongodb';
 import { exitOnError }             from 'winston';
 import {Guid}                      from 'guid-typescript';
+import { CONTENT_DB_NAME, SOURCE_COLL_NAME }      from '../src/helpers/consts';
 
 let mongo: MongoClient;
 
 beforeAll(async () => {
-  mongo = await MongoHelper.connect({database_url: 'mongodb://10.0.1.3:27017'});
+  mongo = await MongoHelper.connect();
 });
 
 afterAll(async () => {
@@ -24,7 +25,7 @@ describe('Creating Example Gester Lesson Documents ', () => {
   test('CreateTestLessons', async () => {
     // Here we create or update 20 documents in the feedback database in the snotes
     try {
-      const collection = await mongo.db('internal_tools').collection('gester');
+      const collection = await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME);
       const promises: Array<Promise<any>> = [];
 
       const data_k1_1 = {
