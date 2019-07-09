@@ -3,7 +3,13 @@
     <!-- (v-slot) transclude to the main-content slot -->
     <template v-slot:main-content>
       <div class="other">
-        <h1 v-show="content_selection===''"> No Lesson Selected </h1>
+        <!-- No lesson selected -->
+        <div v-show="content_selection===''">
+          <h1 v-show="content_selection===''"> No Lesson Selected </h1>
+          <hr class="main-hr"/>
+          <ingest/>
+        </div>
+        <!-- Lesson Selected -->
         <div v-show="content_selection!==''">
           <h1>{{lesson_name}} from {{lesson_path}}</h1>
           <hr class="main-hr"/>

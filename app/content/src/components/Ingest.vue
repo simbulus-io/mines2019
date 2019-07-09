@@ -3,7 +3,7 @@
     <h2>Create Content from PDF</h2>
     <div class="ingest-form">
       <h3>URL of Content to load (e.g. "https://www.engageny.org/file/...-student.pdf?token=..."):</h3>
-      <input :value="url" @keyup="handle_keyup"/>
+      <input v-model="local_url" @keyup="handle_keyup"/>
       <br><button @click="handle_submit">Load</button>
       <h3 v-if="page_thumbnails.length>0">Content Preview:</h3>
       <div class="thumbnail-container">

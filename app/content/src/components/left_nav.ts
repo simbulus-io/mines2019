@@ -117,6 +117,10 @@ export default class LeftNav extends Vue {
     return data;
   }
 
+  public select_nothing() {
+    this.$store.dispatch( 'content/content_selection', '');
+  }
+
   public itemSelected(e: any){ 
     const new_val = this.find_lesson_idx(e);
     this.$store.dispatch( 'content/content_selection', new_val);

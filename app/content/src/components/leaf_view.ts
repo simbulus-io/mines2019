@@ -9,7 +9,7 @@ import { stringify } from 'querystring';
 @Component({
     components: {
         VueTagsInput,
-        StandardBlock
+        StandardBlock,
     },
     directives: {
         focus: {
