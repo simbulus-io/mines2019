@@ -18,6 +18,7 @@ def main(opts)
 
   for_production = opts.prod
   nginx_port = opts.port
+  file_share = opts.share
   
   templates = %w( nginx/nginx.conf.erb  docker-compose.yml.erb )
 
@@ -40,6 +41,7 @@ if __FILE__==$0
 
   opts = OpenStruct.new
   opts[:port] = '80'
+  opts[:share] = "#{ENV['HOME']}/shared"
   
   OptionParser.new do |parser|
     parser.on('--prod',
@@ -48,8 +50,13 @@ if __FILE__==$0
 
     parser.on('-p PORT',
               '--port PORT',
-              'set the entry port for nginx (default: 80)'
+              "set the entry port for nginx (default: #{opts.port})"
              ) { |o| opts.port = o }
+
+    parser.on('--share DIR',
+              "location for the file share (default: #{opts.share})"
+             ) { |o| opts.share = o }
+
 
     opts.usage = parser.help
   end.parse!
