@@ -5,9 +5,9 @@ require 'fileutils'
 require 'socket'
 
 def main(opts)
-  src_dir = File.expand_path(__dir__)
+  script_dir = File.expand_path(__dir__)
 
-  Dir.chdir(src_dir)
+  Dir.chdir(script_dir)
 
   my_ip_address = ''
   Socket.ip_address_list.each do |addr_info|
@@ -21,8 +21,8 @@ def main(opts)
   templates = %w( nginx/nginx.conf.erb  docker-compose.yml.erb )
 
   templates.each do |tmplt|
-    src = src_dir+"/"+tmplt
-    tgt file.sub('.erb','')
+    src = script_dir+"/"+tmplt
+    tgt = src.sub('.erb','')
     erb = File.read(src)
     result = Erubis::Eruby.new(erb).result(binding())
     File.open(tgt, "w") { |f| f.puts(result) }
