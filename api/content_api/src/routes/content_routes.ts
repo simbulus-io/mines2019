@@ -2,9 +2,8 @@ import * as logger                                from 'winston';
 import * as mongodb                               from 'mongodb';
 import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
-import { file }                                   from '@babel/types';
 import bodyParser                                 from 'body-parser';
-
+import { CONTENT_DB_NAME }                        from '../helpers/consts';
 
 const fsm = require('fs-minipass');
 const rp = require('fs.realpath');
@@ -18,11 +17,16 @@ export class ContentRoutes extends RoutesBase {
     ///////Get the file from the app and perpetuate in mongo//////
     router.post(`${RoutesBase.API_BASE_URL}/db_file_upload`, async (req, res) => {
 
+
+
       try {
         const bdy = JSON.stringify(req.body.file);
         logger.info('heres the db body: ' + bdy);
         //console.log(req.body);
         const mongo = req.app.get('mongo');
+
+        const db = mongo.db(CONTENT_DB_NAME);
+
         const collection = mongo.db('internal_tools').collection('file_uploads');
         const promises: Array<Promise<any>> = [];
         const data = {file: bdy};
