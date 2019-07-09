@@ -72,14 +72,14 @@ http {
   }
 
   upstream yarn_server {
-     server 10.0.9.9:8081;
+     server <%= my_ip_address %>:8081;
   }
 
   server {
   	listen 80;
-    server_name *.wootmath.com 10.0.9.9 127.0.0.1 localhost;
+    server_name *.wootmath.com <%= my_ip_address %> 127.0.0.1 localhost;
     error_log  /var/log/nginx/error.log debug;
-    access_log  /var/log/nginx/access-80.log;
+    access_log  /var/log/nginx/access.log;
 
     merge_slashes on;  # collapse repreaed url slashes to singe, e.g. foo//bar.html --> foo/bar.html
     
@@ -114,6 +114,12 @@ http {
       proxy_pass         "http://express-content:5101";
     }
 
+    <% if for_production %>
+    location ~ ^/content {
+      rewrite ^/content/(.*)$ /$1 break;
+      root /vue_app/dist;
+    }
+    <% else # dev %>
     location ~ ^/content {
       proxy_http_version 1.1;
       proxy_set_header   Upgrade $http_upgrade;
@@ -124,11 +130,6 @@ http {
       proxy_pass         "http://yarn_server";
     }
 
-    # location ~ ^/content {
-    #   rewrite ^/content/(.*)$ /$1 break;
-    #   root /vue_app/dist;
-    # }
-
     location ~ ^/sockjs-node/ {
       proxy_http_version 1.1;
       proxy_set_header   Upgrade $http_upgrade;
@@ -136,18 +137,11 @@ http {
       proxy_set_header   X-Forwarded-For $remote_addr;
       proxy_set_header   X-Forwarded-Proto $scheme;
       proxy_set_header   Host $http_host;
+      proxy_set_header Origin "";
       proxy_pass         "http://yarn_server";
-      # proxy_pass         "http://10.0.9.9:8081";
     }
+    <% end %>
 
-
-    # location ~ ^/feedback/ {
-    #     # rewrite ^/feedback/(.*)$ /$1 break;
-    #     proxy_set_header   X-Forwarded-For $remote_addr;
-    #     proxy_set_header   X-Forwarded-Proto $scheme;
-    #     proxy_set_header   Host $http_host;
-    #     proxy_pass         "http://express-feedback:5101";
-    # }
   }
 
 }

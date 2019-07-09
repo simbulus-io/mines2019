@@ -21,9 +21,10 @@ def main(opts)
   conf_erb = File.read(src_dir+"/nginx.conf.erb")
   eruby = Erubis::Eruby.new(conf_erb)
   conf = eruby.result(binding())
+  File.open('./nginx.conf', 'w') do |fo|
+    fo.puts(conf)
+  end
 
-  puts conf
-  
 end
 
 
