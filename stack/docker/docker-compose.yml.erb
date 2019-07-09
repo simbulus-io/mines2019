@@ -1,21 +1,5 @@
 version: '2'
 services:
-  # mongodb:
-  #   image: mongo:4.0
-  #   user: "root"
-  #   restart: always
-  #   command: mongod -f /etc/mongod.conf
-  #   # command: mongod --storageEngine mmapv1
-  #   # command: tail -f /dev/null
-  #   volumes:
-  #     # [local directory]:[container directory]
-  #     - ../../db/mongodb:/var/lib/mongodb
-  #     # [local file]:[container file]
-  #     - "./mongodb/mongod.conf:/etc/mongod.conf"
-  #   ports:
-  #     - 27027:27017
-  #   networks:
-  #     - backend
   nginx-proxy:
     image: nginx:stable
     user: "root"
@@ -28,7 +12,7 @@ services:
       - /tmp/pool/ingest/content:/shared_tmp
     ports:
       # [local port]:[container port]
-      - 80:80
+      - <%= nginx_port %>:80
     networks:
       - backend
     depends_on:
@@ -41,8 +25,9 @@ services:
     user: "root"
     restart: "always"
     command:  /bin/sh -c "yarn --cwd api build && node api/dist/bootstrap.js"
-#    command: tail -f /dev/null
+    #command: tail -f /dev/null
     environment:
+      - HOST_IP=<%= my_ip_address %>
       - DATATBASE_URL=mongodb://10.0.1.3:27017
       - MONGO_DBNAME=internal_tools_jester
       # - DATABASE_URL=mongodb://mongodb:27017
@@ -50,8 +35,6 @@ services:
       # - SKIP_DB_MIGRATION=0
       # - SKIP_NPM_INSTALL=0
       # - SKIP_BOWER_INSTALL=0
-    # depends_on:
-    #   - mongodb
     ports:
       - 5102:5101
     volumes:
@@ -61,28 +44,6 @@ services:
       - ../../api/content_api:/root/api
     networks:
       - backend
-  # express-feedback:
-  #   tty: true # Enables debugging capabilities when attached to this container.
-  #   image: base-express
-  #   user: "root"
-  #   restart: "always"
-  #   command:  /bin/sh -c "yarn --cwd api build && node api/dist/bootstrap.js"
-  #   environment:
-  #     - DATABASE_URL=mongodb://mongodb:27017/content
-  #     - SKIP_DB_WAIT=0
-  #     - SKIP_DB_MIGRATION=0
-  #     - SKIP_NPM_INSTALL=0
-  #     - SKIP_BOWER_INSTALL=0
-  #   depends_on:
-  #     - mongodb
-  #   ports:
-  #     - 5103:5101
-  #   volumes:
-  #     - ../../app/feedback:/root/app
-  #     - ../../api/feedback_api:/root/api
-  #     - shared_tmp:/shared
-  #   networks:
-  #     - backend
   coproc:
     # tty: true # Enables debugging capabilities when attached to this container.
     image: bmilne/pyco:1.0
@@ -91,10 +52,9 @@ services:
     restart: "always"
     command:  python /app/app.py
     environment:
+      - HOST_IP=<%= my_ip_address %>
       - MONGO_URL=mongodb://10.0.1.3:27017
       - MONGO_DBNAME=internal_tools
-    # depends_on:
-    #   - mongodb
     volumes:
       - /shared/pool/ingest/content:/shared
       - /tmp/pool/ingest/content:/shared_tmp
@@ -103,6 +63,7 @@ services:
       - ../../python/docker/data:/data
     networks:
       - backend
+
 networks:
   backend:
 

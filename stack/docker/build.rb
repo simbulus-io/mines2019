@@ -17,7 +17,8 @@ def main(opts)
   raise "couldn't figure out my ip address" if my_ip_address.length==0
 
   for_production = opts.prod
-
+  nginx_port = opts.port
+  
   templates = %w( nginx/nginx.conf.erb  docker-compose.yml.erb )
 
   templates.each do |tmplt|
@@ -38,11 +39,17 @@ if __FILE__==$0
   require 'ostruct'
 
   opts = OpenStruct.new
+  opts[:port] = '80'
+  
   OptionParser.new do |parser|
-    parser.on('-p',
-              '--prod',
+    parser.on('--prod',
               'serve app/dist rather than webpack dev_server'
              ) { |o| opts.prod = o }
+
+    parser.on('-p PORT',
+              '--port PORT',
+              'set the entry port for nginx (default: 80)'
+             ) { |o| opts.port = o }
 
     opts.usage = parser.help
   end.parse!
