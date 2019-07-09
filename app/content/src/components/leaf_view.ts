@@ -9,7 +9,7 @@ import { stringify } from 'querystring';
 @Component({
     components: {
         VueTagsInput,
-        StandardBlock
+        StandardBlock,
     },
     directives: {
         focus: {
@@ -102,7 +102,6 @@ export default class LeafView extends Vue {
         });
     }
 
-    // TODO: ideal would be to set the focus on the textarea as well, not just open it to edit
     public new_note(){
         const new_note_idx = Guid.raw();
         this.$store.dispatch( 'content/add_lesson_note', {
@@ -140,7 +139,6 @@ export default class LeafView extends Vue {
             const text = keyword ? keyword.text : '';
             string_tags.push(text);
         });
-        //log.info(`update_keywords: ${string_tags}`);
         this.$store.dispatch( 'content/update_lesson_keywords', {
             idx: this.lesson_idx,
             keywords: string_tags,

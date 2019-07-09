@@ -7,9 +7,9 @@ import { MongoHelper }       from './helpers/mongo_helper';
 import { IndexRoutes }       from './routes/index_routes';
 import { JobsRoutes }        from './routes/jobs_routes';
 import { TestRoutes }        from './routes/test_routes';
-
+import { CONTENT_DB_NAME }   from './helpers/consts';
 import express               from 'express';
-import { ContentRoutes } from './routes/content_routes';
+import { ContentRoutes }     from './routes/content_routes';
 
 const cookieParser = require('cookie-parser');
 const cors         = require('cors');
@@ -44,7 +44,7 @@ export class Server {
       this.app.set('config', config);
       log.info('Config setup done', _.filter(config, (k) => k === 'to_full_url'));
 
-      const mongo = await MongoHelper.connect(config);
+      const mongo = await MongoHelper.connect();
       this.app.set('mongo', mongo);
       log.info('Mongo setup done');
 

@@ -12,7 +12,7 @@ import { Lesson } from './lesson';
     MainContent,
     jsonView,
     LeafView,
-    Ingest
+    Ingest,
   }
 })
 export default class LessonDetails extends Vue {

@@ -1,6 +1,6 @@
 // RBM - from the CL yarn add vue-loading-overlay
 //
-import { Component, Prop, Vue }                    from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch }                    from 'vue-property-decorator';
 import MainContent                                 from '@/components/MainContent.vue';
 import { log , puts }                              from '@/logger';
 import LineSeparator                               from '@/components/LineSeparator.vue';
@@ -23,6 +23,8 @@ export default class Ingest extends Vue {
 
   public server='http://localhost/';
 
+  public local_url: string = '';
+
   private cache_seg = {'image':'/shared/jobs/23d0d29406f/23d0d29406f-108d.png','hi_res':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','white_space_rows':[[0,43],[76,95],[124,175],[196,207],[228,231],[256,399],[440,615],[636,647],[668,675],[696,975],[996,1003],[1028,1031],[1056,1059],[1100,1139],[1164,1175],[1192,1199],[1224,1575],[1596,1603],[1624,1631],[1652,1923],[1964,2175],[2200,2411],[2436,2871],[3000,3039],[3060,3091],[3112,3115],[3140,3163],[3188,3211],[3240,3271],[3292,3799]],'dpi':108,'image_shape':[3800,826,4]};
 
   public content_image:(string|null) = null;
@@ -34,11 +36,10 @@ export default class Ingest extends Vue {
   //public reported_errors:Array<string> = [];
   public show_spinner = false;
   public white_space_rows:(Array<[number, number]>|null) = null
+
   constructor() {
     super();
   }
-
-  public real_url:string = '';
 
   public get url() {
     const curr_selection = this.$store.state.content.content_selection;
@@ -50,6 +51,11 @@ export default class Ingest extends Vue {
     } else {
       return '';
     }
+  }
+
+  @Watch('url', { immediate: true, deep: true })
+  public on_url(after: string, before: string) {
+    this.local_url = after;
   }
 
   public reset() {
@@ -64,17 +70,22 @@ export default class Ingest extends Vue {
     this.white_space_rows = null;
   }
 
+  public mounted() {
+    log.info(`In mounted changing local_url from ${this.local_url} to ${this.url}`);
+    this.local_url = this.url;
+  }
+
   public async handle_keyup(e) {
     if (e.keyCode === 13) await this.handle_submit();
   }
 
   public async handle_submit() {
     this.reset();
-    const job_args = {url:this.real_url};
+    const job_args = {url:this.local_url};
     try {
 
       this.show_spinner = true;
-      const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.real_url});
+      const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.local_url});
 
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';

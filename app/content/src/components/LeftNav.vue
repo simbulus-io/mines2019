@@ -21,7 +21,10 @@
       v-on:selected="itemSelected"
       :rootKey="'Content Providers'"
       :filter="filter_selection"
-      :filter_cat="filter_category"/>
+      :filter_cat="filter_category"
+      :maxDepth="2"/>
+    <hr/>
+    <button type="button" class="left-nav-button" @click="select_nothing">Other Lesson</button>
   </div>
 </template>
 
@@ -103,6 +106,16 @@
     width: $left_nav_width;
     background-color: $light_gray;
     z-index: -1;
+  }
+
+  .left-nav-button {
+    font-size: 14pt;
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: $white;
+    width: 67%;
   }
 }
 </style>
