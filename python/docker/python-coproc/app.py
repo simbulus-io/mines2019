@@ -257,11 +257,13 @@ def main():
     from pymongo import MongoClient
 
     mongo_url = os.getenv('MONGO_URL', 'mongodb://localhost:27017/')
+    mongo_db = os.getenv('MONGO_DBNAME', 'internal_tools_jester')
+    worker_name = os.getenv('HOSTNAME', 'unknown')
+
     # print ('mongo_url = %s' % mongo_url)
     mongo_client = MongoClient(mongo_url)
-    db = mongo_client.content
+    db = mongo_client['internal_tools']
     jobs = db.jobs
-    worker_name = os.getenv('HOSTNAME', 'unknown')
 
     min_sleep_time = 1
     max_sleep_time = 1

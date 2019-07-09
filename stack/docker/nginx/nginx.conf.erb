@@ -71,9 +71,13 @@ http {
     application/zip                       zip;
   }
 
+  upstream yarn_server {
+     server 10.0.9.9:8081;
+  }
+
   server {
   	listen 80;
-    server_name *.wootmath.com <%= @my_ip %> 127.0.0.1 localhost;
+    server_name *.wootmath.com 10.0.9.9 127.0.0.1 localhost;
     error_log  /var/log/nginx/error.log debug;
     access_log  /var/log/nginx/access-80.log;
 
@@ -104,18 +108,38 @@ http {
     }
 
     location ~ ^/content/v1.0/ {
-        # rewrite ^/content/(.*)$ /$1 break;
-        proxy_set_header   X-Forwarded-For $remote_addr;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-        proxy_set_header   Host $http_host;
-        proxy_pass         "http://express-content:5101";
+      proxy_set_header   X-Forwarded-For $remote_addr;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   Host $http_host;
+      proxy_pass         "http://express-content:5101";
     }
 
     location ~ ^/content {
-      rewrite ^/content/(.*)$ /$1 break;
-      autoindex on;
-      root /vue_app/dist;
+      proxy_http_version 1.1;
+      proxy_set_header   Upgrade $http_upgrade;
+      proxy_set_header   Connection “upgrade”;
+      proxy_set_header   X-Forwarded-For $remote_addr;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   Host $http_host;
+      proxy_pass         "http://yarn_server";
     }
+
+    # location ~ ^/content {
+    #   rewrite ^/content/(.*)$ /$1 break;
+    #   root /vue_app/dist;
+    # }
+
+    location ~ ^/sockjs-node/ {
+      proxy_http_version 1.1;
+      proxy_set_header   Upgrade $http_upgrade;
+      proxy_set_header   Connection “upgrade”;
+      proxy_set_header   X-Forwarded-For $remote_addr;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   Host $http_host;
+      proxy_pass         "http://yarn_server";
+      # proxy_pass         "http://10.0.9.9:8081";
+    }
+
 
     # location ~ ^/feedback/ {
     #     # rewrite ^/feedback/(.*)$ /$1 break;

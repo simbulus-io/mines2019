@@ -38,6 +38,8 @@ export default class Ingest extends Vue {
     super();
   }
 
+  public real_url:string = '';
+
   public get url() {
     const curr_selection = this.$store.state.content.content_selection;
     if( curr_selection !== '' ){
@@ -68,11 +70,11 @@ export default class Ingest extends Vue {
 
   public async handle_submit() {
     this.reset();
-    const job_args = {url:this.url};
+    const job_args = {url:this.real_url};
     try {
 
       this.show_spinner = true;
-      const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.url});
+      const finished_job = await this.$store.dispatch('content/ingest_url', {url:this.real_url});
 
       if (!rpc_job_succeeded(finished_job)) {
         let error_message = rpc_job_error_string(finished_job) || 'Unknown error occured while processing job.';
