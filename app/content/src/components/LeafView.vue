@@ -15,27 +15,28 @@
                 <button class="new-button"  type="button" v-on:click="new_note">
                     <font-awesome-icon icon="plus-circle" />
                 </button>
-                <div v-for="note in lesson_notes" :key="note.idx" class="note">
+                <div v-for="note in lesson_notes" :key="note.index" class="note">
                     <div class="note-row">
                         <div class="note-cell note-text">
+                            <!-- {{note.index}} {{note.idx}} -->
                             <textarea
                                 class="lesson-input"
                                 v-model="note.text"
                                 rows="5"
                                 overflow="auto"
-                                v-bind:class="{ 'lesson-input-inactive': !note_selected(note.idx) }"
-                                v-bind:readonly="!note_selected(note.idx)"
+                                v-bind:class="{ 'lesson-input-inactive': !note_selected(note.index) }"
+                                v-bind:readonly="!note_selected(note.index)"
                                 v-focus>
                             </textarea>
                         </div>
                         <div class="note-cell note-button-wrapper">
-                            <button class="note-button edit-button" v-show="!note_selected(note.idx)" type="button" v-on:click="edit_note(note.idx)">
+                            <button class="note-button edit-button" v-show="!note_selected(note.index)" type="button" v-on:click="edit_note(note.index)">
                                 Edit Note
                             </button>
-                            <button class="note-button edit-button" v-show="note_selected(note.idx)" type="button" v-on:click="save_note(note.idx, note.text)">
+                            <button class="note-button edit-button" v-show="note_selected(note.index)" type="button" v-on:click="save_note(note.index, note.text)">
                                 Save Note
                             </button>
-                            <button class="note-button delete-button" type="button" v-on:click="delete_note(note.idx)">
+                            <button class="note-button delete-button" type="button" v-on:click="delete_note(note.index, note.text)">
                                 Delete Note
                             </button> 
                         </div>

@@ -53,21 +53,21 @@ export const content: Module<ContentState, RootState> = {
     update_lesson_note: (state: any, args: any) => {
       const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
       const lesson = state.content_lessons[index];
-      const note_index = lesson.notes.findIndex( curr_note => curr_note.idx === args.note_idx );
-      lesson.notes[note_index].text = args.text;
+      const note_index = args.note_index;
+      lesson.notes[note_index] = args.text;
       Vue.set(state.content_lessons,index,lesson);
     },
     delete_lesson_note: (state: any, args: any) => {
       const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
       const lesson = state.content_lessons[index];
-      const note_index = lesson.notes.findIndex( curr_note => curr_note.idx === args.note_idx );
+      const note_index = args.note_index;
       lesson.notes.splice(note_index, 1);
       Vue.set(state.content_lessons,index,lesson);
     },
     add_lesson_note: (state: any, args: any) => {
       const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
       const lesson = state.content_lessons[index];
-      lesson.notes.push(args.note);
+      lesson.notes.push('');
       Vue.set(state.content_lessons,index,lesson);
     },
     update_lesson_status: (state: any, args: any) => {
@@ -116,7 +116,7 @@ export const content: Module<ContentState, RootState> = {
       context.commit('update_lesson_keywords', args);
     },
     update_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}&note_idx=${args.note_idx}&text=${args.text}`;
+      let query_string = `?_id=${args.lesson_id}&note_index=${args.note_index}&text=${args.text}`;
       log.info(query_string);
       const url = `${API_BASE_URL}/update_lesson/update_note${query_string}`;
       const rval = await fetch(url)
@@ -125,7 +125,7 @@ export const content: Module<ContentState, RootState> = {
       context.commit('update_lesson_note', args);
     },
     delete_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}&note_idx=${args.note_idx}`;
+      let query_string = `?_id=${args.lesson_id}&note_index=${args.note_index}`;
       log.info(query_string);
       const url = `${API_BASE_URL}/update_lesson/delete_note${query_string}`;
       const rval = await fetch(url)
@@ -134,11 +134,7 @@ export const content: Module<ContentState, RootState> = {
       context.commit('delete_lesson_note', args);
     },
     add_lesson_note:  async (context: any, args: any) => {
-      const new_note = {
-        idx: args.note_idx,
-        text: ''
-      }
-      let query_string = `?_id=${args.lesson_id}&note_idx=${new_note.idx}&text=${new_note.text}`;
+      let query_string = `?_id=${args.lesson_id}`;
       log.info(query_string);
       const url = `${API_BASE_URL}/update_lesson/add_note${query_string}`;
       const rval = await fetch(url)
@@ -146,7 +142,6 @@ export const content: Module<ContentState, RootState> = {
       puts(`In add_lesson_note got ${state.message} from the server`);
       const params = {
         lesson_id: args.lesson_id,
-        note: new_note,
       }
       context.commit('add_lesson_note', params);
     },

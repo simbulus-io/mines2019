@@ -22,11 +22,11 @@ import { stringify } from 'querystring';
 export default class LeafView extends Vue {
     constructor() {
         super();
-        this.selected_note = '';
+        this.selected_note = -1;
     }
 
     public tag: string = '';
-    public selected_note: string;
+    public selected_note: number;
 
     private autocompleteItems = [
         'Counting and Cardinality',
@@ -66,49 +66,65 @@ export default class LeafView extends Vue {
 
     public get lesson_notes() {
         const lesson: Lesson = this.lesson;
-        return lesson ? lesson.notes : [];
+        const simple_notes: string[] = lesson ? lesson.notes : [];
+        const obj_notes :{ index: number, idx: string, text: string }[] = [];
+        let i = 0;
+        //log.info(simple_notes);
+        simple_notes.forEach((note: string) => {
+            //log.info(`Note: index = ${i} text = ${note}`);
+            const obj_note = {
+                index: i,
+                idx: Guid.raw(),
+                text: note,
+            };
+            obj_notes.push(obj_note);
+            i++;
+          });
+        return obj_notes;
     }
 
-    public note_selected(note_idx:string) {
-        if ( note_idx === this.selected_note ) {
+    public note_selected(note_index:number) {
+        if ( note_index === this.selected_note ) {
             return true;
         } else {
             return false;
         }
     }
 
-    public edit_note( note_idx: string ){
-        this.selected_note = note_idx;
+    public edit_note( note_index: number ){
+        this.selected_note = note_index;
     }
 
     // TODO: what to do with the text since 2 way binding?
     // is passing it correct??
-    public save_note( note_idx: string, note_text: string){
-        this.selected_note = '';
+    public save_note( note_index: string, note_text: string){
+        this.selected_note = -1;
         this.$store.dispatch( 'content/update_lesson_note', {
             lesson_id: this.lesson_id,
-            note_idx: note_idx,
+            note_index: note_index,
             text: note_text
         });
     }
 
-    public delete_note( note_idx: string ){
-        if ( this.selected_note === note_idx ) {
-            this.selected_note = '';
+    public delete_note( note_index: number, note_text: string ){
+        const confirm_delete = confirm('Are you sure you want to delete the note:\n"'+note_text+'"');
+        if (confirm_delete) {
+            if ( this.selected_note === note_index ) {
+                this.selected_note = -1;
+            }
+            this.$store.dispatch( 'content/delete_lesson_note', {
+                lesson_id: this.lesson_id,
+                note_index: note_index,
+            });
         }
-        this.$store.dispatch( 'content/delete_lesson_note', {
-            lesson_id: this.lesson_id,
-            note_idx: note_idx,
-        });
     }
 
     public new_note(){
-        const new_note_idx = Guid.raw();
+        const new_note_index : number = this.lesson_notes.length;
         this.$store.dispatch( 'content/add_lesson_note', {
             lesson_id: this.lesson_id,
-            note_idx: new_note_idx,
         });
-        this.edit_note( new_note_idx );
+        this.edit_note( new_note_index );
     }
 
     public set lesson_status( new_status: string) {

@@ -116,11 +116,8 @@ export class ContentRoutes extends RoutesBase {
           .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.query._id) } ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
-          const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
-          lesson_notes[note_index] = {
-            idx: req.query.note_idx,
-            text: req.query.text,
-          };
+          const note_index = req.query.note_index;
+          lesson_notes[note_index] = req.query.text;
           const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
             .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { notes: lesson_notes } }) );
           // status true if success
@@ -148,7 +145,7 @@ export class ContentRoutes extends RoutesBase {
           .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.query._id)} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
-          const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
+          const note_index = req.query.note_index;
           lesson_notes.splice(note_index, 1);
           const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
             .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { notes: lesson_notes } }) );
@@ -177,11 +174,7 @@ export class ContentRoutes extends RoutesBase {
           .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.query._id) } ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
-          const new_note = {
-            idx: req.query.note_idx,
-            text: req.query.text,
-          };
-          lesson_notes.push(new_note);
+          lesson_notes.push('');
           const rval = JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
             .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { notes: lesson_notes } }) );
           // status true if success

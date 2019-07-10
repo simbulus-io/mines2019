@@ -12,10 +12,11 @@ export interface Lesson {
     teacher_docs: string;
     teacher_pdf: string;
     status: string;
-    notes: {
-        idx: string;
-        text: string;
-      }[];
+    // notes: {
+    //     idx: string;
+    //     text: string;
+    //   }[];
+    notes: string[];
     keywords: string[];
     standards: string[];
   }
