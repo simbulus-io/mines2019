@@ -138,6 +138,29 @@ def compose_images(*,source,sequence,tgt_fmt='%02d.png'):
     return {}
 
 # - - - - - - - - - - - - - - - - - - - -
+
+from modules.engageny import process_spreadsheet as proc_ss
+@command
+
+def process_spreadsheet(*, csv):
+    from pymongo import MongoClient
+
+    mongo_url = os.getenv('DATABASE_URL', 'mongodb://localhost:27017/')
+    mongo_db = os.getenv('MONGO_DBNAME', 'internal_tools_jester')
+    mongo_client = MongoClient(mongo_url)
+    db = mongo_client[mongo_db]
+    sources = db.sources
+
+    lessons, subjects = proc_ss(fname=csv)
+
+    for less in lessons:
+        d = less.__dict__
+        d['keywords'] = list(d['keywords'])
+        sources.insert_one(d)
+        # print(d)
+    return {'status': 0, 'nlessons': len(lessons)}
+    
+# - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -
 
 def run(job):
@@ -262,7 +285,7 @@ def main():
 
     # print ('mongo_url = %s' % mongo_url)
     mongo_client = MongoClient(mongo_url)
-    db = mongo_client['internal_tools']
+    db = mongo_client[mongo_db]
     jobs = db.jobs
 
     min_sleep_time = 1
@@ -341,10 +364,6 @@ def mock_main():
          'args': {
            'file':  "23d0d29406f.png"
          }},
-        
-        ]
-    
-    jobs = [
         {'name': 'fooo',
          'dir' : 'my_job',
          'command': 'compose_images',
@@ -368,7 +387,19 @@ def mock_main():
                [1,    0, 1200,  826, 350],
              ],
            ]
-         }},
+         }}        
+        ]
+    
+    jobs = [
+{
+         'dir' : 'my_job',
+         'command': 'process_spreadsheet',
+         'args': {
+           'csv': '/data/EngageNY/content.tsv',
+        },
+        
+        }
+        ,
         # {'name': 'beny1',
         #  'dir' : 'my_job',
         #  'command': 'fetch_engageny_content',
