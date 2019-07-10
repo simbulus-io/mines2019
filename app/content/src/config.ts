@@ -3,6 +3,6 @@
 
 
 //export const HOST_IP = process.env.VUE_APP_HOST_IP;
-export const API_BASE_URL = `${window.location.origin}/content/v1.0`
+export const API_BASE_URL = process.env.VUE_APP_HOST_IP ? `http://${process.env.VUE_APP_HOST_IP}:5101/content/v1.0`: `${window.location.origin}/content/v1.0`
 export const HOST_URL     = `${window.location.origin}`
 

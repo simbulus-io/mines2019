@@ -4,6 +4,7 @@ require 'erubis'
 require 'fileutils'
 require 'socket'
 
+
 Erdos = '10.0.1.3'
 Local_Network = /^10\./
 
