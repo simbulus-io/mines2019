@@ -1,0 +1,6 @@
+#!/bin/bash
+source ./export_env
+echo "- - - - ENV - - - -"
+env
+echo "- - - - - - - - - -"
+python ./app.py

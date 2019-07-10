@@ -22,4 +22,4 @@ COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 RUN pipdeptree -fl
 
-CMD ["python", "./app.py"]
+CMD "./bootstrap"
