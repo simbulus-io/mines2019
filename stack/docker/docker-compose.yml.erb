@@ -28,7 +28,7 @@ services:
     #command: tail -f /dev/null
     environment:
       - HOST_IP=<%= my_ip_address %>
-      - DATATBASE_URL=<%= opts.mongo_url %>
+      - DATABASE_URL=<%= opts.mongo_url %>
       - MONGO_DBNAME=<%= opts.mongo_db_name %>
     ports:
       - 5102:5101
@@ -48,7 +48,7 @@ services:
     command:  python /app/app.py
     environment:
       - HOST_IP=<%= my_ip_address %>
-      - DATATBASE_URL=<%= opts.mongo_url %>
+      - DATABASE_URL=<%= opts.mongo_url %>
       - MONGO_DBNAME=<%= opts.mongo_db_name %>
     volumes:
       - <%= opts.share %>/pool/ingest/content:/shared
