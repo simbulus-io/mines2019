@@ -3,7 +3,14 @@ export interface Lesson {
     idx: string;
     path: string;
     name: string;
+    subj: string;
+    module_num: number;
+    lesson_num: number;
     url: string;
+    student_docx: string;
+    student_pdf: string;
+    teacher_docs: string;
+    teacher_pdf: string;
     status: string;
     notes: {
         idx: string;
