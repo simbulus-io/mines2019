@@ -4,6 +4,7 @@
     <template v-slot:main-content>
       <div class="other">
         <!-- No lesson selected -->
+        <!-- {{content_selection}} -->
         <div v-show="content_selection===''">
           <h1 v-show="content_selection===''"> No Lesson Selected </h1>
           <hr class="main-hr"/>
@@ -13,7 +14,7 @@
         <div v-show="content_selection!==''">
           <h1>{{lesson_name}} from {{lesson_path}}</h1>
           <hr class="main-hr"/>
-          <leaf-view v-bind:lesson_idx="content_selection"/>
+          <leaf-view v-bind:lesson_id="content_selection"/>
           <hr class="main-hr"/>
           <ingest/>
         </div>

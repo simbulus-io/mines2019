@@ -4,6 +4,7 @@ import { NextFunction, Request, Response, Router} from 'express';
 import { RoutesBase }                             from './routes_base';
 import bodyParser                                 from 'body-parser';
 import { CONTENT_DB_NAME, SOURCE_COLL_NAME }      from '../helpers/consts';
+import { ObjectID }                               from 'bson';
 
 const fsm = require('fs-minipass');
 const rp = require('fs.realpath');
@@ -74,7 +75,8 @@ export class ContentRoutes extends RoutesBase {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
-          .updateOne({ idx: req.query.idx}, { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } }) );
+          .updateOne({ _id: new ObjectID(req.query._id)},
+            { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } }) );
         if (rval.n === 1) {
           res.send({status: true});
         } else { // TODO: fix updateOne error
@@ -92,7 +94,7 @@ export class ContentRoutes extends RoutesBase {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
-          .updateOne({ idx: req.query.idx}, { $set: { status: req.query.status } }) );
+          .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { status: req.query.status } }) );
         // status true if success
         if (rval.n === 1) {
           res.send({status: true});
@@ -111,7 +113,7 @@ export class ContentRoutes extends RoutesBase {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const docs: any[] = await mongo.db(CONTENT_DB_NAME)
-          .collection(SOURCE_COLL_NAME).find( {idx: req.query.idx} ).toArray();
+          .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.query._id) } ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
@@ -120,7 +122,7 @@ export class ContentRoutes extends RoutesBase {
             text: req.query.text,
           };
           const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
-            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
+            .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
             res.send({status: true});
@@ -143,13 +145,13 @@ export class ContentRoutes extends RoutesBase {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const docs: any[] = await mongo.db(CONTENT_DB_NAME)
-          .collection(SOURCE_COLL_NAME).find( {idx: req.query.idx} ).toArray();
+          .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.query._id)} ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const note_index = lesson_notes.findIndex((note: any) => note.idx === req.query.note_idx );
           lesson_notes.splice(note_index, 1);
           const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
-            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
+            .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
             res.send({status: true});
@@ -172,7 +174,7 @@ export class ContentRoutes extends RoutesBase {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const docs: any[] = await mongo.db(CONTENT_DB_NAME)
-          .collection(SOURCE_COLL_NAME).find( {idx: req.query.idx} ).toArray();
+          .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.query._id) } ).toArray();
         if (docs) {
           const lesson_notes = docs[0].notes;
           const new_note = {
@@ -181,7 +183,7 @@ export class ContentRoutes extends RoutesBase {
           };
           lesson_notes.push(new_note);
           const rval = JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
-            .updateOne({ idx: req.query.idx}, { $set: { notes: lesson_notes } }) );
+            .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
             res.send({status: true});

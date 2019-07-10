@@ -46,7 +46,7 @@ export default class Ingest extends Vue {
     const curr_selection = this.$store.state.content.content_selection;
     if( curr_selection !== '' ){
       const lesson: Lesson = this.$store.state.content.content_lessons.find( (less) => {
-        return less.idx === curr_selection;
+        return less._id === curr_selection;
       }, this);
       return lesson ? lesson.student_pdf : '';
     } else {

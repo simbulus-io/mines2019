@@ -1,7 +1,8 @@
 <template>
     <div class="m-content">
         <div> <!-- TODO: do something meaningful with this binding/clean up -->
-            <div v-show="lesson_idx!==''">
+            <!-- lesson_id: {{lesson_id}}. -->
+            <div v-show="lesson_id!==''">
                 <h2>Status: {{lesson_status}}</h2>
                 <select class="status-input" v-model="lesson_status">
                     <!-- <option disabled value="">Please select one</option> -->
@@ -56,7 +57,7 @@
                 <h2>Standards</h2>
                 <div>
                     <standard-block v-for="standard in lesson_standards" :key="standard" :text="standard"/>
-                    <p v-show="lesson_standards.length === 0">No standards <font-awesome-icon icon="sad-tear"/> </p>
+                    <!-- <p v-show="lesson_standards.length === 0">No standards <font-awesome-icon icon="sad-tear"/> </p> -->
                 </div>
                 
             </div>

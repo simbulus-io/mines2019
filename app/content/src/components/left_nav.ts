@@ -122,11 +122,11 @@ export default class LeftNav extends Vue {
   }
 
   public itemSelected(e: any){ 
-    const new_val = this.find_lesson_idx(e);
+    const new_val = this.find_lesson_id(e);
     this.$store.dispatch( 'content/content_selection', new_val);
   }
 
-  public find_lesson_idx(e) {
+  public find_lesson_id(e) {
     if( 'path' in e && 'key' in e ){
       const path_arr: string[] = e.path.split('/');
       path_arr.shift(); // remove 'root' from path
@@ -135,7 +135,7 @@ export default class LeftNav extends Vue {
       const rval: Lesson = this.$store.state.content.content_lessons.find( (lesson) => {
         return lesson.path === path && lesson.name === e.key;
       }, this);
-      return rval ? rval.idx : '';
+      return rval ? rval._id : '';
     } else {
       return '';
     }

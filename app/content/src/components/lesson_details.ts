@@ -27,7 +27,7 @@ export default class LessonDetails extends Vue {
   public get lesson() {
     if( this.content_selection !== ''  ){
       const rval: Lesson = this.$store.state.content.content_lessons.find( (lesson) => {
-        return lesson.idx === this.content_selection;
+        return lesson._id === this.content_selection;
       }, this);
       return rval;
     } else {

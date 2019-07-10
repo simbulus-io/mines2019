@@ -1,6 +1,6 @@
 export interface Lesson {
     _id: string;
-    idx: string;
+    //idx: string;
     path: string;
     name: string;
     subj: string;

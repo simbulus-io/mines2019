@@ -51,7 +51,7 @@ export default class LeafView extends Vue {
         'Differential Equations',
     ]
 
-    @Prop() public readonly lesson_idx!: string;
+    @Prop() public readonly lesson_id!: string;
 
     public get validated_tags() {
         return createTags(this.lesson_keywords);
@@ -59,7 +59,7 @@ export default class LeafView extends Vue {
 
     public get lesson() {
         const rval: Lesson = this.$store.state.content.content_lessons.find( (lesson) => {
-            return lesson.idx === this.lesson_idx;
+            return lesson._id === this.lesson_id;
           }, this);
         return rval;
     }
@@ -86,7 +86,7 @@ export default class LeafView extends Vue {
     public save_note( note_idx: string, note_text: string){
         this.selected_note = '';
         this.$store.dispatch( 'content/update_lesson_note', {
-            lesson_idx: this.lesson_idx,
+            lesson_id: this.lesson_id,
             note_idx: note_idx,
             text: note_text
         });
@@ -97,7 +97,7 @@ export default class LeafView extends Vue {
             this.selected_note = '';
         }
         this.$store.dispatch( 'content/delete_lesson_note', {
-            lesson_idx: this.lesson_idx,
+            lesson_id: this.lesson_id,
             note_idx: note_idx,
         });
     }
@@ -105,7 +105,7 @@ export default class LeafView extends Vue {
     public new_note(){
         const new_note_idx = Guid.raw();
         this.$store.dispatch( 'content/add_lesson_note', {
-            lesson_idx: this.lesson_idx,
+            lesson_id: this.lesson_id,
             note_idx: new_note_idx,
         });
         this.edit_note( new_note_idx );
@@ -113,7 +113,7 @@ export default class LeafView extends Vue {
 
     public set lesson_status( new_status: string) {
         this.$store.dispatch( 'content/update_lesson_status', {
-            idx: this.lesson_idx,
+            _id: this.lesson_id,
             status: new_status,
         });
     }
@@ -140,7 +140,7 @@ export default class LeafView extends Vue {
             string_tags.push(text);
         });
         this.$store.dispatch( 'content/update_lesson_keywords', {
-            idx: this.lesson_idx,
+            _id: this.lesson_id,
             keywords: string_tags,
         });
     }
