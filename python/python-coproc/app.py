@@ -156,8 +156,12 @@ def process_spreadsheet(*, csv):
     for less in lessons:
         d = less.__dict__
         d['keywords'] = list(d['keywords'])
+        notes = []
+        if len(d['notes']) > 0:
+            notes = [d['notes']]
+        d['notes'] = notes
         sources.insert_one(d)
-        # print(d)
+
     return {'status': 0, 'nlessons': len(lessons)}
     
 # - - - - - - - - - - - - - - - - - - - -

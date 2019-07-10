@@ -84,6 +84,10 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
                             lsn.student_docx = c
                 if len(g)>0:
                     lsn.status = g.lower()
+                    if lsn.status == 'yes':
+                        lsn.status = 'processed - accepted'
+                    if lsn.status == 'yes':
+                        lsn.status = 'processed - accepted'
                 if len(h)>0:
                     if (len(lsn.notes)>0): 
                         lsn.notes += " "
