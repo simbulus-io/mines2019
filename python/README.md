@@ -60,7 +60,7 @@ $  sudo docker tag bmilne/python:1.1 base-python
 Or you can build an image yourself by:
 
 ```console
-$  cd python/docker/base-python
+$  cd python/base-python
 $  ./build
 $  
 ```
