@@ -256,7 +256,7 @@ def poll_for_jobs(jobs,worker='unknown'):
 def main():
     from pymongo import MongoClient
 
-    mongo_url = os.getenv('MONGO_URL', 'mongodb://localhost:27017/')
+    mongo_url = os.getenv('DATABASE_URL', 'mongodb://localhost:27017/')
     mongo_db = os.getenv('MONGO_DBNAME', 'internal_tools_jester')
     worker_name = os.getenv('HOSTNAME', 'unknown')
 
@@ -393,7 +393,7 @@ def mock_main():
         
 
 if __name__ == '__main__':
-    if "MONGO_URL" in os.environ:
-        main()
-    else:
+    if "STAND_ALONE" in os.environ:
         mock_main()
+    else:
+        main()
