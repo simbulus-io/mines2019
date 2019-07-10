@@ -5,7 +5,7 @@ module.exports = {
   publicPath: '/content/',
   productionSourceMap: false,
   // devServer: {
-  //   proxy: 'http://localhost:5102',
+  //   proxy: 'http://10.0.9.2:8081',
   // },
   css: {
     extract: true // bundle the CSS with JS and apply dynamically

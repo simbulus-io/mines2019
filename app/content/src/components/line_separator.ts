@@ -1,13 +1,11 @@
-import { clone } from 'lodash-es';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { log } from '@/logger';
-import DragItDude from '@/components/DragItDude.vue';
-import { Post } from './post';
-
+import DragItDude               from '@/components/DragItDude.vue';
+import { Post }                 from './post';
+import { API_BASE_URL }         from '@/config'
 
 //computed properties = getters
 //store is for shared data and managing interactions with the server
-//cannot overload opperators in javascript.  care about dot and bracket, 
+//cannot overload opperators in javascript.  care about dot and bracket,
 //USE METHODS TO CHANGE STUFF IN VUE
 
 
@@ -45,8 +43,8 @@ export default class LineSeparator extends Vue {
     super();
 
   }
-  
-  
+
+
   //Returns the distance of each line from the top of document
   public get_location(){
     let i:number;
@@ -74,18 +72,10 @@ export default class LineSeparator extends Vue {
   public poll(){
     //Poll api
     const interval = setInterval(() => {this.request(interval); console.log('i')},6000)
-
-    /*
-    fetch('/localHost:5101', { timeout: 60000, interval: 1000 } ).then((response) => {
-      return true;
-    }, Response => {
-      console.log('Big error');
-    });*/
-
   }
 
   public request(interval){
-    fetch('http://localhost:5101/content/v1.0', {
+    fetch(`${API_BASE_URL}`, {
       method: 'GET'
     })
     clearInterval(interval)

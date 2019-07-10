@@ -5,7 +5,7 @@ import { RootState }               from '@/store/types';
 import Vue                         from 'vue';
 import Vuex                        from 'vuex';
 import { rpc , rpc_job_succeeded } from '@/rpc';
-import { API_URL }                 from '@/config';
+import { API_BASE_URL }                 from '@/config';
 import { getUnpackedSettings }     from 'http2';
 import { Lesson }                  from '@/components/lesson';
 
@@ -89,7 +89,7 @@ export const content: Module<ContentState, RootState> = {
   // These are asynchronus actions - model interactions with a server
   actions: {
     hello: async (context: any, args: any) => {
-      const rval = await fetch(`${API_URL}/hello`)
+      const rval = await fetch(`${API_BASE_URL}/hello`)
       const state = await rval.json();
       puts(`Got ${state.message} from the server`);
       context.commit('hello', state.message);
@@ -98,7 +98,7 @@ export const content: Module<ContentState, RootState> = {
       context.commit('content_selection', new_value);
     },
     content_lessons: async (context: any, args: any) => {
-      const rval = await fetch(`${API_URL}/lessons`)
+      const rval = await fetch(`${API_BASE_URL}/lessons`)
       const state = await rval.json();
       puts(`In content_lessons got ${state.message} from the server`);
       context.commit('content_lessons', state.message);
@@ -109,7 +109,7 @@ export const content: Module<ContentState, RootState> = {
         query_string += `&keywords[]=${keyword}`;
       });
       log.info(query_string);
-      const url = `${API_URL}/update_lesson/keywords${query_string}`;
+      const url = `${API_BASE_URL}/update_lesson/keywords${query_string}`;
       const rval = await fetch(url)
       const state = await rval.json();
       puts(`In update_lesson_keywords got ${state.message} from the server`);
@@ -118,7 +118,7 @@ export const content: Module<ContentState, RootState> = {
     update_lesson_note:  async (context: any, args: any) => {
       let query_string = `?idx=${args.lesson_idx}&note_idx=${args.note_idx}&text=${args.text}`;
       log.info(query_string);
-      const url = `${API_URL}/update_lesson/update_note${query_string}`;
+      const url = `${API_BASE_URL}/update_lesson/update_note${query_string}`;
       const rval = await fetch(url)
       const state = await rval.json();
       puts(`In update_lesson_note got ${state.message} from the server`);
@@ -127,7 +127,7 @@ export const content: Module<ContentState, RootState> = {
     delete_lesson_note:  async (context: any, args: any) => {
       let query_string = `?idx=${args.lesson_idx}&note_idx=${args.note_idx}`;
       log.info(query_string);
-      const url = `${API_URL}/update_lesson/delete_note${query_string}`;
+      const url = `${API_BASE_URL}/update_lesson/delete_note${query_string}`;
       const rval = await fetch(url)
       const state = await rval.json();
       puts(`In delete_lesson_note got ${state.message} from the server`);
@@ -140,7 +140,7 @@ export const content: Module<ContentState, RootState> = {
       }
       let query_string = `?idx=${args.lesson_idx}&note_idx=${new_note.idx}&text=${new_note.text}`;
       log.info(query_string);
-      const url = `${API_URL}/update_lesson/add_note${query_string}`;
+      const url = `${API_BASE_URL}/update_lesson/add_note${query_string}`;
       const rval = await fetch(url)
       const state = await rval.json();
       puts(`In add_lesson_note got ${state.message} from the server`);
@@ -153,7 +153,7 @@ export const content: Module<ContentState, RootState> = {
     update_lesson_status:  async (context: any, args: any) => {
       let query_string = `?idx=${args.idx}&status=${args.status}`;
       log.info(query_string);
-      const url = `${API_URL}/update_lesson/status${query_string}`;
+      const url = `${API_BASE_URL}/update_lesson/status${query_string}`;
       const rval = await fetch(url)
       const state = await rval.json();
       puts(`In update_lesson_status got ${state.message} from the server`);
@@ -272,7 +272,7 @@ export const content: Module<ContentState, RootState> = {
     },
     test_array: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_URL}/contents`)
+        const rval = await fetch(`${API_BASE_URL}/contents`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -284,7 +284,7 @@ export const content: Module<ContentState, RootState> = {
 
     test_array_2: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_URL}/test_route`)
+        const rval = await fetch(`${API_BASE_URL}/test_route`)
         const state = await rval.json();
         // upon successfully completing the action - synchronusly update the Vue application state
         // via a mutator via the commit call
@@ -299,7 +299,7 @@ export const content: Module<ContentState, RootState> = {
     //////TODO: parameterize the url passed to fetch() so that any file in public can be called by name
     test_image: async (context:any , arg: any) => {
       try {
-        const rval = await fetch(`${API_URL}/static/Algebra.png`)
+        const rval = await fetch(`${API_BASE_URL}/static/Algebra.png`)
         const img = await rval.blob();
         const state = URL.createObjectURL(img);
         // upon successfully completing the action - synchronusly update the Vue application state
