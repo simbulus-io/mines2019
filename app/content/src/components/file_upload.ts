@@ -23,7 +23,6 @@ export default class FileUpload extends Vue {
   public on_file_selected(event){
     this.selected_file = event.target.files[0];
     log.info(this.selected_file.name);
-
   }
 
   //send the file to the API
