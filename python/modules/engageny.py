@@ -13,11 +13,13 @@ class Lesson:
     module_num: int = 0
     lesson_num: int = 0
     url: str = None
+    path: str = None
+    name: str = None
     student_docx: str = None
     student_pdf: str = None
     teacher_docx: str = None
     teacher_pdf: str = None
-    status: str = None
+    status: str = "unprocessed"
     notes: str = ""
     keywords: set = field(default_factory=lambda: set())
 
@@ -63,6 +65,8 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
                         les_id = re.match(r".* Lesson ([0-9]+).*",d).group(1)
                         # print (les_id)
                         lsn.lesson_num = int (les_id)
+                        lsn.name = f"Lesson {lsn.lesson_num}"
+                        lsn.path = f"EngageNY/{lsn.subj}/Module {lsn.module_num}"
                         # print(lsn.subj,'--',lsn.module_num,'--',lsn.lesson_num)
                 if len(c)>0:
                     is_pdf = bool (re.search(r"\.pdf", c))
@@ -86,7 +90,6 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
                     lsn.notes += h
                 if len(i)>0:
                     lsn.keywords = lsn.keywords.union( set(re.split('[,;] ', i)) )             
-
                 line_count += 1
         if lsn is not None:
             lessons.append(lsn)
