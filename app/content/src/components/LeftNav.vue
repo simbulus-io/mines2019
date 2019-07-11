@@ -104,7 +104,7 @@
     left: 0;
     bottom: 0;
     width: $left_nav_width;
-    background-color: $light_gray;
+    background-color: $wm_gray;
     z-index: -1;
   }
 
