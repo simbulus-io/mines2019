@@ -15,7 +15,6 @@
           <img :src="url" :alt="`Thumbnail Image ${index}`"/>
         </div>
       </div>
-      {{page_list_arr}}
       <div v-if="hash" class="stage_two">
         <h3>List of Pages to Import (default &rarr; all):</h3>
           <input v-model="page_list" />

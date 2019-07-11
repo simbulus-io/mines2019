@@ -269,6 +269,19 @@ export const content: Module<ContentState, RootState> = {
       puts({job, jout});
       return jout;
     },
+    upload_images_wm:  async (context: any, args: any) => {
+      const url = 'https://www.wootmath.com/auth/woot_roster/v1.1/tutor/image_upload'; // TODO: what to do with auth?
+      const rval = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'img/png'
+        },
+        method: 'POST',
+        body: null// TODO: put image(s) here?
+      });
+      const state = await rval.json();
+      puts(`In upload_images_wm got ${state.message} from the server`);
+    },
     test_array: async (context:any , arg: any) => {
       try {
         const rval = await fetch(`${API_BASE_URL}/contents`)
@@ -292,7 +305,6 @@ export const content: Module<ContentState, RootState> = {
         log.error(e);
       }
     },
-
 
     //////this links to the route serving static files from test_routes.ts
     //////TODO: parameterize the url passed to fetch() so that any file in public can be called by name

@@ -79,6 +79,10 @@ export default class SegmentUI extends Vue {
         // (ingest ctrl).reported_errors.push(error_message);
       } else {
         // display state...
+        // AP: is here tigger action that then posts to https://www.wootmath.com/auth/woot_roster/v1.1/tutor/image_upload?
+        // dispatch 'content/upload_images_wm'
+        // const maybe = await this.$store.dispatch('content/upload_images_wm',
+        //                                               {/*args go here */} );
       }
     } catch(e) {
       log.error(`Unexpected exception in handle_upload: ${e}`);
