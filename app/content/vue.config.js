@@ -1,11 +1,12 @@
 // Need this for VSCode debugging
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+process.env.USER
 let widget_name = "content"
 module.exports = {
   publicPath: '/content/',
   productionSourceMap: false,
   // devServer: {
-  //   proxy: 'http://localhost:5102',
+  //   host: '10.0.9.2'
   // },
   css: {
     extract: true // bundle the CSS with JS and apply dynamically

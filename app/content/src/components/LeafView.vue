@@ -1,7 +1,8 @@
 <template>
     <div class="m-content">
         <div> <!-- TODO: do something meaningful with this binding/clean up -->
-            <div v-show="lesson_idx!==''">
+            <!-- lesson_id: {{lesson_id}}. -->
+            <div v-show="lesson_id!==''">
                 <h2>Status: {{lesson_status}}</h2>
                 <select class="status-input" v-model="lesson_status">
                     <!-- <option disabled value="">Please select one</option> -->
@@ -14,27 +15,28 @@
                 <button class="new-button"  type="button" v-on:click="new_note">
                     <font-awesome-icon icon="plus-circle" />
                 </button>
-                <div v-for="note in lesson_notes" :key="note.idx" class="note">
+                <div v-for="note in lesson_notes" :key="note.index" class="note">
                     <div class="note-row">
                         <div class="note-cell note-text">
+                            <!-- {{note.index}} {{note.idx}} -->
                             <textarea
                                 class="lesson-input"
                                 v-model="note.text"
                                 rows="5"
                                 overflow="auto"
-                                v-bind:class="{ 'lesson-input-inactive': !note_selected(note.idx) }"
-                                v-bind:readonly="!note_selected(note.idx)"
+                                v-bind:class="{ 'lesson-input-inactive': !note_selected(note.index) }"
+                                v-bind:readonly="!note_selected(note.index)"
                                 v-focus>
                             </textarea>
                         </div>
                         <div class="note-cell note-button-wrapper">
-                            <button class="note-button edit-button" v-show="!note_selected(note.idx)" type="button" v-on:click="edit_note(note.idx)">
+                            <button class="note-button edit-button" v-show="!note_selected(note.index)" type="button" v-on:click="edit_note(note.index)">
                                 Edit Note
                             </button>
-                            <button class="note-button edit-button" v-show="note_selected(note.idx)" type="button" v-on:click="save_note(note.idx, note.text)">
+                            <button class="note-button edit-button" v-show="note_selected(note.index)" type="button" v-on:click="save_note(note.index, note.text)">
                                 Save Note
                             </button>
-                            <button class="note-button delete-button" type="button" v-on:click="delete_note(note.idx)">
+                            <button class="note-button delete-button" type="button" v-on:click="delete_note(note.index, note.text)">
                                 Delete Note
                             </button> 
                         </div>
@@ -56,7 +58,7 @@
                 <h2>Standards</h2>
                 <div>
                     <standard-block v-for="standard in lesson_standards" :key="standard" :text="standard"/>
-                    <p v-show="lesson_standards.length === 0">No standards <font-awesome-icon icon="sad-tear"/> </p>
+                    <!-- <p v-show="lesson_standards.length === 0">No standards <font-awesome-icon icon="sad-tear"/> </p> -->
                 </div>
                 
             </div>

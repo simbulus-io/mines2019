@@ -7,9 +7,10 @@ import { MongoHelper }       from './helpers/mongo_helper';
 import { IndexRoutes }       from './routes/index_routes';
 import { JobsRoutes }        from './routes/jobs_routes';
 import { TestRoutes }        from './routes/test_routes';
-import { CONTENT_DB_NAME }   from './helpers/consts';
+import { CONTENT_DB_NAME, SOURCE_COLL_NAME }   from './helpers/consts';
 import express               from 'express';
 import { ContentRoutes }     from './routes/content_routes';
+import { ObjectID } from 'bson';
 
 const cookieParser = require('cookie-parser');
 const cors         = require('cors');
@@ -47,6 +48,10 @@ export class Server {
       const mongo = await MongoHelper.connect();
       this.app.set('mongo', mongo);
       log.info('Mongo setup done');
+
+      // const doc = await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME).findOne(
+      //   { _id: new ObjectID('5d263ae610da7305ec606d2f') }
+      // );
 
       // Enable CORS if in development (suppress Cross Origin errors)
       const development = process.env.NODE_ENV !== 'production';

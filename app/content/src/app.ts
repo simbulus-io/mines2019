@@ -1,6 +1,7 @@
 import { Component, Vue }   from 'vue-property-decorator';
 import Nav                  from '@/components/Nav.vue'; // @ is an alias to /src
 import { log }              from './logger';
+import { API_BASE_URL }     from '@/config';
 
 @Component({
   name: 'app',
@@ -9,6 +10,11 @@ import { log }              from './logger';
   },
 })
 export default class App extends Vue {
+
+  constructor() {
+    super();
+  }
+
   // Lifecycle
   public async created() {
     // Initial action dispatches are done here - its very

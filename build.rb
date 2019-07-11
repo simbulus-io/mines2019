@@ -4,6 +4,7 @@ require 'erubis'
 require 'fileutils'
 require 'socket'
 
+
 Erdos = '10.0.1.3'
 Local_Network = /^10\./
 
@@ -22,10 +23,14 @@ def main(opts)
 
   # Each file in templates[] will get erb-expanded into a file of the same name (minus the trailing .erb)
   # Paths are relative to root_dir
-  templates = %w( 
-    stack/docker/nginx/nginx.conf.erb  
-    stack/docker/docker-compose.yml.erb 
+
+  # SK added
+  # - .env.erb        (for yarn run serve)
+  templates = %w(
+    stack/docker/nginx/nginx.conf.erb
+    stack/docker/docker-compose.yml.erb
     python/python-coproc/export_env.erb
+    app/content/.env.erb
   )
 
   templates.each do |tmplt|
@@ -45,7 +50,7 @@ if __FILE__==$0
   require 'optparse'
   require 'ostruct'
 
-  
+
   opts = OpenStruct.new
   # Defaults:
   opts[:port]          = '80'

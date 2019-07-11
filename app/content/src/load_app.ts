@@ -20,6 +20,7 @@ import App                 from '@/App.vue';
 import router              from '@/router';
 import store               from '@/store/store';
 import { log }             from '@/logger';
+import { API_BASE_URL }    from '@/config';
 
 export async function load_app() {
 
@@ -47,6 +48,10 @@ export async function load_app() {
     router,
     store,
     render: (h) => h(App),
+    created: () => {
+      log.info('Jester Starting Up')
+      log.info(`API_BASE_URL ${API_BASE_URL}`);
+    },
   }).$mount('#content-app');
 
 };

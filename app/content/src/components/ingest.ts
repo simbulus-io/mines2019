@@ -1,16 +1,17 @@
 // RBM - from the CL yarn add vue-loading-overlay
 //
 import { Component, Prop, Vue, Watch }                    from 'vue-property-decorator';
-import MainContent                                 from '@/components/MainContent.vue';
-import { log , puts }                              from '@/logger';
-import LineSeparator                               from '@/components/LineSeparator.vue';
-import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
-import Loading                                     from 'vue-loading-overlay';
+import MainContent                                        from '@/components/MainContent.vue';
+import { log , puts }                                     from '@/logger';
+import { rpc_job_succeeded, rpc_job_error_string }        from '@/rpc';
+import SegmentUI                                          from '@/components/SegmentUI.vue';
+import ErrorReporter                                      from '@/components/ErrorReporter.vue'
+import { pubsub, PubSubMessage }                          from '@/pubsub';
+import { Lesson }                                         from './lesson';
+import { HOST_URL }                                       from '@/config'
+import Loading                                            from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import SegmentUI                                   from '@/components/SegmentUI.vue';
-import ErrorReporter                               from '@/components/ErrorReporter.vue'
-import { pubsub, PubSubMessage }                   from '@/pubsub';
-import { Lesson } from './lesson';
+
 @Component({
   components: {
     MainContent,
@@ -21,7 +22,7 @@ import { Lesson } from './lesson';
 })
 export default class Ingest extends Vue {
 
-  public server='http://localhost/';
+  public server = HOST_URL;
 
   public local_url: string = '';
 
@@ -45,9 +46,9 @@ export default class Ingest extends Vue {
     const curr_selection = this.$store.state.content.content_selection;
     if( curr_selection !== '' ){
       const lesson: Lesson = this.$store.state.content.content_lessons.find( (less) => {
-        return less.idx === curr_selection;
+        return less._id === curr_selection;
       }, this);
-      return lesson ? lesson.url : '';
+      return lesson ? lesson.student_pdf : '';
     } else {
       return '';
     }
