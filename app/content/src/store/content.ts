@@ -51,21 +51,21 @@ export const content: Module<ContentState, RootState> = {
       Vue.set(state.content_lessons,index,lesson);
     },
     update_lesson_note: (state: any, args: any) => {
-      const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
+      const index = state.content_lessons.findIndex(less => less._id === args._id );
       const lesson = state.content_lessons[index];
       const note_index = args.note_index;
       lesson.notes[note_index] = args.text;
       Vue.set(state.content_lessons,index,lesson);
     },
     delete_lesson_note: (state: any, args: any) => {
-      const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
+      const index = state.content_lessons.findIndex(less => less._id === args._id );
       const lesson = state.content_lessons[index];
       const note_index = args.note_index;
       lesson.notes.splice(note_index, 1);
       Vue.set(state.content_lessons,index,lesson);
     },
     add_lesson_note: (state: any, args: any) => {
-      const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
+      const index = state.content_lessons.findIndex(less => less._id === args._id );
       const lesson = state.content_lessons[index];
       lesson.notes.push('');
       Vue.set(state.content_lessons,index,lesson);
@@ -104,28 +104,38 @@ export const content: Module<ContentState, RootState> = {
       context.commit('content_lessons', state.message);
     },
     update_lesson_keywords:  async (context: any, args: any) => {
-      let query_string = `?_id=${args._id}`;
-      args.keywords.forEach(keyword => {
-        query_string += `&keywords[]=${keyword}`;
+      const json_body = JSON.stringify(args);
+      //log.info(json_body);
+      const url = `${API_BASE_URL}/update_lesson/keywords`;
+      const rval = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: json_body
       });
-      log.info(query_string);
-      const url = `${API_BASE_URL}/update_lesson/keywords${query_string}`;
-      const rval = await fetch(url)
       const state = await rval.json();
       puts(`In update_lesson_keywords got ${state.message} from the server`);
       context.commit('update_lesson_keywords', args);
     },
     update_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}&note_index=${args.note_index}&text=${args.text}`;
-      log.info(query_string);
-      const url = `${API_BASE_URL}/update_lesson/update_note${query_string}`;
-      const rval = await fetch(url)
+      const url = `${API_BASE_URL}/update_lesson/update_note`;
+      const json_body = JSON.stringify(args);
+      const rval = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: json_body
+      });
       const state = await rval.json();
       puts(`In update_lesson_note got ${state.message} from the server`);
       context.commit('update_lesson_note', args);
     },
     delete_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}&note_index=${args.note_index}`;
+      let query_string = `?_id=${args._id}&note_index=${args.note_index}`;
       log.info(query_string);
       const url = `${API_BASE_URL}/update_lesson/delete_note${query_string}`;
       const rval = await fetch(url)
@@ -134,14 +144,14 @@ export const content: Module<ContentState, RootState> = {
       context.commit('delete_lesson_note', args);
     },
     add_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}`;
+      let query_string = `?_id=${args._id}`;
       log.info(query_string);
       const url = `${API_BASE_URL}/update_lesson/add_note${query_string}`;
       const rval = await fetch(url)
       const state = await rval.json();
       puts(`In add_lesson_note got ${state.message} from the server`);
       const params = {
-        lesson_id: args.lesson_id,
+        _id: args._id,
       }
       context.commit('add_lesson_note', params);
     },

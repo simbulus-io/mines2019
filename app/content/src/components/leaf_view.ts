@@ -4,6 +4,7 @@ import { Lesson }                       from './lesson';
 import { VueTagsInput, createTags }     from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
 import {Guid}                           from 'guid-typescript';
 import StandardBlock                    from './StandardBlock.vue';
+import { STATUS_VALUES }                from './status_values';
 import { stringify } from 'querystring';
 
 @Component({
@@ -27,6 +28,8 @@ export default class LeafView extends Vue {
 
     public tag: string = '';
     public selected_note: number;
+    public local_keywords: any[] = [];
+    public readonly STATUS_VALUES: string[] = STATUS_VALUES;
 
     private autocompleteItems = [
         'Counting and Cardinality',
@@ -67,14 +70,13 @@ export default class LeafView extends Vue {
     public get lesson_notes() {
         const lesson: Lesson = this.lesson;
         const simple_notes: string[] = lesson ? lesson.notes : [];
-        const obj_notes :{ index: number, idx: string, text: string }[] = [];
+        const obj_notes :{ index: number, text: string }[] = [];
         let i = 0;
         //log.info(simple_notes);
         simple_notes.forEach((note: string) => {
             //log.info(`Note: index = ${i} text = ${note}`);
             const obj_note = {
                 index: i,
-                idx: Guid.raw(),
                 text: note,
             };
             obj_notes.push(obj_note);
@@ -100,7 +102,7 @@ export default class LeafView extends Vue {
     public save_note( note_index: string, note_text: string){
         this.selected_note = -1;
         this.$store.dispatch( 'content/update_lesson_note', {
-            lesson_id: this.lesson_id,
+            _id: this.lesson_id,
             note_index: note_index,
             text: note_text
         });
@@ -109,11 +111,9 @@ export default class LeafView extends Vue {
     public delete_note( note_index: number, note_text: string ){
         const confirm_delete = confirm('Are you sure you want to delete the note:\n"'+note_text+'"');
         if (confirm_delete) {
-            if ( this.selected_note === note_index ) {
-                this.selected_note = -1;
-            }
+            this.selected_note = -1;
             this.$store.dispatch( 'content/delete_lesson_note', {
-                lesson_id: this.lesson_id,
+                _id: this.lesson_id,
                 note_index: note_index,
             });
         }
@@ -122,7 +122,7 @@ export default class LeafView extends Vue {
     public new_note(){
         const new_note_index : number = this.lesson_notes.length;
         this.$store.dispatch( 'content/add_lesson_note', {
-            lesson_id: this.lesson_id,
+            _id: this.lesson_id,
         });
         this.edit_note( new_note_index );
     }
@@ -149,9 +149,13 @@ export default class LeafView extends Vue {
         return lesson ? lesson.standards : [];
     }
 
-    public update_keywords( newTags: any[] ) {
+    public change_keywords( newTags: any[] ) {
+        this.local_keywords = newTags;
+    }
+
+    public update_keywords( ) {
         let string_tags: string[] = [];
-        newTags.forEach(keyword => {
+        this.local_keywords.forEach(keyword => {
             const text = keyword ? keyword.text : '';
             string_tags.push(text);
         });

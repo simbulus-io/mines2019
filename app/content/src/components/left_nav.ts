@@ -3,6 +3,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import { log }                  from '@/logger';
 import { Lesson }               from './lesson';
 import jsonView                 from './JSONView.vue';
+import { STATUS_VALUES }                from './status_values';
 
 @Component({
   components: {
@@ -21,14 +22,11 @@ export default class LeftNav extends Vue {
     log.info(this.$route);
   }
 
-  public filter_options = [
-    'unprocessed',
-    'processed - accepted',
-    'processed - rejected',
+  public readonly filter_options = STATUS_VALUES.concat([
     'no keywords',
     'no notes',
     'no standards',
-  ];
+  ]);
 
   public get content_lessons() {
     return this.$store.state.content.content_lessons;
@@ -53,23 +51,10 @@ export default class LeftNav extends Vue {
   }
 
   public get filter_category() {
-    switch(this.filter_selection){
-      case 'unprocessed':
-      case 'processed - accepted':
-      case 'processed - rejected':
-        return 'status';
-        break;
-      case 'no keywords':
-        return 'keywords';
-        break;
-      case 'no notes':
-        return 'notes';
-        break;
-      case 'no standards':
-        return 'standards';
-        break;
-      default:
-        return '';
+    if( STATUS_VALUES.includes(this.filter_selection) ) {
+      return 'status';
+    } else {
+      return this.filter_selection.substring(3); // remove 'no ' to get category
     }
   }
 

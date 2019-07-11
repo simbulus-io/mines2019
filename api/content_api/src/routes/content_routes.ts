@@ -70,13 +70,13 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/update_lesson/keywords`, async (req, res) => {
+    router.post(`${RoutesBase.API_BASE_URL}/update_lesson/keywords`, async (req, res) => {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
-          .updateOne({ _id: new ObjectID(req.query._id)},
-            { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } }) );
+          .updateOne({ _id: new ObjectID(req.body._id)},
+            { $set: { keywords: (req.body.keywords ? req.body.keywords : []) } }) );
         if (rval.n === 1) {
           res.send({status: true});
         } else { // TODO: fix updateOne error
@@ -108,18 +108,18 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/update_lesson/update_note`, async (req, res) => {
+    router.post(`${RoutesBase.API_BASE_URL}/update_lesson/update_note`, async (req, res) => {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo = req.app.get('mongo');
         const docs: any[] = await mongo.db(CONTENT_DB_NAME)
-          .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.query._id) } ).toArray();
-        if (docs) {
+          .collection(SOURCE_COLL_NAME).find( { _id: new ObjectID(req.body._id) } ).toArray();
+        if (docs && docs.length > 0) {
           const lesson_notes = docs[0].notes;
-          const note_index = req.query.note_index;
-          lesson_notes[note_index] = req.query.text;
+          const note_index = req.body.note_index;
+          lesson_notes[note_index] = req.body.text;
           const rval =  JSON.parse( await mongo.db(CONTENT_DB_NAME).collection(SOURCE_COLL_NAME)
-            .updateOne({  _id: new ObjectID(req.query._id)}, { $set: { notes: lesson_notes } }) );
+            .updateOne({  _id: new ObjectID(req.body._id)}, { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {
             res.send({status: true});
