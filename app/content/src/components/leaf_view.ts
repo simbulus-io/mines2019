@@ -28,7 +28,7 @@ export default class LeafView extends Vue {
 
     public tag: string = '';
     public selected_note: number;
-    public local_keywords: any[] = [];
+    public local_keywords: string[] = [];
     public readonly STATUS_VALUES: string[] = STATUS_VALUES;
 
     private autocompleteItems = [
@@ -149,16 +149,24 @@ export default class LeafView extends Vue {
         return lesson ? lesson.standards : [];
     }
 
-    public change_keywords( newTags: any[] ) {
-        this.local_keywords = newTags;
+    // searching through all lessons in store takes awhile -> only update store in batch for keywords
+    // triggered on blur -> doesn't matter if user directly refreshes or leaves the page
+    public update_store_keywords( ) {
+        log.info(`Update store keywords triggered with ${this.lesson_id}`);
+        log.info(this.$store.state.content.content_lessons);
+        const index = this.$store.state.content.content_lessons.findIndex(less => less._id === this.lesson_id );
+        const lesson = this.$store.state.content.content_lessons[index];
+        lesson.keywords = this.local_keywords;
+        Vue.set(this.$store.state.content.content_lessons,index,lesson);
     }
 
-    public update_keywords( ) {
+    public update_keywords( newTags: any[]) {
         let string_tags: string[] = [];
-        this.local_keywords.forEach(keyword => {
+        newTags.forEach(keyword => {
             const text = keyword ? keyword.text : '';
             string_tags.push(text);
         });
+        this.local_keywords = string_tags;
         this.$store.dispatch( 'content/update_lesson_keywords', {
             _id: this.lesson_id,
             keywords: string_tags,
