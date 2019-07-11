@@ -7,7 +7,10 @@
       <br><button @click="handle_submit">Load</button>
       <h3 v-if="page_thumbnails.length>0">Content Preview:</h3>
       <div class="thumbnail-container">
-        <div class="thumbnail-image" v-for="(url,index) in page_thumbnails" :key="index">
+        <div class="thumbnail-image"
+          v-for="(url,index) in page_thumbnails"
+          :key="index"
+          @click="toggle_page_selection(index+1)">
           <div v-show="!in_page_list(index+1)" class="thumbnail-overlay not-selected"><span><font-awesome-icon icon="times-circle" /></span></div>
           <img :src="url" :alt="`Thumbnail Image ${index}`"/>
         </div>
@@ -98,7 +101,7 @@
           width: 100%;
           height: 100%;
           text-align: center;
-          color:rgba(158, 29, 29, 0.7);
+          color:rgba(119, 119, 119, 0.7);
           font-size: 5vw;
           display: flex;
           align-content: middle;
@@ -106,11 +109,7 @@
           flex-direction: column;
         }
         .thumbnail-overlay.not-selected {
-          background-color: rgba(158, 29, 29, 0.5);
-        }
-        img {
-          //margin-left: 25px;
-          //margin-top: 40px;
+          background-color: rgba(119, 119, 119, 0.5);
         }
       }
       

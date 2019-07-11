@@ -147,7 +147,9 @@ export default class Ingest extends Vue {
         // remove comma if it is there
         const string_num = (expr[expr.length-1]===',' ? expr.substring(0, expr.length - 1) : expr );
         const num:number = parseInt(string_num);
-        re_arr.push(num);
+        if( !re_arr.includes(num) ) {
+          re_arr.push(num);
+        }
       });
     }
     if ( re_arr_hyphen ) {
@@ -156,12 +158,13 @@ export default class Ingest extends Vue {
         const start_num : number = parseInt(num_arr[0]);
         const end_num : number = parseInt(num_arr[1]);
         for( let i = start_num; i <= end_num; i++) {
-          re_arr.push(i);
+          if( !re_arr.includes(i) ) {
+            re_arr.push(i);
+          }
         }
       });
     }
-    // TODO: could be more efficient (?) to remove duplicates but works fine w/ them in
-    return re_arr;
+    return re_arr.sort();
   }
 
   public in_page_list(page_num:number) {
@@ -170,6 +173,26 @@ export default class Ingest extends Vue {
     } else {
       return false;
     }
+  }
+
+  public toggle_page_selection( page_num: number ) {
+    const page_arr = this.page_list_arr;
+    if( this.in_page_list( page_num ) ) {
+      // is in page list -> remove
+      this.gen_new_page_list(page_num);
+      const remove_index = page_arr.indexOf(page_num);
+      // TODO: improve by detecting sequential # and replace n, n+1, ..., n+m with hyphen form in n-n+m
+      page_arr.splice(remove_index, 1);
+    } else {
+      page_arr.push(page_num);
+      page_arr.sort();
+      // TODO: could be better by detecting for  last char being 0-9, comma, or space
+    }
+    this.page_list = page_arr.join(', ');
+  }
+
+  private gen_new_page_list(num_remove:number) {
+    
   }
 
 
