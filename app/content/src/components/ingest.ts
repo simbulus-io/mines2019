@@ -135,6 +135,43 @@ export default class Ingest extends Vue {
     this.show_spinner = false;
   }
 
+  public get page_list_arr() {
+    const re_comma = new RegExp('[0-9]+(,|[^-]*)', 'g');
+    // ^ comma may or may not be there (ex. last page in list has no comma)
+    const re_hyphen = new RegExp('[0-9]+-[0-9]+', 'g');
+    const re_arr_comma = this.page_list.match(re_comma);
+    const re_arr_hyphen = this.page_list.match(re_hyphen);
+    let re_arr:number[] = [];
+    if ( re_arr_comma ) {
+      re_arr_comma.forEach(expr => {
+        // remove comma if it is there
+        const string_num = (expr[expr.length-1]===',' ? expr.substring(0, expr.length - 1) : expr );
+        const num:number = parseInt(string_num);
+        re_arr.push(num);
+      });
+    }
+    if ( re_arr_hyphen ) {
+      re_arr_hyphen.forEach(expr => {
+        const num_arr: string[] = expr.split('-');
+        const start_num : number = parseInt(num_arr[0]);
+        const end_num : number = parseInt(num_arr[1]);
+        for( let i = start_num; i <= end_num; i++) {
+          re_arr.push(i);
+        }
+      });
+    }
+    // TODO: could be more efficient (?) to remove duplicates but works fine w/ them in
+    return re_arr;
+  }
+
+  public in_page_list(page_num:number) {
+    if ( this.page_list_arr.includes(page_num) ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   // Computed
   public get hello_mines() {
