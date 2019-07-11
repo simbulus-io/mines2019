@@ -4,8 +4,10 @@ import csv
 import os
 import re
 import requests
+import sys
 
 from dataclasses import dataclass, field
+from typing import List
 
 @dataclass
 class Lesson:
@@ -15,15 +17,76 @@ class Lesson:
     url: str = None
     path: str = None
     name: str = None
+    _id: str = None  # short unique id
     student_docx: str = None
     student_pdf: str = None
     teacher_docx: str = None
     teacher_pdf: str = None
     status: str = "unprocessed"
     notes: str = ""
+    title: str = None
+    desc: str = None
+    standards: List[int] = field(default_factory=list)
+    # standards: set = field(default_factory=lambda: set())
     keywords: set = field(default_factory=lambda: set())
 
-def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
+def convert_engageny_standards( engageny_standards ):
+    ecs_standards = []
+    for engageny_standard in engageny_standards:
+        ecs_standard = "MA." + engageny_standard
+        # see if standard has a letter at the end (ex. G.SRT.1.a)
+        # period check might be unnecessary
+        if ecs_standard[-2:-1] == "." and ecs_standard[-1:].isalpha():
+            period_index = len(ecs_standard)-2
+            ecs_standard = ecs_standard[:period_index] + ecs_standard[period_index+1:]
+        ecs_standards.append(ecs_standard)
+    return ecs_standards
+
+def scan_engage_lesson(url):
+    # print(f'scanning {url}')
+    r  = requests.get(url)
+    soup = Bsoup(r.text, 'html.parser')
+    desc = None
+    stds = set()
+    title = soup.title.text
+    div_w_sum = soup.find_all('div', {"class": "field-type-text-with-summary"})
+    for d in div_w_sum:
+        desc = d.text.strip()
+        break
+        
+    std_ref = re.compile("^([A -Z0-9a-d]+\.){2,5}[A-Z0-9a-d]+$")        
+    links = soup.find_all('a')
+    for l in links:
+        t = l.text.strip()
+        if std_ref.search(t):
+            stds.add(t);
+            std_refs[t] = f'https://www.engageny.org{l["href"]}'
+
+    stds = convert_engageny_standards( list (stds) )
+    return title,desc,stds
+ 
+    
+def subj_id(subj):
+    lookup = {
+      'Algebra I'    : 'alg1',
+      'Algebra II'   : 'alg2',
+      'Geometry'     : 'geo',
+      'Grade 1'      : 'g1',
+      'Grade 2'      : 'g2',
+      'Grade 3'      : 'g3',
+      'Grade 4'      : 'g4',
+      'Grade 5'      : 'g5',
+      'Grade 6'      : 'g6',
+      'Grade 7'      : 'g7',
+      'Grade 8'      : 'g9',
+      'Kindergarten' : 'k',
+      'Precalculus'  : 'pCalc'
+      }
+    if subj in lookup:
+        return lookup[subj]
+    return subj
+
+def process_spreadsheet(fname = '../data/EngageNY/content.tsv', pusher=None):
     lessons = []
     subjects = set()
     lsn = None
@@ -46,11 +109,16 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
                 #     modules.append(a)
                 if len(b)>0:
                     if lsn is not None:
+                        if pusher is not None:
+                            pusher(lsn)
                         lessons.append(lsn)
                         # if len(lsn.keywords) > 0:
                         #     print(lsn)
                     lsn = Lesson(url=b)
+                    lsn.title, lsn.desc, stds = scan_engage_lesson(lsn.url)
+                    lsn.standards = list(stds)
                     # print(f'\t{b}')
+                    # sys.stdout.flush()
                 if len(d)>0:
                     if lsn.subj is None:
                         # print(f"\t<<{d}>>")
@@ -67,6 +135,7 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
                         lsn.lesson_num = int (les_id)
                         lsn.name = f"Lesson {lsn.lesson_num}"
                         lsn.path = f"EngageNY/{lsn.subj}/Module {lsn.module_num}"
+                        lsn._id = f"ny-{subj_id(lsn.subj)}-{lsn.module_num}-{lsn.lesson_num}"
                         # print(lsn.subj,'--',lsn.module_num,'--',lsn.lesson_num)
                 if len(c)>0:
                     is_pdf = bool (re.search(r"\.pdf", c))
@@ -86,8 +155,10 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
                     lsn.status = g.lower()
                     if lsn.status == 'yes':
                         lsn.status = 'processed - accepted'
-                    if lsn.status == 'yes':
-                        lsn.status = 'processed - accepted'
+                    if lsn.status == 'no':
+                        lsn.status = 'processed - rejected'
+                    if lsn.status == 'maybe':
+                        lsn.status = 'processed - deferred'
                 if len(h)>0:
                     if (len(lsn.notes)>0): 
                         lsn.notes += " "
@@ -96,6 +167,8 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
                     lsn.keywords = lsn.keywords.union( set(re.split('[,;] ', i)) )             
                 line_count += 1
         if lsn is not None:
+            if pusher is not None:
+                pusher(lsn)
             lessons.append(lsn)
             
         print(f'Processed {line_count} lines, {len(lessons)} lessons.') 
@@ -104,27 +177,6 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv'):
     
 std_refs = {}
 
-def scan_engage_lesson(url):
-    r  = requests.get(url)
-    soup = Bsoup(r.text, 'html.parser')
-    desc = None
-    stds = set()
-    title = soup.title.text
-    div_w_sum = soup.find_all('div', {"class": "field-type-text-with-summary"})
-    for d in div_w_sum:
-        desc = d.text.strip()
-        break
-        
-    std_ref = re.compile("^([A -Z0-9a-d]+\.){2,5}[A-Z0-9a-d]+$")        
-    links = soup.find_all('a')
-    for l in links:
-        t = l.text.strip()
-        if std_ref.search(t):
-            stds.add(t);
-            std_refs[t] = f'https://www.engageny.org{l["href"]}'
-    return title,desc,stds
- 
-    
 
 
 def nlp_v_np(txt):

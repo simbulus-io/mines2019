@@ -140,29 +140,36 @@ def compose_images(*,source,sequence,tgt_fmt='%02d.png'):
 # - - - - - - - - - - - - - - - - - - - -
 
 from modules.engageny import process_spreadsheet as proc_ss
-@command
 
-def process_spreadsheet(*, csv):
+def sources_pusher(src):
     from pymongo import MongoClient
+
+    # import shortuuid
+    # from shortuuid import uuid
+    # shortuuid.set_alphabet("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ")
 
     mongo_url = os.getenv('DATABASE_URL', 'mongodb://localhost:27017/')
     mongo_db = os.getenv('MONGO_DBNAME', 'internal_tools_jester')
     mongo_client = MongoClient(mongo_url)
     db = mongo_client[mongo_db]
-    sources = db.sources
+    sources = db.sources2
 
-    lessons, subjects = proc_ss(fname=csv)
+    d = src.__dict__
+    d['keywords'] = list(d['keywords'])
+    d['standards'] = list(d['standards'])
+    notes = []
+    if len(d['notes']) > 0:
+        notes = [d['notes']]
+    d['notes'] = notes
+    # d['_id'] = d['_id'] + '-' + uuid()[:4]
+    sources.insert_one(d)
 
-    for less in lessons:
-        d = less.__dict__
-        d['keywords'] = list(d['keywords'])
-        notes = []
-        if len(d['notes']) > 0:
-            notes = [d['notes']]
-        d['notes'] = notes
-        sources.insert_one(d)
+    
 
-    return {'status': 0, 'nlessons': len(lessons)}
+@command
+def process_spreadsheet(*, csv):
+    lessons, subjects = proc_ss(fname=csv, pusher=sources_pusher)
+    return {'status': 0, 'n_lessons': len(lessons), 'n_subjects': len(subjects)}
     
 # - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - -
@@ -398,8 +405,9 @@ def mock_main():
 {
          'dir' : 'my_job',
          'command': 'process_spreadsheet',
+         'timeout': 20000.0,
          'args': {
-           'csv': '/data/EngageNY/content.tsv',
+           'csv': '/data/EngageNY/partial-content.tsv',
         },
         
         }
