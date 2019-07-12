@@ -33,16 +33,11 @@ export const content: Module<ContentState, RootState> = {
       state.hello  = message;
     },
     content_selection: (state: any, new_value: string) => {
+      log.info('Content selection changed now.')
       state.content_selection  = new_value;
     },
     content_lessons: (state: any, message: any) => {
       state.content_lessons  = message;
-    },
-    update_lesson_keywords: (state: any, args: any) => {
-      const index = state.content_lessons.findIndex(less => less._id === args._id );
-      const lesson = state.content_lessons[index];
-      lesson.keywords = args.keywords;
-      Vue.set(state.content_lessons,index,lesson);
     },
     update_lesson_note: (state: any, args: any) => {
       const index = state.content_lessons.findIndex(less => less._id === args._id );
@@ -102,7 +97,6 @@ export const content: Module<ContentState, RootState> = {
       });
       const state = await rval.json();
       puts(`In update_lesson_keywords got ${state.message} from the server`);
-      context.commit('update_lesson_keywords', args);
     },
     update_lesson_note:  async (context: any, args: any) => {
       const url = `${API_BASE_URL}/update_lesson/update_note`;
@@ -261,5 +255,18 @@ export const content: Module<ContentState, RootState> = {
       return jout;
     },
 
+    upload_images_wm:  async (context: any, args: any) => {
+      const url = 'https://www.wootmath.com/auth/woot_roster/v1.1/tutor/image_upload'; // TODO: what to do with auth?
+      const rval = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'img/png'
+        },
+        method: 'POST',
+        body: null// TODO: put image(s) here?
+      });
+      const state = await rval.json();
+      puts(`In upload_images_wm got ${state.message} from the server`);
+    },
   }
 };
