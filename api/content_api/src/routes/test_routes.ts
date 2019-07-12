@@ -25,9 +25,8 @@ export class TestRoutes extends RoutesBase {
                                                                res: Response,
                                                                next: NextFunction) => {
       try {
-        const mongo = req.app.get('mongo');
-        // using await
-        const docs = await mongo.db('internal_tools').collection('inventory').find().toArray();
+        const mongo_db = req.app.get('mongo_db');
+        const docs = await mongo_db.collection('inventory').find().toArray();
         logger.info(JSON.stringify(docs, null, 2));
         res.json({status: true, message: 'Mongo Test Okay'});
       } catch (e) {
@@ -39,9 +38,8 @@ export class TestRoutes extends RoutesBase {
       res: Response,
       next: NextFunction) => {
       try {
-        const mongo = req.app.get('mongo');
-        // using await
-        const docs = await mongo.db('internal_tools').collection('test_collection').find().toArray();
+        const mongo_db = req.app.get('mongo_db');
+        const docs = await mongo_db.collection('test_collection').find().toArray();
         //logger.info(JSON.stringify(docs, null, 2));
         res.json({
           status: true,
@@ -49,35 +47,6 @@ export class TestRoutes extends RoutesBase {
         });
       } catch (e) {
         logger.error('Error in test/mongo', e);
-      }
-    });
-
-    //TEST ROUTE TO PULL DATA ARRAY FROM THE DB
-    router.get(`${RoutesBase.API_BASE_URL}/test_route`, async (req: Request,
-      res: Response,
-      next: NextFunction) => {
-      try {
-        const mongo = req.app.get('mongo');
-        // using await
-        const docs = await mongo.db('internal_tools').collection('test_collection_2').find().toArray();
-        logger.info(JSON.stringify(docs, null, 2));
-        res.json({
-          status: true,
-          docs: docs,
-        });
-      } catch (e) {
-        logger.error('Error in test/mongo', e);
-      }
-    });
-
-    ///////serve files in the 'content_api/dist/routes/public' directory when requested by name//////
-    router.get(`${RoutesBase.API_BASE_URL}/static/:static_file`, async (req: Request,
-      res: Response,
-      next: NextFunction) => {
-      try {
-        res.sendFile('/public/' + req.params.static_file, { root: __dirname });
-      } catch (e) {
-        logger.error('Error serving image', e);
       }
     });
 

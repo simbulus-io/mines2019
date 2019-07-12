@@ -1,1 +1,1 @@
-export const SOURCES_COLLECTION = 'sources2';
+export const SOURCES_COLLECTION = 'sources';

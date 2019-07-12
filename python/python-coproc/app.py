@@ -152,7 +152,7 @@ def sources_pusher(src):
     mongo_db = os.getenv('MONGO_DBNAME', 'internal_tools_jester')
     mongo_client = MongoClient(mongo_url)
     db = mongo_client[mongo_db]
-    sources = db.sources2
+    sources = db.sources
 
     d = src.__dict__
     d['keywords'] = list(d['keywords'])
@@ -407,7 +407,7 @@ def mock_main():
          'command': 'process_spreadsheet',
          'timeout': 20000.0,
          'args': {
-           'csv': '/data/EngageNY/partial-content.tsv',
+           'csv': '/data/EngageNY/content.tsv',
         },
         
         }

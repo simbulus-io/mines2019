@@ -70,13 +70,13 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/update_lesson/keywords`, async (req, res) => {
+    router.post(`${RoutesBase.API_BASE_URL}/update_lesson/keywords`, async (req, res) => {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo_db = req.app.get('mongo_db');
         const rval =  JSON.parse( await mongo_db.collection(SOURCES_COLLECTION)
-          .updateOne({ _id: req.query._id},
-            { $set: { keywords: (req.query.keywords ? req.query.keywords : []) } }) );
+          .updateOne({ _id: req.body._id},
+            { $set: { keywords: (req.body.keywords ? req.body.keywords : []) } }) );
         if (rval.n === 1) {
           res.send({status: true});
         } else { // TODO: fix updateOne error
@@ -108,17 +108,17 @@ export class ContentRoutes extends RoutesBase {
       }
     });
 
-    router.get(`${RoutesBase.API_BASE_URL}/update_lesson/update_note`, async (req, res) => {
+    router.post(`${RoutesBase.API_BASE_URL}/update_lesson/update_note`, async (req, res) => {
       try {
         router.use( bodyParser.urlencoded( {extended: false} ) );
         const mongo_db = req.app.get('mongo_db');
         const collection = await mongo_db.collection(SOURCES_COLLECTION);
-        const doc: any = await collection.findOne( { _id: req.query._id } );
+        const doc: any = await collection.findOne( { _id: req.body._id } );
         if (doc) {
           const lesson_notes = doc.notes;
-          const note_index = req.query.note_index;
-          lesson_notes[note_index] = req.query.text;
-          const rval =  JSON.parse( await collection.updateOne({  _id: req.query._id},
+          const note_index = req.body.note_index;
+          lesson_notes[note_index] = req.body.text;
+          const rval =  JSON.parse( await collection.updateOne({  _id: req.body._id},
                                                                { $set: { notes: lesson_notes } }) );
           // status true if success
           if (rval.n === 1) {

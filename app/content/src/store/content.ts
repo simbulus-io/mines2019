@@ -14,9 +14,6 @@ export interface ContentState {
   content_selection: string;
   //content_providers: any[];
   content_lessons: Lesson[];
-  test_array: any[];
-  test_array_2: any[];
-  test_image: string;
 }
 
 export const content_state: ContentState = {
@@ -24,9 +21,6 @@ export const content_state: ContentState = {
   content_selection: '',
   //content_providers: [],
   content_lessons: [],
-  test_array: [],
-  test_array_2: [],
-  test_image: 'this is the url',
 }
 
 const namespaced: boolean = true;
@@ -51,21 +45,21 @@ export const content: Module<ContentState, RootState> = {
       Vue.set(state.content_lessons,index,lesson);
     },
     update_lesson_note: (state: any, args: any) => {
-      const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
+      const index = state.content_lessons.findIndex(less => less._id === args._id );
       const lesson = state.content_lessons[index];
       const note_index = args.note_index;
       lesson.notes[note_index] = args.text;
       Vue.set(state.content_lessons,index,lesson);
     },
     delete_lesson_note: (state: any, args: any) => {
-      const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
+      const index = state.content_lessons.findIndex(less => less._id === args._id );
       const lesson = state.content_lessons[index];
       const note_index = args.note_index;
       lesson.notes.splice(note_index, 1);
       Vue.set(state.content_lessons,index,lesson);
     },
     add_lesson_note: (state: any, args: any) => {
-      const index = state.content_lessons.findIndex(less => less._id === args.lesson_id );
+      const index = state.content_lessons.findIndex(less => less._id === args._id );
       const lesson = state.content_lessons[index];
       lesson.notes.push('');
       Vue.set(state.content_lessons,index,lesson);
@@ -75,15 +69,6 @@ export const content: Module<ContentState, RootState> = {
       const lesson = state.content_lessons[index];
       lesson.status = args.status;
       Vue.set(state.content_lessons,index,lesson);
-    },
-    test_array: (state: any, data: any) => {
-      state.test_array = data;
-    },
-    test_array_2: (state: any, data: any) => {
-      state.test_array_2 = data;
-    },
-    test_image: (state: any, message: any) => {
-      state.test_image = message;
     },
   },
   // These are asynchronus actions - model interactions with a server
@@ -104,28 +89,38 @@ export const content: Module<ContentState, RootState> = {
       context.commit('content_lessons', state.message);
     },
     update_lesson_keywords:  async (context: any, args: any) => {
-      let query_string = `?_id=${args._id}`;
-      args.keywords.forEach(keyword => {
-        query_string += `&keywords[]=${keyword}`;
+      const json_body = JSON.stringify(args);
+      //log.info(json_body);
+      const url = `${API_BASE_URL}/update_lesson/keywords`;
+      const rval = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: json_body
       });
-      log.info(query_string);
-      const url = `${API_BASE_URL}/update_lesson/keywords${query_string}`;
-      const rval = await fetch(url)
       const state = await rval.json();
       puts(`In update_lesson_keywords got ${state.message} from the server`);
       context.commit('update_lesson_keywords', args);
     },
     update_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}&note_index=${args.note_index}&text=${args.text}`;
-      log.info(query_string);
-      const url = `${API_BASE_URL}/update_lesson/update_note${query_string}`;
-      const rval = await fetch(url)
+      const url = `${API_BASE_URL}/update_lesson/update_note`;
+      const json_body = JSON.stringify(args);
+      const rval = await fetch(url, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: json_body
+      });
       const state = await rval.json();
       puts(`In update_lesson_note got ${state.message} from the server`);
       context.commit('update_lesson_note', args);
     },
     delete_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}&note_index=${args.note_index}`;
+      let query_string = `?_id=${args._id}&note_index=${args.note_index}`;
       log.info(query_string);
       const url = `${API_BASE_URL}/update_lesson/delete_note${query_string}`;
       const rval = await fetch(url)
@@ -134,14 +129,14 @@ export const content: Module<ContentState, RootState> = {
       context.commit('delete_lesson_note', args);
     },
     add_lesson_note:  async (context: any, args: any) => {
-      let query_string = `?_id=${args.lesson_id}`;
+      let query_string = `?_id=${args._id}`;
       log.info(query_string);
       const url = `${API_BASE_URL}/update_lesson/add_note${query_string}`;
       const rval = await fetch(url)
       const state = await rval.json();
       puts(`In add_lesson_note got ${state.message} from the server`);
       const params = {
-        lesson_id: args.lesson_id,
+        _id: args._id,
       }
       context.commit('add_lesson_note', params);
     },
@@ -265,44 +260,6 @@ export const content: Module<ContentState, RootState> = {
       puts({job, jout});
       return jout;
     },
-    test_array: async (context:any , arg: any) => {
-      try {
-        const rval = await fetch(`${API_BASE_URL}/contents`)
-        const state = await rval.json();
-        // upon successfully completing the action - synchronusly update the Vue application state
-        // via a mutator via the commit call
-        context.commit('test_array', state.docs);
-      } catch(e) {
-        log.error(e);
-      }
-    },
 
-    test_array_2: async (context:any , arg: any) => {
-      try {
-        const rval = await fetch(`${API_BASE_URL}/test_route`)
-        const state = await rval.json();
-        // upon successfully completing the action - synchronusly update the Vue application state
-        // via a mutator via the commit call
-        context.commit('test_array_2', state.docs);
-      } catch(e) {
-        log.error(e);
-      }
-    },
-
-
-    //////this links to the route serving static files from test_routes.ts
-    //////TODO: parameterize the url passed to fetch() so that any file in public can be called by name
-    test_image: async (context:any , arg: any) => {
-      try {
-        const rval = await fetch(`${API_BASE_URL}/static/Algebra.png`)
-        const img = await rval.blob();
-        const state = URL.createObjectURL(img);
-        // upon successfully completing the action - synchronusly update the Vue application state
-        // via a mutator via the commit call
-        context.commit('test_image', state);
-      } catch(e) {
-        log.error(e);
-      }
-    },
   }
 };

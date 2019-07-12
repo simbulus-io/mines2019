@@ -41,8 +41,8 @@ services:
       - backend
   coproc:
     # tty: true # Enables debugging capabilities when attached to this container.
-    image: bmilne/pyco:1.0
-    # image: python-coproc
+    # image: bmilne/pyco:1.0
+    image: python-coproc
     user: "root"
     restart: "always"
     command:  python /app/app.py

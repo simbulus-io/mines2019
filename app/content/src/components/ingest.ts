@@ -135,6 +135,66 @@ export default class Ingest extends Vue {
     this.show_spinner = false;
   }
 
+  public get page_list_arr() {
+    const re_comma = new RegExp('[0-9]+(,|[^-]*)', 'g');
+    // ^ comma may or may not be there (ex. last page in list has no comma)
+    const re_hyphen = new RegExp('[0-9]+-[0-9]+', 'g');
+    const re_arr_comma = this.page_list.match(re_comma);
+    const re_arr_hyphen = this.page_list.match(re_hyphen);
+    let re_arr:number[] = [];
+    if ( re_arr_comma ) {
+      re_arr_comma.forEach(expr => {
+        // remove comma if it is there
+        const string_num = (expr[expr.length-1]===',' ? expr.substring(0, expr.length - 1) : expr );
+        const num:number = parseInt(string_num);
+        if( !re_arr.includes(num) ) {
+          re_arr.push(num);
+        }
+      });
+    }
+    if ( re_arr_hyphen ) {
+      re_arr_hyphen.forEach(expr => {
+        const num_arr: string[] = expr.split('-');
+        const start_num : number = parseInt(num_arr[0]);
+        const end_num : number = parseInt(num_arr[1]);
+        for( let i = start_num; i <= end_num; i++) {
+          if( !re_arr.includes(i) ) {
+            re_arr.push(i);
+          }
+        }
+      });
+    }
+    return re_arr.sort();
+  }
+
+  public in_page_list(page_num:number) {
+    if ( this.page_list_arr.includes(page_num) ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public toggle_page_selection( page_num: number ) {
+    const page_arr = this.page_list_arr;
+    if( this.in_page_list( page_num ) ) {
+      // is in page list -> remove
+      this.gen_new_page_list(page_num);
+      const remove_index = page_arr.indexOf(page_num);
+      // TODO: improve by detecting sequential # and replace n, n+1, ..., n+m with hyphen form in n-n+m
+      page_arr.splice(remove_index, 1);
+    } else {
+      page_arr.push(page_num);
+      page_arr.sort();
+      // TODO: could be better by detecting for  last char being 0-9, comma, or space
+    }
+    this.page_list = page_arr.join(', ');
+  }
+
+  private gen_new_page_list(num_remove:number) {
+    
+  }
+
 
   // Computed
   public get hello_mines() {

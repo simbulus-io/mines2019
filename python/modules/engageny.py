@@ -98,13 +98,26 @@ def process_spreadsheet(fname = '../data/EngageNY/content.tsv', pusher=None):
                 # print(f'Column names are {", ".join(row)}')
                 line_count += 1
             else:
-                a = row[0].strip()
-                b = row[1].strip()
-                c = row[2].strip()
-                d = row[3].strip()
-                g = row[6].strip()
-                h = row[7].strip()
-                i = row[8].strip()
+                a = ''
+                b = ''
+                c = ''
+                d = ''
+                try:
+                    a = row[0].strip()
+                    b = row[1].strip()
+                    c = row[2].strip()
+                    d = row[3].strip()
+                except Exception as ex:
+                    pass
+                g = ''
+                h = ''
+                i = ''
+                try:
+                    g = row[6].strip()
+                    h = row[7].strip()
+                    i = row[8].strip()
+                except Exception as ex:
+                    pass
                 # if len(a)>0:
                 #     modules.append(a)
                 if len(b)>0:

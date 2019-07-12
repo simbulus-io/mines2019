@@ -5,10 +5,7 @@
             <div v-show="lesson_id!==''">
                 <h2>Status: {{lesson_status}}</h2>
                 <select class="status-input" v-model="lesson_status">
-                    <!-- <option disabled value="">Please select one</option> -->
-                    <option>unprocessed</option>
-                    <option>processed - accepted</option>
-                    <option>processed - rejected</option>
+                    <option v-for="status in STATUS_VALUES" :key="status">{{status}}</option>
                 </select>
                 <hr/>
                 <h2 style="display:inline;">Notes</h2>
@@ -26,6 +23,7 @@
                                 overflow="auto"
                                 v-bind:class="{ 'lesson-input-inactive': !note_selected(note.index) }"
                                 v-bind:readonly="!note_selected(note.index)"
+                                v-on:blur="save_note(note.index, note.text)"
                                 v-focus>
                             </textarea>
                         </div>
@@ -49,7 +47,8 @@
                     v-model="tag"
                     :allow-edit-tags="true"
                     :tags="validated_tags"
-                    @tags-changed="update_keywords"
+                    @tags-changed="change_keywords"
+                    v-on:blur="update_keywords"
                     :autocomplete-items="filteredItems"
                     :placeholder="'Tag Keywords'"
                     :separators="[',',';']"
@@ -58,7 +57,7 @@
                 <h2>Standards</h2>
                 <div>
                     <standard-block v-for="standard in lesson_standards" :key="standard" :text="standard"/>
-                    <!-- <p v-show="lesson_standards.length === 0">No standards <font-awesome-icon icon="sad-tear"/> </p> -->
+                    <p v-show="lesson_standards.length === 0">No standards <font-awesome-icon icon="sad-tear"/> </p>
                 </div>
                 
             </div>
