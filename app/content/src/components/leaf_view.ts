@@ -2,7 +2,6 @@ import { Component, Prop, Vue }         from 'vue-property-decorator';
 import { log }                          from '@/logger';
 import { Lesson }                       from './lesson';
 import { VueTagsInput, createTags }     from '@johmun/vue-tags-input'; // from http://www.vue-tags-input.com/#/
-import {Guid}                           from 'guid-typescript';
 import StandardBlock                    from './StandardBlock.vue';
 import { STATUS_VALUES }                from './status_values';
 import { stringify } from 'querystring';
@@ -52,7 +51,7 @@ export default class LeafView extends Vue {
         'Pre-calculus',
         'Calculus',
         'Differential Equations',
-    ]
+    ];
 
     @Prop() public readonly lesson_id!: string;
 
