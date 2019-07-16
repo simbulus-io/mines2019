@@ -180,6 +180,9 @@ export default class Ingest extends Vue {
   }
 
   public toggle_page_selection( page_num: number ) {
+    if(page_num > 0 && page_num <= this.page_thumbnails.length) {
+      this.shift_page_num = page_num;
+    }
     const page_arr = this.page_list_arr;
     if( this.in_page_list( page_num ) ) {
       // is in page list -> remove
@@ -187,8 +190,10 @@ export default class Ingest extends Vue {
       // TODO: improve by detecting sequential # and replace n, n+1, ..., n+m with hyphen form in n-n+m
       page_arr.splice(remove_index, 1);
     } else {
-      page_arr.push(page_num);
-      page_arr.sort();
+      if(page_num > 0 && page_num <= this.page_thumbnails.length) {
+        page_arr.push(page_num);
+        page_arr.sort();
+      }
       // TODO: could be better by detecting for  last char being 0-9, comma, or space
     }
     this.page_list = page_arr.join(', ');
@@ -199,8 +204,8 @@ export default class Ingest extends Vue {
       // this is the second shift click
       const lower_bound = this.shift_page_num <= page_num ? this.shift_page_num : page_num;
       const upper_bound = this.shift_page_num > page_num ? this.shift_page_num : page_num;
-      if ( this.in_page_list(lower_bound) ) {
-        // first page was selected -> remove range from selected
+      if ( !this.in_page_list(this.shift_page_num) ) {
+        // click page was NOT selected -> remove range from selected
         const page_arr = this.page_list_arr;
         for(let i = page_arr.length -1 ; i >= 0 ; i--) {
           // remove value if in range
@@ -210,15 +215,11 @@ export default class Ingest extends Vue {
         }
         this.page_list = page_arr.join(', ');
       } else {
-        // first page was not selected -> make range the selected pages
+        // click page was selected -> make range the selected pages
         this.page_list = `${lower_bound}-${upper_bound}`;
       }
-      this.shift_page_num = -1;
-    } else {
-      // this is the first shift click
-      if(page_num > 0 && page_num <= this.page_thumbnails.length) {
-        this.shift_page_num = page_num;
-      }
+      // this.shift_page_num = -1;
+      // TODO: decide if shift+click resets the last page regularly clicked
     }
   }
 }
