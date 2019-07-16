@@ -160,7 +160,7 @@ def sources_pusher(src):
     mongo_db = os.getenv('MONGO_DBNAME', 'internal_tools_jester')
     mongo_client = MongoClient(mongo_url)
     db = mongo_client[mongo_db]
-    sources = db.sources
+    sources = db.sources3
 
     d = src.__dict__
     d['keywords'] = list(d['keywords'])
