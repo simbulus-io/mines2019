@@ -7,8 +7,8 @@
       :styles="customStyles"
       v-on:selected="itemSelected"
       :canSelect="hasSelectedListener"
-      :filter="filter"
-      :filter_cat="filter_cat"
+      :highlight="highlight"
+      :highlight_cat="highlight_cat"
     />
   </div>
 </template>
@@ -53,11 +53,11 @@ export default Vue.extend({
       type: Object,
       required: false
     },
-    filter: {
+    highlight: {
       type: String,
       required: true
     },
-    filter_cat: {
+    highlight_cat: {
       type: String,
       required: true
     },

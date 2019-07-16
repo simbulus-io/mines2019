@@ -2,26 +2,26 @@
   <div class="left-nav">
     <h2>Available Content</h2>
     <hr/>
-    <div class="filter-wrapper">
-      <div class="filter-row">
+    <div class="highlight-wrapper">
+      <div class="highlight-row">
         <div class="input-header">
-          <h3>Filter On: </h3>
+          <h3>Highlight On: </h3>
         </div>
-        <div class="filter-input">
-          <select v-model="filter_selection">
-              <option v-for="option in filter_options" :key="option">{{option}}</option>
+        <div class="highlight-input">
+          <select v-model="highlight_selection">
+              <option v-for="option in highlight_options" :key="option">{{option}}</option>
           </select>
         </div>
       </div>
     </div>
-    <h4>{{num_filter_lessons}} <span class="pop-color">{{filter_selection}}</span> lesson<span v-show="num_filter_lessons!==1">s</span></h4>
+    <h4>{{num_highlight_lessons}} <span class="pop-color">{{highlight_selection}}</span> lesson<span v-show="num_highlight_lessons!==1">s</span></h4>
     <hr/>
     <json-view
       :data="create_tree"
       v-on:selected="itemSelected"
       :rootKey="'Content Providers'"
-      :filter="filter_selection"
-      :filter_cat="filter_category"
+      :highlight="highlight_selection"
+      :highlight_cat="highlight_category"
       :maxDepth="2"/>
     <hr/>
     <button type="button" class="left-nav-button" @click="select_nothing">Other Lesson</button>
@@ -52,10 +52,10 @@
     margin: 5px 0px;
   }
 
-  .filter-wrapper {
+  .highlight-wrapper {
     display: table;
     width:100%;
-    .filter-row {
+    .highlight-row {
       display: table-row;
       width:100%;
       .input-header {
@@ -71,7 +71,7 @@
         }
       }
 
-      .filter-input {
+      .highlight-input {
         display: table-cell;
         width: 70%;
         vertical-align: middle;

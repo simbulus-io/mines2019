@@ -12,7 +12,7 @@ import { STATUS_VALUES }                from './status_values';
 })
 export default class LeftNav extends Vue {
 
-  public filter_selection: string = 'unprocessed';
+  public highlight_selection: string = 'unprocessed';
 
   constructor() {
     super();
@@ -22,7 +22,7 @@ export default class LeftNav extends Vue {
     log.info(this.$route);
   }
 
-  public readonly filter_options = STATUS_VALUES.concat([
+  public readonly highlight_options = STATUS_VALUES.concat([
     'no keywords',
     'no notes',
     'no standards',
@@ -32,16 +32,16 @@ export default class LeftNav extends Vue {
     return this.$store.state.content.content_lessons;
   }
 
-  public get num_filter_lessons() {
+  public get num_highlight_lessons() {
     const lessons:Lesson[] = this.content_lessons;
     let num_lessons = 0;
     lessons.forEach((lesson: Lesson) => {
-      if( this.filter_category === 'status' ){
-        if(lesson.status===this.filter_selection){
+      if( this.highlight_category === 'status' ){
+        if(lesson.status===this.highlight_selection){
           num_lessons++;
         }
       } else {
-        if(lesson[this.filter_category].length===0){
+        if(lesson[this.highlight_category].length===0){
           num_lessons++;
         }
       }
@@ -50,11 +50,11 @@ export default class LeftNav extends Vue {
     return num_lessons;
   }
 
-  public get filter_category() {
-    if( STATUS_VALUES.includes(this.filter_selection) ) {
+  public get highlight_category() {
+    if( STATUS_VALUES.includes(this.highlight_selection) ) {
       return 'status';
     } else {
-      return this.filter_selection.substring(3); // remove 'no ' to get category
+      return this.highlight_selection.substring(3); // remove 'no ' to get category
     }
   }
 
@@ -85,16 +85,16 @@ export default class LeftNav extends Vue {
         }
         node = node[field];
       });
-      if (this.filter_category === 'status') {
-        node[lesson.name] = lesson[this.filter_category];
+      if (this.highlight_category === 'status') {
+        node[lesson.name] = lesson[this.highlight_category];
       } else {
-        if(lesson[this.filter_category].length === 0){
-          node[lesson.name] = `no ${this.filter_category}`;
-        } else if (lesson[this.filter_category].length === 1) {
-          const cat = this.filter_category.substring(0, this.filter_category.length - 1);
-          node[lesson.name] = `${lesson[this.filter_category].length} ${cat}`;
+        if(lesson[this.highlight_category].length === 0){
+          node[lesson.name] = `no ${this.highlight_category}`;
+        } else if (lesson[this.highlight_category].length === 1) {
+          const cat = this.highlight_category.substring(0, this.highlight_category.length - 1);
+          node[lesson.name] = `${lesson[this.highlight_category].length} ${cat}`;
         } else {
-          node[lesson.name] = `${lesson[this.filter_category].length} ${this.filter_category}`;
+          node[lesson.name] = `${lesson[this.highlight_category].length} ${this.highlight_category}`;
         }
       }
       
