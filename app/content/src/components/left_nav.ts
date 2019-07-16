@@ -60,14 +60,29 @@ export default class LeftNav extends Vue {
 
   public get create_tree() {
     const lessons = this.content_lessons.sort( (a: Lesson,b: Lesson) => {
-      if( a.path < b.path ){
+      // compare by path alphabetically but deal with special cases
+      // Kindergarten -> front, HS content -> end
+      if ( a.path.includes('Kindergarten') && !b.path.includes('Kindergarten') ) {
+        return -1;
+      } else if ( !a.path.includes('Kindergarten') && b.path.includes('Kindergarten') ) {
+        return 1;
+      } else if ( !a.path.includes('Grade') && b.path.includes('Grade') ) {
+        // a is some HS content and b is Grade # content
+        return 1;
+      } else if ( a.path.includes('Grade') && !b.path.includes('Grade') ) {
+        // b is some HS content and a is Grade # content
+        return -1;
+      }
+      // end special cases -> generally compare by path alphabetically
+      // TODO: sort Grades and Modules correctly with double digit #s (currently 10 < 8, etc.)
+      else if( a.path < b.path ){
         return -1;
       } else if( a.path > b.path ){
         return 1;
-      } else { // same path -> check lesson
-        if( a.name < b.name ){
+      } else { // same path -> check lesson #
+        if( a.lesson_num < b.lesson_num ){
           return -1;
-        }else if( a.name > b.name ){
+        }else if( a.lesson_num > b.lesson_num ){
           return 1;
         } else {
           return 0;
@@ -81,7 +96,6 @@ export default class LeftNav extends Vue {
       path_arr.forEach(field => {
         if ( !(field in node) ) {
           node[field] = { } as any;
-          
         }
         node = node[field];
       });
