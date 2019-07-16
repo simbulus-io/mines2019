@@ -58,6 +58,7 @@ export default class Ingest extends Vue {
   @Watch('url', { immediate: true, deep: true })
   public on_url(after: string, before: string) {
     this.local_url = after;
+    this.reset();
   }
 
   public reset() {
@@ -65,6 +66,7 @@ export default class Ingest extends Vue {
     this.hash = null;
     this.page_list = '-';
     this.page_thumbnails = [];
+    this.image_dpi = 0;
     //this.reported_errors = [];
     // Init from @Prop
     pubsub.$emit(PubSubMessage.ERROR_REPORTER_RESET);
@@ -72,10 +74,10 @@ export default class Ingest extends Vue {
     this.white_space_rows = null;
   }
 
-  public mounted() {
-    log.info(`In mounted changing local_url from ${this.local_url} to ${this.url}`);
-    this.local_url = this.url;
-  }
+  // public mounted() {
+  //   log.info(`In mounted changing local_url from ${this.local_url} to ${this.url}`);
+  //   this.local_url = this.url;
+  // }
 
   public async handle_keyup(e) {
     if (e.keyCode === 13) await this.handle_submit();
@@ -83,6 +85,7 @@ export default class Ingest extends Vue {
 
   public async handle_submit() {
     this.reset();
+    log.info(`Load url for: ${this.local_url}`);
     const job_args = {url:this.local_url};
     try {
 
