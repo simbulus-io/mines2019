@@ -1,9 +1,11 @@
 <template>
-  <div class="json-view-item">
+  <div class="json-view-item" v-bind:class="{ 'json-root-item': data.depth===1 }">
+    <!-- remove left margin for new root at depth 1 (since depth 0 root is hidden) -->
     <!-- Handle Objects and Arrays-->
     <div v-if="data.type === 'object' || data.type === 'array'">
       
-      <div @click.stop="toggleOpen" class="data-key" :style="keyColor">
+      <div @click.stop="toggleOpen" class="data-key" :style="keyColor" v-show="data.depth!==0"> 
+        <!-- v-show hides "Content Providers" in tree -->
         <div class="data-key-arrow">
           <div :class="classes" :style="arrowStyles"></div>
           {{ data.key }}:
@@ -91,7 +93,10 @@ export default Vue.extend({
   },
   methods: {
     toggleOpen: function(): void {
-      this.open = !this.open;
+      if( this.data.depth != 0 ) {
+        this.open = !this.open;
+      }
+      
     },
     clickEvent: function(data: Data): void {
       this.$emit("selected", {
@@ -148,6 +153,15 @@ export default Vue.extend({
       };
       if ( value.substring(0,2) !== '0 ') {
         style_data.color = '#519fe4';
+      }
+      return style_data;
+    },
+    hideRoot: function(value: number): object {
+      const style_data = {
+        opacity: 1.0,
+      };
+      if (value === 0) {
+        style_data.opacity = 1.0;
       }
       return style_data;
     },
@@ -237,6 +251,10 @@ export default Vue.extend({
 @import "../styles/common.scss";
 .json-view-item {
   margin-left: 20px;
+}
+
+.json-root-item {
+  margin-left: 0px;
 }
 
 .value-key {
