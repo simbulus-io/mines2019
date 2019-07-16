@@ -25,11 +25,11 @@ export class JobsRoutes extends RoutesBase {
         // validate input (post payload)
         const valid = true || JobInput.is(payload);
         if (valid) {
-          const mongo = req.app.get('mongo');
+          const mongo_db = req.app.get('mongo_db');
           // generated job id
           const job = { ...payload, job_id: Guid.raw(), status: 'new', log: '', result: {}};
           // push to mongo
-          const doc = await mongo.db(CONTENT_DB).collection(JOBS_COLL)
+          const doc = await mongo_db.collection(JOBS_COLL)
             .updateOne({job_id: job.job_id},    // index
                        {$set:   job},           // write concern
                        {upsert: true});         // create if index doesn't exist
@@ -51,9 +51,8 @@ export class JobsRoutes extends RoutesBase {
     router.get(`${RoutesBase.API_BASE_URL}/job/results`, async (req, res) => {
       res.setHeader('Content-Type', 'application/json');
       try {
-        const mongo = req.app.get('mongo');
-        const jobs = await mongo.db(CONTENT_DB)
-          .collection(JOBS_COLL).find({...req.query, status: 'finished'}).toArray();
+        const mongo_db = req.app.get('mongo_db');
+        const jobs = await mongo_db.collection(JOBS_COLL).find({...req.query, status: 'finished'}).toArray();
         res.json(_.map(jobs, j => _.omit(j, '_id')));
       } catch (e) {
         logger.error(new Error(`Unexpected Error in job/results:\n ${e}`));
@@ -66,13 +65,13 @@ export class JobsRoutes extends RoutesBase {
     router.get(`${RoutesBase.API_BASE_URL}/job/jobs`, async (req, res) => {
       res.setHeader('Content-Type', 'application/json');
       try {
-        const mongo = req.app.get('mongo');
+        const mongo_db = req.app.get('mongo_db');
         const job_id = req.query.job_id;
         if (job_id) {
-          const job = await mongo.db(CONTENT_DB).collection(JOBS_COLL).findOne({ job_id });
+          const job = await mongo_db.collection(JOBS_COLL).findOne({ job_id });
           res.json(job);
         } else {
-          const jobs = await mongo.db(CONTENT_DB).collection(JOBS_COLL).find().toArray();
+          const jobs = await mongo_db.collection(JOBS_COLL).find().toArray();
           res.json(_.map(jobs, j => _.omit(j, '_id')));
         }
       } catch (e) {
@@ -85,10 +84,10 @@ export class JobsRoutes extends RoutesBase {
     router.get(`${RoutesBase.API_BASE_URL}/job/cache`, async (req, res) => {
       res.setHeader('Content-Type', 'application/json');
       try {
-        const mongo = req.app.get('mongo');
+        const mongo_db = req.app.get('mongo_db');
         const key = req.query.key;
         if (key) {
-          const job = await mongo.db(CONTENT_DB).collection(JOBS_CACHED_RESULTS_COLL).findOne({ key });
+          const job = await mongo_db.collection(JOBS_CACHED_RESULTS_COLL).findOne({ key });
           res.json(job);
         } else {
           res.json({status: false});
@@ -107,9 +106,9 @@ export class JobsRoutes extends RoutesBase {
         const { key } = req.query;
         const payload = req.body;
         if (key && payload) {
-          const mongo = req.app.get('mongo');
+          const mongo_db = req.app.get('mongo_db');
           // push to mongo
-          const coll = mongo.db(CONTENT_DB).collection(JOBS_CACHED_RESULTS_COLL);
+          const coll = mongo_db.collection(JOBS_CACHED_RESULTS_COLL);
           const doc = await coll.replaceOne({key},
                                             {$set:   payload},
                                             {upsert: true});
