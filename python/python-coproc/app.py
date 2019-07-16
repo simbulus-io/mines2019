@@ -139,6 +139,14 @@ def compose_images(*,source,sequence,tgt_fmt='%02d.png'):
 
 # - - - - - - - - - - - - - - - - - - - -
 
+@command
+def upload_images_wm(): # TODO: args here: *,source,sequence,tgt_fmt='%02d.png'
+    # TODO: upload images to 'https://www.wootmath.com/woot_roster/v1.1/tutor/image_upload'
+    # with 'Content-Type': 'img/png'
+    return {}
+
+# - - - - - - - - - - - - - - - - - - - -
+
 from modules.engageny import process_spreadsheet as proc_ss
 
 def sources_pusher(src):
