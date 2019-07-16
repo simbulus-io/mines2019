@@ -54,17 +54,4 @@ export default class FileUpload extends Vue {
     return this.$store.state.content.hello;
   }
 
-  // Computed
-  public get test_array() {
-    return this.$store.state.content.test_array;
-  }
-
-  public get test_array_2() {
-    return this.$store.state.content.test_array_2;
-  }
-
-  public get test_image() {
-    return this.$store.state.content.test_image;
-  }
-
 }

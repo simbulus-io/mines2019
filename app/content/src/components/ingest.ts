@@ -25,6 +25,7 @@ export default class Ingest extends Vue {
   public server = HOST_URL;
 
   public local_url: string = '';
+  public shift_page_num: number = -1;
 
   private cache_seg = {'image':'/shared/jobs/23d0d29406f/23d0d29406f-108d.png','hi_res':'/shared/jobs/23d0d29406f/23d0d29406f-432d.png','white_space_rows':[[0,43],[76,95],[124,175],[196,207],[228,231],[256,399],[440,615],[636,647],[668,675],[696,975],[996,1003],[1028,1031],[1056,1059],[1100,1139],[1164,1175],[1192,1199],[1224,1575],[1596,1603],[1624,1631],[1652,1923],[1964,2175],[2200,2411],[2436,2871],[3000,3039],[3060,3091],[3112,3115],[3140,3163],[3188,3211],[3240,3271],[3292,3799]],'dpi':108,'image_shape':[3800,826,4]};
 
@@ -179,7 +180,6 @@ export default class Ingest extends Vue {
     const page_arr = this.page_list_arr;
     if( this.in_page_list( page_num ) ) {
       // is in page list -> remove
-      this.gen_new_page_list(page_num);
       const remove_index = page_arr.indexOf(page_num);
       // TODO: improve by detecting sequential # and replace n, n+1, ..., n+m with hyphen form in n-n+m
       page_arr.splice(remove_index, 1);
@@ -191,22 +191,31 @@ export default class Ingest extends Vue {
     this.page_list = page_arr.join(', ');
   }
 
-  private gen_new_page_list(num_remove:number) {
-    
+  public shift_toggle_page_selection( page_num: number ) {
+    if (this.shift_page_num > 0) {
+      // this is the second shift click
+      const lower_bound = this.shift_page_num <= page_num ? this.shift_page_num : page_num;
+      const upper_bound = this.shift_page_num > page_num ? this.shift_page_num : page_num;
+      if ( this.in_page_list(lower_bound) ) {
+        // first page was selected -> remove range from selected
+        const page_arr = this.page_list_arr;
+        for(let i = page_arr.length -1 ; i >= 0 ; i--) {
+          // remove value if in range
+          if( page_arr[i] <= upper_bound && page_arr[i] >= lower_bound) {
+            page_arr.splice(i, 1)
+          }
+        }
+        this.page_list = page_arr.join(', ');
+      } else {
+        // first page was not selected -> make range the selected pages
+        this.page_list = `${lower_bound}-${upper_bound}`;
+      }
+      this.shift_page_num = -1;
+    } else {
+      // this is the first shift click
+      if(page_num > 0 && page_num <= this.page_thumbnails.length) {
+        this.shift_page_num = page_num;
+      }
+    }
   }
-
-
-  // Computed
-  public get hello_mines() {
-    // First content identifies the store module
-    // Second identifies the state member
-    puts('hello mines');
-    return this.$store.state.content.hello;
-  }
-
-  // Computed
-  public get test_array() {
-    return this.$store.state.content.test_array;
-  }
-
 }
