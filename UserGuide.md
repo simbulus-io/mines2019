@@ -19,7 +19,7 @@ This can be done in a variety of ways:
 1. Inputting the page #s via the text input box as comma separated values (ex. 1, 3) and/or page ranges (ex. 5-9).
 2. Selecting/Deselecting individual page thumbnails by clicking them
 3. Selecting/Deseclting page ranges by clicking a page, then holding shift + clicking another page to select/deselect that range of pages.
-* note that options 2 and 3 will change the input text box automatically *
+*note that options 2 and 3 will change the input text box automatically*
 #### Segmentation ####
 After selecting the desired pages to segment, hit the button labeled 'Process' to bring you to the segmentation page. This is where you will select the individual tasks/pieces of content within each page you selected in the previous stage. To segement tasks click on where the task begins and drag to where the task ends. An individual task will be all the sections of the same color. If you do not select all sections of a task correctly at first, you can add sections to a task by clicking a section already in the task and dragging.
 Once you have all the tasks highlighted, hit 'Continue to Stage 2' to edit the whitespace of these tasks.
