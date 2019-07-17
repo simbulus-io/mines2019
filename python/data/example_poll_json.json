@@ -7,7 +7,7 @@
   "modified_timestamp": 1561407006, // now
   "teacher_id": "793", // tbd... 793 is Jeff Ward
   "description": "Blah Blah.", // From the mongodb sources --> desc field
-  "gallery_image_id": "ao84smqu8wwo6rl6pqut.png", // match the first task ("question') image 'id'
+  "gallery_image_id": "74qiwow6w1jhbsmazc8g.png", // use the first task ("question') image_id as returned by the image_upload POST
 
   // tag_list for poll should be sames as the (union of) task tag_list's plus #content-silo-tutor plus #single-workspace-mode
   "tag_list": [
@@ -27,7 +27,7 @@
     {
       "typeid": "open_task_1",
       // for preview_image_id:
-      // take the bkg_img url, strip the leading .*/up/, remove slashes, replace ending .png with .176.jpg
+      // take image_id returned by image_upload, replace ending .png with .176.jpg
       "preview_image_id": "74qiwow6w1jhbsmazc8g.176.jpg",
       // --
       // Engage-Ny specific settings/options:
@@ -43,12 +43,12 @@
         "Additional Materials" : "{{url to lesson html on engageny.org}}"
       ]
       "tag_list": [
-        "#engage_ny",
-        "#eureka-math",
-        "grade_7",
-        "middle_school",
-        "CCSS.Math.7.G.A.2",
-        "standard_ccssm",
+        "#engage_ny",      // always present for Engage NY content
+        "#eureka-math",    // always present for Engage NY content
+        "grade_7",         //  if HS, relevant tags also include "algebra" "geometry" "trigonometry" "calculus"
+        "middle_school",   
+        "CCSS.Math.7.G.A.2", // One for each element in standards
+        "standard_ccssm",  // always present for Engage NY content
         "#my_first_keyword_phrase"
       ],
       // --
@@ -59,6 +59,10 @@
      		"_key": "dynamic_canvas_factory",
      		"_args": [
           {
+            // for bkg_img:
+            // take the image_id returned by image_upload, pull off the first two characters ("74" in the example below)
+            // and again pull off the first two characters ("qi" in the example below)
+            // and construct the url:  "https://woot_math_cub.s3.amazonaws.com/up/{{chars 1&2}}/{{chars 3&4}}/{{remaing image_id chars}}"
             "bkg_img": "https://woot_math_cub.s3.amazonaws.com/up/74/qi/wow6w1jhbsmazc8g.png", 
             "frame": [2000, 4000] // to be set as appropriate multiple of image size (multiple tbd)
           }
