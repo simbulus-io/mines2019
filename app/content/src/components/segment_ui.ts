@@ -1,6 +1,7 @@
 // RBM - from the CL yarn add vue-loading-overlay
 //
 import { Component, Prop, Vue }                    from 'vue-property-decorator';
+import { sprintf }                                 from "sprintf-js";
 import { puts, log }                               from '@/logger';
 import SegmentSelector                             from './segment';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
@@ -40,13 +41,14 @@ export default class SegmentUI extends Vue {
   private handle_stage1(e) { this.ui_stage = 1; }
   private async handle_upload(e)
   {
-    puts('TBD: UPLOAD!!!');
+    let image_files:Array<string> = [];
     let groups:Array<{ segments:Array<SegmentType> }> = this.get_groups();
     // For each segment, we care about offset and d_height
     // (d_height positive is added whitespace, negative reduces height.)
     let json_seq: Array< Array< [number, number] | [number] >> = [];
     const top_margin = 15;
     const scl = 2;
+    let img_idx = 0;
     for (let g of groups) {
       let g_seq:Array<([number, number] | [number])> = [];
       g_seq.push([top_margin]);
@@ -62,6 +64,8 @@ export default class SegmentUI extends Vue {
         }
       }
       json_seq.push (g_seq);
+      image_files.push(sprintf('%02d.png',img_idx));
+      img_idx++;
     }
     puts(JSON.stringify(this.get_groups()))
     puts(json_seq)
@@ -80,7 +84,7 @@ export default class SegmentUI extends Vue {
       } else {
         // TODO: get images and pass them in args
         const push_images_job = await this.$store.dispatch('content/push_images',
-                                                       { hash: this.prop_hash, imgs: [] } );
+                                                       { hash: this.prop_hash, imgs: image_files } );
       }
     } catch(e) {
       log.error(`Unexpected exception in handle_upload: ${e}`);

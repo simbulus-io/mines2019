@@ -142,14 +142,15 @@ import requests
 
 @command
 def push_images(*,imgs=[]):
+    import json
     responses = []
     for filename in imgs:
         with open(filename, mode='rb') as file:
             data = file.read()
             res = requests.post(url='https://www.wootmath.com/woot_roster/v1.1/tutor/image_upload',
                         data=data,
-                        headers={'Content-Type': 'image/png'})
-            responses.append(res.content)
+                        headers={'Content-Type': 'image/png', 'accept-encoding': 'identity'})
+            responses.append(res.content.decode('utf-8'))
     return {'msg': f'pushed {imgs}', 'responses': responses}
 
 # - - - - - - - - - - - - - - - - - - - -
