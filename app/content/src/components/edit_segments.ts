@@ -23,9 +23,4 @@ export default class EditSegments extends Vue {
     return this.$store.state.content.hello;
   }
 
-  // Computed
-  public get test_array() {
-    return this.$store.state.content.test_array;
-  }
-
 }

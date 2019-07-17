@@ -10,7 +10,8 @@ export class MongoHelper {
   public static async connect(): Promise<[MongoClient, Db]> {
 
     const default_mongo_conf =  {
-      url : 'http://10.0.1.3:27017',
+      //url : 'http://10.0.1.3:27017',
+      url : 'mongodb://10.0.1.3:27017',
       db_name: 'internal_tools_gester',
     };
 

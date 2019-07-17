@@ -78,11 +78,9 @@ export default class SegmentUI extends Vue {
         pubsub.$emit(PubSubMessage.RPC_JOB_FAILED, error_message);
         // (ingest ctrl).reported_errors.push(error_message);
       } else {
-        // display state...
-        // AP: is here tigger action that then posts to https://www.wootmath.com/auth/woot_roster/v1.1/tutor/image_upload?
-        // dispatch 'content/upload_images_wm'
-        // const maybe = await this.$store.dispatch('content/upload_images_wm',
-        //                                               {/*args go here */} );
+        // TODO: get images and pass them in args
+        const push_images_job = await this.$store.dispatch('content/push_images',
+                                                       { hash: this.prop_hash, imgs: [] } );
       }
     } catch(e) {
       log.error(`Unexpected exception in handle_upload: ${e}`);

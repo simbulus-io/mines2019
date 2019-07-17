@@ -255,18 +255,19 @@ export const content: Module<ContentState, RootState> = {
       return jout;
     },
 
-    upload_images_wm:  async (context: any, args: any) => {
-      const url = 'https://www.wootmath.com/auth/woot_roster/v1.1/tutor/image_upload'; // TODO: what to do with auth?
-      const rval = await fetch(url, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'img/png'
-        },
-        method: 'POST',
-        body: null// TODO: put image(s) here?
-      });
-      const state = await rval.json();
-      puts(`In upload_images_wm got ${state.message} from the server`);
+    push_images:  async (context: any, args: any) => {
+      let job = {
+        name: 'A Job',
+        command: 'push_images',
+        // TODO: what else to put here
+        dir: `${args.hash}/task_imgs`,
+        args: {
+          'imgs' : args.imgs,
+        }
+      };
+      let jout = await rpc(job);
+      puts({job, jout});
+      return jout;
     },
   }
 };

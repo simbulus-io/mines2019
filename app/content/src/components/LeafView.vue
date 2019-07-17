@@ -1,7 +1,6 @@
 <template>
     <div class="m-content">
-        <div> <!-- TODO: do something meaningful with this binding/clean up -->
-            <!-- lesson_id: {{lesson_id}}. -->
+        <div>
             <div v-show="lesson_id!==''">
                 <h2>Status: {{lesson_status}}</h2>
                 <select class="status-input" v-model="lesson_status">
@@ -15,7 +14,6 @@
                 <div v-for="note in lesson_notes" :key="note.index" class="note">
                     <div class="note-row">
                         <div class="note-cell note-text">
-                            <!-- {{note.index}} {{note.idx}} -->
                             <textarea
                                 class="lesson-input"
                                 v-model="note.text"

@@ -10,9 +10,10 @@
         <div class="thumbnail-image"
           v-for="(url,index) in page_thumbnails"
           :key="index"
-          @click="toggle_page_selection(index+1)">
+          @click.exact="toggle_page_selection(index+1)"
+          @click.shift.exact="shift_toggle_page_selection(index+1)">
           <div v-show="!in_page_list(index+1)" class="thumbnail-overlay not-selected"><span><font-awesome-icon icon="times-circle" /></span></div>
-          <img :src="url" :alt="`Thumbnail Image ${index}`"/>
+          <img :src="url" :alt="`Thumbnail Image ${index}`" draggable="false"/>
         </div>
       </div>
       <div v-if="hash" class="stage_two">
@@ -94,6 +95,9 @@
         margin: 10px;
         border: 1px solid #ccc;
         position: relative;
+        img {
+          user-select: none; // no blue overlay for highlighting
+        }
         .thumbnail-overlay {
           position: absolute; 
           bottom: 0; 

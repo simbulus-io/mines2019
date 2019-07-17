@@ -1,14 +1,16 @@
 <template>
-  <div class="json-view-item">
+  <div class="json-view-item" v-bind:class="{ 'json-root-item': data.depth===1 }">
+    <!-- remove left margin for new root at depth 1 (since depth 0 root is hidden) -->
     <!-- Handle Objects and Arrays-->
     <div v-if="data.type === 'object' || data.type === 'array'">
       
-      <div @click.stop="toggleOpen" class="data-key" :style="keyColor">
+      <div @click.stop="toggleOpen" class="data-key" :style="keyColor" v-show="data.depth!==0"> 
+        <!-- v-show hides "Content Providers" in tree -->
         <div class="data-key-arrow">
           <div :class="classes" :style="arrowStyles"></div>
           {{ data.key }}:
         </div>
-        <span class="properties">&nbsp;{{ num_filter_nested }}</span>
+        <span class="properties" :style="getNestedStyle(num_highlight_nested)">&nbsp;{{ num_highlight_nested }}</span>
       </div>
 
       <json-view-item
@@ -20,8 +22,8 @@
         :maxDepth="maxDepth"
         :styles="styles"
         :canSelect="canSelect"
-        :filter="filter"
-        :filter_cat="filter_cat"
+        :highlight="highlight"
+        :highlight_cat="highlight_cat"
       />
 
     </div>
@@ -80,18 +82,21 @@ export default Vue.extend({
       required: false,
       default: false
     },
-    filter: {
+    highlight: {
       type: String,
       required: true
     },
-    filter_cat: {
+    highlight_cat: {
       type: String,
       required: true
     },
   },
   methods: {
     toggleOpen: function(): void {
-      this.open = !this.open;
+      if( this.data.depth != 0 ) {
+        this.open = !this.open;
+      }
+      
     },
     clickEvent: function(data: Data): void {
       this.$emit("selected", {
@@ -116,7 +121,7 @@ export default Vue.extend({
         color: '#fefefe',
         opacity: 0.6,
       };
-      if ( value === this.filter || value.includes('no ')) {
+      if ( value === this.highlight || value.includes('no ')) {
         style_data.color = '#519fe4';
         style_data.opacity = 1;
         return style_data;
@@ -139,7 +144,27 @@ export default Vue.extend({
           break;
       }
       return style_data;
-    }
+    },
+    getNestedStyle: function(value: any): object {
+      const type = typeof value;
+      const style_data = {
+        color: '#fefefe',
+        opacity: 0.6,
+      };
+      if ( value.substring(0,2) !== '0 ') {
+        style_data.color = '#519fe4';
+      }
+      return style_data;
+    },
+    hideRoot: function(value: number): object {
+      const style_data = {
+        opacity: 1.0,
+      };
+      if (value === 0) {
+        style_data.opacity = 1.0;
+      }
+      return style_data;
+    },
   },
   computed: {
     classes: function(): object {
@@ -181,13 +206,13 @@ export default Vue.extend({
         ? this.data.length + " Property"
         : this.data.length + " Properties");
       }
-      return `${rval} - ${this.num_filter_nested}`;
+      return `${rval} - ${this.num_highlight_nested}`;
     },
     // made to show # of unprocessed at each level of the tree 
-    num_filter_nested: function(): string {
+    num_highlight_nested: function(): string {
       const lessons:Lesson[] = this.$store.state.content.content_lessons;
       let num_tot_lessons = 0;
-      let num_filter_lessons = 0;
+      let num_highlight_lessons = 0;
       lessons.forEach((lesson: Lesson) => {
         const path_arr: string[] = this.data.path.split('/');
         path_arr.shift(); // remove 'root' from path
@@ -198,19 +223,19 @@ export default Vue.extend({
         //log.info(`at node: ${this.data.key} checking if ${path} in ${lesson.path}`);
         if (lesson.path.includes(path)) {
           num_tot_lessons++;
-          if (this.filter_cat === 'status') {
-            if(lesson[this.filter_cat]===this.filter){
-              num_filter_lessons++;
+          if (this.highlight_cat === 'status') {
+            if(lesson[this.highlight_cat]===this.highlight){
+              num_highlight_lessons++;
             }
           } else {
-            if (lesson[this.filter_cat].length===0) {
-              num_filter_lessons++;
+            if (lesson[this.highlight_cat].length===0) {
+              num_highlight_lessons++;
             }
           }
           
         }
       });
-      return `${num_filter_lessons} of ${num_tot_lessons}`;
+      return `${num_highlight_lessons} of ${num_tot_lessons}`;
     },
     keyColor: function(): object {
       return { color: this.styles.key };
@@ -226,6 +251,10 @@ export default Vue.extend({
 @import "../styles/common.scss";
 .json-view-item {
   margin-left: 20px;
+}
+
+.json-root-item {
+  margin-left: 0px;
 }
 
 .value-key {

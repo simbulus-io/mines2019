@@ -138,6 +138,23 @@ def compose_images(*,source,sequence,tgt_fmt='%02d.png'):
     return {}
 
 # - - - - - - - - - - - - - - - - - - - -
+import requests
+
+@command
+def push_images(*,imgs=[]): # TODO: args here: *,source,sequence,tgt_fmt='%02d.png'
+    # TODO: upload images to 'https://www.wootmath.com/woot_roster/v1.1/tutor/image_upload'
+    # with 'Content-Type': 'img/png'
+    responses = []
+    for filename in imgs:
+        with open(filename, mode='rb') as file:
+            data = file.read()
+            res = requests.post(url='https://www.wootmath.com/woot_roster/v1.1/tutor/image_upload',
+                        data=data,
+                        headers={'Content-Type': 'img/png'})
+            responses.append(res.content)
+    return {'msg': f'pushed {imgs}', 'responses': responses}
+
+# - - - - - - - - - - - - - - - - - - - -
 
 from modules.engageny import process_spreadsheet as proc_ss
 
@@ -152,7 +169,7 @@ def sources_pusher(src):
     mongo_db = os.getenv('MONGO_DBNAME', 'internal_tools_jester')
     mongo_client = MongoClient(mongo_url)
     db = mongo_client[mongo_db]
-    sources = db.sources
+    sources = db.sources3
 
     d = src.__dict__
     d['keywords'] = list(d['keywords'])
@@ -316,6 +333,14 @@ def main():
 def mock_main():
     
     other_jobs = [
+        {
+         'dir' : 'my_job',
+         'command': 'process_spreadsheet',
+         'timeout': 20000.0,
+         'args': {
+           'csv': '/data/EngageNY/content.tsv',
+        }},
+   
         {'name'          : 'beny0',
          'dir'           : 'my_job',
          'command'       : 'fetch_content',
@@ -404,25 +429,14 @@ def mock_main():
     jobs = [
 {
          'dir' : 'my_job',
-         'command': 'process_spreadsheet',
-         'timeout': 20000.0,
+         'command': 'push_images',
+         'timeout': 2.0,
          'args': {
-           'csv': '/data/EngageNY/content.tsv',
-        },
+           'imgs': ['/data/EngageNY/g07-task-01.png'],
+        }},
         
-        }
-        ,
-        # {'name': 'beny1',
-        #  'dir' : 'my_job',
-        #  'command': 'fetch_engageny_content',
-        #  'args': {
-        #    'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
-        #  }},
-        # {'name': 'beny3',
-        #  'command': 'fetch_engageny_content',
-        #  'args': {
-        #     'url' : 'https://www.engageny.org/file/54411/download/algebra-i-m4-topic-b-lesson-13-student.pdf?token=GdUwqCM3',
-        #     }},
+    
+   
         ]
     for idx, job in enumerate(jobs):
         # if idx>0:

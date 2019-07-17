@@ -17,9 +17,4 @@ export default class SegmentSelector extends Vue {
     super();
   }
 
-  // Computed
-  public get test_array() {
-    return this.$store.state.content.test_array;
-  }
-
 }
