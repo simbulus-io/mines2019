@@ -7,8 +7,5 @@ export default class TopNav extends Vue {
   constructor() {
     super();
   }
-
-  get display_name(): any {
-    return 'Team Content';
-  }
+  
 }

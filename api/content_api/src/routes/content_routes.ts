@@ -29,7 +29,7 @@ export class ContentRoutes extends RoutesBase {
         const data = {file: bdy};
         const promise = collection.insertOne(
             data,
-        )
+        );
         promises.push(promise);
         const rval = await Promise.all(promises);
         logger.info('rval is: ' + rval);

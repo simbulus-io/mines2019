@@ -80,7 +80,7 @@ export const content: Module<ContentState, RootState> = {
     content_lessons: async (context: any, args: any) => {
       const rval = await fetch(`${API_BASE_URL}/lessons`)
       const state = await rval.json();
-      puts(`In content_lessons got ${state.message} from the server`);
+      puts(`In content_lessons got ${typeof(state.message)} from the server`); //${state.message}
       context.commit('content_lessons', state.message);
     },
     update_lesson_keywords:  async (context: any, args: any) => {
