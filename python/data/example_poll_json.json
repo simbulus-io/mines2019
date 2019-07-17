@@ -1,0 +1,69 @@
+
+{
+  // for poll_id, any unique alphanumeric string 
+  "poll_id": "abgxmrfo1kaqpuxg",
+  "title": "EngageNY - Grade 5 Module 1 Lesson 2",
+  "created_timestamp": 1561407006, // now
+  "modified_timestamp": 1561407006, // now
+  "teacher_id": "793", // tbd... 793 is Jeff Ward
+  "description": "Blah Blah.", // From the mongodb sources --> desc field
+  "gallery_image_id": "ao84smqu8wwo6rl6pqut.png", // match the first task ("question') image 'id'
+
+  // tag_list for poll should be sames as the (union of) task tag_list's plus #content-silo-tutor plus #single-workspace-mode
+  "tag_list": [
+    "#content-silo-tutor",
+    "#single-workspace-mode",
+    "#engage_ny",
+    "#eureka-math",
+    "grade_7",
+    "middle_school",
+    "CCSS.Math.7.G.A.2",
+    "standard_ccssm",
+    "#my_first_keyword_phrase"
+  ],
+
+  "questions": [
+    // one of these for each page of the poll, i.e. for each image xx.png:
+    {
+      "typeid": "open_task_1",
+      // for preview_image_id:
+      // take the bkg_img url, strip the leading .*/up/, remove slashes, replace ending .png with .176.jpg
+      "preview_image_id": "74qiwow6w1jhbsmazc8g.176.jpg",
+      // --
+      // Engage-Ny specific settings/options:
+      "license" : "CC-BY-SA",
+      "no_derivatives" : false,
+      // for attribution:
+      // inflate fields in the following string, url being the lesson url (not just the student worksheet)
+      "attribution" : "Derived from EngageNY.org content. Original pdf available from <a href="{{url}}">{{url}}</a>; accessed {{month}} {{year}}.",
+      "image_license": null,
+      "image_attribution" : null,
+      "resource_list" : [
+        "Teacher Guide" : "{{url to pdf uploaded on woot_math_cub}}",
+        "Additional Materials" : "{{url to lesson html on engageny.org}}"
+      ]
+      "tag_list": [
+        "#engage_ny",
+        "#eureka-math",
+        "grade_7",
+        "middle_school",
+        "CCSS.Math.7.G.A.2",
+        "standard_ccssm",
+        "#my_first_keyword_phrase"
+      ],
+      // --
+
+      "tc_init": {
+    		"_type": "static_ref",
+     		"_class": "rtp.qt.OpenTask",
+     		"_key": "dynamic_canvas_factory",
+     		"_args": [
+          {
+            "bkg_img": "https://woot_math_cub.s3.amazonaws.com/up/74/qi/wow6w1jhbsmazc8g.png", 
+            "frame": [2000, 4000] // to be set as appropriate multiple of image size (multiple tbd)
+          }
+        ]
+      }
+    }
+  ]
+}
