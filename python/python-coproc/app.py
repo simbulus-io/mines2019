@@ -141,16 +141,14 @@ def compose_images(*,source,sequence,tgt_fmt='%02d.png'):
 import requests
 
 @command
-def push_images(*,imgs=[]): # TODO: args here: *,source,sequence,tgt_fmt='%02d.png'
-    # TODO: upload images to 'https://www.wootmath.com/woot_roster/v1.1/tutor/image_upload'
-    # with 'Content-Type': 'img/png'
+def push_images(*,imgs=[]):
     responses = []
     for filename in imgs:
         with open(filename, mode='rb') as file:
             data = file.read()
             res = requests.post(url='https://www.wootmath.com/woot_roster/v1.1/tutor/image_upload',
                         data=data,
-                        headers={'Content-Type': 'img/png'})
+                        headers={'Content-Type': 'image/png'})
             responses.append(res.content)
     return {'msg': f'pushed {imgs}', 'responses': responses}
 
@@ -248,6 +246,8 @@ def do_job(job, jobdir = '/shared/jobs'):
         tdir = '%s/%s' % (jobdir, tdname)
         pathlib.Path(tdir).mkdir(parents=True, exist_ok=True)
         os.chdir(tdir)
+        print(os.getcwd())
+        print(os.listdir("."))
         timeout = 60.0
         if 'timeout' in job:
             try:
@@ -332,6 +332,39 @@ def main():
 
 def mock_main():
     
+
+    
+    jobs = [
+        {
+         'command': 'push_images',
+         'timeout': 30.0,
+         'dir' : 'a1a5b70ec7c/task_imgs',
+         'args': {
+           'imgs': ['00.png'],
+        }},
+        
+    
+   
+        ]
+    for idx, job in enumerate(jobs):
+        # if idx>0:
+        #     time.sleep(2)
+        print('running job %s' % job) 
+        sys.stdout.flush()
+        res,log = do_job(job, '/app/jobs')
+        print('log: %s' % log)
+        print('result: %s' % res) 
+        sys.stdout.flush()
+        
+
+if __name__ == '__main__':
+    if "STAND_ALONE" in os.environ:
+        mock_main()
+    else:
+        main()
+
+
+def notinuse():
     other_jobs = [
         {
          'dir' : 'my_job',
@@ -424,33 +457,4 @@ def mock_main():
              ],
            ]
          }}        
-        ]
-    
-    jobs = [
-{
-         'dir' : 'my_job',
-         'command': 'push_images',
-         'timeout': 2.0,
-         'args': {
-           'imgs': ['/data/EngageNY/g07-task-01.png'],
-        }},
-        
-    
-   
-        ]
-    for idx, job in enumerate(jobs):
-        # if idx>0:
-        #     time.sleep(2)
-        print('running job %s' % job) 
-        sys.stdout.flush()
-        res,log = do_job(job, '/app/jobs')
-        print('log: %s' % log)
-        print('result: %s' % res) 
-        sys.stdout.flush()
-        
-
-if __name__ == '__main__':
-    if "STAND_ALONE" in os.environ:
-        mock_main()
-    else:
-        main()
+        ]        
