@@ -118,6 +118,51 @@ export default class SegmentUI extends Vue {
           //alert(image_ids);
           // TODO: create poll with question images ref to the collected image ids
           log.info(`image_ids from WM: ${image_ids}`);
+          const poll: any = { 
+            poll_id: '',
+            title: '',
+            created_timestamp: Date.now(),
+            modified_timestamp: Date.now(),
+            teacher_id: '793',
+            description: '',
+            gallery_image_id: image_ids[0],
+            tag_list: [],
+            questions: [
+              {
+                typeid: '',
+                // for preview_image_id:
+                // take the bkg_img url, strip the leading .*/up/, remove slashes, replace ending .png with .176.jpg
+                preview_image_id: '',
+                // --
+                // Engage-Ny specific settings/options:
+                license : 'CC-BY-SA',
+                'no_derivatives' : false,
+                // for attribution:
+                // inflate fields in the following string, url being the lesson url (not just the student worksheet)
+                attribution: 'Derived from EngageNY.org content. Original pdf available from <a href="{{url}}">{{url}}</a>; accessed {{month}} {{year}}.',
+                image_license: null,
+                image_attribution: null,
+                resource_list : [
+                  // TODO: fiugure out array/object stuff going on here
+                  // 'Teacher Guide' : '{{url to pdf uploaded on woot_math_cub}}',
+                  // 'Additional Materials' : '{{url to lesson html on engageny.org}}'
+                ],
+                tag_list: [],
+                tc_init: {
+                  _type: 'static_ref',
+                   _class: 'rtp.qt.OpenTask',
+                   _key: 'dynamic_canvas_factory',
+                   _args: [
+                    {
+                      'bkg_img': 'https://woot_math_cub.s3.amazonaws.com/up/74/qi/wow6w1jhbsmazc8g.png', 
+                      'frame': [2000, 4000] // to be set as appropriate multiple of image size (multiple tbd)
+                    }
+                  ]
+                }
+              }
+            ],
+          };
+          // what is route to create poll?
         }                                            
       }
     } catch(e) {
