@@ -255,17 +255,15 @@ export const content: Module<ContentState, RootState> = {
       return jout;
     },
 
-    upload_images_wm:  async (context: any, args: any) => {
+    push_images:  async (context: any, args: any) => {
       let job = {
         name: 'A Job',
-        command: 'upload_images_wm',
+        command: 'push_images',
         // TODO: what else to put here
-        // dir: `${args.hash}/task_imgs`,
-        // args: {
-        //   'source'      : [null, '../'+args.src],
-        //   'tgt_fmt'     : `%02d.png`,
-        //   'sequence'    : args.sequence,
-        // }
+        dir: `${args.hash}/task_imgs`,
+        args: {
+          'imgs' : args.imgs,
+        }
       };
       let jout = await rpc(job);
       puts({job, jout});
