@@ -1,7 +1,7 @@
 // RBM - from the CL yarn add vue-loading-overlay
 //
 import { Component, Prop, Vue }                    from 'vue-property-decorator';
-import { sprintf }                                 from "sprintf-js";
+import { sprintf }                                 from 'sprintf-js';
 import { puts, log }                               from '@/logger';
 import SegmentSelector                             from './segment';
 import { rpc_job_succeeded, rpc_job_error_string } from '@/rpc';
@@ -29,6 +29,7 @@ export default class SegmentUI extends Vue {
   @Prop(Array)  private readonly prop_image_size!:([number, number]); // [ 3800, 826]
   @Prop(Number) private readonly prop_image_dpi!:number;
   @Prop(Array)  private readonly prop_white_space_rows!:(Array<[number, number]>); // [ [ 0, 30 ], [ 772, 825 ], ... ]
+  @Prop(Boolean) private readonly prop_show_spinner!:(boolean);
 
   public segments:Array<SegmentType> | null = null;
 
@@ -70,6 +71,7 @@ export default class SegmentUI extends Vue {
     puts(JSON.stringify(this.get_groups()))
     puts(json_seq)
     // this.show_spinner = true; // TODO:sk: how should this component talk to Ingest?
+    this.$emit('update:prop_show_spinner', true);
     try {
       const finished_job = await this.$store.dispatch('content/compose_images',
                                                       {hash:this.prop_hash, src:`${this.prop_hash}-${scl*108}d.png`,
@@ -113,14 +115,16 @@ export default class SegmentUI extends Vue {
           response_arr.forEach(response => {
             image_ids.push(response.image_id);
           });
-          alert(image_ids);
+          //alert(image_ids);
+          // TODO: create poll with question images ref to the collected image ids
+          log.info(`image_ids from WM: ${image_ids}`);
         }                                            
       }
     } catch(e) {
       log.error(`Unexpected exception in handle_upload: ${e}`);
     }
     // this.show_spinner = false; // TODO:sk
-
+    this.$emit('update:prop_show_spinner', false);
   }
   private get_outer_style() {
     if (this.ui_stage === 2) return 'background-color:#ccc';

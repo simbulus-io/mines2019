@@ -28,6 +28,7 @@
                     :prop_image_dpi="image_dpi"
                     :prop_image_size="image_size"
                     :prop_white_space_rows="white_space_rows"
+                    :prop_show_spinner.sync="show_spinner"
                     >
         </SegmentUI>
         <!--
