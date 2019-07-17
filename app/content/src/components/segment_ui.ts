@@ -108,6 +108,12 @@ export default class SegmentUI extends Vue {
         } else {
           // TODO: grab returned stuff from response body
           // image preview or identifier
+          const image_ids:string[] = [];
+          const response_arr = push_images_job.result.responses;
+          response_arr.forEach(response => {
+            image_ids.push(response.image_id);
+          });
+          alert(image_ids);
         }                                            
       }
     } catch(e) {

@@ -1,9 +1,10 @@
 import Vue                 from 'vue';
 import { library }         from '@fortawesome/fontawesome-svg-core';
 import { faPlusCircle,
+         faTimesCircle,
          faTrash,
          faSadTear,
-         faServer
+         faServer,
         }                  from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -17,6 +18,7 @@ export async function load_app() {
 
   // Pull in icons here
   library.add(faPlusCircle,
+              faTimesCircle,
               faTrash,
               faSadTear,
               faServer
