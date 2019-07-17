@@ -1,8 +1,8 @@
 <template>
   <div class="top-nav">
     <span>Gester</span><span style="font-size:19px;margin-left:1px"></span>
-    <span><font-awesome-icon icon="bars" /></span>
-    <span>{{display_name}}</span>
+    <span><router-link to="/batch" class="hidden-router-link"><font-awesome-icon icon="server"/></router-link></span>
+    <span>Woot Math Internal Tool</span>
   </div>
 </template>
 <script lang="ts" src="./top_nav.ts"></script>
@@ -19,6 +19,12 @@
   color: $white;
   text-align: left;
   line-height: $top_nav_height;
+  .hidden-router-link {
+    color: $white;
+  }
+  .hidden-router-link:hover {
+    color: $wm_green;
+  }
   span:nth-of-type(1) {
     margin-left: 15px;
     font-weight: 300;

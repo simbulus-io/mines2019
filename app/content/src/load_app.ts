@@ -1,18 +1,10 @@
 import Vue                 from 'vue';
 import { library }         from '@fortawesome/fontawesome-svg-core';
-import { faBars,
-         faUsers,
-         faStream,
-         faCalendarAlt,
-         faComments,
-         faUserCircle,
+import { faPlusCircle,
          faTimesCircle,
-         faFolder,
-         faHome,
-         faPlusCircle,
          faTrash,
-         faCaretRight,
          faSadTear,
+         faServer,
         }                  from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -25,19 +17,11 @@ import { API_BASE_URL }    from '@/config';
 export async function load_app() {
 
   // Pull in icons here
-  library.add(faBars,
-              faHome,
-              faUsers,
-              faStream,
-              faCalendarAlt,
-              faComments,
-              faUserCircle,
+  library.add(faPlusCircle,
               faTimesCircle,
-              faFolder,
-              faPlusCircle,
               faTrash,
-              faCaretRight,
               faSadTear,
+              faServer
               );
 
   Vue.component('font-awesome-icon', FontAwesomeIcon);

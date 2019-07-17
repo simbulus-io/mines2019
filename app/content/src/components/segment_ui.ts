@@ -82,9 +82,39 @@ export default class SegmentUI extends Vue {
         pubsub.$emit(PubSubMessage.RPC_JOB_FAILED, error_message);
         // (ingest ctrl).reported_errors.push(error_message);
       } else {
-        // TODO: get images and pass them in args
+        // TODO: get images and pass them in args0
+        const img_path_arr :string[] = [];
+        for( let idx = 0; idx<json_seq.length; idx++ ) {
+          let tgt: string = '';
+            if ( idx.toString().length === 1 ) {
+              tgt = `0${idx}.png`;
+            } else {
+              tgt = `${idx}.png`
+            }
+            img_path_arr.push(tgt);
+        }
+        log.info(img_path_arr);
+        log.info(finished_job);
+
         const push_images_job = await this.$store.dispatch('content/push_images',
-                                                       { hash: this.prop_hash, imgs: image_files } );
+                                                            { hash: this.prop_hash, imgs: image_files } );
+        if (!rpc_job_succeeded(push_images_job)) {
+          let error_message = rpc_job_error_string(push_images_job) || 'Unknown error occured while processing job.';
+          puts(error_message);
+          puts(push_images_job);
+          // Push error up to Ingest reported_errors  // TODO: sk:
+          pubsub.$emit(PubSubMessage.RPC_JOB_FAILED, error_message);
+          // (ingest ctrl).reported_errors.push(error_message);
+        } else {
+          // TODO: grab returned stuff from response body
+          // image preview or identifier
+          const image_ids:string[] = [];
+          const response_arr = push_images_job.result.responses;
+          response_arr.forEach(response => {
+            image_ids.push(response.image_id);
+          });
+          alert(image_ids);
+        }                                            
       }
     } catch(e) {
       log.error(`Unexpected exception in handle_upload: ${e}`);
