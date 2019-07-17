@@ -150,8 +150,10 @@ def push_images(*,imgs=[]):
             res = requests.post(url='https://www.wootmath.com/woot_roster/v1.1/tutor/image_upload',
                         data=data,
                         headers={'Content-Type': 'image/png', 'accept-encoding': 'identity'})
-            responses.append(res.content.decode('utf-8'))
-    return {'msg': f'pushed {imgs}', 'responses': responses}
+            response = json.loads(res.content.decode('utf-8'))
+            response.pop('_id', None)
+            responses.append(response)
+    return {'responses': responses}
 
 # - - - - - - - - - - - - - - - - - - - -
 
