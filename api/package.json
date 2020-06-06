@@ -5,7 +5,7 @@
   "author": "Sean Kelly",
   "dependencies": {
     "apollo-server": "^2.2.6",
-    "apollo-server-express": "^2.2.6",
+    "apollo-server-express": "^2.14.2",
     "body-parser": "^1.18.3",
     "colors": "^1.3.3",
     "cookie-parser": "1.4.3",
