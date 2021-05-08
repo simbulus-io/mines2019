@@ -65,7 +65,7 @@
     "guid-typescript": "1.0.7",
     "http-server": "^0.11.1",
     "idx": "^2.5.2",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "logform": "^2.1.2",
     "md5": "^2.2.1",
     "mongodb": "3.0.7",
